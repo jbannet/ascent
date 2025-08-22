@@ -1,0 +1,363 @@
+│                                                                                                  │
+│ Here is Claude's plan:                                                                           │
+│ ╭──────────────────────────────────────────────────────────────────────────────────────────────╮ │
+│ │ Dynamic Onboarding Flow Implementation Plan                                                  │ │
+│ │                                                                                              │ │
+│ │ Architecture Overview                                                                        │ │
+│ │                                                                                              │ │
+│ │ Create a flexible onboarding system that can dynamically adjust questions based on user      │ │
+│ │ responses, supporting various input types and conditional logic.                             │ │
+│ │                                                                                              │ │
+│ │ 1. Data Models (lib/models/onboarding_models.dart)                                           │ │
+│ │                                                                                              │ │
+│ │ - OnboardingQuestion: Core question model with:                                              │ │
+│ │   - Multiple question types (single/multiple choice, text, number, slider, date)             │ │
+│ │   - Conditional visibility based on previous answers                                         │ │
+│ │   - Validation rules and required flags                                                      │ │
+│ │ - OnboardingCondition: Logic for showing/hiding questions                                    │ │
+│ │ - OnboardingFlow: Manages the entire question flow                                           │ │
+│ │ - OnboardingAnswers: Stores and manages user responses                                       │ │
+│ │                                                                                              │ │
+│ │ 2. State Management (lib/providers/onboarding_provider.dart)                                 │ │
+│ │                                                                                              │ │
+│ │ - Provider-based state management for:                                                       │ │
+│ │   - Current question tracking                                                                │ │
+│ │   - Answer storage                                                                           │ │
+│ │   - Navigation control (next/previous)                                                       │ │
+│ │   - Progress calculation                                                                     │ │
+│ │   - Completion status                                                                        │ │
+│ │                                                                                              │ │
+│ │ 3. Configuration System (lib/config/onboarding_config.dart)                                  │ │
+│ │                                                                                              │ │
+│ │ - JSON-based question configuration                                                          │ │
+│ │ - Sample fitness onboarding flow with conditional questions:                                 │ │
+│ │   - Basic info (name, age, gender)                                                           │ │
+│ │   - Fitness goals (weight loss, muscle gain, endurance)                                      │ │
+│ │   - Experience level → shows different follow-up questions                                   │ │
+│ │   - Medical conditions → triggers health-related questions                                   │ │
+│ │   - Equipment availability → affects workout recommendations                                 │ │
+│ │                                                                                              │ │
+│ │ 4. UI Components                                                                             │ │
+│ │                                                                                              │ │
+│ │ - OnboardingScreen (lib/screens/onboarding_screen.dart): Main container                      │ │
+│ │ - Question Widgets (lib/widgets/onboarding/):                                                │ │
+│ │   - SingleChoiceWidget                                                                       │ │
+│ │   - MultipleChoiceWidget                                                                     │ │
+│ │   - TextInputWidget                                                                          │ │
+│ │   - SliderWidget                                                                             │ │
+│ │   - DatePickerWidget                                                                         │ │
+│ │ - Progress indicator and navigation controls                                                 │ │
+│ │                                                                                              │ │
+│ │ 5. Integration Points                                                                        │ │
+│ │                                                                                              │ │
+│ │ - Check onboarding completion in main.dart                                                   │ │
+│ │ - Store responses in Firestore                                                               │ │
+│ │ - Navigate to home screen after completion                                                   │ │
+│ │ - Add skip/edit capabilities for returning users                                             │ │
+│ │                                                                                              │ │
+│ │ 6. Required Dependencies                                                                     │ │
+│ │                                                                                              │ │
+│ │ Add to pubspec.yaml:                                                                         │ │
+│ │ - provider: ^6.1.2 for state management                                                      │ │
+│ │ - shared_preferences: ^2.3.3 for local storage                                               │ │
+│ │ - intl: ^0.19.0 for date formatting                                                          │ │
+│ │                                                                                              │ │
+│ │ Implementation Steps                                                                         │ │
+│ │                                                                                              │ │
+│ │ 1. Create data models with conditional logic support                                         │ │
+│ │ 2. Implement onboarding provider for state management                                        │ │
+│ │ 3. Build question configuration system                                                       │ │
+│ │ 4. Create UI components for each question type                                               │ │
+│ │ 5. Implement navigation and progress tracking                                                │ │
+│ │ 6. Add persistence and Firebase integration                                                  │ │
+│ │ 7. Test with various conditional flows                                                       │ │
+│ ╰─────────────────────────────────────────────────
+
+ Detailed Dynamic Onboarding Flow Implementation Plan                                         │ │
+│ │                                                                                              │ │
+│ │ File & Folder Structure                                                                      │ │
+│ │                                                                                              │ │
+│ │ ascent/lib/onboarding_workflow                                                                                  │ │
+│ │ ├── models/                                                                                  │ │
+│ │ │   ├── onboarding_models.dart       # Core data models                                      │ │
+│ │ │   └── user_profile.dart            # User profile from onboarding                          │ │
+│ │ ├── providers/                                                                               │ │
+│ │ │   └── onboarding_provider.dart     # State management                                      │ │
+│ │ ├── views/                                                                                 │ │
+│ │ │   └── onboarding/                                                                          │ │
+│ │ │       ├── onboarding_screen.dart   # Main onboarding container                             │ │
+│ │ │       └── onboarding_complete.dart # Completion screen                                     │ │
+│ │ ├── widgets/                                                                                 │ │
+│ │ │   └── onboarding/                                                                          │ │
+│ │ │       ├── question_widgets/                                                                │ │
+│ │ │       │   ├── single_choice_widget.dart                                                    │ │
+│ │ │       │   ├── multiple_choice_widget.dart                                                  │ │
+│ │ │       │   ├── text_input_widget.dart                                                       │ │
+│ │ │       │   ├── slider_widget.dart                                                           │ │
+│ │ │       │   └── date_picker_widget.dart                                                      │ │
+│ │ │       ├── summary_card.dart        # Summary card component                                │ │
+│ │ │       ├── progress_indicator.dart  # Progress bar                                          │ │
+│ │ │       └── navigation_buttons.dart  # Next/Previous buttons                                 │ │
+│ │ ├── config/                                                                                  │ │
+│ │ │   └── onboarding_questions.dart    # Question configuration                                │ │
+│ │ └── services/                                                                                │ │
+│ │     └── onboarding_service.dart      # Firebase integration                                  │ │
+│ │                                                                                              │ │
+│ │ Detailed Question Flow with Summary Cards                                                    │ │
+│ │                                                                                              │ │
+│ │ Section 1: Personal Information (Questions 1-4)                                              │ │
+│ │                                                                                              │ │
+│ │ 1. What's your name? (text_input)                                                            │ │
+│ │ 2. How old are you? (number_input, min: 13, max: 100)                                        │ │
+│ │ 3. What's your biological sex? (single_choice: Male/Female/Prefer not to say)                │ │
+│ │ 4. How tall are you? (number_input with unit toggle: cm/ft-in)                               │ │
+│ │                                                                                              │ │
+│ │ → SUMMARY CARD 1: "Personal Profile"                                                         │ │
+│ │ - Display name, age, sex, height                                                             │ │
+│ │ - Edit button for each field                                                                 │ │
+│ │                                                                                              │ │
+│ │ Section 2: Motivation Style (Questions 5-8)                                                 │ │
+│ │                                                                                              │ │
+│ │ 5. What motivates you most to exercise? (single_choice)                                      │ │
+│ │   - Seeing physical changes in my body                                                       │ │
+│ │   - Feeling stronger and more energetic                                                      │ │
+│ │   - Achieving specific performance goals                                                     │ │
+│ │   - Social connection and community                                                          │ │
+│ │   - Stress relief and mental health                                                          │ │
+│ │   - Health and longevity                                                                     │ │
+│ │   - Competition and challenges                                                               │ │
+│ │ 6. How do you prefer to track progress? (multiple_choice, max: 2)                           │ │
+│ │   - Photos and measurements                                                                  │ │
+│ │   - Performance metrics (reps, time, weight)                                                │ │
+│ │   - How I feel day-to-day                                                                   │ │
+│ │   - Habit streaks and consistency                                                           │ │
+│ │   - Fitness assessments/tests                                                               │ │
+│ │   - I don't like tracking                                                                   │ │
+│ │ 7. What keeps you most accountable? (single_choice)                                         │ │
+│ │   - Personal commitment and self-discipline                                                 │ │
+│ │   - Workout buddy or trainer                                                                │ │
+│ │   - Apps and technology reminders                                                           │ │
+│ │   - Group classes or community                                                              │ │
+│ │   - Public sharing/social media                                                             │ │
+│ │   - Financial investment (paid programs)                                                    │ │
+│ │ 8. When you've struggled with fitness before, what was the main reason? (single_choice)     │ │
+│ │   - Lack of time                                                                            │ │
+│ │   - Lost motivation/boredom                                                                 │ │
+│ │   - Too difficult/overwhelming                                                              │ │
+│ │   - Injuries or health issues                                                               │ │
+│ │   - Life changes/stress                                                                     │ │
+│ │   - No clear plan or structure                                                              │ │
+│ │   - Haven't struggled before                                                                │ │
+│ │                                                                                              │ │
+│ │ → SUMMARY CARD 2: "Your Motivation Profile"                                                 │ │
+│ │ - Primary motivation driver with icon                                                       │ │
+│ │ - Preferred tracking methods                                                                │ │
+│ │ - Accountability style                                                                      │ │
+│ │ - Potential challenges identified                                                           │ │
+│ │ - Personalized motivation strategy                                                          │ │
+│ │                                                                                              │ │
+│ │ Section 3: Fitness Goals (Questions 9-12)                                                   │ │
+│ │                                                                                              │ │
+│ │ 9. What are your primary fitness goals? (multiple_choice, max: 3)                           │ │
+│ │   - Lose weight                                                                              │ │
+│ │   - Build muscle                                                                             │ │
+│ │   - Improve endurance                                                                        │ │
+│ │   - Increase flexibility                                                                     │ │
+│ │   - Better overall health                                                                    │ │
+│ │   - Train for event                                                                          │ │
+│ │   - Rehabilitation                                                                           │ │
+│ │ 10. How much weight do you want to lose? (slider: 5-100 lbs)                                │ │
+│ │ Conditional: Only if "Lose weight" selected                                                  │ │
+│ │ 11. What event are you training for? (single_choice)                                        │ │
+│ │ Conditional: Only if "Train for event" selected                                              │ │
+│ │   - 5K/10K run                                                                               │ │
+│ │   - Marathon                                                                                 │ │
+│ │   - Triathlon                                                                                │ │
+│ │   - Sports competition                                                                       │ │
+│ │   - Other                                                                                    │ │
+│ │ 12. Target date for your goals? (date_picker, min: 1 month, max: 2 years)                   │ │
+│ │                                                                                              │ │
+│ │ → SUMMARY CARD 3: "Your Goals"                                                               │ │
+│ │ - List selected goals with icons                                                             │ │
+│ │ - Target timeline                                                                            │ │
+│ │ - Specific targets (weight loss amount, event type)                                          │ │
+│ │                                                                                              │ │
+│ │ Section 3: Current Fitness Level (Questions 9-12)                                            │ │
+│ │                                                                                              │ │
+│ │ 9. How would you rate your fitness level? (single_choice)                                    │ │
+│ │   - Beginner (little to no exercise)                                                         │ │
+│ │   - Intermediate (exercise 1-3x/week)                                                        │ │
+│ │   - Advanced (exercise 4-6x/week)                                                            │ │
+│ │   - Expert (daily training)                                                                  │ │
+│ │ 10. How many push-ups can you do? (single_choice)                                            │ │
+│ │ Conditional: Not shown for "Beginner"                                                        │ │
+│ │   - 0-5                                                                                      │ │
+│ │   - 6-15                                                                                     │ │
+│ │   - 16-30                                                                                    │ │
+│ │   - 30+                                                                                      │ │
+│ │ 11. Can you run for 20 minutes continuously? (single_choice: Yes/No/Not sure)                │ │
+│ │ Conditional: If endurance goal selected                                                      │ │
+│ │ 12. Do you have experience with weight training? (single_choice)                             │ │
+│ │ Conditional: If muscle building selected                                                     │ │
+│ │   - No experience                                                                            │ │
+│ │   - Some experience (< 6 months)                                                             │ │
+│ │   - Experienced (6+ months)                                                                  │ │
+│ │   - Very experienced (2+ years)                                                              │ │
+│ │                                                                                              │ │
+│ │ → SUMMARY CARD 3: "Fitness Assessment"                                                       │ │
+│ │ - Current level with progress bar visualization                                              │ │
+│ │ - Key metrics (push-ups, running capability)                                                 │ │
+│ │ - Experience summary                                                                         │ │
+│ │                                                                                              │ │
+│ │ Section 4: Health & Medical (Questions 13-16)                                                │ │
+│ │                                                                                              │ │
+│ │ 13. Do you have any medical conditions we should know about? (multiple_choice)               │ │
+│ │   - Heart condition                                                                          │ │
+│ │   - High blood pressure                                                                      │ │
+│ │   - Diabetes                                                                                 │ │
+│ │   - Joint problems                                                                           │ │
+│ │   - Asthma                                                                                   │ │
+│ │   - None of the above                                                                        │ │
+│ │   - Other                                                                                    │ │
+│ │ 14. Please specify your condition (text_input)                                               │ │
+│ │ Conditional: If "Other" selected                                                             │ │
+│ │ 15. Are you taking any medications? (single_choice: Yes/No)                                  │ │
+│ │ 16. Have you been cleared by a doctor for exercise? (single_choice: Yes/No/Not required)     │ │
+│ │ Conditional: If any medical condition selected                                               │ │
+│ │                                                                                              │ │
+│ │ → SUMMARY CARD 4: "Health Profile"                                                           │ │
+│ │ - Medical conditions (if any)                                                                │ │
+│ │ - Exercise clearance status                                                                  │ │
+│ │ - Safety recommendations                                                                     │ │
+│ │                                                                                              │ │
+│ │ Section 5: Lifestyle & Schedule (Questions 17-20)                                            │ │
+│ │                                                                                              │ │
+│ │ 17. How many days per week can you exercise? (slider: 1-7 days)                              │ │
+│ │ 18. How much time per workout? (single_choice)                                               │ │
+│ │   - 15-30 minutes                                                                            │ │
+│ │   - 30-45 minutes                                                                            │ │
+│ │   - 45-60 minutes                                                                            │ │
+│ │   - 60+ minutes                                                                              │ │
+│ │ 19. What time do you prefer to exercise? (single_choice)                                     │ │
+│ │   - Early morning (5-8 AM)                                                                   │ │
+│ │   - Morning (8-12 PM)                                                                        │ │
+│ │   - Afternoon (12-5 PM)                                                                      │ │
+│ │   - Evening (5-9 PM)                                                                         │ │
+│ │   - Night (9 PM+)                                                                            │ │
+│ │   - Flexible                                                                                 │ │
+│ │ 20. What's your current activity level? (single_choice)                                      │ │
+│ │   - Sedentary (desk job, little movement)                                                    │ │
+│ │   - Lightly active (some walking)                                                            │ │
+│ │   - Moderately active (on feet often)                                                        │ │
+│ │   - Very active (physical job/lifestyle)                                                     │ │
+│ │                                                                                              │ │
+│ │ Section 6: Equipment & Location (Questions 21-24)                                            │ │
+│ │                                                                                              │ │
+│ │ 21. Where will you primarily exercise? (multiple_choice)                                     │ │
+│ │   - Home                                                                                     │ │
+│ │   - Gym                                                                                      │ │
+│ │   - Outdoors                                                                                 │ │
+│ │   - Office                                                                                   │ │
+│ │ 22. What equipment do you have access to? (multiple_choice)                                  │ │
+│ │ Conditional: If "Home" selected                                                              │ │
+│ │   - Dumbbells                                                                                │ │
+│ │   - Resistance bands                                                                         │ │
+│ │   - Pull-up bar                                                                              │ │
+│ │   - Yoga mat                                                                                 │ │
+│ │   - Cardio machine                                                                           │ │
+│ │   - None                                                                                     │ │
+│ │ 23. What type of gym? (single_choice)                                                        │ │
+│ │ Conditional: If "Gym" selected                                                               │ │
+│ │   - Full-service gym                                                                         │ │
+│ │   - CrossFit box                                                                             │ │
+│ │   - Boutique studio                                                                          │ │
+│ │   - Community center                                                                         │ │
+│ │ 24. Outdoor exercise preferences? (multiple_choice)                                          │ │
+│ │ Conditional: If "Outdoors" selected                                                          │ │
+│ │   - Running/jogging                                                                          │ │
+│ │   - Cycling                                                                                  │ │
+│ │   - Swimming                                                                                 │ │
+│ │   - Hiking                                                                                   │ │
+│ │   - Sports                                                                                   │ │
+│ │                                                                                              │ │
+│ │ → SUMMARY CARD 5: "Your Workout Plan"                                                        │ │
+│ │ - Days per week & session duration                                                           │ │
+│ │ - Preferred time & location                                                                  │ │
+│ │ - Available equipment                                                                        │ │
+│ │ - Personalized recommendation preview                                                        │ │
+│ │                                                                                              │ │
+│ │ Section 7: Nutrition & Recovery (Questions 25-28)                                            │ │
+│ │                                                                                              │ │
+│ │ 25. How would you describe your current diet? (single_choice)                                │ │
+│ │   - Very healthy                                                                             │ │
+│ │   - Mostly healthy                                                                           │ │
+│ │   - Average                                                                                  │ │
+│ │   - Needs improvement                                                                        │ │
+│ │   - Poor                                                                                     │ │
+│ │ 26. Any dietary restrictions? (multiple_choice)                                              │ │
+│ │   - Vegetarian                                                                               │ │
+│ │   - Vegan                                                                                    │ │
+│ │   - Gluten-free                                                                              │ │
+│ │   - Dairy-free                                                                               │ │
+│ │   - Keto/Low-carb                                                                            │ │
+│ │   - None                                                                                     │ │
+│ │   - Other                                                                                    │ │
+│ │ 27. How many hours of sleep do you average? (slider: 3-12 hours)                             │ │
+│ │ 28. How much water do you drink daily? (single_choice)                                       │ │
+│ │   - Less than 4 cups                                                                         │ │
+│ │   - 4-8 cups                                                                                 │ │
+│ │   - 8-12 cups                                                                                │ │
+│ │   - More than 12 cups                                                                        │ │
+│ │                                                                                              │ │
+│ │ → FINAL SUMMARY CARD: "Complete Profile"                                                     │ │
+│ │ - Name & basic stats                                                                         │ │
+│ │ - Primary goals with timeline                                                                │ │
+│ │ - Workout schedule overview                                                                  │ │
+│ │ - Key preferences                                                                            │ │
+│ │ - "Start My Journey" button                                                                  │ │
+│ │                                                                                              │ │
+│ │ Conditional Logic Examples                                                                   │ │
+│ │                                                                                              │ │
+│ │ 1. Goal-based branching:                                                                     │ │
+│ │   - Weight loss → Ask target amount, timeline                                                │ │
+│ │   - Muscle building → Ask experience, strength metrics                                       │ │
+│ │   - Event training → Ask event type, current performance                                     │ │
+│ │ 2. Experience-based adaptation:                                                              │ │
+│ │   - Beginners skip technical questions                                                       │ │
+│ │   - Advanced users get detailed performance metrics                                          │ │
+│ │   - Experts get specialized training options                                                 │ │
+│ │ 3. Medical considerations:                                                                   │ │
+│ │   - Any condition triggers doctor clearance question                                         │ │
+│ │   - Joint problems → Low-impact exercise options                                             │ │
+│ │   - Heart conditions → Intensity monitoring questions                                        │ │
+│ │ 4. Equipment cascading:                                                                      │ │
+│ │   - Home selection → Equipment checklist                                                     │ │
+│ │   - Gym selection → Gym type specification                                                   │ │
+│ │   - No equipment → Bodyweight-focused questions                                              │ │
+│ │                                                                                              │ │
+│ │ Summary Card Features                                                                        │ │
+│ │                                                                                              │ │
+│ │ - Visual preview of collected data                                                           │ │
+│ │ - Edit functionality for each section                                                        │ │
+│ │ - Progress indicator showing completion                                                      │ │
+│ │ - Validation before proceeding                                                               │ │
+│ │ - Animated transitions between cards                                                         │ │
+│ │                                                                                              │ │
+│ │ State Management                                                                             │ │
+│ │                                                                                              │ │
+│ │ - Track current question index                                                               │ │
+│ │ - Store all answers in provider                                                              │ │
+│ │ - Calculate visible questions dynamically                                                    │ │
+│ │ - Validate required fields                                                                   │ │
+│ │ - Save draft to local storage                                                                │ │
+│ │ - Sync completed profile to Firebase                                                         │ │
+│ │                                                                                              │ │
+│ │ Implementation Priority                                                                      │ │
+│ │                                                                                              │ │
+│ │ 1. Core models and provider                                                                  │ │
+│ │ 2. Basic question widgets                                                                    │ │
+│ │ 3. Navigation flow                                                                           │ │
+│ │ 4. Summary cards                                                                             │ │
+│ │ 5. Conditional logic                                                                         │ │
+│ │ 6. Firebase integration                                                                      │ │
+│ │ 7. Polish and animations            
