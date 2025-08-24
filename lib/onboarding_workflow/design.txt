@@ -25,7 +25,7 @@
    - Answer storage                                                                           
    - Navigation control (next/previous)                                                       
    - Progress calculation                                                                     
-   - Completion status                                                                        
+   - Completion status                                                                       
                                                                                               
  3. Configuration System (lib/config/onboarding_config.dart)                                  
                                                                                               
@@ -83,12 +83,10 @@
  │   └── user_profile.dart            # User profile from onboarding                          
  ├── providers/                                                                               
  │   └── onboarding_provider.dart     # State management                                      
- ├── views/                                                                                 
- │   └── onboarding/                                                                          
+ ├── views/                                                                                                                                                        
  │       ├── onboarding_screen.dart   # Main onboarding container                             
  │       └── onboarding_complete.dart # Completion screen                                     
- ├── widgets/                                                                                 
- │   └── onboarding/                                                                          
+ ├── widgets/                                                                                                                                                        
  │       ├── question_widgets/                                                                
  │       │   ├── single_choice_widget.dart                                                    
  │       │   ├── multiple_choice_widget.dart                                                  
