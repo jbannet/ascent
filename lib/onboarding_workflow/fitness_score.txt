@@ -1,0 +1,628 @@
+Multi-Dimensional Fitness Assessment and Scoring
+Introduction
+
+Assessing fitness requires looking at multiple dimensions of health and physical capacity. Rather than focusing on a single metric (like weight or running speed alone), a comprehensive approach evaluates cardiorespiratory endurance, muscular strength, flexibility, balance, body composition, and even lifestyle factors like diet. Modern health research emphasizes this holistic view – a “whole person” approach that spans multiple domains of health
+nccih.nih.gov
+. By scoring each aspect and combining them into one composite fitness score, we can get an overall picture of someone’s fitness level. Such a score can be adjusted for age (since expectations differ for a 16-year-old versus a 60-year-old) and provides a basis for tracking progress over time. Importantly, each component of the score is rooted in research linking it to health outcomes and longevity. In fact, many of these fitness dimensions are proven predictors of long-term health – improving them isn’t just about athletic performance, but about reducing disease risk and potentially living longer
+aarp.org
+bmcmedicine.biomedcentral.com
+. The following sections detail each fitness dimension, example assessment questions (primarily self-reported for convenience), and the scientific evidence behind their relevance. We then discuss how to compile a single fitness score (with sub-scores breakdown) and how it can guide personalized exercise and diet recommendations.
+
+Key Fitness Dimensions to Assess
+
+To capture a complete picture of fitness, we assess several key domains: cardiorespiratory endurance, muscular strength and endurance, flexibility and mobility, balance and functional movement, body composition, and diet/nutrition. Each dimension can be evaluated through simple questions or self-tests, and each correlates with aspects of health and longevity:
+
+Cardiorespiratory (Aerobic) Endurance
+
+This measures how well the heart, lungs, and circulatory system supply oxygen during sustained activity. Cardiorespiratory fitness (CRF) is often considered the most important single indicator of long-term health. Higher aerobic fitness allows your heart and muscles to work efficiently and is strongly linked to lower mortality risk
+aarp.org
+. In fact, a 2024 meta-analysis found low aerobic fitness to be a stronger predictor of death than high BMI – even overweight people who are aerobically fit have far lower mortality risk than lean people who are unfit
+news-medical.net
+. In practical terms, brisk walking pace is a great proxy: a large study of ~475,000 people showed that those who walk briskly tend to live longer than slow walkers
+aarp.org
+.
+
+Assessment: Aerobic endurance can be estimated with self-report questions or simple tests:
+
+Sample Questionnaire Items: “How far can you walk or run in 12 minutes?” or “Do you get winded climbing two flights of stairs?” (Yes/No). You might also ask “On how many days per week do you do at least 30 minutes of moderate exercise?” Higher reported activity and ease with tasks like stair-climbing indicate better endurance.
+
+Optional Physical Test: A 1-mile walk test is an easy field test. For example, you could time how fast the person can walk 1 mile (without running). A faster time (for age) indicates better aerobic fitness. Keeping the heart rate within a moderate intensity (e.g. 60–70% of max) during the walk and still achieving a good time is a positive sign
+aarp.org
+. Another simple test is a 3-minute step test (stepping in place or on a step and then checking heart rate recovery). These can be self-administered and reported in the app.
+
+Research Link: Numerous studies tie higher aerobic capacity to longevity. For instance, one study noted by the Mayo Clinic found that aerobic fitness was “one of the best indicators of long-term health and overall mortality”
+aarp.org
+. Moreover, sedentary individuals who improve their cardio fitness even modestly see a large drop in mortality risk
+news-medical.net
+. In short, scoring high on endurance (relative to one’s age) bodes well for health. Low score in this domain, on the other hand, flags a need to improve aerobic activity – which has been called “excellent medicine” for overall health
+news-medical.net
+.
+
+Muscular Strength and Endurance
+
+Muscular fitness encompasses strength (the ability to exert force) and endurance (the ability to sustain repeated contractions). This is crucial for everyday function (lifting objects, climbing stairs) and metabolic health. Strong muscles also raise your basal metabolic rate (helping you burn more calories at rest)
+aarp.org
+. Beyond functionality, emerging research shows muscular strength is an independent predictor of longevity. For example, grip strength – a simple measure of overall muscle strength – has a strong inverse association with mortality risk. A 2022 systematic review of over 3 million people found that people with weaker grip strength had significantly higher all-cause mortality; conversely, higher grip strength (up to a threshold) corresponded to lower mortality risk in a dose-dependent manner
+pubmed.ncbi.nlm.nih.gov
+pubmed.ncbi.nlm.nih.gov
+. Similarly, upper-body strength can be predictive: in a study of middle-aged men, those who could perform more than 40 push-ups had a 96% lower risk of developing heart disease in the next 10 years compared to those who managed fewer than 10 push-ups
+hsph.harvard.edu
+. This suggests that simple strength tests can reflect cardiovascular health status
+hsph.harvard.edu
+hsph.harvard.edu
+.
+
+Assessment: Strength and muscular endurance can be gauged through self-reported capabilities or basic at-home tests:
+
+Sample Questionnaire Items: “How many standard push-ups can you perform in one set?” (e.g. 0, 5, 10, 20+), “How many squats (bodyweight only) can you do continuously?”, or “What is the heaviest weight you can comfortably lift or carry (e.g. in kg/lbs)?” (for an adult, carrying groceries or a 25-pound object). Another question: “Can you lift a 10-pound object overhead easily?” (Yes/No) can indicate upper-body strength. For lower body, “Can you rise from a chair without using your hands?” is a good functional strength question (yes = good strength in legs).
+
+Optional Physical Test: The push-up test is widely used. You could have users actually perform push-ups and report the number in one go (with modified knee push-ups for those with less upper-body strength or female users, as commonly done
+aarp.org
+). A 30-second chair stand test (how many times you can stand up from a chair in 30s) is another validated measure of leg endurance. Self-reporting the count achieved can work. These tests have age and sex-based norms to compare against.
+
+Research Link: Maintaining muscle strength clearly correlates with healthier aging. As noted, studies tie higher push-up capacity and grip strength to lower risk of cardiovascular events and mortality
+hsph.harvard.edu
+pubmed.ncbi.nlm.nih.gov
+. Stronger individuals also tend to have better glucose metabolism and bone health, contributing to longevity. Conversely, low strength (frailty) is associated with higher mortality especially in older adults. By including strength in the fitness score, we capture an important determinant of health span. A comprehensive self-report fitness survey (like the SRFit survey) indeed includes a muscular fitness domain for this reason
+pubmed.ncbi.nlm.nih.gov
+.
+
+Flexibility and Mobility
+
+Flexibility refers to the range of motion of muscles and joints, while mobility is the ability to move freely and easily. These factors affect posture, injury risk, and the capacity to perform daily activities (like bending, reaching, or getting up from the floor). While flexibility might not directly predict mortality as strongly as cardio or strength do, it is crucial for maintaining independence and preventing falls or musculoskeletal issues as one ages. In fact, a famous simple assessment – the sitting-rising test (SRT) – which requires flexibility, balance, and strength, has been shown to predict mortality in older adults. In one study (subjects 51–80 years old), those with the lowest SRT scores (needing a lot of support to sit and rise from the floor) were 5–6 times more likely to die in the follow-up period than those with the highest scores
+en.wikipedia.org
+. This dramatic difference suggests that poor overall mobility/flexibility (as part of that test) correlates with frailty and poorer health.
+
+Assessment: We can assess flexibility and mobility with simple stretches or questions:
+
+Sample Questionnaire Items: “Can you touch your toes without bending your knees?” (Yes/No – touching toes indicates decent hamstring and lower-back flexibility), “Do you have difficulty reaching overhead or turning your head fully to the side?” (to catch any mobility limitations in shoulders/neck), or “Have you noticed joint stiffness that limits your range of motion?” Answers indicating a wide, pain-free range of motion in major joints would score higher.
+
+Optional Physical Test: A classic is the sit-and-reach test. The user sits on the floor with legs extended and reaches toward their toes (using a yardstick or tape measure). They can report how many inches past their toes (positive number) or how far from their toes they get (negative number). There are normative values for different ages
+aarp.org
+aarp.org
+. Another example is the shoulder flexibility test (trying to touch hands behind the back). For mobility, one could self-report performance on the sit-to-stand test (like the SRT: sit on floor and stand up with as little support as possible). Even a yes/no “I can sit on the floor and stand back up without help” is telling.
+
+Research Link: Good flexibility and mobility contribute to better functional fitness and possibly reflect biological youthfulness. While stretching itself hasn’t been directly linked to longer life in the way aerobic fitness has, flexibility is integrated into composite tests of functional age. Notably, the sitting-rising test study mentioned above illustrates that those who maintain mobility, balance and flexibility are far less likely to suffer early mortality
+en.wikipedia.org
+. Improved mobility also means you can stay active (and physical activity does directly improve longevity). So a low flexibility/mobility score would highlight an area to improve for better daily life and indirectly support longevity (by enabling more movement and reducing injury risk).
+
+Balance and Functional Movement
+
+Balance is the ability to maintain your center of gravity and avoid falls. It’s a critical component, especially as we get older – poor balance is a leading cause of falls and injuries (like hip fractures) in seniors
+aarp.org
+aarp.org
+. Beyond injury prevention, recent research has unveiled a link between balance and survival. A 2022 study reported in the British Journal of Sports Medicine found that middle-aged and older adults unable to stand on one leg for at least 10 seconds had an 84% higher risk of death in the following seven years compared to those who could complete the 10-second one-legged stance
+health.harvard.edu
+. In other words, the classic one-leg balance test is not just about falls – it appears to be a marker of overall neuromuscular health and aging. Unfortunately, balance is an ability that tends to decline faster than other fitness components with age (research shows one-leg stance time diminishes more rapidly per decade than strength or gait speed)
+aarp.org
+. This makes assessing and training balance very important for longevity and independence.
+
+Assessment: We can include a balance check easily in a questionnaire format or as a quick test:
+
+Sample Questionnaire Items: “Can you stand on one foot for 10 seconds without support?” (Yes/No) – this directly checks the known threshold from research
+health.harvard.edu
+. We might also ask, “Do you frequently feel unsteady on your feet or have you fallen in the past year?” (frequent unsteadiness would indicate poor balance). Another question: “Can you walk in a straight line (heel-to-toe) for 10 steps without wobbling?” (Yes/No), which is a simple coordination/balance task.
+
+Optional Physical Test: The 10-second one-legged stance is straightforward: time yourself standing on one foot. This can be done for each leg (best of three tries) and the user can report the longest time achieved
+aarp.org
+. Another measure is the Timed Up-and-Go (TUG) test – timing how long it takes to rise from a chair, walk 10 feet, turn, and sit – which incorporates balance and agility. For simplicity, the one-leg stand is sufficient and very indicative; we will use that in scoring.
+
+Research Link: As noted, an inability to balance on one foot for 10+ seconds in mid-life and later life correlates with significantly higher mortality
+health.harvard.edu
+. Conversely, good balance is linked to greater physical independence and likely reflects a nervous system and musculature that are aging well. By including balance in the fitness score, we target a key predictor of frailty. Improved balance training (through exercises like yoga, tai chi, or targeted balance drills) can reduce fall risk and potentially improve survival odds. Indeed, a study mentioned in Harvard Health concluded that people failing a 10-second balance test had almost double the risk of death versus those who passed
+health.harvard.edu
+, underscoring why balance deserves a place in a longevity-focused fitness assessment.
+
+Body Composition
+
+Body composition refers to the proportion of fat mass to lean mass (muscle, bone, etc.) in the body. Commonly we use Body Mass Index (BMI) (a ratio of weight to height) or measures like body fat percentage or waist circumference to assess this. Excess body fat, especially around the abdomen, is associated with higher risks of heart disease, diabetes, and many other health issues. However, it’s important to note that body weight alone doesn’t tell the whole story – how fit you are matters a great deal. Research has shown that “fitness trumps fatness” in predicting mortality risk
+news-medical.net
+news-medical.net
+. For example, a comprehensive review in 2024 found that obese individuals who are aerobically fit had a mortality risk similar to or lower than normal-weight individuals who are unfit
+news-medical.net
+. In other words, being overweight is a health concern, but being out of shape is often a bigger one. That said, extremely high body fat (especially if accompanied by low fitness) clearly elevates health risks, and very low body weight can be a concern as well. Thus, an optimal fitness assessment accounts for body composition as one dimension.
+
+Assessment: In an app questionnaire, body composition can be captured via self-reported data or simple measurements:
+
+Data Input: Weight and height can be entered to calculate BMI. The questionnaire might directly ask for these numbers (or pull from user profile data if available). Additionally, a waist circumference question (“Measure your waist at the navel: ___ inches”) can gauge central adiposity if users have a tape measure. If not, a clothing waist size can be a rough proxy.
+
+Sample Questions: If exact measures aren’t available, questions like “Which category best describes you? Underweight, Normal weight, Overweight, or Obese?” (for self-classification) could be used, though objective measures are preferable. Another could be “Do you have excess fat around your waist (a “belly”)?” as abdominal fat is particularly risky. For a more positive framing: “Are you at what you consider an ideal body weight?” (Yes/No).
+
+Research Link: Countless epidemiological studies link obesity to increased mortality and morbidity. However, the nuance is that when fitness is accounted for, the mortality gradient by BMI is blunted
+news-medical.net
+. Still, maintaining a healthy weight in combination with staying active is ideal. Large-scale data (like the American Heart Association’s composite health scores) include BMI as one factor and find that having a BMI in the normal range contributes to better overall health scores which correlate with lower mortality
+bmcmedicine.biomedcentral.com
+bmcmedicine.biomedcentral.com
+. Therefore, the composite fitness score will include a body composition component (with higher points for a healthier BMI or body fat%), reminding users that managing body composition is part of fitness. If someone’s BMI is high, improving diet and exercise will reflect in this sub-score as well as others. Likewise, being underweight or losing muscle mass with age would register and prompt corrective action (strength training, nutrition).
+
+Diet and Nutrition
+
+Diet is a critical non-physical component of fitness and health. You can be exercising regularly, but without proper nutrition your health and performance will suffer. Conversely, a high-quality diet is strongly linked with lower risk of chronic diseases and longer life. Diet influences body composition, energy levels, and even cardiorespiratory fitness (through its effect on weight and metabolic health). Research on dietary patterns shows that eating plenty of vegetables, fruits, whole grains, lean proteins, and healthy fats (e.g. a Mediterranean-style diet) is associated with reduced all-cause mortality, while a diet high in processed foods, sugary drinks, and trans fats raises health risks
+bmcmedicine.biomedcentral.com
+bmcmedicine.biomedcentral.com
+. In one analysis, people who maintained both a high level of physical activity and a high-quality diet had an extremely large benefit: for example, in two Spanish cohort studies the combination of high activity + Mediterranean diet adherence was associated with about 64–73% lower all-cause mortality compared to those with low activity and poor diet
+bmcmedicine.biomedcentral.com
+. Even independently, improving diet quality by 20 percentile points has been linked to an 8–17% reduction in mortality risk
+nejm.org
+. Diet also affects specific longevity-related markers (like blood pressure, cholesterol, inflammation). Hence, no fitness score is complete without assessing nutrition.
+
+Assessment: The questionnaire can include a brief diet quality survey. This might be a series of questions that together form a score, or a single composite question asking the user to rate their diet:
+
+Sample Questionnaire Items:
+
+“How would you rate your overall diet quality? (Excellent / Good / Fair / Poor)” – A self-rated diet question like this is actually part of the NIH’s Whole Person Health Index
+nccih.nih.gov
+.
+
+“Daily servings of fruits and vegetables: __ per day” (higher numbers are better; e.g. 5+ servings/day is ideal).
+
+“How often do you eat fast food or fried/processed meals?” (Rarely, <1x/week, 2-3x/week, almost daily – fewer is better for score).
+
+“Do you choose whole grains over refined grains?” (Mostly, Sometimes, Rarely).
+
+“How many sugar-sweetened beverages (soda, sweet tea, etc.) do you drink per week?” (0, 1-3, 4-6, 7+).
+
+“Protein intake: Do you regularly consume lean protein (fish, poultry, legumes) and minimize processed meats?**” (Yes/No).
+
+These questions could be combined into a diet sub-score. For instance, the American Heart Association’s diet scoring (part of Life’s Essential 8) looks at fruit/veg, whole grains, fish, sodium, and sugar intake to give a 0–100 diet score
+heart.org
+. In our case, we can simplify to key habits that are easy to self-report. A person who eats plenty of whole foods and little junk food will score high. If a user indicates a poor diet (few veggies, lots of fast food), their diet sub-score would be low, highlighting an area for improvement.
+
+Research Link: A healthy diet clearly correlates with longevity and disease prevention. For example, the AHA’s Life’s Essential 8 research (which includes diet as one of 8 factors) found that people with the highest overall health scores – which required a good diet – had 58% lower risk of death from any cause compared to those with the lowest scores
+bmcmedicine.biomedcentral.com
+. In that analysis, diet was one of the largest contributors to mortality risk differences (alongside physical activity and not smoking)
+bmcmedicine.biomedcentral.com
+. Another study in 2024 showed that maintaining a high Mediterranean Diet Score over years, especially along with exercise, significantly reduced mortality
+bmcmedicine.biomedcentral.com
+. These findings reinforce that diet is a pillar of fitness and health. Therefore, by including diet in the composite fitness score, we create a more powerful predictor of health outcomes. An individual’s nutrition habits will directly influence their score – and by improving their diet, they can improve the score and their health prospects.
+
+(It’s worth noting other lifestyle factors like sleep quality and stress management also affect health. Some comprehensive health indices include these – e.g. Life’s Essential 8 adds sleep, and the Whole Person Health Index asks about stress and life purpose
+nccih.nih.gov
+. Our focus here is on fitness and diet, but in a fully holistic app, those could be additional questions. Adequate sleep (7–9 hours) and avoiding tobacco are critical for longevity too
+bmcmedicine.biomedcentral.com
+bmcmedicine.biomedcentral.com
+. If needed, such factors could be incorporated into the scoring or tracked separately.)
+
+Age Considerations and Norms
+
+Age is a crucial input for interpreting all the above measures. A fit 65-year-old will generally have lower absolute performance (in running speed, push-up count, etc.) than a fit 20-year-old, but that doesn’t mean the older person scores “poor” for their age. Therefore, the questionnaire and scoring algorithm adapts for age. Many fitness assessments use age-specific normative data or categories. For example, after you do a fitness test, professionals compare your result to age-adjusted charts to see if you are above or below average for your age
+wellness.nifs.org
+. Our composite score will do the same: it evaluates how you perform relative to expected healthy values for someone of your age (and often sex as well, since gender can influence norms in strength and endurance).
+
+How to implement age adjustments: for each fitness dimension, we can define scoring criteria that account for age brackets. For instance:
+
+If a 45-year-old man does 20 push-ups, that might be average and score moderately; but for a 20-year-old man, 20 push-ups might be below average, yielding a lower sub-score.
+
+In the 1-mile walk test, an older individual will naturally take longer than a teenager. So we could score the time against normative tables (many sources like the Mayo Clinic or AARP provide fitness test norms by age). If no exact tables are handy, we can at least categorize performance qualitatively (Excellent/Good/Fair/Poor) for each age range.
+
+Flexibility tests often have age norms; balance tests do as well (notably, even people 70+ should ideally manage 10 seconds on one foot – the expectation doesn’t drop to zero, it just has slightly lenient scoring for longer times).
+
+The questionnaire itself might branch or adjust wording slightly for age. For example, younger users (13–18) might get a question about sports participation or a shuttle-run test (if we include that), whereas older adults (65+) might get a question about ability to perform daily tasks without fatigue. However, the core domains remain the same. We ensure that the outcome score is fair for all ages 13 and up by scoring responses in context of age. This prevents penalizing older users unduly and also avoids giving young users a free pass (a 15-year-old should have high fitness to score high, whereas a 15-year-old with mediocre fitness might actually score lower than a 60-year-old who is doing great for their age).
+
+In practice, the app can use behind-the-scenes scoring tables. For instance, the push-up question would map to points based on age group standards. Many public health resources provide these standards (e.g., how many push-ups is “excellent” for 30-39 year olds vs 50-59 year olds, etc.). By integrating such data, the output will say not just “you did 15 push-ups” but “15 push-ups is Good for a 55-year-old man” (and the score reflects that). This approach is similar to how professional fitness assessments yield an age percentile or “fitness age.” In fact, one could translate the composite score into a “Fitness Age” – if your score is, say, 85/100 at age 60, that might correspond to the average score of a healthy 50-year-old, effectively meaning your fitness age is 50 (10 years younger). That kind of messaging can be very motivational. Whether we present it as an actual age or just a percentile, the age-adjusted nature of scoring is key. As the National Institute for Fitness and Sport notes, after an assessment the results should be compared to age-adjusted data to understand where you stand
+wellness.nifs.org
+.
+
+Composite Fitness Score: Calculation and Options
+
+After gathering information across these domains, the next step is to derive a single composite fitness score. This provides an easy-to-understand summary (for example, a score on a scale of 0 to 100) that reflects overall fitness and health risk. We will also maintain the breakdown by component so the user knows their strong and weak areas (e.g., Cardio: 18/20, Strength: 15/20, Flexibility: 10/20, Balance: 20/20, Body Comp: 15/20, Diet: 18/20, Total = 86/100). The composite score can be computed in a few ways, and there are multiple models we can draw from:
+
+Option 1: Equal Weighting of Domains. In this approach, each fitness domain contributes an equal portion of the total score. For instance, if we have 5 physical domains plus diet (6 domains total), each could be worth ~16–17 points out of 100 (or we could round to nice numbers, say each 20 points and total out of 120, then scale to 100). The user’s answers in each category are scored (0 = very poor up to maximum = excellent for that age). We sum them up for the composite. This method is straightforward and treats all aspects as equally important. It aligns with the idea that true fitness is multidimensional – you can’t score 100 if you neglect any one area completely. Many existing surveys use domain scores like this. For example, the Self-Reported Fitness (SRFit) survey developed for older adults had separate scores for muscular fitness, flexibility, aerobic endurance, body composition, etc., which could be summed or used individually
+pubmed.ncbi.nlm.nih.gov
+pubmed.ncbi.nlm.nih.gov
+. Our approach is similar, but extended to all adults. Each domain’s score will likely come from a combination of a few questions/tests (as described above).
+
+Option 2: Weighted Composite (Based on Health Impact). If we choose, we can assign more weight to domains that research shows are most critical to health outcomes. For example, cardiorespiratory fitness might be given a bit more emphasis, since it’s such a powerful predictor of mortality (we saw how unfit individuals had 2–3 times the death risk, regardless of weight
+news-medical.net
+). Diet could also be highly weighted given its broad impact on health. Meanwhile, flexibility might be weighted slightly less if we consider it less directly tied to mortality. An example weighting might be: Cardio 25%, Strength 20%, Body Comp 15%, Diet 20%, Flexibility 10%, Balance 10%. These can be adjusted based on expert input or kept equal if simplicity is desired. Notably, the American Heart Association’s Life’s Essential 8 (LE8) is a composite score that averages 8 factors (diet, physical activity, cholesterol, blood pressure, etc.) equally to give a 0–100 cardiovascular health score
+bmcmedicine.biomedcentral.com
+. They found that this score is strongly associated with mortality risk – people with high composite scores (75–100) had roughly a 40–58% lower risk of death compared to those with low scores
+bmcmedicine.biomedcentral.com
+. In our case, we’re focusing on fitness and lifestyle behaviors, which overlap with some LE8 factors (we include diet, activity, BMI similar to LE8, plus strength and flexibility which LE8 doesn’t directly include). We could similarly produce a 0–100 score. Whether weighted or equal, what’s important is that the composite correlates with health outcomes, which it will if the components do.
+
+Scoring Example (Equal Weight scenario):
+
+Endurance (Cardio): Score 0–20 points (derived from reported exercise level and possibly 1-mile time or similar). High VO2max or activity = 20, poor endurance = 0.
+
+Strength: 0–20 points (push-up/squat counts, etc. adjusted for age and gender).
+
+Flexibility/Mobility: 0–15 points (perhaps a slightly smaller slice, or still 20 if equal share; based on toe-touch or SRT ability).
+
+Balance: 0–15 points (e.g. can do 10s one-leg = full points, can’t do at all = 0).
+
+Body Composition: 0–15 points (healthy BMI ~22 = full points, very high or very low BMI gets low points; could incorporate waist).
+
+Diet: 0–20 points (excellent diet habits = full points, poor diet = 0).
+
+(This allocation is just illustrative; if we want a neat 100 total, we might do 5 domains × 20 = 100 by combining flexibility & balance into one “mobility” domain for scoring, or make each worth ~16.7. The exact distribution can be fine-tuned.)
+
+Multiple Options / Frameworks: It’s worth noting there are different validated tools we can borrow from or offer as alternatives:
+
+The Mayo Clinic Fitness Age battery (as referenced by AARP) uses tests in four areas (aerobic, strength, flexibility, balance) and provides normative charts
+aarp.org
+. We could implement a similar battery via self-report. This is more test-oriented but very research-grounded (e.g., 1-mile walk for aerobic, push-ups/squats for strength, sit-and-reach for flexibility, one-leg stand for balance
+aarp.org
+aarp.org
+aarp.org
+aarp.org
+). Scores from each can be compared to norms and an overall “fitness percentile” or age can be given. This is a performance-based composite approach.
+
+The AHA Life’s Essential 8 (mentioned above) is a broader health score including diet, activity, BMI, blood metrics, etc. While it’s more than just fitness, its concept of a single health score is useful. It shows that improving your composite from “low” to “high” can yield big longevity benefits
+bmcmedicine.biomedcentral.com
+. We could mimic the idea by focusing on the subset relevant to our app (perhaps excluding lab-based metrics). For instance, we include diet, exercise, BMI, and maybe a rest metric like sleep. This could be Option B: Lifestyle-based Score, which might appeal if we want something simpler and more about habits. However, since the question specifically wants strength and fitness assessed, our primary approach is the performance-based one with some lifestyle elements.
+
+The SRFit Self-Reported Fitness survey for adults 40+ is another example. It divided fitness into four domains (muscular, flexibility, aerobic, and a composite of BMI/body-composition) and showed good validity
+pubmed.ncbi.nlm.nih.gov
+. One could adapt those questions (which basically ask individuals to report how they would do on senior fitness tests) to a broader age range. This is essentially Option 1 in practice – a questionnaire that estimates test performance. Our plan aligns well with this, just adding diet.
+
+Given these options, the recommended approach is to combine the strengths of each: use mostly self-reported performance questions covering all physical domains (like SRFit/Mayo tests), and include a diet and basic body composition section (like AHA’s approach) for a holistic score. The result is a single number that has meaning: we expect, based on the science cited, that a higher score should correlate with lower health risk. In fact, we could validate this by seeing how the score aligns with known risk factors – for instance, someone scoring 90+ likely meets exercise guidelines, eats well, has normal weight, good strength – they would probably have excellent blood pressure, low resting heart rate, etc., whereas someone scoring 40 would likely have multiple risk factors. This correlation to health outcomes is supported by the evidence that each component is independently important, and even more so in combination
+bmcmedicine.biomedcentral.com
+bmcmedicine.biomedcentral.com
+.
+
+Presenting the Score: The app will show the composite score and also a breakdown (e.g., “Your Fitness Score is 78 (Good). Breakdown: Cardio 15/20, Strength 13/20, Flexibility 10/15, Balance 14/15, Body Comp 10/15, Diet 16/20.”). This way, the user sees where they did well and where they need improvement. The breakdown effectively acts as a diagnosis of fitness domains, and the composite gives an overall status to track over time or compare to population norms.
+
+Visualization: The Whole Person Health Index (WPHI) radar chart shows a similar concept of scoring multiple health domains (like diet, physical activity, sleep, etc.) on a common scale for an individual. In our case, a spider/radar chart or bar chart could display an individual's sub-scores for each fitness domain, providing an at-a-glance profile of strengths and weaknesses. The composite score would reflect the area or average of all domains (a higher score indicating a healthier overall fitness profile). This comprehensive scoring allows tracking changes over time across each dimension.
+nccih.nih.gov
+nccih.nih.gov
+
+Using the Fitness Score to Drive Health and Longevity
+
+The ultimate goal of deriving this multi-dimensional fitness score is to help individuals improve their health outcomes. The score by itself is informative, but its real power is in guiding personalized interventions – i.e., the app will “define a workout regimen and diet plan” to help increase the score (as the user requested). Here’s how the process ties together:
+
+Identify Weak Areas: By looking at the sub-scores, we can pinpoint what needs work. For example, if someone scores poorly in Cardio but well in strength and other areas, the app will focus on improving aerobic fitness (e.g., assigning a progressive walking/jogging or cycling program to boost endurance). If diet is the lowest component, nutritional guidance (like adding vegetables, cutting sugary drinks) will be prioritized. This targeted approach is supported by research: improving the factors you’re deficient in will yield the biggest health gains. For instance, a sedentary person adding even moderate cardio activity will significantly cut mortality risk
+news-medical.net
+, or someone with a poor diet will benefit greatly from cleaner eating
+bmcmedicine.biomedcentral.com
+. The fitness score essentially performs a needs assessment.
+
+Personalized Regimen: Using the score breakdown, the app can suggest exercises and diet changes tailored to the individual’s profile and age. For a low strength score, the app might assign resistance training workouts (with exercises like push-ups, squats, or weight training) to build muscle. For a low flexibility score, stretching routines or yoga might be recommended a few times a week
+aarp.org
+. A low balance score would trigger balance exercises (standing on one foot practice, balance board routines, tai chi, etc.)
+aarp.org
+. If body composition needs improvement (high BMI), the plan would emphasize fat-loss through a mix of cardio, strength (to preserve muscle), and calorie-controlled diet. And of course, a poor diet score leads to specific diet plans or tips (meal plans high in fiber, lean protein, etc., or behavioral goals like cooking at home more often). Each recommendation is evidence-based – for example, strength training 2–3 times per week will improve muscle and metabolic health
+aarp.org
+, 150+ minutes of cardio per week improves endurance and cardiovascular markers
+news-medical.net
+, and a Mediterranean-style eating pattern will improve that diet score and reduce cardiovascular risk
+bmcmedicine.biomedcentral.com
+.
+
+Track Progress: Because the questionnaire can be taken periodically, the composite score becomes a way to track progress. Users can retest themselves monthly or quarterly to see if their interventions are raising their score. An increase in the score is more than just numbers – it likely reflects real health improvements. For instance, if the user’s 1-mile walk time improves or they can do more push-ups than before, these translate to lower risk profile (as studies show higher fitness levels at midlife yield lower future mortality
+jamanetwork.com
+). The app could even translate improvements into motivational equivalents (e.g., “Your fitness score went from 60 to 70! This corresponds to about a 15% reduction in your estimated health risk, based on population studies
+bmcmedicine.biomedcentral.com
+.”). While we must be careful to not overstate precision, we can confidently say that improving the components (e.g., going from sedentary to meeting activity guidelines, or from obese to healthy weight) will improve health outcomes
+news-medical.net
+bmcmedicine.biomedcentral.com
+.
+
+Longevity Correlation: Since the score is rooted in research, it can be loosely correlated to longevity. For example, if someone achieves a very high fitness score, they likely have the profile of people who statistically live longer and with lower disease rates. The app can educate the user on this: “Your score of 85 is excellent – people who maintain this level of fitness tend to have a much lower risk of heart disease and diabetes
+hsph.harvard.edu
+bmcmedicine.biomedcentral.com
+. Keep it up, and you’re stacking the odds in favor of a longer, healthier life.” On the other hand, a low score should be a wake-up call: “A score of 40 is below average; low fitness and poor diet are linked to higher risk of serious health issues. The good news? Improving your fitness score by even 10–20 points can significantly reduce those risks
+bmcmedicine.biomedcentral.com
+bmcmedicine.biomedcentral.com
+. Let’s get to work on a plan.”
+
+Multiple Frameworks Integration: We can provide users with an understanding of different scoring options. For instance, in the app settings or info, explain that the score is a composite of multiple domains (like how AHA’s 8-component score works
+bmcmedicine.biomedcentral.com
+). If some users prefer a simpler metric (say just a “cardio fitness age”), we might allow a simplified output too. But the composite is our main feature for comprehensiveness.
+
+In summary, the composite fitness score is more than a number – it encapsulates the most vital aspects of fitness and lifestyle that science tells us influence health and longevity. By grounding each question and score in current research, we ensure the questionnaire is not just arbitrary but predictive. High scores will correlate with better cardiovascular health, metabolic health, and functional ability, while low scores correlate with higher risk (much like how having multiple risk factors gives a higher calculated risk for mortality in studies
+bmcmedicine.biomedcentral.com
+). Furthermore, by breaking it down into sub-scores, we align the output with actionable categories (exercise, diet, etc.), making it practical. This dual focus on assessment and intervention is key to the app’s effectiveness.
+
+Overall, using this multi-dimensional fitness scoring approach, individuals (aged 13 and up) can be assessed in a personalized way, educated on how each aspect affects their well-being, and guided to make improvements. If implemented well, this score becomes a powerful tool to motivate healthier behavior. As one expert put it, if we could put all the benefits of physical fitness into a pill, it would be prescribed to everyone
+aarp.org
+ – instead, our aim is to prescribe the right mix of exercise and diet changes based on one’s current fitness profile, thereby improving that profile and enhancing their health span and life span.
+
+Sources
+
+Hensrud, D. Mayo Clinic Healthy Living Program – Interview in AARP on key fitness areas (aerobic endurance, strength, flexibility, balance) and their impact on aging
+aarp.org
+aarp.org
+.
+
+Angadi, S. et al. Brit. J. Sports Med. (2024) – Meta-analysis showing cardiorespiratory fitness is a stronger predictor of mortality than BMI; even “obese but fit” individuals had much lower death risk than “normal weight but unfit”
+news-medical.net
+news-medical.net
+.
+
+Yang, J. et al. JAMA Netw Open (2019) – Study of firefighters finding push-up capacity >40 associated with 96% lower 10-year CVD event risk vs <10 push-ups
+hsph.harvard.edu
+; push-up test outperformed a treadmill test in predicting heart risk
+hsph.harvard.edu
+.
+
+López-Bueno, R. et al. Ageing Res. Rev. (2022) – Systematic review (48 studies, 3+ million people) confirming grip strength has a near-linear inverse relationship with mortality (lower strength = higher death risk)
+pubmed.ncbi.nlm.nih.gov
+pubmed.ncbi.nlm.nih.gov
+.
+
+de Araújo, C.G. et al. Eur J Prev Cardiol (2014) – Sitting-Rising Test study: people age 51–80 in the lowest score category had 5-6 times higher mortality than those in highest (demonstrating the value of combined flexibility/strength/balance in predicting survival)
+en.wikipedia.org
+.
+
+Godman, H. Harvard Health (2022) – Report on a study where inability to do a 10-second one-legged stand was linked to 84% higher risk of death in 7 years for ages 51–75
+health.harvard.edu
+ (balance as a mortality predictor).
+
+AARP / Mayo Clinic (2024) – “5 Tests to See How Well You Are Aging” article providing self-test protocols and explaining their significance: 1-mile walk for aerobic fitness (brisk pace linked to longer life)
+aarp.org
+, push-ups and chair squats for strength
+aarp.org
+aarp.org
+, sit-and-reach for flexibility
+aarp.org
+, one-leg stand for balance (citing BJSM study on mortality)
+aarp.org
+. Normative scoring charts by age were referenced as well
+aarp.org
+aarp.org
+.
+
+Keith, N. et al. J. Phys Act Health (2014) – Validation of the Self-Reported Fitness (SRFit) survey, which estimates fitness in adults ≥40 across four domains: muscular, flexibility, aerobic endurance, plus BMI/body composition
+pubmed.ncbi.nlm.nih.gov
+. Demonstrated decent correlations between self-reported and actual test performance
+pubmed.ncbi.nlm.nih.gov
+.
+
+NCCIH/CDC (2025) – Whole Person Health Index (WPHI) description
+nccih.nih.gov
+nccih.nih.gov
+. Illustrates use of a 9-question self-rated health tool (including diet, activity, etc.) and how summing the scores tracks overall health (lower score = better). This inspired inclusion of diet and lifestyle in our fitness score.
+
+Sun, J. et al. BMC Medicine (2023) – Study on AHA’s Life’s Essential 8 composite score and mortality. Found adults with high total scores (including good diet, activity, BMI, sleep, etc.) had ~42–58% lower risk of all-cause and CVD death vs those with low scores
+bmcmedicine.biomedcentral.com
+. Within the 8 factors, physical activity and diet were top contributors to lower mortality (along with not smoking)
+bmcmedicine.biomedcentral.com
+. Reinforces that a composite of healthy behaviors closely ties to longevity.
+
+Aryannezhad, S. et al. BMC Medicine (2024) – EPIC-Norfolk study on combined diet quality and physical activity. Concluded that maintaining high levels of both is associated with significantly lower mortality
+bmcmedicine.biomedcentral.com
+. Cites Spanish cohort data: high activity + high diet adherence had ~70% lower death risk
+bmcmedicine.biomedcentral.com
+. Also noted that improvements over time in these behaviors conferred mortality benefits
+bmcmedicine.biomedcentral.com
+bmcmedicine.biomedcentral.com
+. This evidence supports our scoring emphasis on both exercise and diet, and the idea that raising one’s score (through behavior change) can improve health outcomes.
+
+NIFS Fitness Blog (2023) – Explained how fitness assessments cover 5 components (cardio, strength, endurance, flexibility, body comp) and use age-adjusted norms for evaluation
+wellness.nifs.org
+. Validates our plan to adjust scores for age and to use the assessment for goal-setting and program design
+wellness.nifs.org
+.
+
+Each of these sources underpins a piece of our fitness scoring methodology, ensuring that the questionnaire and scoring are grounded in the latest science and best practices. By integrating these insights, the resulting fitness score will be a credible metric that correlates with real health outcomes – essentially condensing a lot of clinical knowledge into an accessible personal health indicator.
+
+---------------------------------------------------------------------------------------------------------------
+1) Strength: ACSM
+Option A — “To fatigue” (no rest) — ACSM norms
+sex	test	percentile	age_group	threshold_raw	qualifier	value
+male	push_up	99	20-29	>100	>	100
+male	push_up	99	30-39	>86	>	86
+male	push_up	99	40-49	>64	>	64
+male	push_up	99	50-59	>51	>	51
+male	push_up	99	60+	>39	>	39
+male	push_up	95	20-29	62	>=	62
+male	push_up	95	30-39	52	>=	52
+male	push_up	95	40-49	40	>=	40
+male	push_up	95	50-59	39	>=	39
+male	push_up	95	60+	28	>=	28
+male	push_up	90	20-29	57	>=	57
+male	push_up	90	30-39	46	>=	46
+male	push_up	90	40-49	36	>=	36
+male	push_up	90	50-59	30	>=	30
+male	push_up	90	60+	26	>=	26
+male	push_up	85	20-29	51	>=	51
+male	push_up	85	30-39	41	>=	41
+male	push_up	85	40-49	34	>=	34
+male	push_up	85	50-59	28	>=	28
+male	push_up	85	60+	24	>=	24
+male	push_up	80	20-29	47	>=	47
+male	push_up	80	30-39	39	>=	39
+male	push_up	80	40-49	30	>=	30
+male	push_up	80	50-59	25	>=	25
+male	push_up	80	60+	23	>=	23
+male	push_up	75	20-29	44	>=	44
+male	push_up	75	30-39	36	>=	36
+male	push_up	75	40-49	29	>=	29
+male	push_up	75	50-59	24	>=	24
+male	push_up	75	60+	22	>=	22
+male	push_up	70	20-29	41	>=	41
+male	push_up	70	30-39	34	>=	34
+male	push_up	70	40-49	26	>=	26
+male	push_up	70	50-59	21	>=	21
+male	push_up	70	60+	21	>=	21
+male	push_up	65	20-29	39	>=	39
+male	push_up	65	30-39	31	>=	31
+male	push_up	65	40-49	25	>=	25
+male	push_up	65	50-59	20	>=	20
+male	push_up	65	60+	20	>=	20
+male	push_up	60	20-29	37	>=	37
+male	push_up	60	30-39	30	>=	30
+male	push_up	60	40-49	24	>=	24
+male	push_up	60	50-59	19	>=	19
+male	push_up	60	60+	18	>=	18
+male	push_up	55	20-29	35	>=	35
+male	push_up	55	30-39	29	>=	29
+male	push_up	55	40-49	22	>=	22
+male	push_up	55	50-59	17	>=	17
+male	push_up	55	60+	16	>=	16
+male	push_up	50	20-29	33	>=	33
+male	push_up	50	30-39	27	>=	27
+male	push_up	50	40-49	21	>=	21
+male	push_up	50	50-59	15	>=	15
+male	push_up	50	60+	15	>=	15
+male	push_up	45	20-29	31	>=	31
+male	push_up	45	30-39	25	>=	25
+male	push_up	45	40-49	19	>=	19
+male	push_up	45	50-59	14	>=	14
+male	push_up	45	60+	12	>=	12
+male	push_up	40	20-29	29	>=	29
+male	push_up	40	30-39	24	>=	24
+male	push_up	40	40-49	18	>=	18
+male	push_up	40	50-59	13	>=	13
+male	push_up	40	60+	10	>=	10
+male	push_up	35	20-29	27	>=	27
+male	push_up	35	30-39	21	>=	21
+male	push_up	35	40-49	16	>=	16
+male	push_up	35	50-59	11	>=	11
+male	push_up	35	60+	9	>=	9
+male	push_up	30	20-29	26	>=	26
+male	push_up	30	30-39	20	>=	20
+male	push_up	30	40-49	15	>=	15
+male	push_up	30	50-59	10	>=	10
+male	push_up	30	60+	8	>=	8
+male	push_up	25	20-29	24	>=	24
+male	push_up	25	30-39	19	>=	19
+male	push_up	25	40-49	13	>=	13
+male	push_up	25	50-59	9.5	>=	9.5
+male	push_up	25	60+	7	>=	7
+male	push_up	20	20-29	22	>=	22
+male	push_up	20	30-39	17	>=	17
+male	push_up	20	40-49	11	>=	11
+male	push_up	20	50-59	9	>=	9
+male	push_up	20	60+	6	>=	6
+male	push_up	15	20-29	19	>=	19
+male	push_up	15	30-39	15	>=	15
+male	push_up	15	40-49	10	>=	10
+male	push_up	15	50-59	7	>=	7
+male	push_up	15	60+	5	>=	5
+male	push_up	10	20-29	18	>=	18
+male	push_up	10	30-39	13	>=	13
+male	push_up	10	40-49	9	>=	9
+male	push_up	10	50-59	6	>=	6
+male	push_up	10	60+	4	>=	4
+male	push_up	5	20-29	<13	<	13
+male	push_up	5	30-39	<9	<	9
+male	push_up	5	40-49	<5	<	5
+male	push_up	5	50-59	<3	<	3
+male	push_up	5	60+	<2	<	2
+female	modified_push_up	99	20-29	>70	>	70
+female	modified_push_up	99	30-39	>56	>	56
+female	modified_push_up	99	40-49	>60	>	60
+female	modified_push_up	99	50-59	>31	>	31
+female	modified_push_up	99	60+	>20	>	20
+female	modified_push_up	95	20-29	45	>=	45
+female	modified_push_up	95	30-39	39	>=	39
+female	modified_push_up	95	40-49	33	>=	33
+female	modified_push_up	95	50-59	28	>=	28
+female	modified_push_up	95	60+	20	>=	20
+female	modified_push_up	90	20-29	42	>=	42
+female	modified_push_up	90	30-39	36	>=	36
+female	modified_push_up	90	40-49	28	>=	28
+female	modified_push_up	90	50-59	25	>=	25
+female	modified_push_up	90	60+	17	>=	17
+female	modified_push_up	85	20-29	39	>=	39
+female	modified_push_up	85	30-39	33	>=	33
+female	modified_push_up	85	40-49	26	>=	26
+female	modified_push_up	85	50-59	23	>=	23
+female	modified_push_up	85	60+	15	>=	15
+female	modified_push_up	80	20-29	36	>=	36
+female	modified_push_up	80	30-39	31	>=	31
+female	modified_push_up	80	40-49	24	>=	24
+female	modified_push_up	80	50-59	21	>=	21
+female	modified_push_up	80	60+	15	>=	15
+female	modified_push_up	75	20-29	34	>=	34
+female	modified_push_up	75	30-39	29	>=	29
+female	modified_push_up	75	40-49	21	>=	21
+female	modified_push_up	75	50-59	20	>=	20
+female	modified_push_up	75	60+	15	>=	15
+female	modified_push_up	70	20-29	31	>=	31
+female	modified_push_up	70	30-39	28	>=	28
+female	modified_push_up	70	40-49	20	>=	20
+female	modified_push_up	70	50-59	19	>=	19
+female	modified_push_up	70	60+	14	>=	14
+female	modified_push_up	65	20-29	30	>=	30
+female	modified_push_up	65	30-39	26	>=	26
+female	modified_push_up	65	40-49	19	>=	19
+female	modified_push_up	65	50-59	18	>=	18
+female	modified_push_up	65	60+	13	>=	13
+female	modified_push_up	60	20-29	30	>=	30
+female	modified_push_up	60	30-39	24	>=	24
+female	modified_push_up	60	40-49	18	>=	18
+female	modified_push_up	60	50-59	17	>=	17
+female	modified_push_up	60	60+	12	>=	12
+female	modified_push_up	55	20-29	29	>=	29
+female	modified_push_up	55	30-39	23	>=	23
+female	modified_push_up	55	40-49	17	>=	17
+female	modified_push_up	55	50-59	15	>=	15
+female	modified_push_up	55	60+	12	>=	12
+female	modified_push_up	50	20-29	25	>=	25
+female	modified_push_up	50	30-39	21	>=	21
+female	modified_push_up	50	40-49	15	>=	15
+female	modified_push_up	50	50-59	13	>=	13
+female	modified_push_up	50	60+	8	>=	8
+female	modified_push_up	45	20-29	23	>=	23
+female	modified_push_up	45	30-39	20	>=	20
+female	modified_push_up	45	40-49	14	>=	14
+female	modified_push_up	45	50-59	12	>=	12
+female	modified_push_up	45	60+	6	>=	6
+female	modified_push_up	40	20-29	22	>=	22
+female	modified_push_up	40	30-39	19	>=	19
+female	modified_push_up	40	40-49	13	>=	13
+female	modified_push_up	40	50-59	11	>=	11
+female	modified_push_up	40	60+	4	>=	4
+female	modified_push_up	35	20-29	22	>=	22
+female	modified_push_up	35	30-39	17	>=	17
+female	modified_push_up	35	40-49	11	>=	11
+female	modified_push_up	35	50-59	10	>=	10
+female	modified_push_up	35	60+	4	>=	4
+female	modified_push_up	30	20-29	20	>=	20
+female	modified_push_up	30	30-39	16	>=	16
+female	modified_push_up	30	40-49	10	>=	10
+female	modified_push_up	30	50-59	9	>=	9
+female	modified_push_up	30	60+	3	>=	3
+female	modified_push_up	25	20-29	19	>=	19
+female	modified_push_up	25	30-39	14	>=	14
+female	modified_push_up	25	40-49	9	>=	9
+female	modified_push_up	25	50-59	9	>=	9
+female	modified_push_up	25	60+	2	>=	2
+female	modified_push_up	20	20-29	17	>=	17
+female	modified_push_up	20	30-39	13	>=	13
+female	modified_push_up	20	40-49	8	>=	8
+female	modified_push_up	20	50-59	6	>=	6
+female	modified_push_up	20	60+	2	>=	2
+female	modified_push_up	15	20-29	15	>=	15
+female	modified_push_up	15	30-39	9	>=	9
+female	modified_push_up	15	40-49	6	>=	6
+female	modified_push_up	15	50-59	4	>=	4
+female	modified_push_up	15	60+	1	>=	1
+female	modified_push_up	10	20-29	12	>=	12
+female	modified_push_up	10	30-39	8	>=	8
+female	modified_push_up	10	40-49	2	>=	2
+female	modified_push_up	10	50-59	1	>=	1
+female	modified_push_up	10	60+	0	>=	0
+female	modified_push_up	5	20-29	<9	<	9
+female	modified_push_up	5	30-39	<4	<	4
+female	modified_push_up	5	40-49	<1	<	1
+female	modified_push_up	5	50-59	0	>=	0
+female	modified_push_up	5	60+	0	>=	0
+
+---------------------------------------------------------------------------------------------------------------
+Aerobic health
+Cooper score in excel file with percentiles 
+
+---------------------------------------------------------------------------------------------------------------
+Balance. If over age 40. check and add exercises if necessary...
+- Single-leg stand (eyes open): Aim for 30 seconds/leg without touching down or wobbling wildly.
+- Tandem stance/walk: Heel-to-toe for 10 steps without stepping out.
+- Timed Up & Go: Stand up from a chair, walk 10 ft (3 m), turn, sit. ≤10 sec is typical for healthy adults.
+
+(note: Strength/power that supports balance: calf raises, split squats, hip abductor work, sit-to-stand, light hops or step-ups (as appropriate).)
+Tai Chi/Yoga for elderly if older
+---------------------------------------------------------------------------------------------------------------
+Flexibility
+
+---------------------------------------------------------------------------------------------------------------
+Diet. 
+
+Alcoholic drinks per week
+Sodas, regular or diet per day
+Deserts or candies per day 
+Servings of bread or pasta per day
+Servings of other highly processed foods, such as cereal or crackers, per day
+
+---------------------------------------------------------------------------------------------------------------

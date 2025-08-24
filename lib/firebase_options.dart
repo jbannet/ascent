@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'ascent-77b10.firebasestorage.app',
     iosBundleId: 'com.example.ascent',
   );
+
 }
