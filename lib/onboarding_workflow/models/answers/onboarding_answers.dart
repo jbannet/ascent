@@ -27,10 +27,7 @@
 /// Example JSON:
 /// ```json
 /// {
-///   "onboarding_version": "1.0.0",
 ///   "completed": true,
-///   "started_at": "2024-01-15T10:30:00Z",
-///   "completed_at": "2024-01-15T10:45:00Z",
 ///   "answers": {
 ///     "age": 28,
 ///     "goals": ["lose_weight", "build_muscle"],
@@ -40,23 +37,9 @@
 /// }
 /// ```
 class OnboardingAnswers {
-  /// Version of the question configuration used.
-  /// Important for handling migrations when questions change.
-  /// Matches QuestionConfiguration.version.
-  final String onboardingVersion;
-  
   /// Whether the user has completed all onboarding questions.
   /// Set to true when user reaches the end of the flow.
   final bool completed;
-  
-  /// When the user started the onboarding process.
-  /// Set when OnboardingAnswers.empty() is called.
-  final DateTime startedAt;
-  
-  /// When the user completed onboarding.
-  /// Null if onboarding is still in progress.
-  /// Set when markCompleted() is called.
-  final DateTime? completedAt;
   
   /// Map of question IDs to user answers.
   /// Keys are question IDs from OnboardingQuestion.id.
@@ -69,10 +52,7 @@ class OnboardingAnswers {
   final Map<String, dynamic> answers;
 
   OnboardingAnswers({
-    required this.onboardingVersion,
     required this.completed,
-    required this.startedAt,
-    this.completedAt,
     required this.answers,
   });
 
@@ -81,12 +61,7 @@ class OnboardingAnswers {
   /// Used when loading saved answers from Hive or Firebase.
   factory OnboardingAnswers.fromJson(Map<String, dynamic> json) {
     return OnboardingAnswers(
-      onboardingVersion: json['onboarding_version'] as String,
       completed: json['completed'] as bool,
-      startedAt: DateTime.parse(json['started_at'] as String),
-      completedAt: json['completed_at'] != null
-          ? DateTime.parse(json['completed_at'] as String)
-          : null,
       answers: Map<String, dynamic>.from(json['answers'] as Map),
     );
   }
@@ -96,10 +71,7 @@ class OnboardingAnswers {
   /// Used when saving to Hive locally or Firebase remotely.
   Map<String, dynamic> toJson() {
     return {
-      'onboarding_version': onboardingVersion,
       'completed': completed,
-      'started_at': startedAt.toIso8601String(),
-      'completed_at': completedAt?.toIso8601String(),
       'answers': answers,
     };
   }
@@ -129,17 +101,11 @@ class OnboardingAnswers {
   /// Follows the immutable update pattern for state management.
   /// Used internally by other update methods.
   OnboardingAnswers copyWith({
-    String? onboardingVersion,
     bool? completed,
-    DateTime? startedAt,
-    DateTime? completedAt,
     Map<String, dynamic>? answers,
   }) {
     return OnboardingAnswers(
-      onboardingVersion: onboardingVersion ?? this.onboardingVersion,
       completed: completed ?? this.completed,
-      startedAt: startedAt ?? this.startedAt,
-      completedAt: completedAt ?? this.completedAt,
       answers: answers ?? Map<String, dynamic>.from(this.answers),
     );
   }
@@ -168,14 +134,13 @@ class OnboardingAnswers {
 
   /// Marks the onboarding as completed.
   /// 
-  /// Sets completed to true and records the completion time.
+  /// Sets completed to true.
   /// Called when user reaches the end of all questions.
   /// 
   /// Used by OnboardingProvider.completeOnboarding().
   OnboardingAnswers markCompleted() {
     return copyWith(
       completed: true,
-      completedAt: DateTime.now(),
     );
   }
 
@@ -201,18 +166,24 @@ class OnboardingAnswers {
     return requiredQuestionIds.every((id) => isAnswered(id));
   }
 
+  /// Returns true if no answers have been saved yet
+  bool get isEmpty => answers.isEmpty;
+
+  /// Returns true if answers have been loaded/initialized
+  bool get isInitialized => answers.isNotEmpty;
+
+  /// Returns the number of answered questions
+  int get length => answers.length;
+
   /// Creates an empty instance for starting a new onboarding session.
   /// 
-  /// Sets the version, marks as not completed, and initializes timestamps.
+  /// Marks as not completed and initializes empty answers map.
   /// The answers map starts empty and will be populated as user progresses.
   /// 
   /// Used by OnboardingProvider.initialize() to start onboarding.
-  factory OnboardingAnswers.empty(String version) {
+  factory OnboardingAnswers.empty() {
     return OnboardingAnswers(
-      onboardingVersion: version,
       completed: false,
-      startedAt: DateTime.now(),
-      completedAt: null,
       answers: {},
     );
   }

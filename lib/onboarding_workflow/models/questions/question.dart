@@ -1,4 +1,4 @@
-import 'question_type.dart';
+import 'enum_question_type.dart';
 import 'question_option.dart';
 import 'question_validation.dart';
 import 'question_condition.dart';
@@ -38,7 +38,7 @@ import 'question_condition.dart';
 ///   }
 /// }
 /// ```
-class OnboardingQuestion {
+class Question {
   /// Unique identifier for this question.
   /// Used to store and retrieve answers, and reference in conditions.
   /// Example: "age", "fitness_goals", "workout_location"
@@ -49,9 +49,14 @@ class OnboardingQuestion {
   /// Example: "What are your fitness goals?"
   final String question;
   
+  /// Section this question belongs to.
+  /// Used for grouping and organizing questions.
+  /// Example: "personal_info", "fitness_goals", "preferences"
+  final String section;
+  
   /// The type of input control to display.
   /// Determines which UI widget is rendered (text field, radio buttons, etc.).
-  final QuestionType type;
+  final EnumQuestionType type;
   
   /// Available choices for single/multiple choice questions.
   /// Only required when type is singleChoice or multipleChoice.
@@ -68,9 +73,10 @@ class OnboardingQuestion {
   /// Null means question always shows (no conditions).
   final QuestionCondition? condition;
 
-  OnboardingQuestion({
+  Question({
     required this.id,
     required this.question,
+    required this.section,
     required this.type,
     this.options,
     this.validation,
@@ -81,10 +87,11 @@ class OnboardingQuestion {
   /// 
   /// Used when loading questions from assets/onboarding_questions.json
   /// or from Firebase remote configuration.
-  factory OnboardingQuestion.fromJson(Map<String, dynamic> json) {
-    return OnboardingQuestion(
+  factory Question.fromJson(Map<String, dynamic> json) {
+    return Question(
       id: json['id'] as String,
       question: json['question'] as String,
+      section: json['section'] as String,
       type: QuestionTypeExtension.fromJson(json['type'] as String),
       options: json['options'] != null
           ? (json['options'] as List)
@@ -108,6 +115,7 @@ class OnboardingQuestion {
     final Map<String, dynamic> result = {
       'id': id,
       'question': question,
+      'section': section,
       'type': type.toJson(),
     };
     if (options != null) {

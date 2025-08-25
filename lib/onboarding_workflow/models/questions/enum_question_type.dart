@@ -8,7 +8,7 @@
 /// - [OnboardingQuestion] to specify the input type
 /// - UI widgets to render the appropriate input control
 /// - JSON parser when loading questions from configuration
-enum QuestionType {
+enum EnumQuestionType {
   /// Free text input field (e.g., name, email)
   textInput,
   
@@ -28,24 +28,24 @@ enum QuestionType {
   datePicker
 }
 
-extension QuestionTypeExtension on QuestionType {
+extension QuestionTypeExtension on EnumQuestionType {
   /// Converts the enum to a JSON-compatible string format.
   /// 
   /// Used when saving questions to JSON files or sending to Firebase.
   /// Converts Dart naming convention (camelCase) to JSON convention (snake_case).
   String toJson() {
     switch (this) {
-      case QuestionType.textInput:
+      case EnumQuestionType.textInput:
         return 'text_input';
-      case QuestionType.numberInput:
+      case EnumQuestionType.numberInput:
         return 'number_input';
-      case QuestionType.singleChoice:
+      case EnumQuestionType.singleChoice:
         return 'single_choice';
-      case QuestionType.multipleChoice:
+      case EnumQuestionType.multipleChoice:
         return 'multiple_choice';
-      case QuestionType.slider:
+      case EnumQuestionType.slider:
         return 'slider';
-      case QuestionType.datePicker:
+      case EnumQuestionType.datePicker:
         return 'date_picker';
     }
   }
@@ -54,20 +54,20 @@ extension QuestionTypeExtension on QuestionType {
   /// 
   /// Used when loading questions from JSON configuration files.
   /// Throws [ArgumentError] if the string doesn't match any known type.
-  static QuestionType fromJson(String value) {
+  static EnumQuestionType fromJson(String value) {
     switch (value) {
       case 'text_input':
-        return QuestionType.textInput;
+        return EnumQuestionType.textInput;
       case 'number_input':
-        return QuestionType.numberInput;
+        return EnumQuestionType.numberInput;
       case 'single_choice':
-        return QuestionType.singleChoice;
+        return EnumQuestionType.singleChoice;
       case 'multiple_choice':
-        return QuestionType.multipleChoice;
+        return EnumQuestionType.multipleChoice;
       case 'slider':
-        return QuestionType.slider;
+        return EnumQuestionType.slider;
       case 'date_picker':
-        return QuestionType.datePicker;
+        return EnumQuestionType.datePicker;
       default:
         throw ArgumentError('Unknown question type: $value');
     }
