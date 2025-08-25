@@ -27,15 +27,7 @@ class QuestionList {
   
   Question? getQuestionAtIndex(int index) {
     return questions.safeGet(index);
-  }
-     
-  //MARK: JSON  
-  Map<String, dynamic> toJson() {
-    return {
-      'version': version,
-      'questions': questions.map((q) => q.toJson()).toList(),
-    };
-  }
+  }    
   
   factory QuestionList.fromJson(Map<String, dynamic> json) {
     return QuestionList(

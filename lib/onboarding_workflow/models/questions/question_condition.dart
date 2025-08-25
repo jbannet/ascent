@@ -58,17 +58,6 @@ class QuestionCondition {
     );
   }
 
-  /// Converts condition to a JSON-compatible map.
-  /// 
-  /// Only includes value if it's not null.
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> result = {
-      'question_id': questionId,
-      'operator': operator,
-    };
-    if (value != null) result['value'] = value;
-    return result;
-  }
 
   /// Evaluates whether this condition is met given an answer.
   /// 

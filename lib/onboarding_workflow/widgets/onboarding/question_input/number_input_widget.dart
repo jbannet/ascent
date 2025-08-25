@@ -37,6 +37,29 @@ class NumberInputWidget extends StatefulWidget {
     this.onUnitChanged,
   });
 
+  /// Creates NumberInputWidget from configuration map with validation
+  NumberInputWidget.fromConfig(Map<String, dynamic> config, {super.key})
+    : questionId = config['questionId'] ?? 
+        (throw ArgumentError('NumberInputWidget: questionId is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      title = config['title'] ?? 
+        (throw ArgumentError('NumberInputWidget: title is required. Question ID: ${config['questionId'] ?? 'missing'}')),
+      subtitle = config['subtitle'] as String?,
+      placeholder = config['placeholder'] as String?,
+      currentValue = config['currentValue'] as double?,
+      onAnswerChanged = config['onAnswerChanged'] ?? 
+        (throw ArgumentError('NumberInputWidget: onAnswerChanged is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      isRequired = config['isRequired'] as bool? ?? true,
+      minValue = config['minValue'] as double?,
+      maxValue = config['maxValue'] as double?,
+      allowDecimals = config['allowDecimals'] as bool? ?? true,
+      decimalPlaces = config['decimalPlaces'] as int? ?? 2,
+      unit = config['unit'] as String?,
+      unitOptions = config['unitOptions'] != null 
+          ? List<String>.from(config['unitOptions'] as List)
+          : null,
+      selectedUnit = config['selectedUnit'] as String?,
+      onUnitChanged = config['onUnitChanged'] as Function(String)?;
+
   @override
   State<NumberInputWidget> createState() => _NumberInputWidgetState();
 }

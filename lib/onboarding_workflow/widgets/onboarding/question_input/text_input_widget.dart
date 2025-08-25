@@ -33,6 +33,40 @@ class TextInputWidget extends StatefulWidget {
     this.validator,
   });
 
+  /// Creates TextInputWidget from configuration map with validation
+  TextInputWidget.fromConfig(Map<String, dynamic> config, {super.key})
+    : questionId = config['questionId'] ?? 
+        (throw ArgumentError('TextInputWidget: questionId is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      title = config['title'] ?? 
+        (throw ArgumentError('TextInputWidget: title is required. Question ID: ${config['questionId'] ?? 'missing'}')),
+      subtitle = config['subtitle'] as String?,
+      placeholder = config['placeholder'] as String?,
+      currentValue = config['currentValue'] as String?,
+      onAnswerChanged = config['onAnswerChanged'] ?? 
+        (throw ArgumentError('TextInputWidget: onAnswerChanged is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      isRequired = config['isRequired'] as bool? ?? true,
+      maxLength = config['maxLength'] as int?,
+      minLength = config['minLength'] as int?,
+      multiline = config['multiline'] as bool? ?? false,
+      keyboardType = _parseKeyboardType(config['keyboardType'] as String?),
+      inputFormatters = config['inputFormatters'] as List<TextInputFormatter>?,
+      validator = config['validator'] as String? Function(String?)?;
+
+  /// Helper to parse keyboard type from string
+  static TextInputType? _parseKeyboardType(String? value) {
+    if (value == null) return null;
+    switch (value) {
+      case 'text': return TextInputType.text;
+      case 'multiline': return TextInputType.multiline;
+      case 'number': return TextInputType.number;
+      case 'phone': return TextInputType.phone;
+      case 'email': return TextInputType.emailAddress;
+      case 'url': return TextInputType.url;
+      case 'name': return TextInputType.name;
+      default: return TextInputType.text;
+    }
+  }
+
   @override
   State<TextInputWidget> createState() => _TextInputWidgetState();
 }

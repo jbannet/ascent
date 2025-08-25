@@ -47,6 +47,11 @@ class QuestionValidation {
   /// Only applies to multipleChoice type questions.
   /// Example: Select up to 3 fitness goals.
   final int? maxSelections;
+  
+  /// Minimum number of options that must be selected.
+  /// Only applies to multipleChoice type questions.
+  /// Example: Must select at least 1 fitness goal.
+  final int? minSelections;
 
   QuestionValidation({
     this.required,
@@ -55,6 +60,7 @@ class QuestionValidation {
     this.min,
     this.max,
     this.maxSelections,
+    this.minSelections,
   });
 
   /// Creates validation rules from a JSON map.
@@ -68,21 +74,8 @@ class QuestionValidation {
       min: json['min'] as num?,
       max: json['max'] as num?,
       maxSelections: json['max_selections'] as int?,
+      minSelections: json['min_selections'] as int?,
     );
   }
 
-  /// Converts validation rules to a JSON-compatible map.
-  /// 
-  /// Only includes non-null values to keep JSON clean.
-  /// Used when saving questions or sending to Firebase.
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> result = {};
-    if (required != null) result['required'] = required;
-    if (minLength != null) result['min_length'] = minLength;
-    if (maxLength != null) result['max_length'] = maxLength;
-    if (min != null) result['min'] = min;
-    if (max != null) result['max'] = max;
-    if (maxSelections != null) result['max_selections'] = maxSelections;
-    return result;
-  }
 }

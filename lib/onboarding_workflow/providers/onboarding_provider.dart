@@ -26,17 +26,21 @@ class OnboardingProvider extends ChangeNotifier {
     // load questions and answers from local storage
     // this should return an empty object if nothing saved yet
     final QuestionList localQuestionList = await LocalStorageService.loadQuestions();
-    final int questionVersion = await LocalStorageService.getQuestionVersion();
+    final int questionVersion = await LocalStorageService.getQuestionVersion(); //0 if none saved
     final OnboardingAnswers localAnswers = await LocalStorageService.loadAnswers();
+   
+    // There should be a default question list stored at app signup the first time.
+    if (!localQuestionList.isInitialized){
+      throw Exception('Local question list failed to initialize');
+      //TODO: Handle this error more gracefully and get from Firebase
+    }
 
     int firebaseQuestionVersion = await FirebaseStorageService.getQuestionVersion();
-    // If empty or a newer version use the Firebase question list
-    // This should return empty objects if nothing saved yet 
-    if (!localQuestionList.isInitialized || questionVersion < firebaseQuestionVersion) {
-      _questionList = await FirebaseStorageService.loadQuestions();
-      // Save the new questions locally
-      await LocalStorageService.saveQuestions(_questionList);
-      await LocalStorageService.saveQuestionVersion(firebaseQuestionVersion);
+
+    // Update questions if Firebase has a newer version
+    if (questionVersion < firebaseQuestionVersion) {
+      //loadQuestions call updates and saves new questions and version locally
+      _questionList = await FirebaseStorageService.loadQuestions(localQuestionList, firebaseQuestionVersion);       
     } else {
       _questionList = localQuestionList; //necessary because questionList is final
     }
@@ -44,7 +48,7 @@ class OnboardingProvider extends ChangeNotifier {
     if (!localAnswers.isInitialized) {
       _onboardingAnswers = await FirebaseStorageService.loadAnswers();
     } else {
-      _onboardingAnswers = localAnswers; //necessary because questionList is final
+      _onboardingAnswers = localAnswers; 
     }
 
     if (questionVersion < firebaseQuestionVersion) {

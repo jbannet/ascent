@@ -14,4 +14,7 @@ class AppConstants {
 
   static const String usersCollectionName = 'users';
   static const String answersDocumentName = 'answers';
+  
+  /// Version constants
+  static const int localStorageUninitialized = -1;
 }

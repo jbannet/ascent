@@ -34,6 +34,20 @@ class SingleChoiceWidget extends StatefulWidget {
     this.isRequired = true,
   });
 
+  /// Creates SingleChoiceWidget from configuration map with validation
+  SingleChoiceWidget.fromConfig(Map<String, dynamic> config, {super.key})
+    : questionId = config['questionId'] ?? 
+        (throw ArgumentError('SingleChoiceWidget: questionId is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      title = config['title'] ?? 
+        (throw ArgumentError('SingleChoiceWidget: title is required. Question ID: ${config['questionId'] ?? 'missing'}')),
+      subtitle = config['subtitle'] as String?,
+      options = config['options'] ?? 
+        (throw ArgumentError('SingleChoiceWidget: options is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      selectedValue = config['selectedValue'] as String?,
+      onAnswerChanged = config['onAnswerChanged'] ?? 
+        (throw ArgumentError('SingleChoiceWidget: onAnswerChanged is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      isRequired = config['isRequired'] as bool? ?? true;
+
   @override
   State<SingleChoiceWidget> createState() => _SingleChoiceWidgetState();
 }

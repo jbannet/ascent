@@ -1,3 +1,4 @@
+import 'package:ascent/onboarding_workflow/services/local_storage/local_storage_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/questions/question_list.dart';
 import '../../models/answers/onboarding_answers.dart';
@@ -9,28 +10,23 @@ class FirebaseStorageService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   
   /// Load questions from Firebase
-  static Future<QuestionList> loadQuestions() async {
-    final DocumentSnapshot questionsDoc = await _firestore
-        .collection(AppConstants.onboardingCollectionName)
-        .doc(AppConstants.questionsDocumentName)
-        .get();
-    
-    if (!questionsDoc.exists || questionsDoc.data() == null) {
-      return QuestionList.empty();
-    }
-    
-    final Map<String, dynamic> questionsData = questionsDoc.data() as Map<String, dynamic>;
-    return QuestionList.fromJson(questionsData);
-  }
-  
-  /// Save questions to Firebase
-  static Future<void> saveQuestions(QuestionList pQuestionList) async {
-    await _firestore
-        .collection(AppConstants.onboardingCollectionName)
-        .doc(AppConstants.questionsDocumentName)
-        .set(pQuestionList.toJson());
-  }
+  static Future<QuestionList> loadQuestions(QuestionList localQuestionList, int firebaseQuestionVersion) async {
+      final DocumentSnapshot questionsDoc = await _firestore
+          .collection(AppConstants.onboardingCollectionName)
+          .doc(AppConstants.questionsDocumentName)
+          .get();
+      
+      if (!questionsDoc.exists || questionsDoc.data() == null) {
+        return localQuestionList;
+      }
 
+      final Map<String, dynamic> questionsData = questionsDoc.data() as Map<String, dynamic>;
+      final QuestionList newQuestions = QuestionList.fromJson(questionsData);
+      await LocalStorageService.saveQuestions(questionsData); // Save the JSON directly to local storage to save parsing steps
+      await LocalStorageService.saveQuestionVersion(firebaseQuestionVersion);    
+      return newQuestions;
+    
+  }
   /// Get question version from Firebase
   static Future<int> getQuestionVersion() async {
     final DocumentSnapshot questionsDoc = await _firestore

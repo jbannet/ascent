@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
+import '../models/questions/question.dart';
+import '../../theme/general_widgets/swoosh_clipper.dart';
 
 class SingleQuestionView extends StatelessWidget {
-  final String reason;
-  final String? questionNumber;
-  final String? questionText;
+  final Question question;
   final Widget answerWidget;
   final Color? accentColor;
 
   const SingleQuestionView({
     super.key,
-    required this.reason,
-    this.questionNumber,
-    this.questionText,
+    required this.question,
     required this.answerWidget,
     this.accentColor,
   });
@@ -19,7 +17,7 @@ class SingleQuestionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final primaryColor = accentColor ?? const Color(0xFF8B5FBF); // Purple default
+    final primaryColor = accentColor ?? theme.colorScheme.primary;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +27,7 @@ class SingleQuestionView extends StatelessWidget {
             width: double.infinity,
             margin: const EdgeInsets.only(bottom: 24),
             child: ClipPath(
-              clipper: _SwooshClipper(),
+              clipper: SwooshClipper(),
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -82,7 +80,7 @@ class SingleQuestionView extends StatelessWidget {
                           
                           // Explanation text
                           Text(
-                            reason,
+                            question.section.replaceAll('_', ' ').toUpperCase(),
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
@@ -98,40 +96,27 @@ class SingleQuestionView extends StatelessWidget {
             ),
           ),
         
-        // Question Number Section
-        if (questionNumber != null) ...[
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: primaryColor.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: primaryColor.withValues(alpha: 0.3),
-                width: 1,
-              ),
-            ),
-            child: Text(
-              questionNumber!,
-              style: theme.textTheme.labelMedium?.copyWith(
-                color: primaryColor,
-                fontWeight: FontWeight.w600,
-              ),
+        // Question text section
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: primaryColor.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: primaryColor.withValues(alpha: 0.3),
+              width: 1,
             ),
           ),
-          const SizedBox(height: 16),
-        ],
+          child: Text(
+            question.question,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: primaryColor,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
         
-        // Additional Question Text
-        if (questionText != null) ...[
-          Text(
-            questionText!,
-            style: theme.textTheme.titleMedium?.copyWith(
-              color: theme.colorScheme.onSurface,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 16),
-        ],
+        const SizedBox(height: 16),
         
         // Answer Widget Section
         Container(
@@ -149,43 +134,4 @@ class SingleQuestionView extends StatelessWidget {
       ],
     );
   }
-}
-
-// Custom clipper for the swoosh effect
-class _SwooshClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-    
-    // Start from top left
-    path.moveTo(0, 0);
-    
-    // Top edge with slight curve
-    path.quadraticBezierTo(size.width * 0.1, 0, size.width * 0.9, 0);
-    
-    // Right edge with swoosh
-    path.quadraticBezierTo(
-      size.width * 0.95, 
-      size.height * 0.3, 
-      size.width * 0.85, 
-      size.height * 0.7
-    );
-    path.quadraticBezierTo(
-      size.width * 0.8, 
-      size.height * 0.9, 
-      size.width * 0.75, 
-      size.height
-    );
-    
-    // Bottom edge
-    path.lineTo(0, size.height);
-    
-    // Close the path
-    path.close();
-    
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

@@ -26,6 +26,32 @@ class DatePickerWidget extends StatefulWidget {
     this.initialDatePickerMode = DatePickerMode.day,
   });
 
+  /// Creates DatePickerWidget from configuration map with validation
+  DatePickerWidget.fromConfig(Map<String, dynamic> config, {super.key})
+    : questionId = config['questionId'] ?? 
+        (throw ArgumentError('DatePickerWidget: questionId is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      title = config['title'] ?? 
+        (throw ArgumentError('DatePickerWidget: title is required. Question ID: ${config['questionId'] ?? 'missing'}')),
+      subtitle = config['subtitle'] as String?,
+      currentValue = config['currentValue'] as DateTime?,
+      onAnswerChanged = config['onAnswerChanged'] ?? 
+        (throw ArgumentError('DatePickerWidget: onAnswerChanged is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      isRequired = config['isRequired'] as bool? ?? true,
+      minDate = config['minDate'] as DateTime?,
+      maxDate = config['maxDate'] as DateTime?,
+      placeholder = config['placeholder'] as String?,
+      initialDatePickerMode = _parseDatePickerMode(config['initialDatePickerMode'] as String?) ?? DatePickerMode.day;
+
+  /// Helper to parse DatePickerMode from string
+  static DatePickerMode? _parseDatePickerMode(String? value) {
+    if (value == null) return null;
+    switch (value) {
+      case 'day': return DatePickerMode.day;
+      case 'year': return DatePickerMode.year;
+      default: return DatePickerMode.day;
+    }
+  }
+
   @override
   State<DatePickerWidget> createState() => _DatePickerWidgetState();
 }

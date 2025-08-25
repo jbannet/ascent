@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'enum_question_type.dart';
 import 'question_option.dart';
-import 'question_validation.dart';
 import 'question_condition.dart';
+import '../../widgets/onboarding/question_input/factory_question_inputs.dart';
 
 /// Represents a single question in the onboarding flow.
 /// 
@@ -15,7 +16,6 @@ import 'question_condition.dart';
 /// - Serialize to/from JSON for storage and configuration
 /// 
 /// Used by:
-/// - [QuestionSection] to group related questions
 /// - [OnboardingProvider] to display questions and navigate between them
 /// - UI widgets to render the appropriate input control
 /// - Answer validation to ensure valid user input
@@ -39,39 +39,14 @@ import 'question_condition.dart';
 /// }
 /// ```
 class Question {
-  /// Unique identifier for this question.
-  /// Used to store and retrieve answers, and reference in conditions.
-  /// Example: "age", "fitness_goals", "workout_location"
-  final String id;
-  
-  /// The question text displayed to the user.
-  /// Should be clear and concise.
-  /// Example: "What are your fitness goals?"
-  final String question;
-  
-  /// Section this question belongs to.
-  /// Used for grouping and organizing questions.
-  /// Example: "personal_info", "fitness_goals", "preferences"
-  final String section;
-  
-  /// The type of input control to display.
-  /// Determines which UI widget is rendered (text field, radio buttons, etc.).
-  final EnumQuestionType type;
-  
-  /// Available choices for single/multiple choice questions.
-  /// Only required when type is singleChoice or multipleChoice.
-  /// Null for other question types.
-  final List<QuestionOption>? options;
-  
-  /// Validation rules that the answer must satisfy.
-  /// Defines requirements like min/max values, required fields, etc.
-  /// Null means no validation (answer is always valid).
-  final QuestionValidation? validation;
-  
-  /// Conditional display logic based on previous answers.
-  /// If set, this question only shows when the condition evaluates to true.
-  /// Null means question always shows (no conditions).
-  final QuestionCondition? condition;
+  final String id; // Unique identifier used for answers and conditions
+  final String question; // Question text displayed to user
+  final String section; // Section for grouping questions
+  final EnumQuestionType type; // Input control type (text, slider, etc.)
+  final List<QuestionOption>? options; // Choices for single/multiple choice questions
+  final QuestionCondition? condition; // Display condition based on previous answers
+  final String? subtitle; // Additional context text under question
+  final Map<String, dynamic>? answerConfigurationSettings; // Widget-specific configuration parameters
 
   Question({
     required this.id,
@@ -79,8 +54,9 @@ class Question {
     required this.section,
     required this.type,
     this.options,
-    this.validation,
     this.condition,
+    this.subtitle,
+    this.answerConfigurationSettings,
   });
 
   /// Creates a question from a JSON configuration.
@@ -98,37 +74,14 @@ class Question {
               .map((o) => QuestionOption.fromJson(o))
               .toList()
           : null,
-      validation: json['validation'] != null
-          ? QuestionValidation.fromJson(json['validation'])
-          : null,
       condition: json['condition'] != null
           ? QuestionCondition.fromJson(json['condition'])
           : null,
+      subtitle: json['subtitle'] as String?,
+      answerConfigurationSettings: json['config'] as Map<String, dynamic>?,
     );
   }
 
-  /// Converts this question to a JSON-compatible map.
-  /// 
-  /// Used for debugging, logging, or saving question configurations.
-  /// Only includes non-null optional fields to keep JSON clean.
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> result = {
-      'id': id,
-      'question': question,
-      'section': section,
-      'type': type.toJson(),
-    };
-    if (options != null) {
-      result['options'] = options!.map((o) => o.toJson()).toList();
-    }
-    if (validation != null) {
-      result['validation'] = validation!.toJson();
-    }
-    if (condition != null) {
-      result['condition'] = condition!.toJson();
-    }
-    return result;
-  }
 
   /// Determines if this question should be displayed to the user.
   /// 
@@ -161,7 +114,6 @@ class Question {
   /// 
   /// This method is called by:
   /// - [OnboardingProvider] when navigating to next/previous questions
-  /// - [QuestionSection.getVisibleQuestions()] to filter question lists
   /// - Progress calculation to count only visible questions
   bool shouldShow(Map<String, dynamic> answers) {
     // Questions without conditions always show
@@ -172,5 +124,20 @@ class Question {
     
     // Use the condition's evaluate method to check if it's met
     return condition!.evaluate(answer);
+  }
+
+  /// Builds the appropriate answer widget for this question.
+  /// 
+  /// This method encapsulates the question's responsibility for creating
+  /// its own input widget based on its type and configuration.
+  Widget buildAnswerWidget({
+    required Map<String, dynamic> currentAnswers,
+    required Function(String, dynamic) onAnswerChanged,
+  }) {
+    return FactoryQuestionInputs.createWidget(
+      question: this,
+      currentAnswers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+    );
   }
 }

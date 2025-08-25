@@ -29,26 +29,6 @@ enum EnumQuestionType {
 }
 
 extension QuestionTypeExtension on EnumQuestionType {
-  /// Converts the enum to a JSON-compatible string format.
-  /// 
-  /// Used when saving questions to JSON files or sending to Firebase.
-  /// Converts Dart naming convention (camelCase) to JSON convention (snake_case).
-  String toJson() {
-    switch (this) {
-      case EnumQuestionType.textInput:
-        return 'text_input';
-      case EnumQuestionType.numberInput:
-        return 'number_input';
-      case EnumQuestionType.singleChoice:
-        return 'single_choice';
-      case EnumQuestionType.multipleChoice:
-        return 'multiple_choice';
-      case EnumQuestionType.slider:
-        return 'slider';
-      case EnumQuestionType.datePicker:
-        return 'date_picker';
-    }
-  }
 
   /// Parses a JSON string value into the corresponding QuestionType enum.
   /// 

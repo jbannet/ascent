@@ -32,6 +32,27 @@ class SliderWidget extends StatefulWidget {
     this.labelFormatter,
   });
 
+  /// Creates SliderWidget from configuration map with validation
+  SliderWidget.fromConfig(Map<String, dynamic> config, {super.key})
+    : questionId = config['questionId'] ?? 
+        (throw ArgumentError('SliderWidget: questionId is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      title = config['title'] ?? 
+        (throw ArgumentError('SliderWidget: title is required. Question ID: ${config['questionId'] ?? 'missing'}')),
+      subtitle = config['subtitle'] as String?,
+      minValue = config['minValue'] ?? 
+        (throw ArgumentError('SliderWidget: minValue is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      maxValue = config['maxValue'] ?? 
+        (throw ArgumentError('SliderWidget: maxValue is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      currentValue = config['currentValue'] as double?,
+      onAnswerChanged = config['onAnswerChanged'] ?? 
+        (throw ArgumentError('SliderWidget: onAnswerChanged is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      isRequired = config['isRequired'] as bool? ?? true,
+      divisions = config['divisions'] as int?,
+      unit = config['unit'] as String?,
+      showValue = config['showValue'] as bool? ?? true,
+      step = config['step'] as double?,
+      labelFormatter = config['labelFormatter'] as String Function(double)?;
+
   @override
   State<SliderWidget> createState() => _SliderWidgetState();
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../theme/general_widgets/buttons/universal_text_button.dart';
 
 class RankingOption {
   final String id;
@@ -425,7 +426,7 @@ class _RankingWidgetState extends State<RankingWidget> {
             ],
           ),
           actions: [
-            TextButton(
+            UniversalTextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: const Text('Cancel'),
             ),

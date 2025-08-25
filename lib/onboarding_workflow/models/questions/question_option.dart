@@ -7,7 +7,8 @@
 /// ```dart
 /// QuestionOption(
 ///   value: 'lose_weight',      // Stored in database
-///   label: 'Lose weight'        // Shown to user
+///   label: 'Lose weight',      // Shown to user
+///   description: 'Focus on reducing body weight through diet and exercise'
 /// )
 /// ```
 /// 
@@ -25,9 +26,14 @@ class QuestionOption {
   /// This can be changed without affecting stored answers (e.g., 'Lose weight').
   final String label;
 
+  /// Optional detailed description or explanation of this option.
+  /// Displayed as secondary text under the label to provide additional context.
+  final String? description;
+
   QuestionOption({
     required this.value,
     required this.label,
+    this.description,
   });
 
   /// Creates a QuestionOption from a JSON map.
@@ -36,7 +42,8 @@ class QuestionOption {
   /// ```json
   /// {
   ///   "value": "lose_weight",
-  ///   "label": "Lose weight"
+  ///   "label": "Lose weight",
+  ///   "description": "Focus on reducing body weight through diet and exercise"
   /// }
   /// ```
   /// 
@@ -45,16 +52,8 @@ class QuestionOption {
     return QuestionOption(
       value: json['value'] as String,
       label: json['label'] as String,
+      description: json['description'] as String?,
     );
   }
 
-  /// Converts this option to a JSON-compatible map.
-  /// 
-  /// Used when saving questions to JSON or sending to Firebase.
-  Map<String, dynamic> toJson() {
-    return {
-      'value': value,
-      'label': label,
-    };
-  }
 }

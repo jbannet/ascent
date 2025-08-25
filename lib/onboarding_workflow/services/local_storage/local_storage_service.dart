@@ -19,9 +19,9 @@ class LocalStorageService {
   }
   
   /// Save questions to questionBox
-  static Future<void> saveQuestions(QuestionList pQuestionList) async {
+  static Future<void> saveQuestions(Map<String, dynamic> questionsJson) async {
     final Box questionBox = await Hive.openBox(AppConstants.questionBoxName);
-    await questionBox.put(AppConstants.questionsStorageKey, pQuestionList.toJson());
+    await questionBox.put(AppConstants.questionsStorageKey, questionsJson);
   }
 
   /// Get question version from questionBox

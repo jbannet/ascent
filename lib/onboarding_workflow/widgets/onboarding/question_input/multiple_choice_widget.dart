@@ -38,6 +38,22 @@ class MultipleChoiceWidget extends StatefulWidget {
     this.minSelections,
   });
 
+  /// Creates MultipleChoiceWidget from configuration map with validation
+  MultipleChoiceWidget.fromConfig(Map<String, dynamic> config, {super.key})
+    : questionId = config['questionId'] ?? 
+        (throw ArgumentError('MultipleChoiceWidget: questionId is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      title = config['title'] ?? 
+        (throw ArgumentError('MultipleChoiceWidget: title is required. Question ID: ${config['questionId'] ?? 'missing'}')),
+      subtitle = config['subtitle'] as String?,
+      options = config['options'] ?? 
+        (throw ArgumentError('MultipleChoiceWidget: options is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      selectedValues = config['selectedValues'] as List<String>?,
+      onAnswerChanged = config['onAnswerChanged'] ?? 
+        (throw ArgumentError('MultipleChoiceWidget: onAnswerChanged is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      isRequired = config['isRequired'] as bool? ?? true,
+      maxSelections = config['maxSelections'] as int?,
+      minSelections = config['minSelections'] as int?;
+
   @override
   State<MultipleChoiceWidget> createState() => _MultipleChoiceWidgetState();
 }
