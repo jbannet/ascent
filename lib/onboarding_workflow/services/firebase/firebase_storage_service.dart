@@ -10,7 +10,7 @@ class FirebaseStorageService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   
   /// Load questions from Firebase
-  static Future<QuestionList> loadQuestions(QuestionList localQuestionList, int firebaseQuestionVersion) async {
+  static Future<QuestionList> loadQuestions(QuestionList localQuestionList, double firebaseQuestionVersion) async {
       final DocumentSnapshot questionsDoc = await _firestore
           .collection(AppConstants.onboardingCollectionName)
           .doc(AppConstants.questionsDocumentName)
@@ -28,18 +28,19 @@ class FirebaseStorageService {
     
   }
   /// Get question version from Firebase
-  static Future<int> getQuestionVersion() async {
+  static Future<double> getQuestionVersion() async {
     final DocumentSnapshot questionsDoc = await _firestore
         .collection(AppConstants.onboardingCollectionName)
         .doc(AppConstants.questionsDocumentName)
         .get();
     
     if (!questionsDoc.exists || questionsDoc.data() == null) {
-      return 0;
+      return 0.0;
     }
     
     final Map<String, dynamic> questionsData = questionsDoc.data() as Map<String, dynamic>;
-    return questionsData['version'] as int? ?? 0;
+    final String versionStr = questionsData['version'] as String;
+    return double.tryParse(versionStr) ?? 0.0;
   }
   
   /// Load answers from Firebase for current user

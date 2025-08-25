@@ -26,7 +26,7 @@ class OnboardingProvider extends ChangeNotifier {
     // load questions and answers from local storage
     // this should return an empty object if nothing saved yet
     final QuestionList localQuestionList = await LocalStorageService.loadQuestions();
-    final int questionVersion = await LocalStorageService.getQuestionVersion(); //0 if none saved
+    final double questionVersion = await LocalStorageService.getQuestionVersion(); //0.0 if none saved
     final OnboardingAnswers localAnswers = await LocalStorageService.loadAnswers();
    
     // There should be a default question list stored at app signup the first time.
@@ -35,7 +35,7 @@ class OnboardingProvider extends ChangeNotifier {
       //TODO: Handle this error more gracefully and get from Firebase
     }
 
-    int firebaseQuestionVersion = await FirebaseStorageService.getQuestionVersion();
+    double firebaseQuestionVersion = await FirebaseStorageService.getQuestionVersion();
 
     // Update questions if Firebase has a newer version
     if (questionVersion < firebaseQuestionVersion) {
@@ -61,20 +61,20 @@ class OnboardingProvider extends ChangeNotifier {
   }
 
 //MARK: STORAGE
-  Future<void> saveAnswersIncomplete() async {
-    // Save to local storage
+  // Save to local storage
+  Future<void> saveAnswersIncomplete() async {    
     await LocalStorageService.saveAnswers(_onboardingAnswers);
   }
 
+  // Save to Firebase and Local Storage
   Future<void> saveAnswersComplete() async {
-    // Save to Firebase and Local Storage
     await FirebaseStorageService.saveAnswers(_onboardingAnswers);
     await LocalStorageService.saveAnswers(_onboardingAnswers);
   }
 
   // Update answer for a specific question
   void updateQuestionAnswer(String questionId, dynamic answerValue) {
-    _onboardingAnswers = _onboardingAnswers.withAnswer(questionId, answerValue);
+    _onboardingAnswers.setAnswer(questionId, answerValue);
     notifyListeners();
   }
 
@@ -92,9 +92,12 @@ class OnboardingProvider extends ChangeNotifier {
     return questionCount == 0 ? 0 : (answerCount / questionCount) * 100;
   }
   
-  // Navigate to next question
+  // Navigate to next question and save answers to disk
   void nextQuestion() {
     if (!_questionList.isInitialized) return;
+    
+    // Save current progress before navigating
+    saveAnswersIncomplete();
     
     if (_currentQuestionNumber < _questionList.length - 1) {
       _currentQuestionNumber++;
@@ -106,9 +109,11 @@ class OnboardingProvider extends ChangeNotifier {
     notifyListeners();
   }
   
-  // Navigate to previous question
+  // Navigate to previous question and save answer to disk
   void prevQuestion() {
     if (_currentQuestionNumber > 0) {
+      // Save current progress before navigating
+      saveAnswersIncomplete();
       _currentQuestionNumber--;
       notifyListeners();
     }

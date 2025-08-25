@@ -1,23 +1,21 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import 'firebase_options.dart';
 import 'theme/app_theme.dart';
 import 'onboarding_workflow/providers/onboarding_provider.dart';
 import 'onboarding_workflow/views/onboarding_survey_container.dart';
-import 'onboarding_workflow/services/load_configuration/question_configuration_service.dart';
 import 'onboarding_workflow/services/local_storage/local_storage_service.dart';
+import 'onboarding_workflow/services/firebase/firebase_client.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  
+  await FirebaseClient.initialize();
   await Hive.initFlutter();
   await _initializeQuestionsIfNeeded();
+  
   runApp(
     MultiProvider(
       providers: [
@@ -56,21 +54,19 @@ Future<void> _initializeQuestionsIfNeeded() async {
     
     // If no questions exist locally, load from assets and save
     if (!existingQuestions.isInitialized) {
-      final initialQuestions = await QuestionConfigurationService.loadInitialQuestions();
+      // Load JSON directly from assets and save to Hive
+      final String jsonString = await rootBundle.loadString(
+        'lib/onboarding_workflow/config/initial_questions.json'
+      );
       
-      if (initialQuestions.isInitialized) {
-        // Save questions to local storage
-        // We need to convert back to JSON format for the existing saveQuestions method
-        final String jsonString = await rootBundle.loadString(
-          'lib/onboarding_workflow/config/initial_questions.json'
-        );
-        final Map<String, dynamic> jsonData = json.decode(jsonString);
-        await LocalStorageService.saveQuestions(jsonData);
-      }
+      final dynamic decoded = json.decode(jsonString);
+      final Map<String, dynamic> jsonData = Map<String, dynamic>.from(decoded as Map);
+      
+      await LocalStorageService.saveQuestions(jsonData);
     }
   } catch (e) {
-    // Log error but don't prevent app from starting
-    debugPrint('Failed to initialize questions: $e');
+    // Re-throw to see the actual error during development
+    rethrow;
   }
 }
 

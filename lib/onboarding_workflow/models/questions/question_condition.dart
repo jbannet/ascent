@@ -52,7 +52,7 @@ class QuestionCondition {
   /// Used when loading questions from JSON configuration.
   factory QuestionCondition.fromJson(Map<String, dynamic> json) {
     return QuestionCondition(
-      questionId: json['question_id'] as String,
+      questionId: json['questionId'] as String,
       operator: json['operator'] as String,
       value: json['value'],
     );

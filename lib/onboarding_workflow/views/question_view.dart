@@ -18,12 +18,12 @@ class QuestionView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final primaryColor = accentColor ?? theme.colorScheme.primary;
-    final provider = context.read<OnboardingProvider>();
+    final provider = context.watch<OnboardingProvider>();
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Reason Section with Purple Swoosh
+        //MARK: ReasonSection
         Container(
             width: double.infinity,
             margin: const EdgeInsets.only(bottom: 24),
@@ -67,7 +67,6 @@ class QuestionView extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // "REASON:" label
                           Text(
                             'REASON:',
                             style: theme.textTheme.labelSmall?.copyWith(
@@ -96,8 +95,8 @@ class QuestionView extends StatelessWidget {
               ),
             ),
           ),
-        
-        // Question text section
+
+        //MARK: QuestionText
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
@@ -119,7 +118,7 @@ class QuestionView extends StatelessWidget {
         
         const SizedBox(height: 16),
         
-        // Answer Widget Section
+        //MARK: AnswerWidget
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
