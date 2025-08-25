@@ -73,15 +73,12 @@ class TextInputWidget extends StatefulWidget {
 
 class _TextInputWidgetState extends State<TextInputWidget> {
   late TextEditingController _controller;
-  final FocusNode _focusNode = FocusNode();
   String? _errorText;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.currentValue ?? '');
-    _controller.addListener(_onTextChanged);
-    _focusNode.addListener(_onFocusChanged);
   }
 
   @override
@@ -94,30 +91,8 @@ class _TextInputWidgetState extends State<TextInputWidget> {
 
   @override
   void dispose() {
-    _controller.removeListener(_onTextChanged);
-    _focusNode.removeListener(_onFocusChanged);
     _controller.dispose();
-    _focusNode.dispose();
     super.dispose();
-  }
-
-  void _onTextChanged() {
-    final value = _controller.text;
-    
-    // Clear error when user starts typing
-    if (_errorText != null) {
-      setState(() {
-        _errorText = null;
-      });
-    }
-    
-    widget.onAnswerChanged(widget.questionId, value);
-  }
-
-  void _onFocusChanged() {
-    if (!_focusNode.hasFocus) {
-      _validateInput();
-    }
   }
 
   void _validateInput() {
@@ -198,7 +173,6 @@ class _TextInputWidgetState extends State<TextInputWidget> {
         // Text Input Field
         TextFormField(
           controller: _controller,
-          focusNode: _focusNode,
           keyboardType: widget.keyboardType ?? 
               (widget.multiline ? TextInputType.multiline : TextInputType.text),
           inputFormatters: widget.inputFormatters,
@@ -252,6 +226,16 @@ class _TextInputWidgetState extends State<TextInputWidget> {
           style: theme.textTheme.bodyLarge?.copyWith(
             color: theme.colorScheme.onSurface,
           ),
+          onChanged: (value) {
+            // Clear error when user starts typing
+            if (_errorText != null) {
+              setState(() {
+                _errorText = null;
+              });
+            }
+            
+            widget.onAnswerChanged(widget.questionId, value);
+          },
           onFieldSubmitted: (_) => _validateInput(),
         ),
         

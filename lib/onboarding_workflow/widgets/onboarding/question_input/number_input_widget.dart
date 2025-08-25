@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../general_utilities/num_formatter.dart';
 
 class NumberInputWidget extends StatefulWidget {
   final String questionId;
@@ -66,7 +67,6 @@ class NumberInputWidget extends StatefulWidget {
 
 class _NumberInputWidgetState extends State<NumberInputWidget> {
   late TextEditingController _controller;
-  final FocusNode _focusNode = FocusNode();
   String? _errorText;
   String? _currentUnit;
 
@@ -75,17 +75,19 @@ class _NumberInputWidgetState extends State<NumberInputWidget> {
     super.initState();
     _currentUnit = widget.selectedUnit ?? widget.unitOptions?.first ?? widget.unit;
     _controller = TextEditingController(
-      text: widget.currentValue?.toString() ?? '',
+      text: widget.currentValue != null 
+          ? formatWithNPlaces(widget.currentValue!, widget.allowDecimals ? (widget.decimalPlaces ?? 2) : 0)
+          : '',
     );
-    _controller.addListener(_onTextChanged);
-    _focusNode.addListener(_onFocusChanged);
   }
 
   @override
   void didUpdateWidget(NumberInputWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.currentValue != oldWidget.currentValue) {
-      _controller.text = widget.currentValue?.toString() ?? '';
+      _controller.text = widget.currentValue != null 
+          ? formatWithNPlaces(widget.currentValue!, widget.allowDecimals ? (widget.decimalPlaces ?? 2) : 0)
+          : '';
     }
     if (widget.selectedUnit != oldWidget.selectedUnit) {
       _currentUnit = widget.selectedUnit ?? widget.unitOptions?.first ?? widget.unit;
@@ -94,36 +96,8 @@ class _NumberInputWidgetState extends State<NumberInputWidget> {
 
   @override
   void dispose() {
-    _controller.removeListener(_onTextChanged);
-    _focusNode.removeListener(_onFocusChanged);
     _controller.dispose();
-    _focusNode.dispose();
     super.dispose();
-  }
-
-  void _onTextChanged() {
-    final text = _controller.text;
-    
-    // Clear error when user starts typing
-    if (_errorText != null) {
-      setState(() {
-        _errorText = null;
-      });
-    }
-    
-    // Parse and validate number
-    if (text.isNotEmpty) {
-      final number = double.tryParse(text);
-      if (number != null) {
-        widget.onAnswerChanged(widget.questionId, number);
-      }
-    }
-  }
-
-  void _onFocusChanged() {
-    if (!_focusNode.hasFocus) {
-      _validateInput();
-    }
   }
 
   void _validateInput() {
@@ -234,7 +208,6 @@ class _NumberInputWidgetState extends State<NumberInputWidget> {
             Expanded(
               child: TextFormField(
                 controller: _controller,
-                focusNode: _focusNode,
                 keyboardType: widget.allowDecimals 
                     ? const TextInputType.numberWithOptions(decimal: true)
                     : TextInputType.number,
@@ -289,6 +262,20 @@ class _NumberInputWidgetState extends State<NumberInputWidget> {
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: theme.colorScheme.onSurface,
                 ),
+                onChanged: (text) {
+                  // Clear error when user starts typing
+                  if (_errorText != null) {
+                    setState(() {
+                      _errorText = null;
+                    });
+                  }
+                  
+                  // Parse and validate the number
+                  final number = double.tryParse(text);
+                  if (number != null) {
+                    widget.onAnswerChanged(widget.questionId, number);
+                  }
+                },
                 onFieldSubmitted: (_) => _validateInput(),
               ),
             ),
