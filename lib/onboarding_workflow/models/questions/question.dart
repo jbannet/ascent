@@ -46,6 +46,7 @@ class Question {
   final List<QuestionOption>? options; // Choices for single/multiple choice questions
   final QuestionCondition? condition; // Display condition based on previous answers
   final String? subtitle; // Additional context text under question
+  final String? reason; // Optional reason/context displayed in the reason section
   final Map<String, dynamic>? answerConfigurationSettings; // Widget-specific configuration parameters
 
   Question({
@@ -56,6 +57,7 @@ class Question {
     this.options,
     this.condition,
     this.subtitle,
+    this.reason,
     this.answerConfigurationSettings,
   });
 
@@ -78,6 +80,7 @@ class Question {
           ? QuestionCondition.fromJson(json['condition'])
           : null,
       subtitle: json['subtitle'] as String?,
+      reason: json['reason'] as String?,
       answerConfigurationSettings: json['config'] as Map<String, dynamic>?,
     );
   }

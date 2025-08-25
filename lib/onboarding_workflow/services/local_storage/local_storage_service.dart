@@ -6,6 +6,7 @@ import '../../../constants.dart';
 /// Service for managing local storage of onboarding data using Hive database
 class LocalStorageService {
   
+  // ignore: unintended_html_in_doc_comment
   /// Recursively convert Hive's _Map<dynamic, dynamic> to Map<String, dynamic>
   static dynamic _castToStringValueMap(dynamic input) {
     if (input is Map) {

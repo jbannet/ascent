@@ -62,33 +62,18 @@ class QuestionView extends StatelessWidget {
                       ),
                     ),
                     
-                    // Reason content
+                    // Reason content (if provided) or empty space
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'REASON:',
-                            style: theme.textTheme.labelSmall?.copyWith(
+                      child: question.reason != null 
+                        ? Text(
+                            question.reason!,
+                            style: theme.textTheme.headlineSmall?.copyWith(
                               color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1.2,
+                              fontWeight: FontWeight.w600,
+                              height: 1.3,
                             ),
-                          ),
-                          
-                          const SizedBox(height: 6),
-                          
-                          // Explanation text
-                          Text(
-                            question.section.replaceAll('_', ' ').toUpperCase(),
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              height: 1.4,
-                            ),
-                          ),
-                        ],
-                      ),
+                          )
+                        : const SizedBox(),
                     ),
                   ],
                 ),
@@ -97,22 +82,11 @@ class QuestionView extends StatelessWidget {
           ),
 
         //MARK: QuestionText
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: primaryColor.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: primaryColor.withValues(alpha: 0.3),
-              width: 1,
-            ),
-          ),
-          child: Text(
-            question.question,
-            style: theme.textTheme.labelMedium?.copyWith(
-              color: primaryColor,
-              fontWeight: FontWeight.w600,
-            ),
+        Text(
+          question.question,
+          style: theme.textTheme.headlineMedium?.copyWith(
+            color: theme.colorScheme.onSurface,
+            fontWeight: FontWeight.w600,
           ),
         ),
         

@@ -155,28 +155,18 @@ class _TextInputWidgetState extends State<TextInputWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Question Title
-        Text(
-          widget.title,
-          style: theme.textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: theme.colorScheme.onSurface,
-          ),
-        ),
-        
         // Subtitle if provided
         if (widget.subtitle != null) ...[
-          const SizedBox(height: 8),
           Text(
             widget.subtitle!,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
             ),
           ),
+          const SizedBox(height: 8),
         ],
         
         // Required indicator and character count
-        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
