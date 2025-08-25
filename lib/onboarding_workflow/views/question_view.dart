@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/questions/question.dart';
+import '../providers/onboarding_provider.dart';
 import '../../theme/general_widgets/swoosh_clipper.dart';
 
-class SingleQuestionView extends StatelessWidget {
+class QuestionView extends StatelessWidget {
   final Question question;
-  final Widget answerWidget;
   final Color? accentColor;
 
-  const SingleQuestionView({
+  const QuestionView({
     super.key,
     required this.question,
-    required this.answerWidget,
     this.accentColor,
   });
 
@@ -18,6 +18,7 @@ class SingleQuestionView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final primaryColor = accentColor ?? theme.colorScheme.primary;
+    final provider = context.read<OnboardingProvider>();
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +130,10 @@ class SingleQuestionView extends StatelessWidget {
             ),
           ),
           padding: const EdgeInsets.all(20),
-          child: answerWidget,
+          child: question.buildAnswerWidget(
+            currentAnswers: {question.id: provider.onboardingAnswers.getAnswer(question.id)},
+            onAnswerChanged: (questionId, value) => provider.updateQuestionAnswer(questionId, value),
+          ),
         ),
       ],
     );

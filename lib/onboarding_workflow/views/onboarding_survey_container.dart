@@ -4,7 +4,7 @@ import '../providers/onboarding_provider.dart';
 import '../widgets/onboarding/onboarding_progress_bar.dart';
 import '../../theme/general_widgets/buttons/universal_elevated_button.dart';
 import '../../theme/general_widgets/buttons/universal_outlined_button.dart';
-import 'single_question_view.dart';
+import 'question_view.dart';
 
 class OnboardingSurveyContainer extends StatelessWidget {
   final VoidCallback? onComplete;
@@ -59,9 +59,8 @@ class OnboardingSurveyContainer extends StatelessWidget {
     
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
-      child: SingleQuestionView(
+      child: QuestionView(
         question: currentQuestion,
-        answerWidget: Text('Answer widget placeholder for ${currentQuestion.type.name}'),
       ),
     );
   }
@@ -100,5 +99,4 @@ class OnboardingSurveyContainer extends StatelessWidget {
       ),
     );
   }
-
 }
