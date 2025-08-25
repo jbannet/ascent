@@ -37,10 +37,24 @@ class DatePickerWidget extends StatefulWidget {
       onAnswerChanged = config['onAnswerChanged'] ?? 
         (throw ArgumentError('DatePickerWidget: onAnswerChanged is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
       isRequired = config['isRequired'] as bool? ?? true,
-      minDate = config['minDate'] as DateTime?,
-      maxDate = config['maxDate'] as DateTime?,
+      minDate = _parseDate(config['minDate']),
+      maxDate = _parseDate(config['maxDate']),
       placeholder = config['placeholder'] as String?,
       initialDatePickerMode = _parseDatePickerMode(config['initialDatePickerMode'] as String?) ?? DatePickerMode.day;
+
+  /// Helper to parse date from string
+  static DateTime? _parseDate(dynamic value) {
+    if (value == null) return null;
+    if (value is DateTime) return value;
+    if (value is String) {
+      try {
+        return DateTime.parse(value);
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  }
 
   /// Helper to parse DatePickerMode from string
   static DatePickerMode? _parseDatePickerMode(String? value) {

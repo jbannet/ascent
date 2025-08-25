@@ -56,8 +56,6 @@ class OnboardingProvider extends ChangeNotifier {
       _onboardingAnswers = OnboardingAnswers.empty();
       await LocalStorageService.saveAnswers(_onboardingAnswers);
     }
-    
-    notifyListeners();
   }
 
 //MARK: STORAGE
