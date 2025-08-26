@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'theme/app_theme.dart';
 import 'onboarding_workflow/providers/onboarding_provider.dart';
 import 'onboarding_workflow/views/onboarding_survey_container.dart';
-import 'onboarding_workflow/services/firebase/firebase_client.dart';
-import 'onboarding_workflow/services/load_configuration/question_configuration_service.dart';
+import 'services/firebase/firebase_client.dart';
+import 'services/load_configuration/question_configuration_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

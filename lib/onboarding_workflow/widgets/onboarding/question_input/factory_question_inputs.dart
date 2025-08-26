@@ -31,34 +31,18 @@ class FactoryQuestionInputs {
       ...?question.answerConfigurationSettings,
     };
     
-    // Add processed options for choice widgets (only conversion needed)
+    // Add options directly for choice widgets
     if (question.options != null) {
-      switch (question.type) {
-        case EnumQuestionType.singleChoice:
-          config['options'] = question.options!.map((option) => SingleChoiceOption(
-            id: option.value,
-            label: option.label,
-            description: option.description,
-            value: option.value,
-          )).toList();
-          break;
-        case EnumQuestionType.multipleChoice:
-          config['options'] = question.options!.map((option) => MultipleChoiceOption(
-            id: option.value,
-            label: option.label,
-            description: option.description,
-            value: option.value,
-          )).toList();
-          // Handle multiple selected values
-          final currentValue = currentAnswers[question.id];
-          if (currentValue is List) {
-            config['selectedValues'] = currentValue.cast<String>();
-          } else if (currentValue is String) {
-            config['selectedValues'] = [currentValue];
-          }
-          break;
-        default:
-          break;
+      config['options'] = question.options;
+      
+      // Handle multiple selected values for multiple choice widgets
+      if (question.type == EnumQuestionType.multipleChoice) {
+        final currentValue = currentAnswers[question.id];
+        if (currentValue is List) {
+          config['selectedValues'] = currentValue.cast<String>();
+        } else if (currentValue is String) {
+          config['selectedValues'] = [currentValue];
+        }
       }
     }
     

@@ -174,30 +174,14 @@ class _NumberInputWidgetState extends State<NumberInputWidget> {
           const SizedBox(height: 8),
         ],
         
-        // Required indicator and range info
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (widget.isRequired)
-              Text(
-                '* Required',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.error,
-                  fontStyle: FontStyle.italic,
-                ),
-              )
-            else
-              const SizedBox.shrink(),
-            
-            if (widget.minValue != null || widget.maxValue != null)
-              Text(
-                _buildRangeText(),
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                ),
-              ),
-          ],
-        ),
+        // Range info
+        if (widget.minValue != null || widget.maxValue != null)
+          Text(
+            _buildRangeText(),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+            ),
+          ),
         
         const SizedBox(height: 16),
         

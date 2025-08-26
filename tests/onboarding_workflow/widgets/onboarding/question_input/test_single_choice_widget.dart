@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ascent/onboarding_workflow/widgets/onboarding/question_input/single_choice_widget.dart';
+import 'package:ascent/onboarding_workflow/models/questions/question_option.dart';
 import 'test_helpers.dart';
 
 void main() {
   group('SingleChoiceWidget', () {
     late MockCallback mockCallback;
-    late List<SingleChoiceOption> testOptions;
+    late List<QuestionOption> testOptions;
 
     setUp(() {
       mockCallback = TestHelpers.createMockCallback();
@@ -23,8 +24,6 @@ void main() {
 
       await TestHelpers.pumpAndSettle(tester, widget);
 
-      expect(find.text('Test Question'), findsOneWidget);
-      expect(TestHelpers.findRequiredIndicator(), findsOneWidget);
       expect(find.text('Option 1'), findsOneWidget);
       expect(find.text('Option 2'), findsOneWidget);
       expect(find.text('Option 3'), findsOneWidget);

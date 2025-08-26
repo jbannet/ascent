@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ascent/onboarding_workflow/widgets/onboarding/question_input/single_choice_widget.dart';
-import 'package:ascent/onboarding_workflow/widgets/onboarding/question_input/multiple_choice_widget.dart';
+import 'package:ascent/onboarding_workflow/models/questions/question_option.dart';
+import 'package:ascent/onboarding_workflow/widgets/onboarding/question_input/ranking_widget.dart';
 
 /// Test helpers for question input widgets
 class TestHelpers {
@@ -9,7 +9,7 @@ class TestHelpers {
   static Widget createTestApp({required Widget child}) {
     return MaterialApp(
       home: Scaffold(
-        body: Padding(
+        body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: child,
         ),
@@ -23,22 +23,19 @@ class TestHelpers {
   }
 
   /// Creates sample single choice options for testing
-  static List<SingleChoiceOption> createSingleChoiceOptions() {
+  static List<QuestionOption> createSingleChoiceOptions() {
     return [
-      const SingleChoiceOption(
-        id: 'option1',
+      QuestionOption(
         label: 'Option 1',
         description: 'First option description',
         value: 'value1',
       ),
-      const SingleChoiceOption(
-        id: 'option2',
+      QuestionOption(
         label: 'Option 2',
         description: 'Second option description',
         value: 'value2',
       ),
-      const SingleChoiceOption(
-        id: 'option3',
+      QuestionOption(
         label: 'Option 3',
         value: 'value3',
       ),
@@ -46,21 +43,41 @@ class TestHelpers {
   }
 
   /// Creates sample multiple choice options for testing
-  static List<MultipleChoiceOption> createMultipleChoiceOptions() {
+  static List<QuestionOption> createMultipleChoiceOptions() {
     return [
-      const MultipleChoiceOption(
+      QuestionOption(
+        label: 'Option 1',
+        description: 'First option description',
+        value: 'value1',
+      ),
+      QuestionOption(
+        label: 'Option 2',
+        description: 'Second option description',
+        value: 'value2',
+      ),
+      QuestionOption(
+        label: 'Option 3',
+        value: 'value3',
+      ),
+    ];
+  }
+
+  /// Creates sample ranking options for testing
+  static List<RankingOption> createRankingOptions() {
+    return [
+      const RankingOption(
         id: 'option1',
         label: 'Option 1',
         description: 'First option description',
         value: 'value1',
       ),
-      const MultipleChoiceOption(
+      const RankingOption(
         id: 'option2',
         label: 'Option 2',
         description: 'Second option description',
         value: 'value2',
       ),
-      const MultipleChoiceOption(
+      const RankingOption(
         id: 'option3',
         label: 'Option 3',
         value: 'value3',
@@ -305,4 +322,55 @@ class DateCallRecord {
 
   @override
   int get hashCode => questionId.hashCode ^ value.hashCode;
+}
+
+/// Mock callback class for ranking widgets that return Map<String, int>
+class MockRankingCallback {
+  final List<RankingCallRecord> calls = [];
+
+  void call(String questionId, Map<String, int> rankings) {
+    calls.add(RankingCallRecord(questionId, rankings));
+  }
+
+  /// Returns the last call made to this callback
+  RankingCallRecord? get lastCall => calls.isEmpty ? null : calls.last;
+
+  /// Returns the number of times this callback was called
+  int get callCount => calls.length;
+
+  /// Clears all recorded calls
+  void reset() {
+    calls.clear();
+  }
+
+  /// Verifies that the callback was called with specific parameters
+  bool wasCalledWith(String questionId, Map<String, int> rankings) {
+    return calls.any((call) => 
+        call.questionId == questionId && 
+        call.rankings.length == rankings.length &&
+        call.rankings.keys.every((key) => rankings.containsKey(key) && rankings[key] == call.rankings[key]));
+  }
+}
+
+/// Record of a ranking callback call
+class RankingCallRecord {
+  final String questionId;
+  final Map<String, int> rankings;
+
+  RankingCallRecord(this.questionId, this.rankings);
+
+  @override
+  String toString() => 'RankingCallRecord(questionId: $questionId, rankings: $rankings)';
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RankingCallRecord &&
+          runtimeType == other.runtimeType &&
+          questionId == other.questionId &&
+          rankings.length == other.rankings.length &&
+          rankings.keys.every((key) => other.rankings.containsKey(key) && other.rankings[key] == rankings[key]);
+
+  @override
+  int get hashCode => questionId.hashCode ^ rankings.hashCode;
 }

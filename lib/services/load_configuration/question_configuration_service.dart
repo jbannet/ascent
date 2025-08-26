@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'dart:convert';
-import '../../models/questions/question_list.dart';
+import '../../onboarding_workflow/models/questions/question_list.dart';
 import '../local_storage/local_storage_service.dart';
 
 /// Service for loading onboarding question configuration from JSON assets

@@ -141,32 +141,19 @@ class _TextInputWidgetState extends State<TextInputWidget> {
           const SizedBox(height: 8),
         ],
         
-        // Required indicator and character count
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (widget.isRequired)
-              Text(
-                '* Required',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.error,
-                  fontStyle: FontStyle.italic,
-                ),
-              )
-            else
-              const SizedBox.shrink(),
-            
-            if (widget.maxLength != null)
-              Text(
-                '${_controller.text.length}/${widget.maxLength}',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: _controller.text.length > widget.maxLength! 
-                      ? theme.colorScheme.error
-                      : theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                ),
+        // Character count
+        if (widget.maxLength != null)
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              '${_controller.text.length}/${widget.maxLength}',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: _controller.text.length > widget.maxLength! 
+                    ? theme.colorScheme.error
+                    : theme.colorScheme.onSurface.withValues(alpha: 0.6),
               ),
-          ],
-        ),
+            ),
+          ),
         
         const SizedBox(height: 16),
         

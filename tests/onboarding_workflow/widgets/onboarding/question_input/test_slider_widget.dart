@@ -22,8 +22,6 @@ void main() {
 
       await TestHelpers.pumpAndSettle(tester, widget);
 
-      expect(find.text('Test Question'), findsOneWidget);
-      expect(TestHelpers.findRequiredIndicator(), findsOneWidget);
       expect(find.text('Range: 0 - 10'), findsOneWidget);
       expect(find.byType(Slider), findsOneWidget);
     });

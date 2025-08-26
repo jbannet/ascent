@@ -1,24 +1,11 @@
 import 'package:flutter/material.dart';
-
-class MultipleChoiceOption {
-  final String id;
-  final String label;
-  final String? description;
-  final dynamic value;
-
-  const MultipleChoiceOption({
-    required this.id,
-    required this.label,
-    this.description,
-    required this.value,
-  });
-}
+import '../../../models/questions/question_option.dart';
 
 class MultipleChoiceWidget extends StatefulWidget {
   final String questionId;
   final String title;
   final String? subtitle;
-  final List<MultipleChoiceOption> options;
+  final List<QuestionOption> options;
   final List<String>? selectedValues;
   final Function(String questionId, List<String> values) onAnswerChanged;
   final bool isRequired;
@@ -100,17 +87,6 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
     widget.onAnswerChanged(widget.questionId, _selectedValues);
   }
 
-  String _getSelectionHint() {
-    if (widget.maxSelections != null && widget.minSelections != null) {
-      return 'Select ${widget.minSelections}-${widget.maxSelections} options';
-    } else if (widget.maxSelections != null) {
-      return 'Select up to ${widget.maxSelections} options';
-    } else if (widget.minSelections != null) {
-      return 'Select at least ${widget.minSelections} options';
-    }
-    return 'Select all that apply';
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -129,28 +105,6 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
           const SizedBox(height: 8),
         ],
         
-        // Selection hint and required indicator
-        Row(
-          children: [
-            Text(
-              _getSelectionHint(),
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.primary,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            if (widget.isRequired) ...[
-              const SizedBox(width: 8),
-              Text(
-                '* Required',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.error,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-            ],
-          ],
-        ),
         
         // Selection counter
         if (widget.maxSelections != null) ...[

@@ -39,6 +39,28 @@ class RankingWidget extends StatefulWidget {
     this.allowTies = false,
   });
 
+  /// Creates RankingWidget from configuration map with validation
+  RankingWidget.fromConfig(Map<String, dynamic> config, {super.key})
+    : questionId = config['questionId'] ?? 
+        (throw ArgumentError('RankingWidget: questionId is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      title = config['title'] ?? 
+        (throw ArgumentError('RankingWidget: title is required. Question ID: ${config['questionId'] ?? 'missing'}')),
+      subtitle = config['subtitle'] as String?,
+      options = (config['options'] as List?)?.map((option) => 
+        RankingOption(
+          id: option['id'] ?? '',
+          label: option['label'] ?? '',
+          description: option['description'],
+          value: option['value'],
+        )).toList() ?? 
+        (throw ArgumentError('RankingWidget: options is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      currentRankings = config['currentRankings'] as Map<String, int>?,
+      onAnswerChanged = config['onAnswerChanged'] ?? 
+        (throw ArgumentError('RankingWidget: onAnswerChanged is required. Question: "${config['title'] ?? 'unknown'}" (ID: ${config['questionId'] ?? 'missing'})')),
+      isRequired = config['isRequired'] as bool? ?? true,
+      maxRankings = config['maxRankings'] as int? ?? 3,
+      allowTies = config['allowTies'] as bool? ?? false;
+
   @override
   State<RankingWidget> createState() => _RankingWidgetState();
 }

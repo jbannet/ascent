@@ -1,24 +1,11 @@
 import 'package:flutter/material.dart';
-
-class SingleChoiceOption {
-  final String id;
-  final String label;
-  final String? description;
-  final dynamic value;
-
-  const SingleChoiceOption({
-    required this.id,
-    required this.label,
-    this.description,
-    required this.value,
-  });
-}
+import '../../../models/questions/question_option.dart';
 
 class SingleChoiceWidget extends StatefulWidget {
   final String questionId;
   final String title;
   final String? subtitle;
-  final List<SingleChoiceOption> options;
+  final List<QuestionOption> options;
   final String? selectedValue;
   final Function(String questionId, dynamic value) onAnswerChanged;
   final bool isRequired;
@@ -94,17 +81,6 @@ class _SingleChoiceWidgetState extends State<SingleChoiceWidget> {
           const SizedBox(height: 8),
         ],
         
-        // Required indicator
-        if (widget.isRequired) ...[
-          const SizedBox(height: 4),
-          Text(
-            '* Required',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.error,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-        ],
         
         const SizedBox(height: 20),
         

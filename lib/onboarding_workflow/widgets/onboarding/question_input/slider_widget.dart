@@ -135,28 +135,15 @@ class _SliderWidgetState extends State<SliderWidget> {
           const SizedBox(height: 8),
         ],
         
-        // Required indicator and range info
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (widget.isRequired)
-              Text(
-                '* Required',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.error,
-                  fontStyle: FontStyle.italic,
-                ),
-              )
-            else
-              const SizedBox.shrink(),
-            
-            Text(
-              'Range: ${_formatValue(widget.minValue)} - ${_formatValue(widget.maxValue)}',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-              ),
+        // Range info
+        Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            'Range: ${_formatValue(widget.minValue)} - ${_formatValue(widget.maxValue)}',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
             ),
-          ],
+          ),
         ),
         
         const SizedBox(height: 24),

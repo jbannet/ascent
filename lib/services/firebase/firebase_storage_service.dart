@@ -1,8 +1,8 @@
-import 'package:ascent/onboarding_workflow/services/local_storage/local_storage_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../models/questions/question_list.dart';
-import '../../models/answers/onboarding_answers.dart';
-import '../../../constants.dart';
+import '../local_storage/local_storage_service.dart';
+import '../../onboarding_workflow/models/questions/question_list.dart';
+import '../../onboarding_workflow/models/answers/onboarding_answers.dart';
+import '../../constants.dart';
 import 'firebase_auth_service.dart';
 
 /// Service for managing Firebase storage of onboarding data

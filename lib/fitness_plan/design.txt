@@ -1,0 +1,24 @@
+Views: 
+1. MyJourneyView: My Journey is a summary view. It has four sections that go from bottom to top: Build foundations, Explore motivations, Form habits, Find a passion.
+Each of these stages is a section rising. It starts from the bottom where you start to the top with a circle that can be filled in marking it. 
+(Note, each is the same widget).
+
+Within each stage of the journey you accumulate badges based on your plan and journey. The journey adapts dynamically.
+
+2. ChallengeSetView: Each day / week there are activities you have to finish and accomplish. These fit into one of five categories: aerobic, strength, diet, sleep, balance.
+Not every user has every category. The full set is represented in a card that summarizes what you need to complete for the week or day. 
+Each activity can be marked as complete or not.
+
+3. ActivityView: Each activity can be clicked into for more information. The Activity View explains the activity, how to do it, it's purpose, etc.
+
+
+
+Models:
+1. Fitness plan:
+2. Fitness plan history: ChallengeSetView and Survey responses for each
+- 
+
+Providers:
+1. Fitness plan provider: a fitness plan, history, current
+
+

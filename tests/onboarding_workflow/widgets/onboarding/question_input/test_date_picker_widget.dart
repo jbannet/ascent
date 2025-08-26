@@ -20,8 +20,6 @@ void main() {
 
       await TestHelpers.pumpAndSettle(tester, widget);
 
-      expect(find.text('Test Question'), findsOneWidget);
-      expect(TestHelpers.findRequiredIndicator(), findsOneWidget);
       expect(find.text('Select a date'), findsOneWidget);
       expect(find.byIcon(Icons.calendar_today_outlined), findsOneWidget);
     });

@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../models/questions/question_list.dart';
-import '../../models/answers/onboarding_answers.dart';
-import '../../../constants.dart';
+import '../../onboarding_workflow/models/questions/question_list.dart';
+import '../../onboarding_workflow/models/answers/onboarding_answers.dart';
+import '../../constants.dart';
 
 /// Service for managing local storage of onboarding data using Hive database
 class LocalStorageService {

@@ -171,33 +171,17 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
           const SizedBox(height: 8),
         ],
         
-        // Required indicator and date range info
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (widget.isRequired)
-              Text(
-                '* Required',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.error,
-                  fontStyle: FontStyle.italic,
-                ),
-              )
-            else
-              const SizedBox.shrink(),
-            
-            if (_getDateRangeText().isNotEmpty)
-              Flexible(
-                child: Text(
-                  _getDateRangeText(),
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                  ),
-                  textAlign: TextAlign.end,
-                ),
+        // Date range info
+        if (_getDateRangeText().isNotEmpty)
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              _getDateRangeText(),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
               ),
-          ],
-        ),
+            ),
+          ),
         
         const SizedBox(height: 16),
         
