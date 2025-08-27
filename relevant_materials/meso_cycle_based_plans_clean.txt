@@ -1,0 +1,330 @@
+TRAINING HIERARCHY
+
+Micro-cycle: The smallest unit, usually about 1 week of workouts
+
+Meso-cycle: A collection of micro-cycles, typically lasting 4-8 weeks
+
+Macro-cycle: The entire long-term training plan, often several months to a year
+
+PURPOSE OF A MESO-CYCLE
+It focuses on one main goal (e.g., building strength, improving endurance, fat 
+loss, skill work) and organizes training stress so the body can progressively 
+adapt. Each week builds on the last, often with increasing intensity or volume, 
+followed by a deload week to recover before the next meso-cycle.
+
+EXAMPLE
+If someone is training for a 5K race:
+• Meso-cycle 1 (6 weeks): base building (easy mileage, technique)
+• Meso-cycle 2 (6 weeks): strength and hill work  
+• Meso-cycle 3 (6 weeks): speed and race-specific intervals
+
+WHY IT MATTERS
+Instead of training randomly, meso-cycles help structure progression, prevent 
+plateaus, and reduce risk of overtraining or injury.
+
+===============================================================================
+
+STRENGTH TRAINING MESO-CYCLES
+
+Typical Length: 4-6 weeks (sometimes 8)
+
+Focus: Progressive overload of weight, reps, or volume toward a specific adaptation
+
+EXAMPLES OF GOALS PER MESO-CYCLE:
+
+1. Hypertrophy (muscle size)
+   • Higher volume, moderate intensity
+   • Example: 4-5 sets of 8-12 reps
+
+2. Strength (maximum force)
+   • Lower volume, higher intensity
+   • Example: 4-6 sets of 3-6 reps, heavier loads
+
+3. Power (explosiveness)
+   • Very high intensity, low reps, fast execution
+   • Example: Olympic lifts, jumps, 3-5 reps per set
+
+4. Deload (recovery week)
+   • Reduced load/volume to allow adaptation
+
+NOTE: Over the macro-cycle (16-24 weeks), these meso-cycles are sequenced 
+to move from size → strength → power.
+
+ENDURANCE TRAINING MESO-CYCLES
+
+Typical Length: 4-8 weeks
+
+Focus: Specific qualities like base fitness, lactate threshold, VO₂max, race pace, 
+or tapering
+
+EXAMPLES OF GOALS PER MESO-CYCLE:
+
+1. Base / Aerobic Capacity
+   • Easy/moderate runs or rides to build engine
+   • Long, steady efforts
+
+2. Strength Endurance / Hills
+   • Hill repeats, tempo runs, cycling climbs
+   • Builds durability
+
+3. Speed / Interval Work
+   • Interval training at or above race pace
+   • Example: 6 × 800m at 5K pace
+
+4. Taper
+   • Reduced volume leading up to competition
+   • Keeps intensity but lowers fatigue
+
+NOTE: Over the macro-cycle, the athlete moves from general → specific → race 
+readiness.
+
+KEY DIFFERENCES
+
+• Strength meso-cycles → manipulate load, reps, sets, and rest
+• Endurance meso-cycles → manipulate intensity, distance, and recovery
+• Both use progressive overload and usually finish with a deload week
+
+===============================================================================
+
+USING MACRO-, MESO- AND MICRO-CYCLES IN STRENGTH, ENDURANCE AND MIXED PLANS
+
+Periodized training divides a long-term training plan into cycles of decreasing 
+size: the macrocycle (overall plan), mesocycles (blocks within the plan) and 
+microcycles (weekly/daily rhythm). Each cycle has a specific purpose, and 
+manipulating the variables within these cycles helps athletes progress while 
+avoiding plateaus and overtraining.
+
+1. DEFINITIONS AND CYCLE LENGTHS
+
+MACROCYCLE
+• Typical length: Several months to 1 year (sometimes multiple years)
+• Purpose: The "big picture"—sets the overall goal (e.g. competition season, 
+  major event). It includes all training phases (preparation/base, build, 
+  peaking/competition and transition/recovery)
+• Notes: Macrocycles provide long-term context: they should be flexible and 
+  adapted to the athlete's goals, experience, competition schedule and recovery 
+  needs
+
+MESOCYCLE
+• Typical length: 3-6 weeks for strength, 4-6 weeks for endurance; can vary 
+  from 2 weeks to several months depending on goals
+• Purpose: Intermediate blocks that break the macrocycle into goal-focused 
+  phases (e.g. hypertrophy, strength, power, base endurance, lactate threshold). 
+  Each mesocycle contains progressive loading followed by recovery/de-load to 
+  enable adaptation
+• Notes: Mesocycles manipulate training variables (intensity, volume, exercise 
+  selection, rest, frequency). For endurance, stress is often increased for 
+  three weeks followed by a recovery week; strength plans often use 3-6 week 
+  phases focusing on hypertrophy, strength or power
+
+MICROCYCLE
+• Typical length: Typically 1 week; can be 1-2 weeks for mixed plans
+• Purpose: The smallest unit—plans daily or weekly workouts and sets the rhythm 
+  (hard vs easy days, rest days). Microcycles adjust intensity and volume 
+  day-to-day and are repeated to form mesocycles
+• Notes: Microcycles are tailored to recovery and adaptation. In endurance plans, 
+  a microcycle might include specific interval days, long rides/runs and rest 
+  days. In strength plans, microcycles define the weekly split (e.g. push/pull/
+  legs) and vary intensity and volume over days
+
+2. STRENGTH-FOCUSED PLANS
+
+A strength plan aims to increase absolute or relative strength (force production) 
+and may also address muscle hypertrophy and power. Periodization is used to 
+manipulate intensity, volume, exercise selection, frequency and rest intervals.
+
+MACROCYCLE DESIGN
+Set long-term goal – e.g. compete in a powerlifting meet, improve maximum squat, 
+or develop general strength. The macrocycle (6-12 months) identifies the event 
+date and works backward.
+
+Phases within the macrocycle – a typical strength macrocycle progresses from 
+high-volume, lower-intensity work to lower-volume, high-intensity work (linear 
+periodization). Common phases include:
+
+• Anatomical adaptation/base – high repetitions (10-15 reps) and moderate volume 
+  to build connective tissue and correct imbalances
+
+• Hypertrophy/accumulation – moderate intensity (60-75% 1RM) and high volume to 
+  increase muscle cross-section
+
+• Strength/intensification – intensity increases to 75-90% 1RM while volume 
+  decreases; focus on heavy compound lifts
+
+• Power/peaking – very heavy loads (85-100% 1RM) or contrast training to convert 
+  strength into explosive power
+
+• Deload/recovery phase – reduce volume and intensity to allow supercompensation 
+  and prepare for the next macrocycle
+
+• Competition or testing – after peaking, schedule testing or competition and 
+  include recovery transitions before starting a new macrocycle
+
+MESOCYCLES AND MICROCYCLES
+Mesocycles last 3-6 weeks, each focusing on a distinct quality—e.g. hypertrophy, 
+maximal strength or power. Within each mesocycle, gradually increase intensity 
+or volume for 2-3 weeks followed by a deload week to allow adaptation.
+
+Microcycles (1 week) outline the weekly split. For example:
+
+• Hypertrophy microcycle: multiple sessions per muscle group with 3-5 sets of 
+  8-12 reps, moderate intensity, short rest (30-90 s) and varied tempos to build 
+  time under tension
+
+• Strength microcycle: emphasis on compound lifts (squat, deadlift, bench press), 
+  4-6 sets of 3-6 reps at 80-90% 1RM and longer rest (2-5 min)
+
+• Power microcycle: plyometrics or Olympic lifts, 3-5 sets of 1-5 reps at high 
+  intensity with full recovery
+
+VARIABLES AND CONSIDERATIONS
+• Intensity and volume: adjust load (% 1RM), reps and sets across cycles. Start 
+  with high volume/lower intensity and gradually shift to higher intensity/lower 
+  volume. Undulating models may vary intensity and volume within a week to target 
+  multiple qualities
+
+• Rest intervals: longer rest periods (2-5 min) support maximal strength and 
+  power; shorter rests (30-90 s) increase metabolic stress for hypertrophy
+
+• Exercise selection: move from general to specific—e.g. begin with unilateral 
+  or stability exercises in the base phase, progress to complex multi-joint lifts 
+  and specialized variations as competition approaches
+
+• Frequency: 2-4 sessions per week per muscle group in early phases; later phases 
+  may reduce frequency to allow recovery
+
+• Deload weeks: include regular recovery microcycles to prevent overtraining; 
+  adjust based on training status, age and stress tolerance
+
+3. ENDURANCE-FOCUSED PLANS
+
+Endurance plans target aerobic capacity, lactate threshold and race-specific 
+speed. They manipulate volume, intensity (power/heart-rate zones), frequency, 
+duration of efforts and recovery.
+
+MACROCYCLE AND PHASES
+Define the event: e.g. a marathon, cycling race, triathlon. The macrocycle spans 
+from the start of structured training to the event (often 6 months to a year). 
+A typical endurance macrocycle is divided into Base, Build and Specialty phases:
+
+• Base phase: builds aerobic capacity and muscular endurance. It may involve 
+  high-volume, low-intensity sessions (long runs/rides) or time-efficient 
+  sweet-spot training at ~65-85% FTP for cyclists. Mesocycles within the base 
+  phase last around six weeks
+
+• Build phase: increases intensity with event-specific workouts such as hill 
+  repeats, tempo runs or threshold intervals. Weekly training stress (TSS) may 
+  not always increase across mesocycles because different energy systems are 
+  targeted
+
+• Specialty (or competition) phase: reduces overall volume while sharpening 
+  race-specific fitness. Intensity peaks through race-pace or VO₂ max efforts, 
+  and a taper is included before competition
+
+MESOCYCLES AND MICROCYCLES
+Mesocycles typically last 4-6 weeks; they combine progressive loading microcycles 
+(usually 3 weeks) followed by a recovery week. Each mesocycle has a focus: 
+aerobic base, threshold, VO₂ max, or race-pace.
+
+Microcycles are usually one week long. They set the rhythm of hard and easy days. 
+For instance, a cyclist's microcycle might include sweet-spot workouts on 
+Tuesday/Thursday/Sunday, an endurance ride on Wednesday, threshold intervals on 
+Saturday, and rest on Monday and Friday.
+
+VARIABLES AND CONSIDERATIONS
+• Volume and duration: increase total distance or training time gradually (no 
+  more than ~10% per week) to avoid injury and allow adaptation
+
+• Intensity: plan sessions at varied intensities (easy aerobic, tempo, threshold, 
+  VO₂ max) to stimulate different energy systems. Use power or heart-rate zones 
+  to prescribe intensity
+
+• Frequency: endurance athletes often train 4-6 days per week; frequency may 
+  decrease during recovery microcycles
+
+• Recovery and deload: incorporate recovery weeks or taper periods to absorb 
+  training stress and peak for events
+
+• Progressive specificity: as competition nears, shift from general aerobic work 
+  to workouts that mimic the race (terrain, pacing, conditions)
+
+4. MIXED OR CONCURRENT PLANS (STRENGTH + ENDURANCE)
+
+Mixed training (also called concurrent training) seeks to develop strength/power 
+and endurance simultaneously. This is common in combat sports, team sports and 
+hybrid athletes. The key challenge is managing the potential interference effect 
+between strength and endurance adaptations.
+
+MACROCYCLE STRATEGY
+• Annual plan with phases: divide the year into macrocycles (off-season, 
+  pre-season, in-season) that align with competition schedules
+
+• Blend training methods: use training blocks (mesocycles) focused on different 
+  qualities within each macrocycle. For example, an off-season macrocycle might 
+  include mesocycles emphasizing concurrent strength and cardio base, skill 
+  development, and intensive power training
+
+• Skill and sport demands: consider that skill practice often takes priority in 
+  mixed sports (e.g. combat sports). Strength and conditioning should support, 
+  not detract from, technical training
+
+MESOCYCLE AND MICROCYCLE PLANNING
+Mesocycles in concurrent training often last 4-6 weeks. Within each mesocycle, 
+integrate concurrent sessions (combining strength and endurance in the same week) 
+or alternate training blocks (one mesocycle focused on strength, the next on 
+endurance).
+
+Microcycles (1-2 weeks) fine-tune daily workouts and schedule the order of 
+modalities. Strength and endurance sessions can be separated by at least several 
+hours (or on different days) to minimize interference. A sample weekly microcycle 
+might include strength and conditioning sessions on Monday and Friday, skill 
+sessions on Tuesday and Thursday, cardio on Wednesday, and rest on Sunday.
+
+VARIABLES AND CONSIDERATIONS
+• Order and timing: scheduling affects interference. Performing strength before 
+  endurance in the same session tends to preserve strength adaptations better 
+  than the reverse. Alternatively, separate modalities by ≥6 hours or perform 
+  them on different days
+
+• Intensity/volume balance: avoid simultaneously high volumes of endurance and 
+  heavy strength loads, which can increase fatigue and blunt adaptations. During 
+  heavy strength phases, reduce endurance volume; during endurance-focused 
+  phases, maintain strength with lower volume/high intensity lifts
+
+• Recovery management: mixed programs can produce high cumulative fatigue; build 
+  regular deload microcycles and monitor biomarkers (heart-rate variability, 
+  perceived exertion) to adjust training
+
+• Sport specificity: in hybrid sports, emphasise skills and energy systems that 
+  match competition demands (e.g. repeated sprints, grappling strength). Use 
+  targeted strength exercises that have favourable cost–benefit ratios and avoid 
+  unnecessary complexity
+
+• Flexibility and adaptation: concurrent training is personal; adjust mesocycle 
+  length, exercise selection and intensity based on the athlete's response, 
+  competition schedule and injury history
+
+5. SUMMARY
+
+STRENGTH PLANS: Use macrocycles of several months leading to a goal; sequence 
+mesocycles for hypertrophy, strength and power; microcycles manage weekly splits 
+and deloads. Manipulate intensity (% 1RM), volume (sets/reps), rest and exercise 
+selection. Build from general to specific and include regular deload weeks.
+
+ENDURANCE PLANS: Plan macrocycles around events and divide them into base, build 
+and specialty phases; mesocycles (4-6 weeks) progressively increase training 
+stress with recovery weeks; microcycles set weekly rhythms of intervals, 
+endurance sessions and rest. Adjust volume, duration, intensity (zones) and 
+frequency; taper before competition.
+
+MIXED PLANS: Combine strength and endurance through periodized blocks. Use 
+macrocycles (off-season, pre-season, in-season) and mesocycles that either 
+integrate concurrent sessions or alternate focuses. Microcycles schedule 
+modalities to minimize interference (e.g. strength before endurance or on 
+separate days). Balance intensity and volume, prioritise sport-specific skills, 
+and include recovery.
+
+By understanding how macro-, meso- and micro-cycles interact and by adjusting 
+key variables such as intensity, volume, frequency and rest, you can design 
+structured training plans that lead to progressive adaptation, reduce the risk 
+of plateau and peak at the right time for competition or personal goals.
