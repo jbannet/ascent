@@ -15,8 +15,8 @@ class ExercisePrescriptionStep implements BlockStep {
   final int? timeSecPerSet;     // when mode == time
 
   final int restSecBetweenSets; // applies (sets-1) times
-  final String? tempo;
-  final List<String> cues;
+  final String? tempo; //e.g., down 3s, no pause, up 1s, 0s at top.
+  final List<String> cues; // verbal cue or reminder ["brace & breathe", "knees out", "chest tall"]
 
   // estimation knobs (client-only)
   final double secondsPerRep;   // default pacing for reps
