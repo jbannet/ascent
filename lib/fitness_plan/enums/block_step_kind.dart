@@ -1,0 +1,1 @@
+enum BlockStepKind { exercise, rest, warmup, cooldown }

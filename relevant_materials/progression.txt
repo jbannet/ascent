@@ -1,0 +1,86 @@
+
+“Progression” = the rule for making training harder (or easier) across sessions/weeks. It’s how you move from today’s prescription to the next one. Examples:
+
+Double progression: stay at the same load; increase reps within a range (e.g., 8→12). When you hit the top across sets, add a little load and drop reps back down.
+
+RIR-guided: if you finished with fewer reps in reserve than target (too hard), reduce load next time; if more (too easy), increase load.
+
+%1RM/linear steps: add a fixed % or fixed weight each week.
+
+Deload: planned reduction (e.g., −30–40% volume) after 3–5 hard weeks.
+
+----------------------------------
+
+
+LINEAR, DOUBLE-PROGRESSION, RIR-ANCHORED WORKOUT PROGRAMS
+
+A linear, double-progression, RIR-anchored workout program is a method of 
+progressive overload that adjusts intensity and volume based on your actual 
+performance. This approach is an advanced form of the classic double progression 
+method, using Reps in Reserve (RIR) to automatically regulate your training.
+
+Here is a breakdown of each component:
+
+===============================================================================
+
+LINEAR
+
+In the context of this progression model, "linear" refers to the long-term, 
+step-by-step increase in a training variable, usually the weight, over weeks 
+or a training block (mesocycle). Unlike a pure linear progression that might 
+increase weight every session, this method increases the load only after you 
+have met the other progression targets.
+
+DOUBLE PROGRESSION
+
+This is a training method that progresses two variables: reps and weight.
+
+• You work within a specific rep range (e.g., 8-12 reps)
+• First, you increase your reps for a set or across all sets at a given weight
+• Once you hit the top of the prescribed rep range (e.g., all sets for 12 reps), 
+  you increase the weight and drop back to the bottom of the rep range (e.g., 8 reps)
+
+RIR-ANCHORED (OR AUTOREGULATED)
+
+This feature uses Reps in Reserve (RIR) to manage the difficulty, or "effort," 
+of your workout.
+
+Reps in Reserve (RIR): A measure of how many more repetitions you could perform 
+before reaching technical failure. For example, 2 RIR means you could have done 
+two more reps with good form.
+
+Anchoring with RIR: Instead of simply hitting a rep target, each set is performed 
+at a pre-determined RIR. For example, a workout might be programmed as "3 sets 
+of 8-12 reps at 2 RIR". This provides a constant effort level, allowing for 
+natural, day-to-day fluctuations in strength.
+
+===============================================================================
+
+HOW THE THREE COMPONENTS WORK TOGETHER
+
+The model combines these three elements to create a dynamic progression that 
+adjusts to your body's readiness for each workout.
+
+A TYPICAL TRAINING BLOCK MIGHT LOOK LIKE THIS:
+
+1. Prescribe a range: You select a rep range (e.g., 8-12) and a target RIR 
+   (e.g., 2 RIR) for a specific lift
+
+2. Begin progression:
+   • Week 1: You pick a weight that feels like 2 RIR and get 8 reps. Your 
+     performance might be 100 lbs x 8 reps @ 2 RIR
+   • Week 2: Using the same weight, you try to get more reps while maintaining 
+     the 2 RIR effort level. Your performance might be 100 lbs x 10 reps @ 2 RIR
+
+3. Linear progression trigger: Once you hit the top of the rep range across all 
+   sets at the target RIR, it's time to increase the weight
+   • Week 3: You get 100 lbs x 12 reps @ 2 RIR
+   • Week 4: You increase the weight, and your reps drop back down. Your 
+     performance might be 105 lbs x 8 reps @ 2 RIR
+
+4. Repeat: You repeat this cycle, using your RIR feedback to guide your progress 
+   with both reps and weight
+
+This strategy ensures that you are constantly challenging your muscles, even on 
+days when you feel less prepared, while avoiding the plateaus that can occur 
+with stricter linear progression models.

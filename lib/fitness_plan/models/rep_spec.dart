@@ -45,4 +45,13 @@ class RepSpec {
         return { 'kind': 'range', 'min': min, 'max': max };
     }
   }
+
+  double estimateAverage() {
+    switch (kind) {
+      case RepKind.fixed:
+        return (value ?? 10).toDouble();
+      case RepKind.range:
+        return ((min ?? 8) + (max ?? 12)) / 2.0;
+    }
+  }
 }
