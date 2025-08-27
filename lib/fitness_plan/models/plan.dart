@@ -1,30 +1,14 @@
-import 'package:json_annotation/json_annotation.dart';
 import '../enums/goal.dart';
-import '../converters/enum_converters.dart';
 import 'planned_week.dart';
 import 'session.dart';
 
-part 'plan.g.dart';
-
-@JsonSerializable()
 class Plan {
-  @JsonKey(name: 'plan_id')
   final String planId;
-  
-  @JsonKey(name: 'user_id')
   final String userId;
-  
-  @GoalConverter()
   final Goal goal;
-  
-  @JsonKey(name: 'start_date')
-  @DateTimeConverter()
   final DateTime startDate;
-
   final List<PlannedWeek> weeks;          // calendar
   final List<Session> sessions;    // session list
-
-  @JsonKey(name: 'notes_coach')
   final String notesCoach;
 
   Plan({
@@ -39,6 +23,28 @@ class Plan {
         weeks = weeks ?? <PlannedWeek>[],
         sessions = sessions ?? <Session>[];
 
-  factory Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
-  Map<String, dynamic> toJson() => _$PlanToJson(this);
+  factory Plan.fromJson(Map<String, dynamic> json) {
+    return Plan(
+      planId: json['plan_id'] as String,
+      userId: json['user_id'] as String,
+      goal: goalFromString(json['goal'] as String),
+      startDate: _dateFromJson(json['start_date'] as String),
+      weeks: (json['weeks'] as List<dynamic>? )?.map((e)=> PlannedWeek.fromJson(Map<String, dynamic>.from(e))).toList() ?? <PlannedWeek>[],
+      sessions: (json['sessions'] as List<dynamic>?)?.map((e)=> Session.fromJson(Map<String, dynamic>.from(e))).toList() ?? <Session>[],
+      notesCoach: (json['notes_coach'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'plan_id': planId,
+    'user_id': userId,
+    'goal': goalToString(goal),
+    'start_date': _dateToJson(startDate),
+    'weeks': weeks.map((e)=> e.toJson()).toList(),
+    'sessions': sessions.map((e)=> e.toJson()).toList(),
+    'notes_coach': notesCoach,
+  };
 }
+
+DateTime _dateFromJson(String value) => DateTime.parse(value);
+String _dateToJson(DateTime value) => value.toIso8601String().split('T').first;

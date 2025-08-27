@@ -1,27 +1,15 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'rep_spec.dart';
 import 'intensity.dart';
 import 'progression.dart';
 
-part 'exercise_prescription.g.dart';
-
-@JsonSerializable()
 class ExercisePrescription {
-  @JsonKey(name: 'exercise_id')
   final String exerciseId;
-  
   final List<String> substitutions;
   final int sets;
   final RepSpec reps; // fixed or range
-  
-  @JsonKey(name: 'time_sec')
   final int? timeSec; // optional for time-based work
-  
   final Intensity intensity;
-  
-  @JsonKey(name: 'rest_sec')
   final int restSec;
-  
   final String? tempo;
   final List<String> cues;
   final Progression progression;
@@ -43,6 +31,29 @@ class ExercisePrescription {
         cues = cues ?? <String>[],
         progression = progression ?? Progression.doubleProgression(incrementLb: 5);
 
-  factory ExercisePrescription.fromJson(Map<String, dynamic> json) => _$ExercisePrescriptionFromJson(json);
-  Map<String, dynamic> toJson() => _$ExercisePrescriptionToJson(this);
+  factory ExercisePrescription.fromJson(Map<String, dynamic> json) => ExercisePrescription(
+    exerciseId: json['exercise_id'] as String,
+    substitutions: (json['substitutions'] as List<dynamic>? )?.map((e)=> e.toString()).toList() ?? <String>[],
+    sets: (json['sets'] as int?) ?? 3,
+    reps: RepSpec.fromAny(json['reps']),
+    timeSec: json['time_sec'] as int?,
+    intensity: json['intensity'] != null ? Intensity.fromJson(Map<String, dynamic>.from(json['intensity'])) : Intensity.rir(target: 2),
+    restSec: (json['rest_sec'] as int?) ?? 90,
+    tempo: json['tempo'] as String?,
+    cues: (json['cues'] as List<dynamic>? )?.map((e)=> e.toString()).toList() ?? <String>[],
+    progression: json['progression'] != null ? Progression.fromJson(Map<String, dynamic>.from(json['progression'])) : Progression.doubleProgression(incrementLb: 5),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'exercise_id': exerciseId,
+    'substitutions': substitutions,
+    'sets': sets,
+    'reps': reps.toJson(),
+    'time_sec': timeSec,
+    'intensity': intensity.toJson(),
+    'rest_sec': restSec,
+    'tempo': tempo,
+    'cues': cues,
+    'progression': progression.toJson(),
+  };
 }

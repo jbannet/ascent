@@ -1,31 +1,14 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'block.dart';
 import '../enums/session_tag.dart';
 import '../enums/energy_system_tag.dart';
-import '../converters/enum_converters.dart';
-import '../converters/block_converter.dart';
 
-part 'session.g.dart';
-
-@JsonSerializable()
 class Session {
   final String title;
-  
-  @JsonKey(name: 'estimated_duration_min')
   final int estimatedDurationMin;
-  
   final List<String> warmup;
-  
-  @BlockListConverter()
   final List<Block> blocks;
-  
   final List<String> cooldown;
-  
-  @SessionTagListConverter()
   final List<SessionTag> tags;
-  
-  @JsonKey(name: 'energy_system')
-  @EnergySystemTagConverter()
   final EnergySystemTag? energySystem;
 
   Session({
@@ -41,6 +24,23 @@ class Session {
         cooldown = cooldown ?? <String>[],
         tags = tags ?? <SessionTag>[];
 
-  factory Session.fromJson(Map<String, dynamic> json) => _$SessionFromJson(json);
-  Map<String, dynamic> toJson() => _$SessionToJson(this);
+  factory Session.fromJson(Map<String, dynamic> json) => Session(
+    title: json['title'] as String,
+    estimatedDurationMin: (json['estimated_duration_min'] as int?) ?? 45,
+    warmup: (json['warmup'] as List<dynamic>? )?.map((e)=> e.toString()).toList() ?? <String>[],
+    blocks: (json['blocks'] as List<dynamic>? )?.map((e)=> Block.fromJson(Map<String, dynamic>.from(e))).toList() ?? <Block>[],
+    cooldown: (json['cooldown'] as List<dynamic>? )?.map((e)=> e.toString()).toList() ?? <String>[],
+    tags: (json['tags'] as List<dynamic>? )?.map((e)=> sessionTagFromString(e.toString())).toList() ?? <SessionTag>[],
+    energySystem: json['energy_system'] == null ? null : energySystemFromString(json['energy_system'] as String),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'title': title,
+    'estimated_duration_min': estimatedDurationMin,
+    'warmup': warmup,
+    'blocks': blocks.map((b)=> b.toJson()).toList(),
+    'cooldown': cooldown,
+    'tags': tags.map(sessionTagToString).toList(),
+    'energy_system': energySystem == null ? null : energySystemToString(energySystem!),
+  };
 }

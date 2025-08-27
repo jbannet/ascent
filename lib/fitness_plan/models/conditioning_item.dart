@@ -1,19 +1,19 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'conditioning_item.g.dart';
-
-@JsonSerializable()
 class ConditioningItem {
-  @JsonKey(name: 'exercise_id')
   final String exerciseId;
-  
-  @JsonKey(name: 'time_min')
   final int timeMin;
-  
   final String? zone; // e.g., "easy"
 
   ConditioningItem({ required this.exerciseId, required this.timeMin, this.zone });
 
-  factory ConditioningItem.fromJson(Map<String, dynamic> json) => _$ConditioningItemFromJson(json);
-  Map<String, dynamic> toJson() => _$ConditioningItemToJson(this);
+  factory ConditioningItem.fromJson(Map<String, dynamic> json) => ConditioningItem(
+    exerciseId: json['exercise_id'] as String,
+    timeMin: json['time_min'] as int,
+    zone: json['zone'] as String?,
+  );
+
+  Map<String, dynamic> toJson() => {
+    'exercise_id': exerciseId,
+    'time_min': timeMin,
+    'zone': zone,
+  };
 }

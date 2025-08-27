@@ -1,23 +1,10 @@
-import 'package:json_annotation/json_annotation.dart';
 import '../enums/rep_kind.dart';
-import '../converters/enum_converters.dart';
 
-part 'rep_spec.g.dart';
-
-@JsonSerializable()
 class RepSpec {
-  @RepKindConverter()
   final RepKind kind;
   final int? value; // when fixed
   final int? min;   // when range
   final int? max;   // when range
-
-  RepSpec({
-    required this.kind,
-    this.value,
-    this.min,
-    this.max,
-  });
 
   RepSpec.fixed(int v)
       : kind = RepKind.fixed,
@@ -48,6 +35,14 @@ class RepSpec {
     throw ArgumentError('Invalid reps payload: $raw');
   }
 
-  factory RepSpec.fromJson(Map<String, dynamic> json) => _$RepSpecFromJson(json);
-  Map<String, dynamic> toJson() => _$RepSpecToJson(this);
+  factory RepSpec.fromJson(Map<String, dynamic> json) => RepSpec.fromAny(json);
+  
+  Map<String, dynamic> toJson() {
+    switch (kind) {
+      case RepKind.fixed:
+        return { 'kind': 'fixed', 'value': value };
+      case RepKind.range:
+        return { 'kind': 'range', 'min': min, 'max': max };
+    }
+  }
 }

@@ -1,13 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
 import '../enums/block_type.dart';
-import '../converters/enum_converters.dart';
 import 'exercise_prescription.dart';
 import 'conditioning_item.dart';
 
-part 'block.g.dart';
-
 abstract class Block {
-  @BlockTypeConverter()
   final BlockType type;
   Block(this.type);
 
@@ -15,34 +10,40 @@ abstract class Block {
     final t = blockTypeFromString(json['type'] as String);
     switch (t) {
       case BlockType.straight:
-        return StraightBlock.fromJson(json);
+        return StraightBlock(
+          items: (json['items'] as List<dynamic>? )?.map((e)=> ExercisePrescription.fromJson(Map<String, dynamic>.from(e))).toList() ?? <ExercisePrescription>[],
+        );
       case BlockType.superset:
-        return SupersetBlock.fromJson(json);
+        return SupersetBlock(
+          label: json['label'] as String?,
+          items: (json['items'] as List<dynamic>? )?.map((e)=> ExercisePrescription.fromJson(Map<String, dynamic>.from(e))).toList() ?? <ExercisePrescription>[],
+        );
       case BlockType.conditioning:
-        return ConditioningBlock.fromJson(json);
+        return ConditioningBlock(
+          items: (json['items'] as List<dynamic>? )?.map((e)=> ConditioningItem.fromJson(Map<String, dynamic>.from(e))).toList() ?? <ConditioningItem>[],
+        );
       default:
-        return StraightBlock.fromJson(json);
+        return StraightBlock(items: const <ExercisePrescription>[]);
     }
   }
 
   Map<String, dynamic> toJson();
 }
 
-@JsonSerializable()
 class StraightBlock extends Block {
   final List<ExercisePrescription> items;
   
   StraightBlock({ List<ExercisePrescription>? items })
       : items = items ?? <ExercisePrescription>[],
         super(BlockType.straight);
-
-  factory StraightBlock.fromJson(Map<String, dynamic> json) => _$StraightBlockFromJson(json);
   
   @override
-  Map<String, dynamic> toJson() => _$StraightBlockToJson(this);
+  Map<String, dynamic> toJson() => {
+    'type': blockTypeToString(type),
+    'items': items.map((e)=> e.toJson()).toList(),
+  };
 }
 
-@JsonSerializable()
 class SupersetBlock extends Block {
   final String? label;
   final List<ExercisePrescription> items;
@@ -50,23 +51,25 @@ class SupersetBlock extends Block {
   SupersetBlock({ this.label, List<ExercisePrescription>? items })
       : items = items ?? <ExercisePrescription>[],
         super(BlockType.superset);
-
-  factory SupersetBlock.fromJson(Map<String, dynamic> json) => _$SupersetBlockFromJson(json);
   
   @override
-  Map<String, dynamic> toJson() => _$SupersetBlockToJson(this);
+  Map<String, dynamic> toJson() => {
+    'type': blockTypeToString(type),
+    'label': label,
+    'items': items.map((e)=> e.toJson()).toList(),
+  };
 }
 
-@JsonSerializable()
 class ConditioningBlock extends Block {
   final List<ConditioningItem> items;
   
   ConditioningBlock({ List<ConditioningItem>? items })
       : items = items ?? <ConditioningItem>[],
         super(BlockType.conditioning);
-
-  factory ConditioningBlock.fromJson(Map<String, dynamic> json) => _$ConditioningBlockFromJson(json);
   
   @override
-  Map<String, dynamic> toJson() => _$ConditioningBlockToJson(this);
+  Map<String, dynamic> toJson() => {
+    'type': blockTypeToString(type),
+    'items': items.map((e)=> e.toJson()).toList(),
+  };
 }

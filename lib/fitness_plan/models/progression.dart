@@ -1,41 +1,13 @@
-import 'package:json_annotation/json_annotation.dart';
 import '../enums/progression_mode.dart';
-import '../converters/enum_converters.dart';
 
-part 'progression.g.dart';
-
-@JsonSerializable()
 class Progression {
-  @ProgressionModeConverter()
   final ProgressionMode mode;
-  
-  @JsonKey(name: 'increment_lb')
   final double? incrementLb;         // doubleProgression
-  
-  @JsonKey(name: 'increase_pct')
   final double? increasePct;         // rirGuided
-  
-  @JsonKey(name: 'decrease_pct')
   final double? decreasePct;         // rirGuided
-  
-  @JsonKey(name: 'zone_minutes_target')
   final Map<String, int>? zoneMinutesTarget; // conditioning
-  
-  @JsonKey(name: 'volume_reduction_pct')
   final double? volumeReductionPct;  // deload
-  
-  @JsonKey(name: 'intensity_reduction_pct')
   final double? intensityReductionPct; // deload
-
-  Progression({
-    required this.mode,
-    this.incrementLb,
-    this.increasePct,
-    this.decreasePct,
-    this.zoneMinutesTarget,
-    this.volumeReductionPct,
-    this.intensityReductionPct,
-  });
 
   Progression.doubleProgression({ double incrementLb = 5 })
       : mode = ProgressionMode.doubleProgression,
@@ -82,6 +54,42 @@ class Progression {
         volumeReductionPct = null,
         intensityReductionPct = null;
 
-  factory Progression.fromJson(Map<String, dynamic> json) => _$ProgressionFromJson(json);
-  Map<String, dynamic> toJson() => _$ProgressionToJson(this);
+  factory Progression.fromJson(Map<String, dynamic> json) {
+    final modeStr = (json['mode'] as String?) ?? 'none';
+    switch (modeStr) {
+      case 'doubleProgression':
+        return Progression.doubleProgression(
+          incrementLb: (json['increment_lb'] as num?)?.toDouble() ?? 5,
+        );
+      case 'rirGuided':
+        return Progression.rirGuided(
+          increasePct: (json['increase_pct'] as num?)?.toDouble() ?? 0.05,
+          decreasePct: (json['decrease_pct'] as num?)?.toDouble() ?? 0.05,
+        );
+      case 'deload':
+        return Progression.deload(
+          volumeReductionPct: (json['volume_reduction_pct'] as num?)?.toDouble() ?? 0.35,
+          intensityReductionPct: (json['intensity_reduction_pct'] as num?)?.toDouble() ?? 0.10,
+        );
+      case 'linear':
+      case 'none':
+      default:
+        return Progression.none();
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    switch (mode) {
+      case ProgressionMode.doubleProgression:
+        return { 'mode': 'doubleProgression', 'increment_lb': incrementLb };
+      case ProgressionMode.rirGuided:
+        return { 'mode': 'rirGuided', 'increase_pct': increasePct, 'decrease_pct': decreasePct };
+      case ProgressionMode.deload:
+        return { 'mode': 'deload', 'volume_reduction_pct': volumeReductionPct, 'intensity_reduction_pct': intensityReductionPct };
+      case ProgressionMode.linear:
+        return { 'mode': 'linear' };
+      case ProgressionMode.none:
+        return { 'mode': 'none' };
+    }
+  }
 }

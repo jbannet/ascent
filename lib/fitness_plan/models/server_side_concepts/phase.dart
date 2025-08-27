@@ -1,17 +1,9 @@
-import 'package:json_annotation/json_annotation.dart';
 import '../../enums/progression_mode.dart';
-import '../../converters/enum_converters.dart';
 
-part 'phase.g.dart';
-
-@JsonSerializable()
 class Phase {
   final String name; // Base / Build / Peak / Deload
   final int weeks;
   final String focus;
-  
-  @ProgressionModeConverter()
-  @JsonKey(name: 'progression')
   final ProgressionMode progressionMode;
 
   Phase({
@@ -21,6 +13,17 @@ class Phase {
     this.progressionMode = ProgressionMode.doubleProgression,
   });
 
-  factory Phase.fromJson(Map<String, dynamic> json) => _$PhaseFromJson(json);
-  Map<String, dynamic> toJson() => _$PhaseToJson(this);
+  factory Phase.fromJson(Map<String, dynamic> json) => Phase(
+    name: json['name'] as String,
+    weeks: json['weeks'] as int,
+    focus: (json['focus'] as String?) ?? '',
+    progressionMode: progressionFromString((json['progression'] as String?) ?? (json['progressionMode'] as String?)),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'weeks': weeks,
+    'focus': focus,
+    'progression': progressionToString(progressionMode),
+  };
 }
