@@ -12,12 +12,13 @@ void main() async {
   
   await FirebaseClient.initialize();
   await Hive.initFlutter();
+  debugPrint("✅ Hive initialized");
   await QuestionConfigurationService.initializeQuestionsIfNeeded();
-  
+  debugPrint("✅ Question configuration checked/initialized");
   // Initialize the provider before creating the widget tree
   final onboardingProvider = OnboardingProvider();
   await onboardingProvider.initialize();
-  
+  debugPrint("✅ OnboardingProvider initialized");
   runApp(
     MultiProvider(
       providers: [

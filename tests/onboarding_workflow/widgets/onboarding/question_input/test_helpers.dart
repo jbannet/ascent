@@ -324,7 +324,7 @@ class DateCallRecord {
   int get hashCode => questionId.hashCode ^ value.hashCode;
 }
 
-/// Mock callback class for ranking widgets that return Map<String, int>
+/// Mock callback class for ranking widgets that return `Map<String, int>`
 class MockRankingCallback {
   final List<RankingCallRecord> calls = [];
 

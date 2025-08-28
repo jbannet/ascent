@@ -9,20 +9,17 @@ class Progression {
   final double? volumeReductionPct;  // deload
   final double? intensityReductionPct; // deload
 
-  Progression.doubleProgression({ double incrementLb = 5 })
+  Progression.doubleProgression({ this.incrementLb = 5 })
       : mode = ProgressionMode.doubleProgression,
-        incrementLb = incrementLb,
         increasePct = null,
         decreasePct = null,
         zoneMinutesTarget = null,
         volumeReductionPct = null,
         intensityReductionPct = null;
 
-  Progression.rirGuided({ double increasePct = 0.05, double decreasePct = 0.05 })
+  Progression.rirGuided({ this.increasePct = 0.05, this.decreasePct = 0.05 })
       : mode = ProgressionMode.rirGuided,
         incrementLb = null,
-        increasePct = increasePct,
-        decreasePct = decreasePct,
         zoneMinutesTarget = null,
         volumeReductionPct = null,
         intensityReductionPct = null;
@@ -36,14 +33,12 @@ class Progression {
         volumeReductionPct = null,
         intensityReductionPct = null;
 
-  Progression.deload({ double volumeReductionPct = 0.35, double intensityReductionPct = 0.10 })
+  Progression.deload({ this.volumeReductionPct = 0.35, this.intensityReductionPct = 0.10 })
       : mode = ProgressionMode.deload,
         incrementLb = null,
         increasePct = null,
         decreasePct = null,
-        zoneMinutesTarget = null,
-        volumeReductionPct = volumeReductionPct,
-        intensityReductionPct = intensityReductionPct;
+        zoneMinutesTarget = null;
 
   Progression.none()
       : mode = ProgressionMode.none,

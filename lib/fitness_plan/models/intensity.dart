@@ -6,12 +6,12 @@ class Intensity {
   final int? target;         // for RIR target
   final String? levelOrZone; // band level or zone name
 
-  Intensity.percent1rm({ required double value })
-      : mode = IntensityMode.percent1rm, value = value, target = null, levelOrZone = null;
+  Intensity.percent1rm({ required this.value })
+      : mode = IntensityMode.percent1rm, target = null, levelOrZone = null;
   Intensity.e1rm({ required double target })
       : mode = IntensityMode.e1rm, value = target, target = null, levelOrZone = null;
-  Intensity.rir({ required int target })
-      : mode = IntensityMode.rir, value = null, target = target, levelOrZone = null;
+  Intensity.rir({ required this.target })
+      : mode = IntensityMode.rir, value = null, levelOrZone = null;
   Intensity.rpe({ required double target })
       : mode = IntensityMode.rpe, value = target, target = null, levelOrZone = null;
   Intensity.bandLevel({ required String level })

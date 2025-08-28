@@ -12,11 +12,9 @@ class RepSpec {
         min = null,
         max = null;
 
-  RepSpec.range({ required int min, required int max })
+  RepSpec.range({ required this.min, required this.max })
       : kind = RepKind.range,
-        value = null,
-        min = min,
-        max = max;
+        value = null;
 
   factory RepSpec.fromAny(Object? raw) {
     if (raw == null) return RepSpec.fixed(10);

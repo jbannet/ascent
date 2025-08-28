@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>	
 	<key>CFBundleDisplayName</key>
 	<string>Ascent</string>
 	<key>CFBundleExecutable</key>
@@ -24,6 +24,41 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+
+	<key>NSAppTransportSecurity</key>
+<dict>
+  <!-- Allow HTTP to local subnets (iOS 14+) -->
+  <key>NSAllowsLocalNetworking</key>
+  <true/>
+
+  <!-- Keep arbitrary loads off -->
+  <key>NSAllowsArbitraryLoads</key>
+  <false/>
+
+  <!-- Explicit exceptions for common emulator hosts -->
+  <key>NSExceptionDomains</key>
+  <dict>
+    <key>localhost</key>
+    <dict>
+      <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key><true/>
+      <key>NSIncludesSubdomains</key><true/>
+    </dict>
+    <key>127.0.0.1</key>
+    <dict>
+      <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key><true/>
+      <key>NSIncludesSubdomains</key><true/>
+    </dict>
+    <!-- If you run on a physical device and point to your Mac’s LAN IP, add it: -->
+    <!--
+    <key>192.168.1.123</key>
+    <dict>
+      <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key><true/>
+      <key>NSIncludesSubdomains</key><true/>
+    </dict>
+    -->
+  </dict>
+</dict>
+
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
