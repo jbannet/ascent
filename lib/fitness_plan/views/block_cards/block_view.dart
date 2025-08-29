@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../models/blocks/block.dart';
-import '../models/blocks/exercise_prescription_step.dart';
-import '../enums/item_mode.dart';
+import '../../models/blocks/block.dart';
+import '../../models/blocks/exercise_prescription_step.dart';
+import '../../enums/item_mode.dart';
 
 class BlockView extends StatefulWidget {
   final Block block;
