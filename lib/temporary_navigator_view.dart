@@ -6,6 +6,13 @@ import 'fitness_plan/models/planned_week.dart';
 import 'fitness_plan/models/planned_day.dart';
 import 'fitness_plan/models/blocks/block.dart';
 import 'fitness_plan/models/blocks/exercise_prescription_step.dart';
+import 'fitness_plan/models/blocks/rest_step.dart';
+import 'fitness_plan/models/blocks/warmup_step.dart';
+import 'fitness_plan/models/blocks/cooldown_step.dart';
+import 'fitness_plan/views/block_cards/exercise_step_card.dart';
+import 'fitness_plan/views/block_cards/rest_step_card.dart';
+import 'fitness_plan/views/block_cards/warmup_step_card.dart';
+import 'fitness_plan/views/block_cards/cooldown_step_card.dart';
 import 'fitness_plan/enums/goal.dart';
 import 'fitness_plan/enums/day_of_week.dart';
 import 'fitness_plan/enums/session_status.dart';
@@ -94,6 +101,76 @@ class TemporaryNavigatorView extends StatelessWidget {
               );
             },
           ),
+
+          const Divider(),
+          const Text(
+            'Block Step Cards:',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+
+          _buildNavigationTile(
+            context,
+            title: 'Exercise Step Card',
+            subtitle: 'Preview exercise step card design',
+            icon: Icons.fitness_center,
+            onTap: () => _showCardPreview(
+              context,
+              'Exercise Step Card',
+              ExerciseStepCard(step: _createMockRepExercise('Push-ups', 12)),
+            ),
+          ),
+
+          _buildNavigationTile(
+            context,
+            title: 'Rest Step Card',
+            subtitle: 'Preview rest timer card design',
+            icon: Icons.timer,
+            onTap: () => _showCardPreview(
+              context,
+              'Rest Step Card',
+              RestStepCard(step: RestStep(seconds: 90, label: 'Rest between sets')),
+            ),
+          ),
+
+          _buildNavigationTile(
+            context,
+            title: 'Warmup Step Card',
+            subtitle: 'Preview warmup step card design',
+            icon: Icons.self_improvement,
+            onTap: () => _showCardPreview(
+              context,
+              'Warmup Step Card',
+              WarmupStepCard(step: WarmupStep(displayName: 'Dynamic Stretching', timeSec: 300)),
+            ),
+          ),
+
+          _buildNavigationTile(
+            context,
+            title: 'Cooldown Step Card',
+            subtitle: 'Preview cooldown step card design',
+            icon: Icons.spa,
+            onTap: () => _showCardPreview(
+              context,
+              'Cooldown Step Card',
+              CooldownStepCard(step: CooldownStep(displayName: 'Static Stretching', timeSec: 600)),
+            ),
+          ),
+
+          const Divider(),
+          const Text(
+            'Swipable Card Demo:',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+
+          _buildNavigationTile(
+            context,
+            title: 'Swipable Block Steps',
+            subtitle: 'Demo all cards in swipable PageView',
+            icon: Icons.swipe,
+            onTap: () => _showSwipableDemo(context),
+          ),
         ],
       ),
     );
@@ -114,6 +191,34 @@ class TemporaryNavigatorView extends StatelessWidget {
         subtitle: Text(subtitle),
         trailing: const Icon(Icons.chevron_right),
         onTap: onTap,
+      ),
+    );
+  }
+
+  void _showCardPreview(BuildContext context, String title, Widget card) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: Text(title),
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+          ),
+          body: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: card,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showSwipableDemo(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => _SwipableCardDemo(),
       ),
     );
   }
@@ -214,6 +319,172 @@ class TemporaryNavigatorView extends StatelessWidget {
       timeSecPerSet: timeSeconds,
       restSecBetweenSets: 60,
       cues: ['Maintain position', 'Breathe steadily'],
+    );
+  }
+}
+
+class _SwipableCardDemo extends StatefulWidget {
+  @override
+  State<_SwipableCardDemo> createState() => _SwipableCardDemoState();
+}
+
+class _SwipableCardDemoState extends State<_SwipableCardDemo> {
+  late PageController _pageController;
+  int _currentIndex = 0;
+
+  final List<String> _stepNames = [
+    'Warmup',
+    'Exercise 1',
+    'Rest',
+    'Exercise 2', 
+    'Rest',
+    'Cooldown',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Swipable Block Steps Demo'),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+      ),
+      body: Column(
+        children: [
+          // Progress indicator
+          Container(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Step ${_currentIndex + 1} of ${_stepNames.length}',
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                    Text(
+                      _stepNames[_currentIndex],
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                LinearProgressIndicator(
+                  value: (_currentIndex + 1) / _stepNames.length,
+                  backgroundColor: theme.colorScheme.surfaceContainerHighest,
+                ),
+              ],
+            ),
+          ),
+          // Swipable cards
+          Expanded(
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() => _currentIndex = index);
+              },
+              children: [
+                // Warmup
+                WarmupStepCard(
+                  step: WarmupStep(displayName: 'Dynamic Stretching', timeSec: 300),
+                ),
+                // Exercise 1 - Reps
+                ExerciseStepCard(
+                  step: ExercisePrescriptionStep(
+                    exerciseId: 'push_ups',
+                    displayName: 'Push-ups',
+                    mode: ItemMode.reps,
+                    sets: 3,
+                    reps: 15,
+                    restSecBetweenSets: 60,
+                    tempo: '2-0-1-0',
+                    cues: ['Keep body straight', 'Full range of motion', 'Control the descent'],
+                  ),
+                ),
+                // Rest 1
+                RestStepCard(
+                  step: RestStep(seconds: 120, label: 'Rest between exercises'),
+                ),
+                // Exercise 2 - Time
+                ExerciseStepCard(
+                  step: ExercisePrescriptionStep(
+                    exerciseId: 'plank',
+                    displayName: 'Plank Hold',
+                    mode: ItemMode.time,
+                    sets: 3,
+                    timeSecPerSet: 45,
+                    restSecBetweenSets: 90,
+                    cues: ['Maintain straight line', 'Engage core', 'Breathe normally'],
+                  ),
+                ),
+                // Rest 2
+                RestStepCard(
+                  step: RestStep(seconds: 90, label: 'Final rest'),
+                ),
+                // Cooldown
+                CooldownStepCard(
+                  step: CooldownStep(displayName: 'Static Stretching', timeSec: 600),
+                ),
+              ],
+            ),
+          ),
+          // Navigation buttons
+          Container(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                if (_currentIndex > 0)
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      _pageController.previousPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    icon: const Icon(Icons.arrow_back),
+                    label: const Text('Previous'),
+                  )
+                else
+                  const SizedBox(width: 100),
+                const Spacer(),
+                FilledButton.icon(
+                  onPressed: _currentIndex < _stepNames.length - 1
+                      ? () {
+                          _pageController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      : () => Navigator.of(context).pop(),
+                  icon: Icon(_currentIndex < _stepNames.length - 1 
+                      ? Icons.arrow_forward 
+                      : Icons.check),
+                  label: Text(_currentIndex < _stepNames.length - 1 
+                      ? 'Next Step' 
+                      : 'Complete'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

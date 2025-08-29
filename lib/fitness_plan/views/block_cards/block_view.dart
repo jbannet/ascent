@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../../models/blocks/block.dart';
+import '../../models/blocks/block_step.dart';
 import '../../models/blocks/exercise_prescription_step.dart';
-import '../../enums/item_mode.dart';
+import 'block_step_card_factory.dart';
 
 class BlockView extends StatefulWidget {
   final Block block;
@@ -15,168 +15,377 @@ class BlockView extends StatefulWidget {
 }
 
 class _BlockViewState extends State<BlockView> {
-  int currentRound = 1;
+  late PageController _pageController;
+  int _currentStepIndex = 0;
+  int _currentRound = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  List<BlockStep> get _currentRoundSteps {
+    return widget.block.items;
+  }
+
+  void _nextStep() {
+    if (_currentStepIndex < _currentRoundSteps.length - 1) {
+      setState(() => _currentStepIndex++);
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      _completeRound();
+    }
+  }
+
+  void _previousStep() {
+    if (_currentStepIndex > 0) {
+      setState(() => _currentStepIndex--);
+      _pageController.previousPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  void _completeRound() {
+    if (_currentRound < widget.block.rounds) {
+      final restSeconds = widget.block.restSecBetweenRounds;
+      if (restSeconds > 0) {
+        _showBetweenRoundsRest(restSeconds);
+      } else {
+        _startNextRound();
+      }
+    } else {
+      Navigator.of(context).maybePop();
+    }
+  }
+
+  void _startNextRound() {
+    setState(() {
+      _currentRound++;
+      _currentStepIndex = 0;
+    });
+    _pageController.animateToPage(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _showBetweenRoundsRest(int seconds) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      enableDrag: false,
+      showDragHandle: true,
+      builder: (ctx) => _BetweenRoundsRestSheet(
+        seconds: seconds,
+        currentRound: _currentRound,
+        totalRounds: widget.block.rounds,
+        onComplete: () {
+          Navigator.of(ctx).pop();
+          _startNextRound();
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final b = widget.block;
-    final estMin = (b.estimateDurationSec() / 60).ceil();
+    final theme = Theme.of(context);
+    final estMin = (widget.block.estimateDurationSec() / 60).ceil();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Block'),
+        title: Text(widget.block.label ?? 'Workout Block'),
         actions: [
-          if (b.rounds > 1)
+          if (widget.block.rounds > 1)
             Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: Center(child: Text('Round $currentRound/${b.rounds}')),
+              padding: const EdgeInsets.only(right: 16),
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    'Round $_currentRound/${widget.block.rounds}',
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      color: theme.colorScheme.onPrimaryContainer,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
             ),
         ],
       ),
       body: Column(
         children: [
-          _HeaderChips(
-            rounds: b.rounds,
-            restBetweenRounds: b.restSecBetweenRounds,
-            estMin: estMin,
-          ),
-          const Divider(height: 1),
+          _buildHeaderInfo(context, estMin),
+          _buildProgressIndicator(context),
           Expanded(
-            child: ListView.separated(
-              itemCount: b.items.length,
-              separatorBuilder: (_, __) => const Divider(height: 1),
-              itemBuilder: (context, i) {
-                final ex = b.items[i]; // All items are ExercisePrescriptionStep
-                return _ExerciseTile(
-                  step: ex,
-                  onTap: () => widget.onOpenExercise?.call(ex),
+            child: PageView.builder(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() => _currentStepIndex = index);
+              },
+              itemCount: _currentRoundSteps.length,
+              itemBuilder: (context, index) {
+                final step = _currentRoundSteps[index];
+                return BlockStepCardFactory.createCard(
+                  step: step,
+                  onExerciseTap: step is ExercisePrescriptionStep
+                      ? () => widget.onOpenExercise?.call(step)
+                      : null,
+                  onRestComplete: _nextStep,
                 );
               },
             ),
           ),
+          _buildNavigationBar(context),
         ],
       ),
-      bottomNavigationBar: (b.rounds > 1)
-          ? Padding(
-              padding: const EdgeInsets.all(12),
-              child: FilledButton(
-                onPressed: () {
-                  if (currentRound < b.rounds) {
-                    setState(() => currentRound++);
-                    final rest = b.restSecBetweenRounds;
-                    if (rest > 0) _showRestTimer(context, rest, title: 'Between rounds');
-                  } else {
-                    context.pop(); // or mark block done
-                  }
-                },
-                child: Text(currentRound < b.rounds ? 'Complete round • Next' : 'Block done'),
-              ),
-            )
-          : null,
     );
   }
 
-  void _showRestTimer(BuildContext context, int seconds, {String title = 'Rest'}) {
-    showModalBottomSheet(
-      context: context,
-      showDragHandle: true,
-      builder: (ctx) => _CountdownSheet(seconds: seconds, title: title),
-    );
-  }
-}
-
-class _HeaderChips extends StatelessWidget {
-  final int rounds;
-  final int restBetweenRounds;
-  final int estMin;
-  const _HeaderChips({required this.rounds, required this.restBetweenRounds, required this.estMin});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Wrap(
-        spacing: 8,
+  Widget _buildHeaderInfo(BuildContext context, int estMin) {
+    final theme = Theme.of(context);
+    
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Chip(label: Text('~$estMin min')),
-          if (rounds > 1) Chip(label: Text('$rounds rounds')),
-          if (rounds > 1 && restBetweenRounds > 0) Chip(label: Text('Rest $restBetweenRounds s / round')),
+          _buildInfoChip(
+            context,
+            Icons.timer_outlined,
+            '~$estMin min',
+            theme.colorScheme.primaryContainer,
+          ),
+          if (widget.block.rounds > 1)
+            _buildInfoChip(
+              context,
+              Icons.repeat,
+              '${widget.block.rounds} rounds',
+              theme.colorScheme.secondaryContainer,
+            ),
+          _buildInfoChip(
+            context,
+            Icons.fitness_center,
+            '${_currentRoundSteps.length} steps',
+            theme.colorScheme.tertiaryContainer,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoChip(
+    BuildContext context,
+    IconData icon,
+    String label,
+    Color backgroundColor,
+  ) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 16),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProgressIndicator(BuildContext context) {
+    final theme = Theme.of(context);
+    final progress = (_currentStepIndex + 1) / _currentRoundSteps.length;
+    
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Step ${_currentStepIndex + 1} of ${_currentRoundSteps.length}',
+                style: theme.textTheme.bodySmall,
+              ),
+              Text(
+                '${(progress * 100).round()}%',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          LinearProgressIndicator(
+            value: progress,
+            backgroundColor: theme.colorScheme.surfaceContainerHighest,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              theme.colorScheme.primary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavigationBar(BuildContext context) {
+    final canGoBack = _currentStepIndex > 0;
+    final isLastStep = _currentStepIndex >= _currentRoundSteps.length - 1;
+    final isLastRound = _currentRound >= widget.block.rounds;
+    
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          if (canGoBack)
+            OutlinedButton.icon(
+              onPressed: _previousStep,
+              icon: const Icon(Icons.arrow_back),
+              label: const Text('Previous'),
+            )
+          else
+            const SizedBox(width: 100),
+          const Spacer(),
+          FilledButton.icon(
+            onPressed: _nextStep,
+            icon: Icon(isLastStep && isLastRound ? Icons.check : Icons.arrow_forward),
+            label: Text(
+              isLastStep
+                  ? (isLastRound ? 'Complete' : 'Next Round')
+                  : 'Next Step',
+            ),
+            style: FilledButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-class _ExerciseTile extends StatelessWidget {
-  final ExercisePrescriptionStep step;
-  final VoidCallback? onTap;
-  const _ExerciseTile({required this.step, this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final isTimeMode = step.mode == ItemMode.time;
-    final primary = isTimeMode
-        ? 'Sets ${step.sets} • ${step.timeSecPerSet}s each'
-        : 'Sets ${step.sets} • ${step.reps} reps';
-    final secondary = 'Rest ${step.restSecBetweenSets}s'
-        '${step.tempo != null ? ' • Tempo ${step.tempo}' : ''}';
-
-    return ListTile(
-      leading: const Icon(Icons.fitness_center),
-      title: Text(step.displayName),
-      subtitle: Text('$primary • $secondary'),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: onTap,
-    );
-  }
-}
-
-class _CountdownSheet extends StatefulWidget {
+class _BetweenRoundsRestSheet extends StatefulWidget {
   final int seconds;
-  final String title;
-  const _CountdownSheet({required this.seconds, required this.title});
+  final int currentRound;
+  final int totalRounds;
+  final VoidCallback onComplete;
+
+  const _BetweenRoundsRestSheet({
+    required this.seconds,
+    required this.currentRound,
+    required this.totalRounds,
+    required this.onComplete,
+  });
 
   @override
-  State<_CountdownSheet> createState() => _CountdownSheetState();
+  State<_BetweenRoundsRestSheet> createState() => _BetweenRoundsRestSheetState();
 }
 
-class _CountdownSheetState extends State<_CountdownSheet> with SingleTickerProviderStateMixin {
-  late final AnimationController _ctrl =
-      AnimationController(vsync: this, duration: Duration(seconds: widget.seconds))..forward();
+class _BetweenRoundsRestSheetState extends State<_BetweenRoundsRestSheet>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: widget.seconds),
+    )..forward();
+    
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        widget.onComplete();
+      }
+    });
+  }
 
   @override
   void dispose() {
-    _ctrl.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 220,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: AnimatedBuilder(
-          animation: _ctrl,
-          builder: (_, __) {
-            final remain = (widget.seconds * (1 - _ctrl.value)).ceil();
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(widget.title, style: Theme.of(context).textTheme.titleMedium),
-                const SizedBox(height: 16),
-                Text('$remain', style: Theme.of(context).textTheme.displayMedium),
-                const SizedBox(height: 12),
-                LinearProgressIndicator(value: _ctrl.value),
-                const Spacer(),
-                FilledButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(remain > 0 ? 'Skip' : 'Done'),
-                ),
-              ],
-            );
-          },
-        ),
+    final theme = Theme.of(context);
+    
+    return Container(
+      height: 300,
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Round ${widget.currentRound} Complete!',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Get ready for round ${widget.currentRound + 1}',
+            style: theme.textTheme.bodyLarge,
+          ),
+          const SizedBox(height: 24),
+          AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              final remainingSeconds = 
+                  (widget.seconds * (1 - _controller.value)).ceil();
+              
+              return Column(
+                children: [
+                  Text(
+                    remainingSeconds.toString(),
+                    style: theme.textTheme.displayLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  LinearProgressIndicator(
+                    value: _controller.value,
+                    backgroundColor: theme.colorScheme.surfaceContainerHighest,
+                  ),
+                  const SizedBox(height: 24),
+                  FilledButton(
+                    onPressed: widget.onComplete,
+                    child: Text('Skip Rest • Start Round ${widget.currentRound + 1}'),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }
