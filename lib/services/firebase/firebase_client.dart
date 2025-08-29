@@ -32,14 +32,15 @@ class FirebaseClient {
       // Note: iOS simulators work better with 127.0.0.1 and can't do 'localhost', Android emulators need '10.0.2.2'
       final String host = Platform.isAndroid ? '10.0.2.2' : '127.0.0.1';
 
-      // 1. Configure all emulators using the recommended `use...Emulator` methods.
-      // This correctly sets up the underlying gRPC channels for local, non-SSL traffic.
-      FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
+      // 1. Configure all emulators before making any Firebase calls.
+      // Disabling persistence is recommended for emulator testing to ensure a clean state.
+      FirebaseFirestore.instance.settings = Settings(
+        host: '$host:8080',
+        sslEnabled: false,
+        persistenceEnabled: false,
+      );
       debugPrint('✅ Firestore emulator configured: $host:8080');
 
-      // Disable persistence for a clean state in emulator tests.
-      FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false);
-      
       await FirebaseAuth.instance.useAuthEmulator(host, 9099);
       debugPrint('✅ Auth emulator configured: $host:9099');
       
