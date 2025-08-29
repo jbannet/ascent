@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../models/blocks/block.dart';
 import '../models/blocks/exercise_prescription_step.dart';
 import '../enums/item_mode.dart';
@@ -65,7 +66,7 @@ class _BlockViewState extends State<BlockView> {
                     final rest = b.restSecBetweenRounds;
                     if (rest > 0) _showRestTimer(context, rest, title: 'Between rounds');
                   } else {
-                    Navigator.of(context).maybePop(); // or mark block done
+                    context.pop(); // or mark block done
                   }
                 },
                 child: Text(currentRound < b.rounds ? 'Complete round • Next' : 'Block done'),

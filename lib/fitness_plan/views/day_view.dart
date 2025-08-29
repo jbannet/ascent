@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../models/plan.dart';
 import '../models/session.dart';
 import '../models/blocks/block.dart';
 import '../enums/day_of_week.dart';
+import '../../routing/route_names.dart';
 
 class DayView extends StatelessWidget {
   final Plan plan;
@@ -30,9 +32,9 @@ class DayView extends StatelessWidget {
               title: Text('Block ${i + 1}'),
               subtitle: Text('$blockMin min • ${_blockSummary(b)}'),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () => Navigator.pushNamed(
-                context,
-                '/plan/${plan.planId}/week/$weekIndex/day/${dayOfWeek.name}/block/$i'
+              onTap: () => context.push(
+                RouteNames.blockPath(plan.planId, weekIndex, dayOfWeek.name, i),
+                extra: plan,
               ),
             ),
           );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'theme/app_theme.dart';
-import 'onboarding_workflow/views/onboarding_survey_container.dart';
+import 'routing/app_router.dart';
 import 'services/firebase/firebase_client.dart';
 
 void main() async {
@@ -20,12 +20,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Ascent Fitness',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      home: const OnboardingSurveyContainer(),
+      routerConfig: AppRouter.router,
     );
   }
 }

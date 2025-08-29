@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../models/plan.dart';
 import '../enums/session_status.dart';
+import '../../routing/route_names.dart';
 
 class WeekView extends StatelessWidget {
   final Plan plan;
@@ -23,9 +25,9 @@ class WeekView extends StatelessWidget {
             title: Text(sess.title),
             subtitle: Text(_statusText(d.status)),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => Navigator.pushNamed(
-              context,
-              '/plan/${plan.planId}/week/$weekIndex/day/${d.dow.name}'
+            onTap: () => context.push(
+              RouteNames.dayPath(plan.planId, weekIndex, d.dow.name),
+              extra: plan,
             ),
           );
         },
