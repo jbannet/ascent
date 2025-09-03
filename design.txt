@@ -1,0 +1,48 @@
+
+Four-Layer Logic Split
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+1. **Eligibility Filters**: Remove unsafe/impossible options 
+(injuries, equipment, time)
+
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+2. **Archetype Selection**: Choose training style via decision table
+[LIST IN training_styles_catalog_extended.xls]
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+3. **Parameterization**: Set volumes, frequency, sets/reps, progression
+Session length cap: 40 min
+
+Required patterns: squat, hinge, push, pull, core
+
+Slot structure: main, pair, accessory, core, finisher
+
+Set budget: main=3, pair=3 each, accessory=2, core=2, finisher=optional 8 min
+
+Rep/effort: main 6–8 @ RPE7, accessory 8–12 @ RPE7, core 30s holds
+
+Rest/tempo: main 120s rest, accessory 60s, tempo 2-0-2
+
+Superset policy: prefer (to fit in cap)
+
+Finisher policy: goal_based (add if fat loss priority)
+
+Pattern weights: bias hinge slightly higher this block
+
+Accessory ceiling: 1
+
+Unilateral/stability: optional (ok to add split squat if time)
+
+Variety horizon: don’t repeat same main as last block
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+
+4. **Instantiation**: Select exercises, assemble sessions, apply progression
