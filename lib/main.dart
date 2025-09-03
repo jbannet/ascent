@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'theme/app_theme.dart';
 import 'routing/app_router.dart';
-import 'services/firebase/firebase_client.dart';
+//import 'services/firebase/firebase_client.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  await FirebaseClient.initialize();
+  //await FirebaseClient.initialize();
   await Hive.initFlutter();
   debugPrint("✅ Hive initialized");
   

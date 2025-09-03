@@ -3,7 +3,7 @@ import '../models/questions/question_list.dart';
 import '../models/questions/question.dart';
 import '../models/answers/onboarding_answers.dart';
 import '../../services/local_storage/local_storage_service.dart';
-import '../../services/firebase/firebase_storage_service.dart';
+//import '../../services/firebase/firebase_storage_service.dart';
 
 class OnboardingProvider extends ChangeNotifier {
   // State
@@ -35,18 +35,21 @@ class OnboardingProvider extends ChangeNotifier {
       //TODO: Handle this error more gracefully and get from Firebase
     }
 
-    double firebaseQuestionVersion = await FirebaseStorageService.getQuestionVersion();
+    //double firebaseQuestionVersion = await FirebaseStorageService.getQuestionVersion();
+    double firebaseQuestionVersion = 0.0; // Default to current version when Firebase disabled
 
     // Update questions if Firebase has a newer version
     if (questionVersion < firebaseQuestionVersion) {
       //loadQuestions call updates and saves new questions and version locally
-      _questionList = await FirebaseStorageService.loadQuestions(localQuestionList, firebaseQuestionVersion);       
+      //_questionList = await FirebaseStorageService.loadQuestions(localQuestionList, firebaseQuestionVersion);
+      _questionList = localQuestionList; // Use local questions when Firebase disabled       
     } else {
       _questionList = localQuestionList; //necessary because questionList is final
     }
 
     if (!localAnswers.isInitialized) {
-      _onboardingAnswers = await FirebaseStorageService.loadAnswers();
+      //_onboardingAnswers = await FirebaseStorageService.loadAnswers();
+      _onboardingAnswers = OnboardingAnswers.empty(); // Use empty answers when Firebase disabled
     } else {
       _onboardingAnswers = localAnswers; 
     }
@@ -66,7 +69,7 @@ class OnboardingProvider extends ChangeNotifier {
 
   // Save to Firebase and Local Storage
   Future<void> saveAnswersComplete() async {
-    await FirebaseStorageService.saveAnswers(_onboardingAnswers);
+    //await FirebaseStorageService.saveAnswers(_onboardingAnswers);
     await LocalStorageService.saveAnswers(_onboardingAnswers);
   }
 
