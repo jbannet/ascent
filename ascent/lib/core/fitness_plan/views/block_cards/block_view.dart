@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../models/blocks/block.dart';
-import '../../models/blocks/block_step.dart';
-import '../../models/blocks/exercise_prescription_step.dart';
+import '../../../models/blocks/block.dart';
+import '../../../models/blocks/block_step.dart';
+import '../../../models/blocks/exercise_prescription_step.dart';
 import 'block_step_card_factory.dart';
 
 class BlockView extends StatefulWidget {

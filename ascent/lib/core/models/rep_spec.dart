@@ -1,4 +1,4 @@
-import '../enums/rep_kind.dart';
+import '../fitness_plan/enums/rep_kind.dart';
 
 class RepSpec {
   final RepKind kind;

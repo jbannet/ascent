@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/blocks/exercise_prescription_step.dart';
+import '../../models/blocks/exercise_prescription_step.dart';
 import '../enums/item_mode.dart';
 
 class ExerciseView extends StatelessWidget {

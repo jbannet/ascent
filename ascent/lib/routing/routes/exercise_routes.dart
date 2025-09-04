@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/fitness_plan/views/exercise_view.dart';
-import '../../core/fitness_plan/models/blocks/exercise_prescription_step.dart';
+import '../../core/models/blocks/exercise_prescription_step.dart';
 import '../route_names.dart';
 
 /// Exercise-related routes for the application

@@ -1,4 +1,4 @@
-import '../enums/goal.dart';
+import '../fitness_plan/enums/goal.dart';
 import 'planned_week.dart';
 import 'session.dart';
 

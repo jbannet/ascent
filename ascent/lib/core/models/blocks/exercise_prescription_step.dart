@@ -1,6 +1,6 @@
 import 'block_step.dart';
-import '../../enums/block_step_kind.dart';
-import '../../enums/item_mode.dart';
+import '../../fitness_plan/enums/block_step_kind.dart';
+import '../../fitness_plan/enums/item_mode.dart';
 
 class ExercisePrescriptionStep implements BlockStep {
   @override

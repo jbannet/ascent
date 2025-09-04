@@ -1,5 +1,5 @@
 import 'question.dart';
-import '../../../../general_utilities/extensions/list_extensions.dart';
+import '../../../../services/general_utilities/list_extensions.dart';
 
 /// Primary model for managing the onboarding question flow.
 /// 
