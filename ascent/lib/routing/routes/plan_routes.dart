@@ -4,8 +4,8 @@ import '../../core/fitness_plan/views/plan_view.dart';
 import '../../core/fitness_plan/views/week_view.dart';
 import '../../core/fitness_plan/views/day_view.dart';
 import '../../core/fitness_plan/views/block_cards/block_view.dart';
-import '../../core/models/plan.dart';
-import '../../core/fitness_plan/enums/day_of_week.dart';
+import '../../models/plan.dart';
+import '../../enums/day_of_week.dart';
 import '../route_names.dart';
 
 /// Plan-related routes for the application

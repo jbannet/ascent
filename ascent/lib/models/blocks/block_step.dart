@@ -1,4 +1,4 @@
-import '../../fitness_plan/enums/block_step_kind.dart';
+import '../../enums/block_step_kind.dart';
 import 'exercise_prescription_step.dart';
 import 'rest_step.dart';
 import 'warmup_step.dart';

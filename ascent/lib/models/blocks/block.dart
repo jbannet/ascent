@@ -1,4 +1,4 @@
-import '../../fitness_plan/enums/block_type.dart';
+import '../../enums/block_type.dart';
 import 'block_step.dart';
 
 class Block {

@@ -1,4 +1,4 @@
-import '../fitness_plan/enums/intensity_mode.dart';
+import '../enums/intensity_mode.dart';
 
 class Intensity {
   final IntensityMode mode;

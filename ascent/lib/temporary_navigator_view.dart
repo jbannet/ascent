@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'core/models/plan.dart';
-import 'core/models/session.dart';
-import 'core/models/planned_week.dart';
-import 'core/models/planned_day.dart';
-import 'core/models/blocks/block.dart';
-import 'core/models/blocks/exercise_prescription_step.dart';
-import 'core/models/blocks/rest_step.dart';
-import 'core/models/blocks/warmup_step.dart';
-import 'core/models/blocks/cooldown_step.dart';
+import 'models/plan.dart';
+import 'models/session.dart';
+import 'models/planned_week.dart';
+import 'models/planned_day.dart';
+import 'models/blocks/block.dart';
+import 'models/blocks/exercise_prescription_step.dart';
+import 'models/blocks/rest_step.dart';
+import 'models/blocks/warmup_step.dart';
+import 'models/blocks/cooldown_step.dart';
 import 'core/fitness_plan/views/block_cards/exercise_step_card.dart';
 import 'core/fitness_plan/views/block_cards/rest_step_card.dart';
 import 'core/fitness_plan/views/block_cards/warmup_step_card.dart';
 import 'core/fitness_plan/views/block_cards/cooldown_step_card.dart';
-import 'core/fitness_plan/enums/goal.dart';
-import 'core/fitness_plan/enums/day_of_week.dart';
-import 'core/fitness_plan/enums/session_status.dart';
-import 'core/fitness_plan/enums/block_type.dart';
-import 'core/fitness_plan/enums/item_mode.dart';
+import 'enums/goal.dart';
+import 'enums/day_of_week.dart';
+import 'enums/session_status.dart';
+import 'enums/block_type.dart';
+import 'enums/item_mode.dart';
 import 'routing/route_names.dart';
 
 /// Temporary development navigation screen to access all views during development

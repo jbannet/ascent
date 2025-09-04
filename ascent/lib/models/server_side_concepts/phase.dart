@@ -1,4 +1,4 @@
-import '../../fitness_plan/enums/progression_mode.dart';
+import '../../enums/progression_mode.dart';
 
 class Phase {
   final String name; // Base / Build / Peak / Deload

@@ -1,14 +1,14 @@
-import 'package:ascent/core/models/plan.dart';
-import 'package:ascent/core/models/planned_week.dart';
-import 'package:ascent/core/models/planned_day.dart';
-import 'package:ascent/core/models/session.dart';
-import 'package:ascent/core/models/blocks/block.dart';
-import 'package:ascent/core/models/blocks/exercise_prescription_step.dart';
-import 'package:ascent/core/fitness_plan/enums/goal.dart';
-import 'package:ascent/core/fitness_plan/enums/day_of_week.dart';
-import 'package:ascent/core/fitness_plan/enums/session_status.dart';
-import 'package:ascent/core/fitness_plan/enums/block_type.dart';
-import 'package:ascent/core/fitness_plan/enums/item_mode.dart';
+import 'package:ascent/models/plan.dart';
+import 'package:ascent/models/planned_week.dart';
+import 'package:ascent/models/planned_day.dart';
+import 'package:ascent/models/session.dart';
+import 'package:ascent/models/blocks/block.dart';
+import 'package:ascent/models/blocks/exercise_prescription_step.dart';
+import 'package:ascent/enums/goal.dart';
+import 'package:ascent/enums/day_of_week.dart';
+import 'package:ascent/enums/session_status.dart';
+import 'package:ascent/enums/block_type.dart';
+import 'package:ascent/enums/item_mode.dart';
 
 class SamplePlanData {
   static Plan createSamplePlan() {
