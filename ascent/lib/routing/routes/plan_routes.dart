@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../fitness_plan/views/plan_view.dart';
-import '../../fitness_plan/views/week_view.dart';
-import '../../fitness_plan/views/day_view.dart';
-import '../../fitness_plan/views/block_cards/block_view.dart';
-import '../../fitness_plan/models/plan.dart';
-import '../../fitness_plan/enums/day_of_week.dart';
+import '../../core/fitness_plan/views/plan_view.dart';
+import '../../core/fitness_plan/views/week_view.dart';
+import '../../core/fitness_plan/views/day_view.dart';
+import '../../core/fitness_plan/views/block_cards/block_view.dart';
+import '../../core/fitness_plan/models/plan.dart';
+import '../../core/fitness_plan/enums/day_of_week.dart';
 import '../route_names.dart';
 
 /// Plan-related routes for the application

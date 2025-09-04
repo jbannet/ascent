@@ -1,5 +1,5 @@
 # Fitness App Makefile
-.PHONY: help generate-go generate-dart build-server run-server clean
+.PHONY: help generate-go generate-dart build-server run-server clean update-index
 
 help: ## Show this help message
 	@echo "Available commands:"
@@ -43,3 +43,8 @@ install-tools: ## Install required code generation tools
 	go install github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest
 	@echo "To install openapi-generator-cli, run: npm install -g @openapitools/openapi-generator-cli"
 	@echo "✅ Tools installation complete"
+
+update-index: ## Update codebase index to reflect current code state
+	@echo "Updating codebase index..."
+	./.codebase-index/update-index.sh
+	@echo "✅ Index update complete"

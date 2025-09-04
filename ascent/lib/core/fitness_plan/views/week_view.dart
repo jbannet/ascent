@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../models/plan.dart';
 import '../enums/session_status.dart';
-import '../../routing/route_names.dart';
+import '../../../routing/route_names.dart';
 
 class WeekView extends StatelessWidget {
   final Plan plan;

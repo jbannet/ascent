@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ascent/onboarding_workflow/widgets/onboarding/question_input/date_picker_widget.dart';
+import 'package:ascent/core/onboarding_workflow/widgets/onboarding/question_input/date_picker_widget.dart';
 import 'test_helpers.dart';
 
 void main() {

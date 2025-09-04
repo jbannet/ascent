@@ -4,7 +4,7 @@ import '../models/plan.dart';
 import '../models/session.dart';
 import '../models/blocks/block.dart';
 import '../enums/day_of_week.dart';
-import '../../routing/route_names.dart';
+import '../../../routing/route_names.dart';
 
 class DayView extends StatelessWidget {
   final Plan plan;

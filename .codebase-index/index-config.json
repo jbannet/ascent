@@ -1,0 +1,71 @@
+{
+  "version": "1.0.0",
+  "project": "fitness_app",
+  "description": "Fitness app codebase index configuration",
+  "last_updated": "2025-09-04",
+  "index_locations": {
+    "architecture": ".codebase-index/architecture/",
+    "data_flow": ".codebase-index/data-flow/",
+    "components": ".codebase-index/components/",
+    "decisions": ".codebase-index/decisions/",
+    "api": ".codebase-index/api/",
+    "models": ".codebase-index/models/"
+  },
+  "source_directories": {
+    "flutter_app": "ascent/",
+    "go_server": "server/",
+    "api_spec": "api/",
+    "functions": "functions/"
+  },
+  "key_files": [
+    "api/openapi.yaml",
+    "ascent/lib/main.dart",
+    "server/main.go",
+    "server/internal/handlers/",
+    "ascent/lib/fitness_plan/",
+    "ascent/lib/onboarding_workflow/",
+    "Makefile",
+    "CLAUDE.md"
+  ],
+  "index_types": {
+    "architecture": {
+      "description": "High-level system architecture and component relationships",
+      "files": ["system-overview.json", "component-map.json", "dependencies.json"]
+    },
+    "data_flow": {
+      "description": "End-to-end data flow through the system",
+      "files": ["request-flows.json", "data-transformations.json", "state-management.json"]
+    },
+    "api": {
+      "description": "API endpoints, contracts, and integration points",
+      "files": ["endpoints.json", "models.json", "client-server-mapping.json"]
+    },
+    "components": {
+      "description": "Individual component documentation and interfaces",
+      "files": ["flutter-components.json", "go-handlers.json", "database-schema.json"]
+    },
+    "decisions": {
+      "description": "Architectural decisions and rationale",
+      "files": ["adr-index.json", "patterns.json", "conventions.json"]
+    },
+    "models": {
+      "description": "Data models and their relationships",
+      "files": ["entity-relationships.json", "schema-mappings.json", "validation-rules.json"]
+    }
+  },
+  "update_triggers": [
+    "*.yaml files in api/",
+    "*.dart files in ascent/lib/",
+    "*.go files in server/",
+    "Makefile changes",
+    "CLAUDE.md changes"
+  ],
+  "exclusions": [
+    "**/.DS_Store",
+    "**/node_modules/",
+    "**/build/",
+    "**/.dart_tool/",
+    "**/venv/",
+    "**/.git/"
+  ]
+}

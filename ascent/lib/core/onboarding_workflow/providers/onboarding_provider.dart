@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import '../models/questions/question_list.dart';
 import '../models/questions/question.dart';
 import '../models/answers/onboarding_answers.dart';
-import '../../services/local_storage/local_storage_service.dart';
+import '../../../services/local_storage/local_storage_service.dart';
 //import '../../services/firebase/firebase_storage_service.dart';
 
 class OnboardingProvider extends ChangeNotifier {

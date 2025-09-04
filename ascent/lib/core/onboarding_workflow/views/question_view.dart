@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/questions/question.dart';
 import '../providers/onboarding_provider.dart';
-import '../../theme/general_widgets/swoosh_clipper.dart';
+import '../../../theme/general_widgets/swoosh_clipper.dart';
 
 class QuestionView extends StatelessWidget {
   final Question question;

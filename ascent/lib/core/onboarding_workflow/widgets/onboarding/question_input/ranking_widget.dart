@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../theme/general_widgets/buttons/universal_text_button.dart';
+import '../../../../../theme/general_widgets/buttons/universal_text_button.dart';
 
 class RankingOption {
   final String id;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../models/plan.dart';
-import '../../routing/route_names.dart';
+import '../../../routing/route_names.dart';
 
 class PlanView extends StatelessWidget {
   final Plan plan;

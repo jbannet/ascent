@@ -67,3 +67,7 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# Codebase index - include configuration but exclude generated timestamps
+.codebase-index/**/*.json
+!.codebase-index/index-config.json

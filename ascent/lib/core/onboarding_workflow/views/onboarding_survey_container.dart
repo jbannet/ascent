@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/onboarding_provider.dart';
 import '../widgets/onboarding/onboarding_progress_bar.dart';
-import '../../theme/general_widgets/buttons/universal_elevated_button.dart';
-import '../../theme/general_widgets/buttons/universal_outlined_button.dart';
-import '../../services/load_configuration/question_configuration_service.dart';
+import '../../../theme/general_widgets/buttons/universal_elevated_button.dart';
+import '../../../theme/general_widgets/buttons/universal_outlined_button.dart';
+import '../../../services/load_configuration/question_configuration_service.dart';
 import 'question_view.dart';
 
 class OnboardingSurveyContainer extends StatefulWidget {

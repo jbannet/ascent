@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../theme/general_widgets/universal_progress_indicator.dart';
+import '../../../../theme/general_widgets/universal_progress_indicator.dart';
 
 /// Progress bar widget for displaying onboarding completion status
 class OnboardingProgressBar extends StatelessWidget {
