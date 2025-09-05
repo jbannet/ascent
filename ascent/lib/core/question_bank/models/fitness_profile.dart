@@ -1,5 +1,5 @@
 import '../../onboarding_workflow/models/answers/onboarding_answers.dart';
-import '../base/feature_contribution.dart';
+import 'feature_contribution.dart';
 import '../registry/question_bank.dart';
 import '../../brain/matrix_models/person_vector.dart';
 

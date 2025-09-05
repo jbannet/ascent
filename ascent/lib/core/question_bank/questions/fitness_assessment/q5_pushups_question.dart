@@ -1,6 +1,6 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
-import '../../base/onboarding_question.dart';
-import '../../base/feature_contribution.dart';
+import '../onboarding_question.dart';
+import '../../models/feature_contribution.dart';
 import '../../reference_data/acsm_pushup_norms.dart';
 
 /// Q5: How many push-ups can you do in a row (with good form)?

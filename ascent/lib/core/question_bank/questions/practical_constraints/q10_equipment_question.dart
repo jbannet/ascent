@@ -1,7 +1,7 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
-import '../../base/onboarding_question.dart';
-import '../../base/feature_contribution.dart';
+import '../onboarding_question.dart';
+import '../../models/feature_contribution.dart';
 
 /// Q10: What equipment do you have access to?
 /// 

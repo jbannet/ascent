@@ -4,7 +4,7 @@ import '../providers/onboarding_provider.dart';
 import '../widgets/onboarding/onboarding_progress_bar.dart';
 import '../../../theme/general_widgets/buttons/universal_elevated_button.dart';
 import '../../../theme/general_widgets/buttons/universal_outlined_button.dart';
-import 'question_view.dart';
+import 'onboarding_question_view.dart';
 
 class OnboardingSurveyContainer extends StatefulWidget {
   final VoidCallback? onComplete;
@@ -128,10 +128,10 @@ class _OnboardingSurveyContainerState extends State<OnboardingSurveyContainer> {
               child: Column(
                 children: [
                   OnboardingProgressBar(
-                    sectionName: provider.currentQuestion?.section ?? 'ONBOARDING',
+                    sectionName: provider.currentOnboardingQuestion?.section ?? 'ONBOARDING',
                     progressPercentage: provider.percentComplete,
                     currentQuestionNumber: provider.currentQuestionNumber,
-                    totalQuestionCount: provider.questionList.length,
+                    totalQuestionCount: provider.onboardingQuestions.length,
                   ),
                   Expanded(
                     child: _buildContent(provider),
@@ -148,7 +148,7 @@ class _OnboardingSurveyContainerState extends State<OnboardingSurveyContainer> {
 
   //MARK: CONTENT
   Widget _buildContent(OnboardingProvider provider) {
-    final currentQuestion = provider.currentQuestion;
+    final currentQuestion = provider.currentOnboardingQuestion;
     
     if (currentQuestion == null) {
       return const Center(
@@ -158,7 +158,7 @@ class _OnboardingSurveyContainerState extends State<OnboardingSurveyContainer> {
     
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
-      child: QuestionView(
+      child: OnboardingQuestionView(
         question: currentQuestion,
       ),
     );

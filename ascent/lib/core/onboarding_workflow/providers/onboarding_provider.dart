@@ -1,31 +1,38 @@
 import 'package:flutter/foundation.dart';
-import '../models/questions/question_list.dart';
-import '../models/questions/question.dart';
 import '../models/answers/onboarding_answers.dart';
 import '../../../services/local_storage/local_storage_service.dart';
-import '../../../services/load_configuration/question_configuration_service.dart';
+import '../../question_bank/registry/question_bank.dart';
+import '../../question_bank/questions/onboarding_question.dart';
 //import '../../services/firebase/firebase_storage_service.dart';
 
 class OnboardingProvider extends ChangeNotifier {
   // State
-  QuestionList _questionList = QuestionList.empty();
+  List<OnboardingQuestion> _onboardingQuestions = [];
   OnboardingAnswers _onboardingAnswers = OnboardingAnswers.empty();
   int _currentQuestionNumber = 0;
   bool _onboardingComplete = false;
 
   // Getters
-  QuestionList get questionList => _questionList;
+  List<OnboardingQuestion> get onboardingQuestions => _onboardingQuestions;
   OnboardingAnswers get onboardingAnswers => _onboardingAnswers;
   int get currentQuestionNumber => _currentQuestionNumber;
   bool get isOnboardingComplete => _onboardingComplete;
+  
+  // Get current question
+  OnboardingQuestion? get currentOnboardingQuestion {
+    if (_currentQuestionNumber >= 0 && _currentQuestionNumber < _onboardingQuestions.length) {
+      return _onboardingQuestions[_currentQuestionNumber];
+    }
+    return null;
+  }
 
-  // Load onboarding data - questions from JSON, answers from local storage
+  // Load onboarding data - questions from question bank, answers from local storage
   Future<void> initialize() async {
-    // Load questions directly from JSON file
-    _questionList = await QuestionConfigurationService.loadInitialQuestions();
+    // Load questions from the question bank
+    _onboardingQuestions = QuestionBank.initialize();
     
-    if (!_questionList.isInitialized){
-      throw Exception('Failed to load questions from JSON configuration');
+    if (_onboardingQuestions.isEmpty) {
+      throw Exception('Failed to load questions from question bank');
     }
 
     // Load answers from local storage (keep this for persistence)
@@ -57,14 +64,10 @@ class OnboardingProvider extends ChangeNotifier {
   }
 
 //MARK: NAVIGATION
-  // Get current question object
-  Question? get currentQuestion {
-    return _questionList.getQuestionAtIndex(_currentQuestionNumber);
-  } 
   
   // Get completion percentage
   double get percentComplete {
-    int questionCount = _questionList.length;
+    int questionCount = _onboardingQuestions.length;
     int answerCount = _onboardingAnswers.length;
 
     return questionCount == 0 ? 0 : (answerCount / questionCount) * 100;
@@ -72,12 +75,12 @@ class OnboardingProvider extends ChangeNotifier {
   
   // Navigate to next question and save answers to disk
   void nextQuestion() {
-    if (!_questionList.isInitialized) return;
+    if (_onboardingQuestions.isEmpty) return;
     
     // Save current progress before navigating
     saveAnswersIncomplete();
     
-    if (_currentQuestionNumber < _questionList.length - 1) {
+    if (_currentQuestionNumber < _onboardingQuestions.length - 1) {
       _currentQuestionNumber++;
     } else {
       // Last question - mark as complete

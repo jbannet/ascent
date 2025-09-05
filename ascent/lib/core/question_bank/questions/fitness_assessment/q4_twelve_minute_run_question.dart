@@ -1,6 +1,6 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
-import '../../base/onboarding_question.dart';
-import '../../base/feature_contribution.dart';
+import '../onboarding_question.dart';
+import '../../models/feature_contribution.dart';
 import '../../reference_data/acsm_cardio_norms.dart';
 
 /// Q4: How far can you run/walk in 12 minutes? (Cooper Test)

@@ -1,49 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../core/onboarding_workflow/models/questions/question_list.dart';
 import '../../core/onboarding_workflow/models/answers/onboarding_answers.dart';
 import '../../constants.dart';
 import 'firebase_auth_service.dart';
 import 'firebase_retry_service.dart';
 
-/// Service for managing Firebase storage of onboarding data
+/// Service for managing Firebase storage of onboarding answers
+/// Questions are now managed locally via QuestionBank
 class FirebaseStorageService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  
-  /// Load questions from Firebase
-  static Future<QuestionList> loadQuestions(QuestionList localQuestionList, double firebaseQuestionVersion) async {
-    return await FirebaseRetryService.executeWithRetry(() async {
-      final DocumentSnapshot questionsDoc = await _firestore
-          .collection(AppConstants.onboardingCollectionName)
-          .doc(AppConstants.questionsDocumentName)
-          .get();
-      
-      if (!questionsDoc.exists || questionsDoc.data() == null) {
-        return localQuestionList;
-      }
-
-      final Map<String, dynamic> questionsData = questionsDoc.data() as Map<String, dynamic>;
-      final QuestionList newQuestions = QuestionList.fromJson(questionsData);
-      // Note: Questions no longer saved to local storage - they load from JSON
-      return newQuestions;
-    });
-  }
-  /// Get question version from Firebase
-  static Future<double> getQuestionVersion() async {
-    return await FirebaseRetryService.executeWithRetry(() async {
-      final DocumentSnapshot questionsDoc = await _firestore
-          .collection(AppConstants.onboardingCollectionName)
-          .doc(AppConstants.questionsDocumentName)
-          .get();
-      
-      if (!questionsDoc.exists || questionsDoc.data() == null) {
-        return 0.0;
-      }
-      
-      final Map<String, dynamic> questionsData = questionsDoc.data() as Map<String, dynamic>;
-      final String? versionStr = questionsData['version'] as String?;
-      return double.tryParse(versionStr ?? '') ?? 0.0;
-    });
-  }
   
   /// Load answers from Firebase for current user
   static Future<OnboardingAnswers> loadAnswers() async {
