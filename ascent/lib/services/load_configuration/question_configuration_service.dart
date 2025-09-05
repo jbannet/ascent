@@ -1,5 +1,5 @@
 import '../../core/onboarding_workflow/models/questions/question_list.dart';
-import '../../core/onboarding_question_bank/registry/question_bank.dart';
+import '../../core/question_bank/registry/question_bank.dart';
 
 /// Service for loading onboarding question configuration from QuestionBank
 class QuestionConfigurationService {

@@ -1,11 +1,11 @@
 import '../../onboarding_workflow/models/questions/question.dart';
 import '../../onboarding_workflow/models/questions/question_list.dart';
 import '../base/onboarding_question.dart';
-// Personal Info
-import '../questions/personal_info/user_name_question.dart';
-import '../questions/personal_info/age_question.dart';
-import '../questions/personal_info/gender_question.dart';
-import '../questions/personal_info/height_question.dart';
+// Demographics
+import '../questions/demographics/user_name_question.dart';
+import '../questions/demographics/age_question.dart';
+import '../questions/demographics/gender_question.dart';
+import '../questions/demographics/height_question.dart';
 // Motivation
 import '../questions/motivation/primary_motivation_question.dart';
 import '../questions/motivation/progress_tracking_question.dart';
@@ -43,7 +43,7 @@ class QuestionBank {
   
   // Registry of all questions in the correct order (following JSON structure)
   static final List<OnboardingQuestion> _allQuestions = [
-    // 1. Personal Information
+    // 1. Demographics
     UserNameQuestion(),           // user_name
     AgeQuestion(),                // age  
     GenderQuestion(),             // gender
