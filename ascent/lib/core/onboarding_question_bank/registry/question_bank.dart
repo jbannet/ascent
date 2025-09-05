@@ -1,20 +1,38 @@
 import '../../onboarding_workflow/models/questions/question.dart';
 import '../../onboarding_workflow/models/questions/question_list.dart';
 import '../base/onboarding_question.dart';
-import '../questions/practical_constraints/q1_injuries_question.dart';
-import '../questions/practical_constraints/q2_high_impact_question.dart';
-import '../questions/fitness_assessment/q3_stairs_question.dart';
-import '../questions/fitness_assessment/q4_twelve_minute_run_question.dart';
-import '../questions/fitness_assessment/q5_pushups_question.dart';
-import '../questions/fitness_assessment/q6_structured_program_question.dart';
-import '../questions/fitness_assessment/q7_free_weights_question.dart';
-import '../questions/fitness_assessment/q8_training_days_question.dart';
-import '../questions/fitness_assessment/q9_session_time_question.dart';
-import '../questions/practical_constraints/q10_equipment_question.dart';
-import '../questions/practical_constraints/q11_training_location_question.dart';
+// Personal Info
+import '../questions/personal_info/user_name_question.dart';
 import '../questions/personal_info/age_question.dart';
 import '../questions/personal_info/gender_question.dart';
 import '../questions/personal_info/height_question.dart';
+// Motivation
+import '../questions/motivation/primary_motivation_question.dart';
+import '../questions/motivation/progress_tracking_question.dart';
+// Goals
+import '../questions/goals/fitness_goals_question.dart';
+import '../questions/goals/weight_loss_target_question.dart';
+import '../questions/goals/target_completion_date_question.dart';
+// Fitness Assessment
+import '../questions/fitness_assessment/current_fitness_level_question.dart';
+import '../questions/fitness_assessment/q3_stairs_question.dart';
+import '../questions/fitness_assessment/q4_twelve_minute_run_question.dart';
+import '../questions/fitness_assessment/q5_pushups_question.dart';
+import '../questions/fitness_assessment/current_activities_question.dart';
+import '../questions/fitness_assessment/q6_structured_program_question.dart';
+import '../questions/fitness_assessment/q7_free_weights_question.dart';
+import '../questions/fitness_assessment/workout_frequency_question.dart';
+import '../questions/fitness_assessment/q8_training_days_question.dart';
+import '../questions/fitness_assessment/workout_duration_question.dart';
+import '../questions/fitness_assessment/q9_session_time_question.dart';
+// Lifestyle
+import '../questions/lifestyle/current_diet_question.dart';
+import '../questions/lifestyle/sleep_hours_question.dart';
+// Practical Constraints
+import '../questions/practical_constraints/q1_injuries_question.dart';
+import '../questions/practical_constraints/q2_high_impact_question.dart';
+import '../questions/practical_constraints/q10_equipment_question.dart';
+import '../questions/practical_constraints/q11_training_location_question.dart';
 
 /// Central registry for all onboarding questions.
 /// 
@@ -23,27 +41,53 @@ import '../questions/personal_info/height_question.dart';
 /// be accessed for both UI presentation and ML evaluation.
 class QuestionBank {
   
-  // Registry of all questions
+  // Registry of all questions in the correct order (following JSON structure)
   static final List<OnboardingQuestion> _allQuestions = [
-    // Personal Information (Demographics)
-    AgeQuestion(),
-    GenderQuestion(),
-    HeightQuestion(),
+    // 1. Personal Information
+    UserNameQuestion(),           // user_name
+    AgeQuestion(),                // age  
+    GenderQuestion(),             // gender
+    HeightQuestion(),             // height
     
-    // Practical Constraints
-    Q1InjuriesQuestion(),
-    Q2HighImpactQuestion(),
-    Q10EquipmentQuestion(),
-    Q11TrainingLocationQuestion(),
+    // 2. Motivation
+    PrimaryMotivationQuestion(),  // primary_motivation
+    ProgressTrackingQuestion(),   // progress_tracking
     
-    // Fitness Assessment Questions
-    Q3StairsQuestion(),
-    Q4TwelveMinuteRunQuestion(),
-    Q5PushupsQuestion(),
-    Q6StructuredProgramQuestion(),
-    Q7FreeWeightsQuestion(),
-    Q8TrainingDaysQuestion(),
-    Q9SessionTimeQuestion(),
+    // 3. Goals
+    FitnessGoalsQuestion(),       // fitness_goals
+    WeightLossTargetQuestion(),   // weight_loss_target (conditional)
+    
+    // 4. Fitness Assessment
+    CurrentFitnessLevelQuestion(), // current_fitness_level
+    Q3StairsQuestion(),           // Q3 (stairs)
+    Q4TwelveMinuteRunQuestion(),  // Q4 (12-min run)
+    Q5PushupsQuestion(),          // pushups_count (Q5)
+    
+    // 5. Lifestyle
+    CurrentDietQuestion(),        // current_diet
+    SleepHoursQuestion(),         // sleep_hours
+    
+    // 6. Current Activities
+    CurrentActivitiesQuestion(),  // current_activities
+    
+    // 7. Training Experience
+    Q6StructuredProgramQuestion(), // Q6 (structured program)
+    Q7FreeWeightsQuestion(),      // Q7 (free weights)
+    
+    // 8. Schedule and Constraints
+    WorkoutFrequencyQuestion(),   // workout_frequency (similar to Q8)
+    Q8TrainingDaysQuestion(),     // Q8 (training days) - keep both for now
+    WorkoutDurationQuestion(),    // workout_duration (similar to Q9)
+    Q9SessionTimeQuestion(),      // Q9 (session time) - keep both for now
+    
+    // 9. Physical Constraints
+    Q1InjuriesQuestion(),         // Q1 (injuries)
+    Q2HighImpactQuestion(),       // Q2 (high impact)
+    Q10EquipmentQuestion(),       // Q10 (equipment)
+    Q11TrainingLocationQuestion(), // Q11 (location)
+    
+    // 10. Goals Timeline
+    TargetCompletionDateQuestion(), // target_completion_date
   ];
   
   //MARK: FOR UI PRESENTATION
