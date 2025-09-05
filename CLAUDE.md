@@ -6,6 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Always check these files first to understand the codebase:
 - `.codebase-index` - Complete project structure, file organization, and key components
 - `.claude-index` - Architectural patterns, feature interactions, and development guidelines
+- /Users/jonathanbannet/MyProjects/fitness_app/feature_list - specifies what is a feature in the exercise matrix and profile feature list and what is part of the profile
 
 # RULES
 1. Query rules: use INVOKER, SET path, fully qualify tables. Query function parameters should start with "p_", declared variables with "v_". Save functions must use UPSERT

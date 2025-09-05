@@ -9,7 +9,7 @@ import '../../../services/local_storage/local_storage_service.dart';
 /// The result is a feature vector that can be used with the ML system.
 class FitnessProfile {
   final Map<String, double> _features = {};
-  final Map<String, double> _demographics = {};
+  final Map<String, double> _profile = {};
   
   FitnessProfile(List<String> featureOrder){
     //build features in correct order
@@ -38,7 +38,7 @@ class FitnessProfile {
     
     if (loadedDemographics != null && loadedDemographics.isNotEmpty) {
       //Load demographics from storage
-      _demographics.addAll(loadedDemographics);
+      _profile.addAll(loadedDemographics);
     }
   }
 
@@ -48,7 +48,7 @@ class FitnessProfile {
   }
 
   Future<void> saveDemographicsToStorage() async {
-    await LocalStorageService.saveFitnessProfileDemographics(_demographics);
+    await LocalStorageService.saveFitnessProfileDemographics(_profile);
   }
 
   /// Function called once during onboarding completion
@@ -68,7 +68,7 @@ class FitnessProfile {
       
       // Pass features and demographics directly so question can modify them
       //!!!! THIS IS A DESTRUCTIVE OPERATION ON THE MAPS
-      question.evaluate(answer, _features, _demographics);
+      question.evaluate(answer, _features, _profile);
     }
   }
 }

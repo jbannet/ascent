@@ -3,7 +3,6 @@ import '../../onboarding_workflow/models/questions/question.dart';
 import '../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../onboarding_workflow/models/questions/question_option.dart';
 import '../../onboarding_workflow/models/questions/question_condition.dart';
-import '../models/feature_contribution.dart';
 import '../views/base_question_view.dart';
 import '../views/question_types/text_input_view.dart';
 import '../views/question_types/number_input_view.dart';

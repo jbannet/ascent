@@ -1,0 +1,58 @@
+These are the ALLOWED keys for feature Map. This map is used for exercise selection. Profile map is used for intensity, reps, time, etc.
+
+	Category	Feature
+Exercise	Muscle	abdominals
+Exercise	Muscle	hamstrings
+Exercise	Muscle	calves
+Exercise	Muscle	shoulders
+Exercise	Muscle	adductors
+Exercise	Muscle	glutes
+Exercise	Muscle	quadriceps
+Exercise	Muscle	biceps
+Exercise	Muscle	forearms
+Exercise	Muscle	abductors
+Exercise	Muscle	triceps
+Exercise	Muscle	chest
+Exercise	Muscle	lower back
+Exercise	Muscle	traps
+Exercise	Muscle	middle back
+Exercise	Muscle	lats
+Exercise	Muscle	neck
+Exercise	Force	pull
+Exercise	Force	push
+Exercise	Force	static
+Exercise	Level	beginner
+Exercise	Level	intermediate
+Exercise	Level	expert
+Exercise	Level	used free-weights
+Exercise	Mechanic	compound
+Exercise	Mechanic	isolation
+Exercise	Equipment	gym
+Exercise	Equipment	body only
+Exercise	Equipment	machine
+Exercise	Equipment	kettlebells
+Exercise	Equipment	dumbbell
+Exercise	Equipment	cable
+Exercise	Equipment	barbell
+Exercise	Equipment	bands
+Exercise	Equipment	medicine ball
+Exercise	Equipment	exercise ball
+Exercise	Equipment	e-z curl bar
+Exercise	Equipment	foam roll
+Exercise	Category	strength
+Exercise	Category	stretching
+Exercise	Category	plyometrics
+Exercise	Category	cardio
+Exercise	Category	pilates
+Exercise	Category	bodyweight
+Exercise	Category	weighted bodyweight
+Exercise	Category	assisted bodyweight
+Exercise	Category	yoga
+Exercise	Category	balance
+Exercise	Quality	 low impact
+Exercise	Age	<18
+Exercise	Age	18-34
+Exercise	Age	35-54
+Exercise	Age	55-64
+Exercise	Age	65-79
+Exercise	Age	80+
