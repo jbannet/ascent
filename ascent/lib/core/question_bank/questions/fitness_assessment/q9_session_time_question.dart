@@ -44,7 +44,7 @@ class Q9SessionTimeQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final sessionMinutes = int.parse(answer.toString());
     final timeScore = _calculateTimeScore(sessionMinutes);
     final efficiency = _calculateEfficiencyNeed(sessionMinutes);

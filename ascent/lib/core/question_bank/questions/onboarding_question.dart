@@ -69,12 +69,14 @@ abstract class OnboardingQuestion {
   /// Evaluate how this question's answer contributes to ML features.
   /// 
   /// [answer] is the user's response (String, num, List of String, etc.)
-  /// [context] contains other data needed for evaluation (age, gender, other answers)
+  /// [features] is the current features map that can be directly modified
+  /// [demographics] is the current demographics map that can be directly modified
   /// 
-  /// Returns a list of feature contributions from this answer.
-  List<FeatureContribution> evaluate(
+  /// Directly modifies the features and demographics maps.
+  void evaluate(
     dynamic answer,
-    Map<String, dynamic> context,
+    Map<String, double> features,
+    Map<String, double> demographics,
   );
   
   //MARK: VALIDATION

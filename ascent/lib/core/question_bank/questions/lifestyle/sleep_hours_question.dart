@@ -27,7 +27,7 @@ class SleepHoursQuestion extends OnboardingQuestion {
   };
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final hours = (answer as num).toDouble();
     final sleepQuality = _getSleepQuality(hours);
     

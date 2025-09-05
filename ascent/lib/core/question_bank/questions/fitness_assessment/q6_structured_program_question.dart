@@ -43,7 +43,7 @@ class Q6StructuredProgramQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final response = answer.toString();
     final experienceLevel = _getExperienceLevel(response);
     final adherenceScore = _getAdherenceScore(response);

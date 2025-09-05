@@ -43,39 +43,37 @@ class Q3StairsQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  void evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final response = answer.toString();
-    final age = context['age'] as int? ?? 35;
+    final age = demographics['age']?.toInt() ?? 35;
     
     // Convert response to cardiovascular fitness score
     final cardioScore = _getCardioScore(response);
     final ageAdjustedScore = _adjustForAge(cardioScore, age);
     
-    return [
-      // Primary cardiovascular fitness indicator
-      FeatureContribution('cardiovascular_fitness', cardioScore),
-      
-      // Age-adjusted cardiovascular capacity
-      FeatureContribution('cardio_fitness_age_adjusted', ageAdjustedScore),
-      
-      // Functional fitness level
-      FeatureContribution('functional_fitness', cardioScore * 0.9),
-      
-      // Exercise intensity readiness
-      FeatureContribution('cardio_intensity_readiness', _calculateIntensityReadiness(cardioScore)),
-      
-      // Training starting level
-      FeatureContribution('cardio_training_level', _getTrainingLevel(cardioScore)),
-      
-      // Recovery capacity indicator
-      FeatureContribution('recovery_capacity', cardioScore * 0.8),
-      
-      // Overall fitness contribution
-      FeatureContribution('overall_fitness', cardioScore * 0.4, ContributionType.add),
-      
-      // Endurance exercise suitability
-      FeatureContribution('endurance_exercise_ready', cardioScore > 0.5 ? 1.0 : 0.0),
-    ];
+    // Primary cardiovascular fitness indicator
+    features['cardiovascular_fitness'] = cardioScore;
+    
+    // Age-adjusted cardiovascular capacity
+    features['cardio_fitness_age_adjusted'] = ageAdjustedScore;
+    
+    // Functional fitness level
+    features['functional_fitness'] = cardioScore * 0.9;
+    
+    // Exercise intensity readiness
+    features['cardio_intensity_readiness'] = _calculateIntensityReadiness(cardioScore);
+    
+    // Training starting level
+    features['cardio_training_level'] = _getTrainingLevel(cardioScore);
+    
+    // Recovery capacity indicator
+    features['recovery_capacity'] = cardioScore * 0.8;
+    
+    // Overall fitness contribution (ADD operation)
+    features['overall_fitness'] = (features['overall_fitness'] ?? 0.0) + (cardioScore * 0.4);
+    
+    // Endurance exercise suitability
+    features['endurance_exercise_ready'] = cardioScore > 0.5 ? 1.0 : 0.0;
   }
   
   //MARK: VALIDATION

@@ -43,7 +43,7 @@ class WeightLossTargetQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final weightLossTarget = (answer as num).toDouble();
     final targetCategory = _getTargetCategory(weightLossTarget);
     

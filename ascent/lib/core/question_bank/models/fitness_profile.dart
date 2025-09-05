@@ -1,26 +1,59 @@
 import '../../onboarding_workflow/models/answers/onboarding_answers.dart';
-import 'feature_contribution.dart';
 import '../registry/question_bank.dart';
-import '../../brain/matrix_models/person_vector.dart';
+import '../../../services/local_storage/local_storage_service.dart';
 
 /// Evaluates onboarding answers to create a fitness profile with ML features.
 /// 
 /// This class takes raw answers from the onboarding flow and uses the
 /// QuestionBank to evaluate each answer's contribution to fitness features.
 /// The result is a feature vector that can be used with the ML system.
-class FitnessProfileEvaluator {
-  final Map<String, double> features = {};
-  final OnboardingAnswers answers;
+class FitnessProfile {
+  final Map<String, double> _features = {};
+  final Map<String, double> _demographics = {};
   
-  FitnessProfileEvaluator(this.answers) {
-    _evaluateAllAnswers();
-  }
-  
-  /// Process all answers through their respective question evaluators
-  void _evaluateAllAnswers() {
-    // Build context with demographic information
-    final context = _buildEvaluationContext();
+  FitnessProfile(List<String> featureOrder){
+    //build features in correct order
+    for (final feature in featureOrder) {
+      _features[feature] = 0.0;
+    }
     
+    loadFeaturesFromStorage();
+  }
+
+  get features => Map<String, double>.unmodifiable(_features);
+
+  //Load features from local storage (Hive) into the features Map<String, double>
+  Future<void> loadFeaturesFromStorage() async {    
+    final Map<String, double>? loadedFeatures = await LocalStorageService.loadFitnessProfileFeatures();
+    final Map<String, double>? loadedDemographics = await LocalStorageService.loadFitnessProfileDemographics();
+    
+    if (loadedFeatures != null && loadedFeatures.isNotEmpty) {
+      //Load features from storage into the _features map, keeping the same key order
+      for (final entry in loadedFeatures.entries) {
+        if (_features.containsKey(entry.key)) { //only load known features
+          _features[entry.key] = entry.value;
+        }
+      }
+    }
+    
+    if (loadedDemographics != null && loadedDemographics.isNotEmpty) {
+      //Load demographics from storage
+      _demographics.addAll(loadedDemographics);
+    }
+  }
+
+  //Use local_storage (Hive) to save the features Map<String, double>
+  Future<void> saveFeaturesToStorage() async {
+    await LocalStorageService.saveFitnessProfileFeatures(_features);
+  }
+
+  Future<void> saveDemographicsToStorage() async {
+    await LocalStorageService.saveFitnessProfileDemographics(_demographics);
+  }
+
+  /// Function called once during onboarding completion
+  /// Process all answers through their respective question evaluators
+  void initializeProfileFromQuestions(OnboardingAnswers answers) {
     // Evaluate each answer through its question
     for (final entry in answers.answers.entries) {
       final questionId = entry.key;
@@ -31,88 +64,11 @@ class FitnessProfileEvaluator {
       
       // Get the question evaluator
       final question = QuestionBank.getQuestion(questionId);
-      if (question == null) {
-        print('Warning: No evaluator found for question $questionId');
-        continue;
-      }
+      if (question == null) continue;
       
-      // Evaluate the answer
-      try {
-        final contributions = question.evaluate(answer, context);
-        _applyContributions(contributions);
-      } catch (e) {
-        print('Error evaluating question $questionId: $e');
-      }
+      // Pass features and demographics directly so question can modify them
+      //!!!! THIS IS A DESTRUCTIVE OPERATION ON THE MAPS
+      question.evaluate(answer, _features, _demographics);
     }
-  }
-  
-  /// Build context map with demographic and other supporting data
-  Map<String, dynamic> _buildEvaluationContext() {
-    return {
-      'age': answers.getAnswer('age') ?? 35,
-      'gender': answers.getAnswer('gender') ?? 'male',
-      'height': answers.getAnswer('height'),
-      // Add other context as needed
-    };
-  }
-  
-  /// Apply feature contributions to the feature map
-  void _applyContributions(List<FeatureContribution> contributions) {
-    for (final contribution in contributions) {
-      switch (contribution.type) {
-        case ContributionType.set:
-          features[contribution.featureName] = contribution.value;
-          break;
-          
-        case ContributionType.add:
-          features[contribution.featureName] = 
-            (features[contribution.featureName] ?? 0.0) + contribution.value;
-          break;
-          
-        case ContributionType.multiply:
-          features[contribution.featureName] = 
-            (features[contribution.featureName] ?? 1.0) * contribution.value;
-          break;
-      }
-    }
-  }
-  
-  /// Convert the evaluated features to a PersonVector for ML use
-  PersonVector toPersonVector() {
-    // Define feature order (this would normally come from a configuration)
-    final featureOrder = features.keys.toList()..sort();
-    
-    // Create ordered feature map
-    final orderedFeatures = <String, double>{};
-    for (final featureName in featureOrder) {
-      orderedFeatures[featureName] = features[featureName] ?? 0.0;
-    }
-    
-    return PersonVector(orderedFeatures, featureOrder);
-  }
-  
-  /// Get a summary of the fitness profile for display
-  Map<String, dynamic> getProfileSummary() {
-    return {
-      'total_features': features.length,
-      'strength_score': _calculateDimensionScore(['upper_body_strength', 'overall_strength']),
-      'training_readiness': features['strength_training_readiness'] ?? 0.0,
-      'fitness_age_factor': features['strength_fitness_age_factor'] ?? 0.5,
-      'all_features': Map.from(features), // Copy for debugging
-    };
-  }
-  
-  /// Calculate a composite score for a fitness dimension
-  double _calculateDimensionScore(List<String> featureNames) {
-    final values = featureNames
-        .map((name) => features[name])
-        .where((value) => value != null)
-        .map((value) => value!)
-        .toList();
-    
-    if (values.isEmpty) return 0.0;
-    
-    // Average the contributing features
-    return values.reduce((a, b) => a + b) / values.length;
   }
 }

@@ -46,7 +46,7 @@ class Q2HighImpactQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final selections = answer is List ? answer.cast<String>() : [answer.toString()];
     
     final hasRestrictions = !selections.contains('none');

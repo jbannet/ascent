@@ -38,32 +38,31 @@ class Q5PushupsQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  void evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final pushUpCount = (answer as num).toInt();
-    final age = context['age'] as int? ?? 35; // Default age if not provided
-    final gender = context['gender'] as String? ?? 'male'; // Default gender
+    final age = demographics['age']?.toInt() ?? 35; // Default age if not provided
+    final gender = demographics['gender'] == 1.0 ? 'male' : (demographics['gender'] == 2.0 ? 'female' : 'male'); // Default gender
     
     // Get age and gender-adjusted percentile (0.0 to 1.0)
     final percentile = ACSMPushupNorms.getPercentile(pushUpCount, age, gender);
     
     // Calculate various feature contributions
-    return [
-      // Primary upper body strength indicator
-      FeatureContribution('upper_body_strength', percentile),
-      
-      // Secondary contributions
-      FeatureContribution('muscular_endurance', percentile * 0.8),
-      FeatureContribution('overall_strength', percentile * 0.6, ContributionType.add),
-      
-      // Raw count for specific calculations
-      FeatureContribution('pushup_count_raw', pushUpCount / 50.0), // Normalize to ~0-1 range
-      
-      // Training readiness based on strength
-      FeatureContribution('strength_training_readiness', _calculateReadiness(percentile)),
-      
-      // Age-adjusted fitness indicator
-      FeatureContribution('strength_fitness_age_factor', _calculateAgeFactor(percentile, age)),
-    ];
+    
+    // Primary upper body strength indicator
+    features['upper_body_strength'] = percentile;
+    
+    // Secondary contributions
+    features['muscular_endurance'] = percentile * 0.8;
+    features['overall_strength'] = (features['overall_strength'] ?? 0.0) + (percentile * 0.6); // ADD operation
+    
+    // Raw count for specific calculations
+    features['pushup_count_raw'] = pushUpCount / 50.0; // Normalize to ~0-1 range
+    
+    // Training readiness based on strength
+    features['strength_training_readiness'] = _calculateReadiness(percentile);
+    
+    // Age-adjusted fitness indicator
+    features['strength_fitness_age_factor'] = _calculateAgeFactor(percentile, age);
   }
   
   //MARK: VALIDATION

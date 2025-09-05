@@ -27,7 +27,7 @@ class WorkoutFrequencyQuestion extends OnboardingQuestion {
   };
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final days = (answer as num).toInt();
     return [
       FeatureContribution('weekly_frequency', days / 7.0),

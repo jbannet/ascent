@@ -33,23 +33,24 @@ class UserNameQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  void evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final name = answer.toString().trim();
     final nameLength = name.length;
     final hasMultipleWords = name.split(' ').length > 1;
     
-    return [
-      // Name characteristics (minimal ML impact, mostly for personalization)
-      FeatureContribution('has_full_name', hasMultipleWords ? 1.0 : 0.0),
-      FeatureContribution('name_length_factor', (nameLength / 50.0).clamp(0.0, 1.0)),
-      
-      // User engagement indicators
-      FeatureContribution('provided_complete_name', hasMultipleWords ? 1.0 : 0.0),
-      FeatureContribution('profile_completeness', 0.1), // Small contribution to profile completion
-      
-      // Personalization readiness
-      FeatureContribution('personalization_ready', name.isNotEmpty ? 1.0 : 0.0),
-    ];
+    // Store name in demographics (as length for privacy)
+    demographics['name_length'] = nameLength.toDouble();
+    
+    // Name characteristics (minimal ML impact, mostly for personalization)
+    features['has_full_name'] = hasMultipleWords ? 1.0 : 0.0;
+    features['name_length_factor'] = (nameLength / 50.0).clamp(0.0, 1.0);
+    
+    // User engagement indicators
+    features['provided_complete_name'] = hasMultipleWords ? 1.0 : 0.0;
+    features['profile_completeness'] = 0.1; // Small contribution to profile completion
+    
+    // Personalization readiness
+    features['personalization_ready'] = name.isNotEmpty ? 1.0 : 0.0;
   }
   
   //MARK: VALIDATION

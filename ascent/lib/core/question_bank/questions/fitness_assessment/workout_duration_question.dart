@@ -29,7 +29,7 @@ class WorkoutDurationQuestion extends OnboardingQuestion {
   Map<String, dynamic> get config => {'isRequired': true};
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final duration = answer.toString();
     return [
       FeatureContribution('short_workouts', duration == '15_30' ? 1.0 : 0.0),

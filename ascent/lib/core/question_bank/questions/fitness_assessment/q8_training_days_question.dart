@@ -44,7 +44,7 @@ class Q8TrainingDaysQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final daysPerWeek = int.parse(answer.toString());
     final frequencyScore = _calculateFrequencyScore(daysPerWeek);
     

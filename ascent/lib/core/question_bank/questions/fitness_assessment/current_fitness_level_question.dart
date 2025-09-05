@@ -55,7 +55,7 @@ class CurrentFitnessLevelQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final level = answer.toString();
     final levelScore = _getLevelScore(level);
     

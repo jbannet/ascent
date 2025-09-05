@@ -41,7 +41,7 @@ class CurrentActivitiesQuestion extends OnboardingQuestion {
   };
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final selections = answer is List ? answer.cast<String>() : [answer.toString()];
     final isActive = !selections.contains('none');
     

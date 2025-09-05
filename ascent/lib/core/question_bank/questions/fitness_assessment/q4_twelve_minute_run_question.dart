@@ -39,47 +39,45 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  void evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final distance = (answer as num).toDouble();
-    final age = context['age'] as int? ?? 35;
-    final gender = context['gender'] as String? ?? 'male';
+    final age = demographics['age']?.toInt() ?? 35;
+    final gender = demographics['gender'] == 1.0 ? 'male' : (demographics['gender'] == 2.0 ? 'female' : 'male');
     
     // Get age and gender-adjusted percentile
     final percentile = ACSMCardioNorms.getPercentile(distance, age, gender);
     final estimatedVO2Max = ACSMCardioNorms.estimateVO2Max(distance);
     
-    return [
-      // Primary cardiovascular fitness indicators
-      FeatureContribution('cardiovascular_fitness', percentile),
-      FeatureContribution('cardio_fitness_percentile', percentile),
-      
-      // VO2 Max estimation (normalized to 0-1 scale)
-      FeatureContribution('estimated_vo2_max', (estimatedVO2Max / 60.0).clamp(0.0, 1.0)),
-      
-      // Raw performance data
-      FeatureContribution('twelve_minute_distance', distance / 3000.0), // Normalize around average
-      
-      // Training intensity readiness
-      FeatureContribution('cardio_intensity_readiness', _calculateIntensityReadiness(percentile)),
-      
-      // Aerobic base fitness
-      FeatureContribution('aerobic_base', percentile * 0.9),
-      
-      // Endurance training suitability
-      FeatureContribution('endurance_training_ready', percentile > 0.4 ? 1.0 : 0.0),
-      
-      // Recovery capacity (higher fitness = better recovery)
-      FeatureContribution('cardio_recovery_capacity', percentile * 0.8),
-      
-      // Overall fitness contribution
-      FeatureContribution('overall_fitness', percentile * 0.5, ContributionType.add),
-      
-      // Age-adjusted performance factor
-      FeatureContribution('cardio_age_performance', _calculateAgeAdjustedPerformance(percentile, age)),
-      
-      // Training volume capacity
-      FeatureContribution('cardio_volume_capacity', _calculateVolumeCapacity(percentile)),
-    ];
+    // Primary cardiovascular fitness indicators
+    features['cardiovascular_fitness'] = percentile;
+    features['cardio_fitness_percentile'] = percentile;
+    
+    // VO2 Max estimation (normalized to 0-1 scale)
+    features['estimated_vo2_max'] = (estimatedVO2Max / 60.0).clamp(0.0, 1.0);
+    
+    // Raw performance data
+    features['twelve_minute_distance'] = distance / 3000.0; // Normalize around average
+    
+    // Training intensity readiness
+    features['cardio_intensity_readiness'] = _calculateIntensityReadiness(percentile);
+    
+    // Aerobic base fitness
+    features['aerobic_base'] = percentile * 0.9;
+    
+    // Endurance training suitability
+    features['endurance_training_ready'] = percentile > 0.4 ? 1.0 : 0.0;
+    
+    // Recovery capacity (higher fitness = better recovery)
+    features['cardio_recovery_capacity'] = percentile * 0.8;
+    
+    // Overall fitness contribution (ADD operation)
+    features['overall_fitness'] = (features['overall_fitness'] ?? 0.0) + (percentile * 0.5);
+    
+    // Age-adjusted performance factor
+    features['cardio_age_performance'] = _calculateAgeAdjustedPerformance(percentile, age);
+    
+    // Training volume capacity
+    features['cardio_volume_capacity'] = _calculateVolumeCapacity(percentile);
   }
   
   //MARK: VALIDATION

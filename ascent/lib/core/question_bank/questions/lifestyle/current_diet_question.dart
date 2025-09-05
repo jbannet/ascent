@@ -30,7 +30,7 @@ class CurrentDietQuestion extends OnboardingQuestion {
   Map<String, dynamic> get config => {'isRequired': true};
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final diet = answer.toString();
     final dietScore = _getDietScore(diet);
     

@@ -42,40 +42,41 @@ class GenderQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  void evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final gender = answer.toString();
     
-    return [
-      // Gender identity for norm calculations
-      FeatureContribution('is_male', gender == 'male' ? 1.0 : 0.0),
-      FeatureContribution('is_female', gender == 'female' ? 1.0 : 0.0),
-      FeatureContribution('is_non_binary', gender == 'non_binary' ? 1.0 : 0.0),
-      
-      // Physiological considerations (using typical biological differences)
-      FeatureContribution('muscle_mass_baseline', _getMuscleBaseline(gender)),
-      FeatureContribution('bone_density_baseline', _getBoneDensityBaseline(gender)),
-      FeatureContribution('body_fat_baseline', _getBodyFatBaseline(gender)),
-      
-      // Strength training considerations
-      FeatureContribution('upper_body_strength_baseline', _getUpperBodyBaseline(gender)),
-      FeatureContribution('lower_body_strength_baseline', _getLowerBodyBaseline(gender)),
-      FeatureContribution('strength_progression_rate', _getProgressionRate(gender)),
-      
-      // Cardiovascular considerations
-      FeatureContribution('cardiovascular_efficiency', _getCardioEfficiency(gender)),
-      FeatureContribution('heart_rate_adjustment', _getHRAdjustment(gender)),
-      
-      // Training response factors
-      FeatureContribution('hypertrophy_response', _getHypertrophyResponse(gender)),
-      FeatureContribution('endurance_adaptation', _getEnduranceAdaptation(gender)),
-      
-      // Recovery considerations
-      FeatureContribution('recovery_rate_factor', _getRecoveryFactor(gender)),
-      
-      // Special considerations
-      FeatureContribution('iron_deficiency_risk', gender == 'female' ? 0.8 : 0.2),
-      FeatureContribution('osteoporosis_risk', _getOsteoporosisRisk(gender)),
-    ];
+    // Store gender in demographics
+    demographics['gender'] = gender == 'male' ? 1.0 : (gender == 'female' ? 2.0 : 3.0);
+    
+    // Gender identity for norm calculations
+    features['is_male'] = gender == 'male' ? 1.0 : 0.0;
+    features['is_female'] = gender == 'female' ? 1.0 : 0.0;
+    features['is_non_binary'] = gender == 'non_binary' ? 1.0 : 0.0;
+    
+    // Physiological considerations (using typical biological differences)
+    features['muscle_mass_baseline'] = _getMuscleBaseline(gender);
+    features['bone_density_baseline'] = _getBoneDensityBaseline(gender);
+    features['body_fat_baseline'] = _getBodyFatBaseline(gender);
+    
+    // Strength training considerations
+    features['upper_body_strength_baseline'] = _getUpperBodyBaseline(gender);
+    features['lower_body_strength_baseline'] = _getLowerBodyBaseline(gender);
+    features['strength_progression_rate'] = _getProgressionRate(gender);
+    
+    // Cardiovascular considerations
+    features['cardiovascular_efficiency'] = _getCardioEfficiency(gender);
+    features['heart_rate_adjustment'] = _getHRAdjustment(gender);
+    
+    // Training response factors
+    features['hypertrophy_response'] = _getHypertrophyResponse(gender);
+    features['endurance_adaptation'] = _getEnduranceAdaptation(gender);
+    
+    // Recovery considerations
+    features['recovery_rate_factor'] = _getRecoveryFactor(gender);
+    
+    // Special considerations
+    features['iron_deficiency_risk'] = gender == 'female' ? 0.8 : 0.2;
+    features['osteoporosis_risk'] = _getOsteoporosisRisk(gender);
   }
   
   //MARK: VALIDATION

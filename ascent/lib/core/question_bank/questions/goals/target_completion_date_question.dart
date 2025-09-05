@@ -25,7 +25,7 @@ class TargetCompletionDateQuestion extends OnboardingQuestion {
   };
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     // For date picker, we'd need to calculate timeline
     // For now, basic features
     return [

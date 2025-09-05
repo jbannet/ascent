@@ -37,40 +37,41 @@ class AgeQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  void evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final age = (answer as num).toInt();
     
-    return [
-      // Raw age for calculations
-      FeatureContribution('age', age / 100.0), // Normalize to 0-1 scale
-      FeatureContribution('age_raw', age.toDouble()),
-      
-      // Age categories for different training considerations
-      FeatureContribution('is_youth', age < 18 ? 1.0 : 0.0),
-      FeatureContribution('is_young_adult', (age >= 18 && age < 30) ? 1.0 : 0.0),
-      FeatureContribution('is_middle_aged', (age >= 30 && age < 50) ? 1.0 : 0.0),
-      FeatureContribution('is_older_adult', (age >= 50 && age < 65) ? 1.0 : 0.0),
-      FeatureContribution('is_senior', age >= 65 ? 1.0 : 0.0),
-      
-      // Training intensity considerations
-      FeatureContribution('max_heart_rate_factor', _calculateMaxHRFactor(age)),
-      FeatureContribution('recovery_adjustment_factor', _calculateRecoveryFactor(age)),
-      FeatureContribution('intensity_tolerance', _calculateIntensityTolerance(age)),
-      
-      // Risk and safety considerations
-      FeatureContribution('injury_risk_age_factor', _calculateInjuryRiskFactor(age)),
-      FeatureContribution('requires_medical_clearance', age >= 50 ? 1.0 : 0.0),
-      FeatureContribution('bone_density_concern', (age >= 30) ? ((age - 30) / 70.0) : 0.0),
-      
-      // Program design considerations
-      FeatureContribution('prefers_low_impact', age >= 60 ? 1.0 : 0.0),
-      FeatureContribution('mobility_priority', age >= 40 ? ((age - 40) / 60.0).clamp(0.0, 1.0) : 0.0),
-      FeatureContribution('balance_training_importance', age >= 50 ? ((age - 50) / 50.0).clamp(0.0, 1.0) : 0.0),
-      
-      // Metabolic considerations
-      FeatureContribution('metabolic_rate_factor', _calculateMetabolicFactor(age)),
-      FeatureContribution('muscle_preservation_priority', age >= 35 ? 1.0 : 0.0),
-    ];
+    // Store age in demographics
+    demographics['age'] = age.toDouble();
+    
+    // Raw age for calculations
+    features['age'] = age / 100.0; // Normalize to 0-1 scale
+    features['age_raw'] = age.toDouble();
+    
+    // Age categories for different training considerations
+    features['is_youth'] = age < 18 ? 1.0 : 0.0;
+    features['is_young_adult'] = (age >= 18 && age < 30) ? 1.0 : 0.0;
+    features['is_middle_aged'] = (age >= 30 && age < 50) ? 1.0 : 0.0;
+    features['is_older_adult'] = (age >= 50 && age < 65) ? 1.0 : 0.0;
+    features['is_senior'] = age >= 65 ? 1.0 : 0.0;
+    
+    // Training intensity considerations
+    features['max_heart_rate_factor'] = _calculateMaxHRFactor(age);
+    features['recovery_adjustment_factor'] = _calculateRecoveryFactor(age);
+    features['intensity_tolerance'] = _calculateIntensityTolerance(age);
+    
+    // Risk and safety considerations
+    features['injury_risk_age_factor'] = _calculateInjuryRiskFactor(age);
+    features['requires_medical_clearance'] = age >= 50 ? 1.0 : 0.0;
+    features['bone_density_concern'] = (age >= 30) ? ((age - 30) / 70.0) : 0.0;
+    
+    // Program design considerations
+    features['prefers_low_impact'] = age >= 60 ? 1.0 : 0.0;
+    features['mobility_priority'] = age >= 40 ? ((age - 40) / 60.0).clamp(0.0, 1.0) : 0.0;
+    features['balance_training_importance'] = age >= 50 ? ((age - 50) / 50.0).clamp(0.0, 1.0) : 0.0;
+    
+    // Metabolic considerations
+    features['metabolic_rate_factor'] = _calculateMetabolicFactor(age);
+    features['muscle_preservation_priority'] = age >= 35 ? 1.0 : 0.0;
   }
   
   //MARK: VALIDATION

@@ -38,46 +38,47 @@ class HeightQuestion extends OnboardingQuestion {
   //MARK: EVALUATION LOGIC
   
   @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {
+  void evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
     final heightCm = (answer as num).toDouble();
     final heightCategory = _getHeightCategory(heightCm);
     
-    return [
-      // Raw height for calculations
-      FeatureContribution('height_cm', heightCm / 200.0), // Normalize around average height
-      FeatureContribution('height_raw', heightCm),
-      
-      // Height categories for exercise modifications
-      FeatureContribution('is_very_short', heightCategory == 'very_short' ? 1.0 : 0.0),
-      FeatureContribution('is_short', heightCategory == 'short' ? 1.0 : 0.0),
-      FeatureContribution('is_average_height', heightCategory == 'average' ? 1.0 : 0.0),
-      FeatureContribution('is_tall', heightCategory == 'tall' ? 1.0 : 0.0),
-      FeatureContribution('is_very_tall', heightCategory == 'very_tall' ? 1.0 : 0.0),
-      
-      // Biomechanical considerations
-      FeatureContribution('leverage_factor', _calculateLeverageFactor(heightCm)),
-      FeatureContribution('squat_depth_consideration', _getSquatConsideration(heightCm)),
-      FeatureContribution('deadlift_range_factor', _getDeadliftFactor(heightCm)),
-      
-      // Exercise modifications needed
-      FeatureContribution('requires_rom_modifications', _requiresROMModifications(heightCm) ? 1.0 : 0.0),
-      FeatureContribution('bench_press_arch_factor', _getBenchArchFactor(heightCm)),
-      FeatureContribution('overhead_mobility_challenge', _getOverheadChallenge(heightCm)),
-      
-      // Equipment considerations
-      FeatureContribution('standard_equipment_suitable', _isStandardEquipmentSuitable(heightCm) ? 1.0 : 0.0),
-      FeatureContribution('needs_equipment_adjustments', _needsEquipmentAdjustments(heightCm) ? 1.0 : 0.0),
-      
-      // Body composition factors (for BMI context when weight is available)
-      FeatureContribution('bmi_height_component', heightCm / 10000.0), // For BMI calculation (kg/m²)
-      
-      // Training considerations
-      FeatureContribution('cardio_efficiency_height', _getCardioEfficiency(heightCm)),
-      FeatureContribution('strength_leverage_advantage', _getStrengthAdvantage(heightCm)),
-      
-      // Safety considerations
-      FeatureContribution('fall_risk_height_factor', _getFallRiskFactor(heightCm)),
-    ];
+    // Store height in demographics
+    demographics['height'] = heightCm;
+    
+    // Raw height for calculations
+    features['height_cm'] = heightCm / 200.0; // Normalize around average height
+    features['height_raw'] = heightCm;
+    
+    // Height categories for exercise modifications
+    features['is_very_short'] = heightCategory == 'very_short' ? 1.0 : 0.0;
+    features['is_short'] = heightCategory == 'short' ? 1.0 : 0.0;
+    features['is_average_height'] = heightCategory == 'average' ? 1.0 : 0.0;
+    features['is_tall'] = heightCategory == 'tall' ? 1.0 : 0.0;
+    features['is_very_tall'] = heightCategory == 'very_tall' ? 1.0 : 0.0;
+    
+    // Biomechanical considerations
+    features['leverage_factor'] = _calculateLeverageFactor(heightCm);
+    features['squat_depth_consideration'] = _getSquatConsideration(heightCm);
+    features['deadlift_range_factor'] = _getDeadliftFactor(heightCm);
+    
+    // Exercise modifications needed
+    features['requires_rom_modifications'] = _requiresROMModifications(heightCm) ? 1.0 : 0.0;
+    features['bench_press_arch_factor'] = _getBenchArchFactor(heightCm);
+    features['overhead_mobility_challenge'] = _getOverheadChallenge(heightCm);
+    
+    // Equipment considerations
+    features['standard_equipment_suitable'] = _isStandardEquipmentSuitable(heightCm) ? 1.0 : 0.0;
+    features['needs_equipment_adjustments'] = _needsEquipmentAdjustments(heightCm) ? 1.0 : 0.0;
+    
+    // Body composition factors (for BMI context when weight is available)
+    features['bmi_height_component'] = heightCm / 10000.0; // For BMI calculation (kg/m²)
+    
+    // Training considerations
+    features['cardio_efficiency_height'] = _getCardioEfficiency(heightCm);
+    features['strength_leverage_advantage'] = _getStrengthAdvantage(heightCm);
+    
+    // Safety considerations
+    features['fall_risk_height_factor'] = _getFallRiskFactor(heightCm);
   }
   
   //MARK: VALIDATION
