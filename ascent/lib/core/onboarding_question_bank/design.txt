@@ -1,0 +1,307 @@
+Unified Question Bank Design                                                                                                          
+                                                                                                                                       
+ /lib/core/onboarding_question_bank/                                                                                                   
+ ├── base/                                                                                                                             
+ │   ├── onboarding_question.dart               # Base class with UI + evaluation                                                      
+ │   └── feature_contribution.dart              # Feature impact model                                                                 
+ │                                                                                                                                     
+ ├── questions/                                                                                                                        
+ │   ├── safety/                                                                                                                       
+ │   │   ├── q1_injuries_question.dart          # Injuries question                                                                    
+ │   │   └── q2_high_impact_question.dart       # High-impact tolerance                                                                
+ │   │                                                                                                                                 
+ │   ├── fitness_assessment/                                                                                                           
+ │   │   ├── q3_stairs_breathless_question.dart # Stairs test                                                                          
+ │   │   ├── q4_twelve_minute_run_question.dart # Cooper test                                                                          
+ │   │   ├── q5_pushups_question.dart          # Push-ups count                                                                        
+ │   │   ├── q6_structured_program_question.dart # Program experience                                                                  
+ │   │   └── q7_free_weights_question.dart      # Free weights comfort                                                                 
+ │   │                                                                                                                                 
+ │   ├── constraints/                                                                                                                  
+ │   │   ├── q8_training_days_question.dart     # Weekly frequency                                                                     
+ │   │   ├── q9_session_time_question.dart      # Session duration                                                                     
+ │   │   ├── q10_equipment_question.dart         # Equipment access                                                                    
+ │   │   └── q11_training_location_question.dart # Training location                                                                   
+ │   │                                                                                                                                 
+ │   └── demographics/                                                                                                                 
+ │       ├── age_question.dart                  # Age                                                                                  
+ │       ├── gender_question.dart               # Gender                                                                               
+ │       └── height_question.dart               # Height                                                                               
+ │                                                                                                                                     
+ ├── registry/                                                                                                                         
+ │   └── question_bank.dart                     # Central registry of all questions                                                    
+ │                                                                                                                                     
+ ├── evaluation/                                                                                                                       
+ │   └── fitness_profile_evaluator.dart         # Aggregates all evaluations                                                           
+ │                                                                                                                                     
+ └── reference_data/                                                                                                                   
+     ├── acsm_pushup_norms.dart                                                                                                        
+     ├── cooper_test_norms.dart                                                                                                        
+     └── age_gender_factors.dart                                                                                                       
+                                                                                                                                       
+ Base Question Class - Single Source of Truth                                                                                          
+                                                                                                                                       
+ // base/onboarding_question.dart                                                                                                      
+ import '../../onboarding_workflow/models/questions/question.dart';                                                                    
+ import '../../onboarding_workflow/models/questions/enum_question_type.dart';                                                          
+                                                                                                                                       
+ abstract class OnboardingQuestion {                                                                                                   
+   // UI Presentation Data                                                                                                             
+   String get id;                                                                                                                      
+   String get questionText;                                                                                                            
+   String get section;                                                                                                                 
+   EnumQuestionType get questionType;                                                                                                  
+   String? get subtitle => null;                                                                                                       
+   List<QuestionOption>? get options => null;                                                                                          
+   Map<String, dynamic>? get config => null;                                                                                           
+   QuestionCondition? get condition => null;                                                                                           
+                                                                                                                                       
+   // Convert to Question model for UI                                                                                                 
+   Question toPresentation() {                                                                                                         
+     return Question(                                                                                                                  
+       id: id,                                                                                                                         
+       question: questionText,                                                                                                         
+       section: section,                                                                                                               
+       type: questionType,                                                                                                             
+       options: options,                                                                                                               
+       condition: condition,                                                                                                           
+       subtitle: subtitle,                                                                                                             
+       answerConfigurationSettings: config,                                                                                            
+     );                                                                                                                                
+   }                                                                                                                                   
+                                                                                                                                       
+   // Evaluation Logic                                                                                                                 
+   List<FeatureContribution> evaluate(                                                                                                 
+     dynamic answer,                                                                                                                   
+     Map<String, dynamic> context,                                                                                                     
+   );                                                                                                                                  
+                                                                                                                                       
+   // Validation                                                                                                                       
+   bool isValidAnswer(dynamic answer) => true;                                                                                         
+ }                                                                                                                                     
+                                                                                                                                       
+ Example Question Implementation                                                                                                       
+                                                                                                                                       
+ // questions/fitness_assessment/q5_pushups_question.dart                                                                              
+ class Q5PushUpsQuestion extends OnboardingQuestion {                                                                                  
+   // UI Presentation                                                                                                                  
+   @override                                                                                                                           
+   String get id => 'Q5';                                                                                                              
+                                                                                                                                       
+   @override                                                                                                                           
+   String get questionText => 'How many push-ups can you do in a row (with good form)?';                                               
+                                                                                                                                       
+   @override                                                                                                                           
+   String get section => 'fitness_assessment';                                                                                         
+                                                                                                                                       
+   @override                                                                                                                           
+   EnumQuestionType get questionType => EnumQuestionType.numberInput;                                                                  
+                                                                                                                                       
+   @override                                                                                                                           
+   String? get subtitle => 'Do as many as you can without stopping';                                                                   
+                                                                                                                                       
+   @override                                                                                                                           
+   Map<String, dynamic> get config => {                                                                                                
+     'isRequired': true,                                                                                                               
+     'minValue': 0.0,                                                                                                                  
+     'maxValue': 200.0,                                                                                                                
+     'allowDecimals': false,                                                                                                           
+     'unit': 'reps',                                                                                                                   
+   };                                                                                                                                  
+                                                                                                                                       
+   // Evaluation Logic                                                                                                                 
+   @override                                                                                                                           
+   List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {                                                  
+     final pushUpCount = (answer as num).toInt();                                                                                      
+     final age = context['age'] as int;                                                                                                
+     final gender = context['gender'] as String;                                                                                       
+                                                                                                                                       
+     final percentile = ACSMPushupNorms.getPercentile(pushUpCount, age, gender);                                                       
+                                                                                                                                       
+     return [                                                                                                                          
+       FeatureContribution('upper_body_strength', percentile),                                                                         
+       FeatureContribution('muscular_endurance', percentile * 0.8),                                                                    
+       FeatureContribution('overall_strength', percentile * 0.6, ContributionType.add),                                                
+     ];                                                                                                                                
+   }                                                                                                                                   
+                                                                                                                                       
+   @override                                                                                                                           
+   bool isValidAnswer(dynamic answer) {                                                                                                
+     if (answer is! num) return false;                                                                                                 
+     return answer >= 0 && answer <= 200;                                                                                              
+   }                                                                                                                                   
+ }                                                                                                                                     
+                                                                                                                                       
+ // questions/constraints/q10_equipment_question.dart                                                                                  
+ class Q10EquipmentQuestion extends OnboardingQuestion {                                                                               
+   // UI Presentation                                                                                                                  
+   @override                                                                                                                           
+   String get id => 'Q10';                                                                                                             
+                                                                                                                                       
+   @override                                                                                                                           
+   String get questionText => 'What equipment do you have access to?';                                                                 
+                                                                                                                                       
+   @override                                                                                                                           
+   String get section => 'practical_constraints';                                                                                      
+                                                                                                                                       
+   @override                                                                                                                           
+   EnumQuestionType get questionType => EnumQuestionType.multipleChoice;                                                               
+                                                                                                                                       
+   @override                                                                                                                           
+   String? get subtitle => 'Select all that apply';                                                                                    
+                                                                                                                                       
+   @override                                                                                                                           
+   List<QuestionOption> get options => [                                                                                               
+     QuestionOption(value: 'barbell', label: 'Barbell'),                                                                               
+     QuestionOption(value: 'dumbbells', label: 'Dumbbells'),                                                                           
+     QuestionOption(value: 'kettlebells', label: 'Kettlebells'),                                                                       
+     QuestionOption(value: 'machines', label: 'Machines'),                                                                             
+     QuestionOption(value: 'cables', label: 'Cables'),                                                                                 
+     QuestionOption(value: 'bands', label: 'Bands'),                                                                                   
+     QuestionOption(value: 'bodyweight_only', label: 'Bodyweight only'),                                                               
+     QuestionOption(value: 'other', label: 'Other'),                                                                                   
+   ];                                                                                                                                  
+                                                                                                                                       
+   @override                                                                                                                           
+   Map<String, dynamic> get config => {                                                                                                
+     'isRequired': true,                                                                                                               
+     'minSelections': 1,                                                                                                               
+     'maxSelections': 8,                                                                                                               
+   };                                                                                                                                  
+                                                                                                                                       
+   // Evaluation Logic                                                                                                                 
+   @override                                                                                                                           
+   List<FeatureContribution> evaluate(dynamic answer, Map<String, dynamic> context) {                                                  
+     final equipment = answer as List<String>;                                                                                         
+                                                                                                                                       
+     final contributions = <FeatureContribution>[];                                                                                    
+                                                                                                                                       
+     // Binary features for each equipment type                                                                                        
+     for (final item in ['barbell', 'dumbbells', 'kettlebells', 'machines', 'cables', 'bands']) {                                      
+       contributions.add(                                                                                                              
+         FeatureContribution('has_$item', equipment.contains(item) ? 1.0 : 0.0)                                                        
+       );                                                                                                                              
+     }                                                                                                                                 
+                                                                                                                                       
+     // Overall equipment score                                                                                                        
+     final equipmentScore = equipment.contains('bodyweight_only')                                                                      
+       ? 0.2                                                                                                                           
+       : equipment.length / 6.0;                                                                                                       
+                                                                                                                                       
+     contributions.add(                                                                                                                
+       FeatureContribution('equipment_availability', equipmentScore)                                                                   
+     );                                                                                                                                
+                                                                                                                                       
+     return contributions;                                                                                                             
+   }                                                                                                                                   
+ }                                                                                                                                     
+                                                                                                                                       
+ Question Bank Registry                                                                                                                
+                                                                                                                                       
+ // registry/question_bank.dart                                                                                                        
+ class QuestionBank {                                                                                                                  
+   static final List<OnboardingQuestion> _allQuestions = [                                                                             
+     // Safety                                                                                                                         
+     Q1InjuriesQuestion(),                                                                                                             
+     Q2HighImpactQuestion(),                                                                                                           
+                                                                                                                                       
+     // Fitness Assessment                                                                                                             
+     Q3StairsBreathlessQuestion(),                                                                                                     
+     Q4TwelveMinuteRunQuestion(),                                                                                                      
+     Q5PushUpsQuestion(),                                                                                                              
+     Q6StructuredProgramQuestion(),                                                                                                    
+     Q7FreeWeightsQuestion(),                                                                                                          
+                                                                                                                                       
+     // Constraints                                                                                                                    
+     Q8TrainingDaysQuestion(),                                                                                                         
+     Q9SessionTimeQuestion(),                                                                                                          
+     Q10EquipmentQuestion(),                                                                                                           
+     Q11TrainingLocationQuestion(),                                                                                                    
+                                                                                                                                       
+     // Demographics                                                                                                                   
+     AgeQuestion(),                                                                                                                    
+     GenderQuestion(),                                                                                                                 
+     HeightQuestion(),                                                                                                                 
+                                                                                                                                       
+     // Existing questions...                                                                                                          
+   ];                                                                                                                                  
+                                                                                                                                       
+   // For UI - get questions to display                                                                                                
+   static List<Question> getQuestionsForPresentation() {                                                                               
+     return _allQuestions.map((q) => q.toPresentation()).toList();                                                                     
+   }                                                                                                                                   
+                                                                                                                                       
+   // For evaluation - get question by ID                                                                                              
+   static OnboardingQuestion? getQuestion(String id) {                                                                                 
+     return _allQuestions.firstWhereOrNull((q) => q.id == id);                                                                         
+   }                                                                                                                                   
+                                                                                                                                       
+   // For onboarding flow - get questions by section                                                                                   
+   static List<Question> getQuestionsForSection(String section) {                                                                      
+     return _allQuestions                                                                                                              
+       .where((q) => q.section == section)                                                                                             
+       .map((q) => q.toPresentation())                                                                                                 
+       .toList();                                                                                                                      
+   }                                                                                                                                   
+ }                                                                                                                                     
+                                                                                                                                       
+ Integration with Onboarding Workflow                                                                                                  
+                                                                                                                                       
+ // In onboarding_workflow - replace JSON loading with:                                                                                
+                                                                                                                                       
+ // services/load_configuration/question_configuration_service.dart                                                                    
+ class QuestionConfigurationService {                                                                                                  
+   static Future<QuestionList> loadInitialQuestions() async {                                                                          
+     // No more JSON file - load from QuestionBank                                                                                     
+     final questions = QuestionBank.getQuestionsForPresentation();                                                                     
+                                                                                                                                       
+     return QuestionList(                                                                                                              
+       version: '2.0',                                                                                                                 
+       questions: questions,                                                                                                           
+     );                                                                                                                                
+   }                                                                                                                                   
+ }                                                                                                                                     
+                                                                                                                                       
+ Fitness Profile Evaluator                                                                                                             
+                                                                                                                                       
+ // evaluation/fitness_profile_evaluator.dart                                                                                          
+ class FitnessProfileEvaluator {                                                                                                       
+   final Map<String, double> features = {};                                                                                            
+   final OnboardingAnswers answers;                                                                                                    
+                                                                                                                                       
+   FitnessProfileEvaluator(this.answers) {                                                                                             
+     _evaluate();                                                                                                                      
+   }                                                                                                                                   
+                                                                                                                                       
+   void _evaluate() {                                                                                                                  
+     final context = {                                                                                                                 
+       'age': answers.getAnswer('age'),                                                                                                
+       'gender': answers.getAnswer('gender'),                                                                                          
+       // Other context as needed                                                                                                      
+     };                                                                                                                                
+                                                                                                                                       
+     // Evaluate each answered question                                                                                                
+     for (final entry in answers.answers.entries) {                                                                                    
+       final question = QuestionBank.getQuestion(entry.key);                                                                           
+       if (question == null) continue;                                                                                                 
+                                                                                                                                       
+       final contributions = question.evaluate(entry.value, context);                                                                  
+       _applyContributions(contributions);                                                                                             
+     }                                                                                                                                 
+   }                                                                                                                                   
+                                                                                                                                       
+   PersonVector toPersonVector() {                                                                                                     
+     return PersonVector(features, FeatureDefinitions.featureOrder);                                                                   
+   }                                                                                                                                   
+ }                                                                                                                                     
+                                                                                                                                       
+ Benefits of This Approach                                                                                                             
+                                                                                                                                       
+ 1. Single Source of Truth: Each question file contains EVERYTHING about that question                                                 
+ 2. No JSON Sync Issues: UI and evaluation always in sync                                                                              
+ 3. Type Safe: No more dynamic JSON parsing for questions                                                                              
+ 4. Self-Contained: Each question is completely self-describing                                                                        
+ 5. Easy Testing: Test UI and evaluation logic together                                                                                
+ 6. Clear Impact: Read one file to understand everything about a question                                                              
+                                                                                                                                       
+ The onboarding workflow just asks QuestionBank for questions - no more JSON file to maintain! 
