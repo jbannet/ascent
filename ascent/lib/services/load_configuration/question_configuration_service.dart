@@ -1,21 +1,17 @@
-import 'package:flutter/services.dart';
-import 'dart:convert';
 import '../../core/onboarding_workflow/models/questions/question_list.dart';
+import '../../core/onboarding_question_bank/registry/question_bank.dart';
 
-/// Service for loading onboarding question configuration from JSON assets
+/// Service for loading onboarding question configuration from QuestionBank
 class QuestionConfigurationService {
   
-  /// Load questions from the initial JSON configuration file
+  /// Load questions from the QuestionBank registry
+  /// This replaces the previous JSON-based loading system
   static Future<QuestionList> loadInitialQuestions() async {
     try {
-      final String jsonString = await rootBundle.loadString(
-        'lib/core/onboarding_workflow/config/initial_questions.json'
-      );
-      final Map<String, dynamic> jsonData = json.decode(jsonString);
-      
-      return QuestionList.fromJson(jsonData);
+      // Load questions from the centralized question bank
+      return QuestionBank.getQuestionList();
     } catch (e) {
-      // If asset loading fails, return empty list
+      // If loading fails, return empty list
       return QuestionList.empty();
     }
   }
