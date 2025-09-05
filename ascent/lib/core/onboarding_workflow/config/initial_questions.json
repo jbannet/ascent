@@ -243,6 +243,44 @@
       }
     },
     {
+      "id": "Q3",
+      "question": "Can you walk up two flights of stairs without being out of breath?",
+      "section": "fitness_assessment",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        },
+        {
+          "value": "unsure",
+          "label": "Unsure"
+        }
+      ],
+      "config": {
+        "isRequired": true
+      }
+    },
+    {
+      "id": "Q4",
+      "question": "About how far can you jog/run in 12 minutes?",
+      "section": "fitness_assessment",
+      "type": "number_input",
+      "config": {
+        "isRequired": true,
+        "minValue": 0.0,
+        "maxValue": 10000.0,
+        "allowDecimals": true,
+        "decimalPlaces": 2,
+        "unit": "meters",
+        "unitOptions": ["meters", "kilometers", "miles"]
+      }
+    },
+    {
       "id": "pushups_count",
       "question": "How many push-ups can you do?",
       "subtitle": "Do as many as you can without stopping",
@@ -353,6 +391,52 @@
       }
     },
     {
+      "id": "Q6",
+      "question": "Have you ever followed a structured strength program before?",
+      "section": "fitness_assessment",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "never",
+          "label": "Never"
+        },
+        {
+          "value": "some",
+          "label": "Some"
+        },
+        {
+          "value": "regularly",
+          "label": "Regularly"
+        }
+      ],
+      "config": {
+        "isRequired": true
+      }
+    },
+    {
+      "id": "Q7",
+      "question": "Are you comfortable using free weights like dumbbells or barbells?",
+      "section": "fitness_assessment",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        },
+        {
+          "value": "unsure",
+          "label": "Unsure"
+        }
+      ],
+      "config": {
+        "isRequired": true
+      }
+    },
+    {
       "id": "workout_frequency",
       "question": "How many days per week can you exercise?",
       "section": "schedule",
@@ -391,6 +475,150 @@
           "value": "60_plus",
           "label": "60+ minutes",
           "description": "Extended training sessions"
+        }
+      ],
+      "config": {
+        "isRequired": true
+      }
+    },
+    {
+      "id": "Q1",
+      "question": "Do you have any injuries or conditions that limit your exercise?",
+      "section": "schedule",
+      "type": "multiple_choice",
+      "options": [
+        {
+          "value": "shoulder",
+          "label": "Shoulder"
+        },
+        {
+          "value": "knee",
+          "label": "Knee"
+        },
+        {
+          "value": "back",
+          "label": "Back"
+        },
+        {
+          "value": "hip",
+          "label": "Hip"
+        },
+        {
+          "value": "wrist_hand",
+          "label": "Wrist/Hand"
+        },
+        {
+          "value": "ankle_foot",
+          "label": "Ankle/Foot"
+        },
+        {
+          "value": "other",
+          "label": "Other"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "config": {
+        "isRequired": true,
+        "minSelections": 1,
+        "maxSelections": 8
+      }
+    },
+    {
+      "id": "Q2",
+      "question": "Are you okay with high-impact movements (like running or jumping)?",
+      "section": "schedule",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        },
+        {
+          "value": "unsure",
+          "label": "Unsure"
+        }
+      ],
+      "config": {
+        "isRequired": true
+      }
+    },
+    {
+      "id": "Q10",
+      "question": "What equipment do you have access to?",
+      "section": "schedule",
+      "type": "multiple_choice",
+      "options": [
+        {
+          "value": "barbell",
+          "label": "Barbell"
+        },
+        {
+          "value": "dumbbells",
+          "label": "Dumbbells"
+        },
+        {
+          "value": "kettlebells",
+          "label": "Kettlebells"
+        },
+        {
+          "value": "machines",
+          "label": "Machines"
+        },
+        {
+          "value": "cables",
+          "label": "Cables"
+        },
+        {
+          "value": "bands",
+          "label": "Bands"
+        },
+        {
+          "value": "bodyweight_only",
+          "label": "Bodyweight only"
+        },
+        {
+          "value": "other",
+          "label": "Other"
+        }
+      ],
+      "config": {
+        "isRequired": true,
+        "minSelections": 1,
+        "maxSelections": 8
+      }
+    },
+    {
+      "id": "Q11",
+      "question": "Where will you usually train?",
+      "section": "schedule",
+      "type": "single_choice",
+      "options": [
+        {
+          "value": "gym",
+          "label": "Gym"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "hotel",
+          "label": "Hotel"
+        },
+        {
+          "value": "outdoor",
+          "label": "Outdoor"
+        },
+        {
+          "value": "workplace",
+          "label": "Workplace"
         }
       ],
       "config": {

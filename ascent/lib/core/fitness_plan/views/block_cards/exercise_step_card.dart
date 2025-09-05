@@ -77,7 +77,7 @@ class ExerciseStepCard extends StatelessWidget {
               Container(
                 width: 1,
                 height: 40,
-                color: theme.colorScheme.onPrimaryContainer.withOpacity(0.2),
+                color: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.2),
               ),
               _buildMetric(
                 context,
@@ -87,7 +87,7 @@ class ExerciseStepCard extends StatelessWidget {
               Container(
                 width: 1,
                 height: 40,
-                color: theme.colorScheme.onPrimaryContainer.withOpacity(0.2),
+                color: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.2),
               ),
               _buildMetric(
                 context,
@@ -117,7 +117,7 @@ class ExerciseStepCard extends StatelessWidget {
         Text(
           label,
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onPrimaryContainer.withOpacity(0.8),
+            color: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
           ),
         ),
       ],
