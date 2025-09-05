@@ -1,0 +1,187 @@
+# Codebase Index - Fitness App
+
+## Flutter Frontend (`ascent/`)
+
+### Core Business Logic (`ascent/lib/core/`)
+
+#### Onboarding Workflow (`onboarding_workflow/`)
+- **models/questions/**
+  - `question.dart` - Base question model with validation and conditions
+  - `question_option.dart` - Choice options for selection questions
+  - `question_condition.dart` - Conditional logic for question flow
+  - `question_validation.dart` - Input validation rules
+  - `question_list.dart` - Container for question collections
+  - `enum_question_type.dart` - Question type enumeration
+- **models/answers/**
+  - `onboarding_answers.dart` - User response collection and storage
+- **widgets/onboarding/**
+  - `onboarding_progress_bar.dart` - Visual progress indicator
+  - **question_input/** - Input widget implementations
+    - `factory_question_inputs.dart` - Factory for creating question widgets
+    - `text_input_widget.dart` - Text input with validation
+    - `number_input_widget.dart` - Numeric input with constraints
+    - `slider_widget.dart` - Range slider for continuous values
+    - `single_choice_widget.dart` - Radio button selections
+    - `multiple_choice_widget.dart` - Checkbox selections
+    - `date_picker_widget.dart` - Date selection widget
+    - `ranking_widget.dart` - Drag-and-drop ranking interface
+- **views/**
+  - `onboarding_survey_container.dart` - Main onboarding container
+  - `question_view.dart` - Individual question display logic
+- **providers/**
+  - `onboarding_provider.dart` - State management for onboarding flow
+- **config/**
+  - `initial_questions.json` - JSON-driven question configuration
+
+#### Brain/AI System (`brain/`)
+- **matrix_models/**
+  - `person_vector.dart` - User profile representation for AI
+  - `exercise_matrix.dart` - Exercise relationship and similarity matrix
+  - `pattern_vector.dart` - Pattern recognition for recommendations
+
+#### Fitness Planning (`fitness_plan/`)
+- **views/**
+  - `plan_view.dart` - Overall fitness plan display
+  - `week_view.dart` - Weekly workout overview
+  - `day_view.dart` - Daily workout detail
+  - `exercise_view.dart` - Individual exercise instruction
+  - **block_cards/** - Modular workout components
+    - `block_view.dart` - Block container and layout
+    - `block_step_card_factory.dart` - Factory for step cards
+    - `exercise_step_card.dart` - Exercise instruction card
+    - `warmup_step_card.dart` - Warmup routine card
+    - `cooldown_step_card.dart` - Cooldown routine card
+    - `rest_step_card.dart` - Rest period card
+
+### Data Models (`ascent/lib/models/`)
+
+#### Core Models
+- `plan.dart` - Overall fitness plan structure
+- `planned_week.dart` - Weekly training structure
+- `planned_day.dart` - Daily workout structure
+- `session.dart` - Individual workout session
+- `intensity.dart` - Exercise intensity specifications
+- `rep_spec.dart` - Repetition and set specifications
+
+#### Block System (`blocks/`)
+- `block.dart` - Base block container
+- `block_step.dart` - Abstract step in workout blocks
+- `exercise_prescription_step.dart` - Prescribed exercise with parameters
+- `warmup_step.dart` - Warmup routine specification
+- `cooldown_step.dart` - Cooldown routine specification
+- `rest_step.dart` - Rest period specification
+
+#### Server-Side Concepts (`server_side_concepts/`)
+- `baseline.dart` - User fitness baseline measurements
+- `progression.dart` - Progressive overload algorithms
+- `phase.dart` - Training phase definitions
+- `ruleset.dart` - Business rules and constraints
+- `available_equipment.dart` - Equipment availability tracking
+- `physical_constraints.dart` - User physical limitations
+- `readiness_adjustment.dart` - Workout readiness algorithms
+
+### Enumerations (`ascent/lib/enums/`)
+- `goal.dart` - Fitness goal types
+- `experience_level.dart` - User experience classifications
+- `session_status.dart` - Workout session states
+- `session_tag.dart` - Session categorization tags
+- `energy_system_tag.dart` - Energy system targeting
+- `progression_mode.dart` - Progression algorithms
+- `intensity_mode.dart` - Intensity calculation methods
+- `item_mode.dart` - Item display modes
+- `block_type.dart` - Workout block categories
+- `block_step_kind.dart` - Step type classifications
+- `rep_kind.dart` - Repetition types
+- `day_of_week.dart` - Day enumeration
+- `missed_session_policy.dart` - Makeup session policies
+
+### Services (`ascent/lib/services/`)
+
+#### Firebase Integration (`firebase/`)
+- `firebase_client.dart` - Main Firebase client configuration
+- `firebase_auth_service.dart` - Authentication service
+- `firebase_storage_service.dart` - Cloud storage operations
+- `firebase_retry_service.dart` - Retry logic for Firebase operations
+
+#### Utilities (`general_utilities/`)
+- `list_extensions.dart` - List utility extensions
+- `num_formatter.dart` - Number formatting utilities
+
+#### Configuration (`load_configuration/`)
+- `question_configuration_service.dart` - JSON question loader
+
+#### Local Storage
+- `local_storage/local_storage_service.dart` - Hive local database service
+
+### UI and Theming (`ascent/lib/theme/`)
+
+#### Core Theme
+- `app_theme.dart` - Main application theme configuration
+- `app_colors.dart` - Color palette definitions
+
+#### Universal Widgets (`general_widgets/`)
+- **buttons/**
+  - `universal_elevated_button.dart` - Primary action buttons
+  - `universal_outlined_button.dart` - Secondary action buttons
+  - `universal_text_button.dart` - Text-only buttons
+- `universal_progress_indicator.dart` - Loading indicators
+- `swoosh_clipper.dart` - Custom shape clipper
+
+### Navigation (`ascent/lib/routing/`)
+- `app_router.dart` - Main router configuration
+- `route_names.dart` - Route name constants
+- **routes/**
+  - `home_routes.dart` - Home screen routes
+  - `onboarding_routes.dart` - Onboarding flow routes
+  - `plan_routes.dart` - Fitness plan routes
+  - `exercise_routes.dart` - Exercise detail routes
+
+### Configuration Files
+- `main.dart` - Application entry point
+- `constants.dart` - Application constants
+- `firebase_options.dart` - Firebase configuration
+- `temporary_navigator_view.dart` - Development navigation aid
+
+### Assets (`ascent/assets/`)
+- `config/initial_questions.json` - Onboarding question configuration
+
+## Go Backend (`server/`)
+
+### Main Application
+- `main.go` - Server entry point and configuration
+- `generate.go` - Code generation utilities
+
+### API Layer
+- `routes/routes.go` - Route definitions and middleware setup
+- `api/generated.go` - OpenAPI generated code
+
+### Handlers (`handlers/`)
+- `health.go` - Health check endpoint
+- `user.go` - User management operations
+- `onboarding.go` - Onboarding data processing
+- `plan.go` - Fitness plan operations
+
+### Models (`models/`)
+- `user.go` - User data structures
+- `session.go` - Session data structures
+- `plan.go` - Plan data structures
+- `onboarding.go` - Onboarding response structures
+
+### Infrastructure
+- **database/**
+  - `connection.go` - Database connection management
+- **middleware/**
+  - `cors.go` - Cross-origin resource sharing
+  - `auth.go` - Authentication middleware
+- **config/**
+  - `config.go` - Server configuration management
+
+## Testing (`ascent/tests/`)
+- `onboarding_workflow/widgets/onboarding/question_input/test_ranking_widget.dart` - Ranking widget tests
+
+## Configuration Files
+- `ascent/pubspec.yaml` - Flutter dependencies and configuration
+- `ascent/devtools_options.yaml` - Development tools configuration
+- `server/go.mod` & `server/go.sum` - Go module dependencies
+- `.claude/settings.local.json` - Claude Code configuration
+- `CLAUDE.md` - Project-specific instructions for Claude Code

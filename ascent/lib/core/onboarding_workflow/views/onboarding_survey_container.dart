@@ -4,7 +4,6 @@ import '../providers/onboarding_provider.dart';
 import '../widgets/onboarding/onboarding_progress_bar.dart';
 import '../../../theme/general_widgets/buttons/universal_elevated_button.dart';
 import '../../../theme/general_widgets/buttons/universal_outlined_button.dart';
-import '../../../services/load_configuration/question_configuration_service.dart';
 import 'question_view.dart';
 
 class OnboardingSurveyContainer extends StatefulWidget {
@@ -34,11 +33,7 @@ class _OnboardingSurveyContainerState extends State<OnboardingSurveyContainer> {
     try {
       debugPrint('Starting onboarding initialization...');
       
-      // Initialize questions from assets if needed
-      await QuestionConfigurationService.initializeQuestionsIfNeeded();
-      debugPrint('✅ Question configuration checked/initialized');
-      
-      // Create and initialize the provider
+      // Create and initialize the provider (loads questions from JSON directly)
       final onboardingProvider = OnboardingProvider();
       await onboardingProvider.initialize();
       debugPrint('✅ OnboardingProvider initialized');

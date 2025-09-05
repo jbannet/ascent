@@ -1,5 +1,4 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../core/onboarding_workflow/models/questions/question_list.dart';
 import '../../core/onboarding_workflow/models/answers/onboarding_answers.dart';
 import '../../constants.dart';
 
@@ -20,45 +19,6 @@ class LocalStorageService {
     }
   }
   
-  /// Load questions from questionBox
-  static Future<QuestionList> loadQuestions() async {
-    final Box questionBox = await Hive.openBox(AppConstants.questionBoxName);
-    final dynamic rawData = questionBox.get(AppConstants.questionsStorageKey);
-    
-    if (rawData == null) {
-      return QuestionList.empty();
-    }
-    
-    // Recursively convert all nested Maps from Hive format to proper Map<String, dynamic>
-    final Map<String, dynamic> questionsData = _castToStringValueMap(rawData) as Map<String, dynamic>;
-    return QuestionList.fromJson(questionsData);
-  }
-  
-  /// Save questions to questionBox
-  static Future<void> saveQuestions(Map<String, dynamic> questionsJson) async {
-    final Box questionBox = await Hive.openBox(AppConstants.questionBoxName);
-    await questionBox.put(AppConstants.questionsStorageKey, questionsJson);
-  }
-
-  /// Get question version from questionBox
-  static Future<double> getQuestionVersion() async {
-    final Box questionBox = await Hive.openBox(AppConstants.questionBoxName);
-    final dynamic rawData = questionBox.get(AppConstants.questionsStorageKey);
-    
-    if (rawData == null) {
-      return 0.0;
-    }
-    
-    final Map<String, dynamic> questionsData = _castToStringValueMap(rawData) as Map<String, dynamic>;
-    final String versionStr = questionsData['version'] as String;
-    return double.tryParse(versionStr) ?? 0.0;
-  }
-
-  /// Save question version to questionBox
-  static Future<void> saveQuestionVersion(double pVersion) async {
-    final Box questionBox = await Hive.openBox(AppConstants.questionBoxName);
-    await questionBox.put('version', pVersion);
-  }
   
   /// Load answers from answerBox
   static Future<OnboardingAnswers> loadAnswers() async {

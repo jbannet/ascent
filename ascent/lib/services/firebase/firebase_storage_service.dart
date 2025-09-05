@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../local_storage/local_storage_service.dart';
 import '../../core/onboarding_workflow/models/questions/question_list.dart';
 import '../../core/onboarding_workflow/models/answers/onboarding_answers.dart';
 import '../../constants.dart';
@@ -24,8 +23,7 @@ class FirebaseStorageService {
 
       final Map<String, dynamic> questionsData = questionsDoc.data() as Map<String, dynamic>;
       final QuestionList newQuestions = QuestionList.fromJson(questionsData);
-      await LocalStorageService.saveQuestions(questionsData);
-      await LocalStorageService.saveQuestionVersion(firebaseQuestionVersion);    
+      // Note: Questions no longer saved to local storage - they load from JSON
       return newQuestions;
     });
   }

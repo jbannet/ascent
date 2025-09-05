@@ -1,0 +1,70 @@
+# Claude Index - Fitness App
+
+## Project Overview
+A comprehensive Flutter fitness application with Go backend featuring AI-driven personalized fitness planning, dynamic onboarding workflows, and matrix-based recommendation systems.
+
+## Architecture
+- **Frontend**: Flutter app (`ascent/`) with feature-based organization
+- **Backend**: Go server (`server/`) with RESTful API and OpenAPI spec
+- **Database**: Firebase integration with local Hive storage
+- **AI/ML**: Matrix-based fitness scoring and recommendation engine
+
+## Core Features
+
+### 1. Onboarding Workflow (`ascent/lib/core/onboarding_workflow/`)
+- Dynamic questionnaire system with conditional logic
+- JSON-driven configuration (`ascent/assets/config/initial_questions.json`)
+- Factory pattern for question input widgets
+- Progress tracking and validation
+
+### 2. Fitness Planning (`ascent/lib/core/fitness_plan/`)
+- AI-driven workout and nutrition recommendations
+- Block-based workout system with modular components
+- Session planning and scheduling
+- Progressive overload and adaptation
+
+### 3. Matrix Models (`ascent/lib/core/brain/matrix_models/`)
+- PersonVector for user profiling
+- ExerciseMatrix for movement patterns
+- PatternVector for recommendation algorithms
+
+### 4. Data Models (`ascent/lib/models/`)
+- Server-aligned models for consistency
+- Comprehensive enum system for domain concepts
+- Block system (warmup, exercise, cooldown, rest)
+- Progressive session and plan structures
+
+## Key Directories
+- `ascent/lib/core/` - Business logic and domain models
+- `ascent/lib/ui/` & `ascent/lib/theme/` - UI components and theming
+- `ascent/lib/services/` - Firebase, storage, and utility services
+- `ascent/lib/routing/` - App navigation and route management
+- `server/` - Go backend with handlers, models, and middleware
+- `ascent/assets/` - Configuration JSON and static assets
+
+## Development Patterns
+- Provider pattern for state management
+- Factory pattern for dynamic component creation
+- Feature-based code organization by business domain
+- JSON-driven configuration for business rules
+- Comprehensive testing with widget/unit test coverage
+
+## Tech Stack
+- **Frontend**: Flutter/Dart with Provider state management
+- **Backend**: Go with Gin framework, OpenAPI specification
+- **Database**: Firebase (Auth, Firestore, Storage, Messaging)
+- **Local Storage**: Hive for offline-first capability
+- **Testing**: Flutter test framework with comprehensive coverage
+
+## Business Logic Highlights
+- Conditional question flow based on user responses
+- Matrix-based AI recommendations for personalized fitness
+- Block-based workout construction with factory patterns
+- Progressive adaptation based on user performance
+- Multi-modal progress tracking (photos, metrics, feelings)
+
+## Integration Points
+- Firebase Authentication and real-time data sync
+- Go backend API for complex business logic
+- Local Hive storage for offline capability
+- OpenAPI specification for type-safe client/server communication

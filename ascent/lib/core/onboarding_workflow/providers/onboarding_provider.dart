@@ -3,6 +3,7 @@ import '../models/questions/question_list.dart';
 import '../models/questions/question.dart';
 import '../models/answers/onboarding_answers.dart';
 import '../../../services/local_storage/local_storage_service.dart';
+import '../../../services/load_configuration/question_configuration_service.dart';
 //import '../../services/firebase/firebase_storage_service.dart';
 
 class OnboardingProvider extends ChangeNotifier {
@@ -18,46 +19,22 @@ class OnboardingProvider extends ChangeNotifier {
   int get currentQuestionNumber => _currentQuestionNumber;
   bool get isOnboardingComplete => _onboardingComplete;
 
-  // Load onboarding data from local storage and Firebase
-  // This should initialize empty objects if nothing saved yet, not null
-  // It should also check for newer question versions in Firebase
-  // and update the local question list if needed
+  // Load onboarding data - questions from JSON, answers from local storage
   Future<void> initialize() async {
-    // load questions and answers from local storage
-    // this should return an empty object if nothing saved yet
-    final QuestionList localQuestionList = await LocalStorageService.loadQuestions();
-    final double questionVersion = await LocalStorageService.getQuestionVersion(); //0.0 if none saved
+    // Load questions directly from JSON file
+    _questionList = await QuestionConfigurationService.loadInitialQuestions();
+    
+    if (!_questionList.isInitialized){
+      throw Exception('Failed to load questions from JSON configuration');
+    }
+
+    // Load answers from local storage (keep this for persistence)
     final OnboardingAnswers localAnswers = await LocalStorageService.loadAnswers();
-   
-    // There should be a default question list stored at app signup the first time.
-    if (!localQuestionList.isInitialized){
-      throw Exception('Local question list failed to initialize');
-      //TODO: Handle this error more gracefully and get from Firebase
-    }
-
-    //double firebaseQuestionVersion = await FirebaseStorageService.getQuestionVersion();
-    double firebaseQuestionVersion = 0.0; // Default to current version when Firebase disabled
-
-    // Update questions if Firebase has a newer version
-    if (questionVersion < firebaseQuestionVersion) {
-      //loadQuestions call updates and saves new questions and version locally
-      //_questionList = await FirebaseStorageService.loadQuestions(localQuestionList, firebaseQuestionVersion);
-      _questionList = localQuestionList; // Use local questions when Firebase disabled       
-    } else {
-      _questionList = localQuestionList; //necessary because questionList is final
-    }
-
+    
     if (!localAnswers.isInitialized) {
-      //_onboardingAnswers = await FirebaseStorageService.loadAnswers();
-      _onboardingAnswers = OnboardingAnswers.empty(); // Use empty answers when Firebase disabled
+      _onboardingAnswers = OnboardingAnswers.empty();
     } else {
       _onboardingAnswers = localAnswers; 
-    }
-
-    if (questionVersion < firebaseQuestionVersion) {
-      // If we updated questions, we should clear answers to avoid mismatches
-      _onboardingAnswers = OnboardingAnswers.empty();
-      await LocalStorageService.saveAnswers(_onboardingAnswers);
     }
   }
 
