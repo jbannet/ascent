@@ -1,7 +1,7 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
 import '../onboarding_question.dart';
-import '../../models/feature_contribution.dart';
+import '../../fitness_profile_model/feature_contribution.dart';
 
 /// Q1: Do you have any current injuries or physical limitations?
 /// 

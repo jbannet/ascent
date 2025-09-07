@@ -13,12 +13,12 @@ import '../views/question_types/date_picker_view.dart';
 
 /// Base class for all onboarding questions.
 /// 
-/// Each question serves as a single source of truth containing both:
+/// Each question serves as a single source of truth for:
 /// 1. UI presentation data (question text, options, validation)
-/// 2. Evaluation logic (how answers contribute to ML features)
+/// 2. Answer storage logic (how to store the raw answer)
 /// 
-/// This ensures the question UI and its impact on fitness assessment
-/// are always in sync and defined in one place.
+/// Business logic for feature calculation is handled separately
+/// by the FitnessFeatureCalculator.
 abstract class OnboardingQuestion {
   
   //MARK: UI PRESENTATION DATA
@@ -63,26 +63,24 @@ abstract class OnboardingQuestion {
     );
   }
   
-  //MARK: EVALUATION LOGIC
+  //MARK: ANSWER STORAGE
   
-  /// Evaluate how this question's answer contributes to ML features.
+  /// Store the raw answer for this question.
   /// 
   /// [answer] is the user's response (String, num, List of String, etc.)
-  /// [features] is the current features map that can be directly modified
-  /// [demographics] is the current demographics map that can be directly modified
+  /// [answers] is the raw answers map where the answer will be stored
   /// 
-  /// Directly modifies the features and demographics maps.
-  void evaluate(
-    dynamic answer,
-    Map<String, double> features,
-    Map<String, double> demographics,
-  );
+  /// By default, simply stores the answer using the question's ID as the key.
+  /// Override if special storage logic is needed.
+  void storeAnswer(dynamic answer, Map<String, dynamic> answers) {
+    answers[id] = answer;
+  }
   
   //MARK: VALIDATION
   
   /// Validate that an answer is acceptable for this question.
   /// Override for custom validation beyond basic type checking.
-  bool isValidAnswer(dynamic answer) => true;
+  bool isValidAnswer(dynamic answer) => false;
   
   /// Get a default value if the user hasn't answered this question.
   /// Override to provide sensible defaults for optional questions.

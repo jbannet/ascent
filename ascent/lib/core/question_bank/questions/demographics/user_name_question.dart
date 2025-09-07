@@ -1,6 +1,6 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../onboarding_question.dart';
-import '../../models/feature_contribution.dart';
+import '../../fitness_profile_model/feature_contribution.dart';
 
 /// User name question for personalization and user identification.
 /// 
