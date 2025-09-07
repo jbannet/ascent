@@ -6,11 +6,12 @@ import '../onboarding_question.dart';
 /// Age is a critical factor for fitness norms, training intensity calculations,
 /// and age-appropriate exercise recommendations.
 class AgeQuestion extends OnboardingQuestion {
+  static const String questionId = 'age';
   
   //MARK: UI PRESENTATION DATA
   
   @override
-  String get id => 'age';
+  String get id => AgeQuestion.questionId;
   
   @override
   String get questionText => 'What is your age?';

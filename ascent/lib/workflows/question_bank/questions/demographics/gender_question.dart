@@ -7,11 +7,12 @@ import '../onboarding_question.dart';
 /// Gender is used for fitness norm calculations, body composition estimates,
 /// and gender-specific training considerations.
 class GenderQuestion extends OnboardingQuestion {
+  static const String questionId = 'gender';
   
   //MARK: UI PRESENTATION DATA
   
   @override
-  String get id => 'gender';
+  String get id => GenderQuestion.questionId;
   
   @override
   String get questionText => 'What is your gender?';

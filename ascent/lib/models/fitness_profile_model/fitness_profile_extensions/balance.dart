@@ -1,42 +1,112 @@
 import 'package:ascent/constants_features.dart';
 import '../fitness_profile.dart';
+import '../../../workflows/question_bank/questions/demographics/age_question.dart';
+import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
+import '../../../workflows/question_bank/questions/fitness_assessment/q4a_fall_history_question.dart';
+import '../../../workflows/question_bank/questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
 
 /// Extension to calculate balance feature importance.
 /// 
-/// Uses age + gender to determine balance training importance.
+/// Uses age, gender, physical limitations, experience level, and fall risk factors
+/// to determine balance training importance.
 /// Based on CDC STEADI Program, WHO Fall Prevention Guidelines.
-/// Women have higher fall risk, especially post-menopause.
 extension Balance on FitnessProfile {
   
   /// Calculate balance training importance based on multiple factors
   void calculateBalance() {
-    final age = answers['age'] as int?;
-    final gender = answers['gender'] as String?;
+    final age = answers[AgeQuestion.questionId] as int?;
+    final gender = answers[GenderQuestion.questionId] as String?;
+    final physicalLimitations = answers['Q1'] as List<dynamic>? ?? [];
+    final experienceLevel = answers['experience_level'] as String?;
+    final hasFallen = answers[Q4AFallHistoryQuestion.questionId] as String?;
+    final fallRiskFactors = answers[Q4BFallRiskFactorsQuestion.questionId] as List<dynamic>? ?? [];
     
     if (age == null || gender == null) {
       throw Exception('Missing required answers for balance calculation: age=$age, gender=$gender');
     }
     
-    featuresMap[FeatureConstants.categoryBalance] = _calculateBalanceImportance(age, gender);
+    double importance = _calculateBalanceImportance(age, gender);
+    importance = _applyPhysicalLimitationModifiers(importance, physicalLimitations);
+    importance = _applyActivityLevelModifiers(importance, experienceLevel, age);
+    importance = _applyFallRiskModifiers(importance, hasFallen, fallRiskFactors);
+    
+    featuresMap[FeatureConstants.categoryBalance] = importance.clamp(0.0, 1.0);
   }
   
-  /// Calculate balance training importance with gender adjustments
+  /// Calculate base balance importance with evidence-based age thresholds
   double _calculateBalanceImportance(int age, String gender) {
     double baseImportance;
     
-    if (age < 40) baseImportance = 0.2;
-    else if (age < 55) baseImportance = 0.4;
-    else if (age < 65) baseImportance = 0.6;
-    else if (age < 75) baseImportance = 0.8;
-    else baseImportance = 1.0;
+    // CDC/WHO evidence-based age thresholds for fall risk
+    if (age < 30) baseImportance = 0.1;
+    else if (age < 40) baseImportance = 0.2;
+    else if (age < 50) baseImportance = 0.35;
+    else if (age < 60) baseImportance = 0.5;
+    else if (age < 65) baseImportance = 0.65;  // Critical transition
+    else if (age < 75) baseImportance = 0.8;   // High-risk group
+    else baseImportance = 1.0;                 // Maximum priority
     
-    // Gender adjustments
+    // Gender adjustments for women (higher fall risk)
     if (gender == 'female') {
-      // Earlier importance due to higher fall risk
-      if (age >= 45) baseImportance += 0.1;
-      if (age >= 65) baseImportance += 0.1; // Post-menopause bone density loss
+      if (age >= 35) baseImportance += 0.05; // Peak bone mass decline begins
+      if (age >= 45) baseImportance += 0.1;  // Perimenopause effects
+      if (age >= 55) baseImportance += 0.1;  // Post-menopause acceleration
     }
     
-    return baseImportance.clamp(0.0, 1.0);
+    return baseImportance;
+  }
+  
+  /// Apply modifiers based on physical limitations that affect balance
+  double _applyPhysicalLimitationModifiers(double baseImportance, List<dynamic> limitations) {
+    // Limitations that directly impact balance and fall risk
+    final balanceAffecting = ['knee', 'ankle', 'hip', 'back', 'vision', 'neurological'];
+    
+    // Convert dynamic list to strings and check for balance-affecting limitations
+    final limitationsAsStrings = limitations.map((e) => e.toString()).toList();
+    final affectedCount = limitationsAsStrings.where((limit) => balanceAffecting.contains(limit)).length;
+    
+    // Add 0.1 per limitation, max of 0.3 total increase
+    return baseImportance + (affectedCount * 0.1).clamp(0.0, 0.3);
+  }
+  
+  /// Apply modifiers based on activity level and sedentary behavior
+  double _applyActivityLevelModifiers(double baseImportance, String? level, int age) {
+    // Sedentary lifestyle increases fall risk, especially in older adults
+    if (level == 'beginner' && age >= 50) {
+      return baseImportance + 0.1;
+    }
+    // Very active individuals may have slightly lower balance priority
+    else if (level == 'advanced' && age < 50) {
+      return baseImportance - 0.05;
+    }
+    return baseImportance;
+  }
+  
+  /// Apply modifiers based on fall history and risk factors
+  double _applyFallRiskModifiers(double baseImportance, String? hasFallen, List<dynamic> riskFactors) {
+    double modifier = 0.0;
+    
+    // Previous fall is strongest predictor of future falls
+    if (hasFallen == 'yes') {
+      modifier += 0.2;
+    }
+    
+    // Additional risk factors from Q4B
+    final factorsAsStrings = riskFactors.map((e) => e.toString()).toList();
+    
+    if (factorsAsStrings.contains('fear_falling')) {
+      modifier += 0.1;  // Fear of falling affects movement patterns
+    }
+    
+    if (factorsAsStrings.contains('mobility_aids')) {
+      modifier += 0.15;  // Using mobility aids indicates significant balance issues
+    }
+    
+    if (factorsAsStrings.contains('dizziness')) {
+      modifier += 0.15;  // Dizziness/balance problems are direct risk factors
+    }
+    
+    // Cap the total fall risk modifier at 0.4
+    return baseImportance + modifier.clamp(0.0, 0.4);
   }
 }

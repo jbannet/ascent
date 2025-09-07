@@ -1,5 +1,6 @@
 import 'package:ascent/constants_features.dart';
 import '../fitness_profile.dart';
+import '../../../workflows/question_bank/questions/demographics/age_question.dart';
 
 /// Extension to calculate birth year and age-related profile values.
 /// 
@@ -9,7 +10,7 @@ extension BirthYear on FitnessProfile {
   
   /// Calculate birth year and age-related training parameters
   void calculateBirthYear() {
-    final age = answers['age'] as int?;
+    final age = answers[AgeQuestion.questionId] as int?;
     
     if (age == null) {
       throw Exception('Missing required answer for birth year calculation: age=$age');

@@ -6,11 +6,12 @@ import '../onboarding_question.dart';
 /// This question assesses cardiovascular fitness using the standardized Cooper 12-minute test.
 /// It contributes to cardio fitness, VO2 max estimation, and training intensity features.
 class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
+  static const String questionId = 'Q4';
   
   //MARK: UI PRESENTATION DATA
   
   @override
-  String get id => 'Q4';
+  String get id => Q4TwelveMinuteRunQuestion.questionId;
   
   @override
   String get questionText => 'How far can you run/walk in 12 minutes?';

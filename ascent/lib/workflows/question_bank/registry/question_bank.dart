@@ -15,6 +15,8 @@ import '../questions/goals/target_completion_date_question.dart';
 import '../questions/fitness_assessment/current_fitness_level_question.dart';
 import '../questions/fitness_assessment/q3_stairs_question.dart';
 import '../questions/fitness_assessment/q4_twelve_minute_run_question.dart';
+import '../questions/fitness_assessment/q4a_fall_history_question.dart';
+import '../questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
 import '../questions/fitness_assessment/q5_pushups_question.dart';
 import '../questions/fitness_assessment/current_activities_question.dart';
 import '../questions/fitness_assessment/q6_structured_program_question.dart';
@@ -59,6 +61,8 @@ class QuestionBank {
     CurrentFitnessLevelQuestion(), // current_fitness_level
     Q3StairsQuestion(),           // Q3 (stairs)
     Q4TwelveMinuteRunQuestion(),  // Q4 (12-min run)
+    Q4AFallHistoryQuestion(),     // Q4A (fall history - conditional)
+    Q4BFallRiskFactorsQuestion(), // Q4B (fall risk factors - conditional)
     Q5PushupsQuestion(),          // pushups_count (Q5)
     
     // 5. Lifestyle

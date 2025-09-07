@@ -1,12 +1,13 @@
 /// Feature and profile constants for fitness assessment
 class FeatureConstants {
-  // Age bracket feature constants
-  static const String ageBracketUnder18 = '<18';
-  static const String ageBracket18To34 = '18-34';
-  static const String ageBracket35To54 = '35-54';
-  static const String ageBracket55To64 = '55-64';
-  static const String ageBracket65To79 = '65-79';
-  static const String ageBracket80Plus = '80+';
+  // Age bracket feature constants (ACSM 10-year brackets)
+  static const String ageBracketUnder20 = '<20';
+  static const String ageBracket20To29 = '20-29';
+  static const String ageBracket30To39 = '30-39';
+  static const String ageBracket40To49 = '40-49';
+  static const String ageBracket50To59 = '50-59';
+  static const String ageBracket60To69 = '60-69';
+  static const String ageBracket70Plus = '70+';
   
   // Exercise category feature constants
   static const String categoryStrength = 'strength';

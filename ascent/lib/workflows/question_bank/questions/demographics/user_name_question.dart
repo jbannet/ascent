@@ -6,11 +6,12 @@ import '../onboarding_question.dart';
 /// This question collects the user's name for personalized experiences
 /// and user account setup.
 class UserNameQuestion extends OnboardingQuestion {
+  static const String questionId = 'user_name';
   
   //MARK: UI PRESENTATION DATA
   
   @override
-  String get id => 'user_name';
+  String get id => UserNameQuestion.questionId;
   
   @override
   String get questionText => 'What\'s your name?';

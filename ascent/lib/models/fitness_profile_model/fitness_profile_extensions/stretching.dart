@@ -1,5 +1,6 @@
 import 'package:ascent/constants_features.dart';
 import '../fitness_profile.dart';
+import '../../../workflows/question_bank/questions/demographics/age_question.dart';
 
 /// Extension to calculate stretching exercise feature importance.
 /// 
@@ -9,7 +10,7 @@ extension Stretching on FitnessProfile {
   
   /// Calculate stretching exercise importance based on age
   void calculateStretching() {
-    final age = answers['age'] as int?;
+    final age = answers[AgeQuestion.questionId] as int?;
     
     if (age == null) {
       throw Exception('Missing required answer for stretching calculation: age=$age');

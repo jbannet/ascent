@@ -1,0 +1,114 @@
+import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
+import '../../../onboarding_workflow/models/questions/question_option.dart';
+import '../../../onboarding_workflow/models/questions/question.dart';
+import '../onboarding_question.dart';
+import '../demographics/age_question.dart';
+import './q4a_fall_history_question.dart';
+
+/// Q4B: Do you experience any of the following?
+/// 
+/// This question assesses additional fall risk factors beyond fall history.
+/// It appears for users who have fallen OR are 65+ years old.
+/// Based on CDC STEADI fall risk assessment protocol.
+class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
+  static const String questionId = 'Q4B';
+  
+  //MARK: UI PRESENTATION DATA
+  
+  @override
+  String get id => Q4BFallRiskFactorsQuestion.questionId;
+  
+  @override
+  String get questionText => 'Do you experience any of the following?';
+  
+  @override
+  String get section => 'fitness_assessment';
+  
+  @override
+  EnumQuestionType get questionType => EnumQuestionType.multipleChoice;
+  
+  @override
+  String? get subtitle => 'Select all that apply';
+  
+  @override
+  List<QuestionOption> get options => [
+    QuestionOption(
+      value: 'fear_falling', 
+      label: 'Fear of falling',
+      description: 'Worry about losing balance or falling during daily activities'
+    ),
+    QuestionOption(
+      value: 'mobility_aids', 
+      label: 'Use mobility aids',
+      description: 'Walker, cane, or other assistive devices'
+    ),
+    QuestionOption(
+      value: 'dizziness', 
+      label: 'Dizziness or balance problems',
+      description: 'Feeling unsteady, lightheaded, or having trouble with balance'
+    ),
+    QuestionOption(
+      value: 'none', 
+      label: 'None of the above'
+    ),
+  ];
+  
+  @override
+  Map<String, dynamic> get config => {
+    'isRequired': true,
+    'allowMultiple': true,
+  };
+  
+  //MARK: CONDITIONAL DISPLAY
+  // Note: We override toPresentation() to handle complex conditional logic
+  
+  @override
+  Question toPresentation() {
+    // Create a custom Question that checks conditions in shouldShow
+    return _Q4BConditionalQuestion(this);
+  }
+  
+  //MARK: VALIDATION
+  
+  @override
+  bool isValidAnswer(dynamic answer) {
+    if (answer == null) return false;
+    if (answer is String) return true; // Single selection
+    if (answer is List) {
+      // Check for valid selections
+      final validValues = ['fear_falling', 'mobility_aids', 'dizziness', 'none'];
+      return answer.every((item) => validValues.contains(item));
+    }
+    return false;
+  }
+  
+  @override
+  dynamic getDefaultAnswer() => ['none'];
+}
+
+/// Custom Question class to handle complex conditional logic
+class _Q4BConditionalQuestion extends Question {
+  final Q4BFallRiskFactorsQuestion baseQuestion;
+  
+  _Q4BConditionalQuestion(this.baseQuestion) : super(
+    id: baseQuestion.id,
+    question: baseQuestion.questionText,
+    section: baseQuestion.section,
+    type: baseQuestion.questionType,
+    options: baseQuestion.options,
+    subtitle: baseQuestion.subtitle,
+    answerConfigurationSettings: baseQuestion.config,
+  );
+  
+  @override
+  bool shouldShow(Map<String, dynamic> answers) {
+    // Show if Q4A = 'yes' (has fallen) OR age >= 65
+    final hasFallen = answers[Q4AFallHistoryQuestion.questionId] as String?;
+    final age = answers[AgeQuestion.questionId] as int?;
+    
+    if (hasFallen == 'yes') return true;
+    if (age != null && age >= 65) return true;
+    
+    return false;
+  }
+}

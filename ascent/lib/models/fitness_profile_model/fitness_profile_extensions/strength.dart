@@ -1,5 +1,7 @@
 import 'package:ascent/constants_features.dart';
 import '../fitness_profile.dart';
+import '../../../workflows/question_bank/questions/demographics/age_question.dart';
+import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
 
 /// Extension to calculate strength feature importance.
 /// 
@@ -10,8 +12,8 @@ extension Strength on FitnessProfile {
   
   /// Calculate strength training importance based on multiple factors
   void calculateStrength() {
-    final age = answers['age'] as int?;
-    final gender = answers['gender'] as String?;
+    final age = answers[AgeQuestion.questionId] as int?;
+    final gender = answers[GenderQuestion.questionId] as String?;
     
     if (age == null || gender == null) {
       throw Exception('Missing required answers for strength calculation: age=$age, gender=$gender');

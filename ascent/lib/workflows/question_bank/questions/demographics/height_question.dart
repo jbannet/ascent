@@ -6,11 +6,12 @@ import '../onboarding_question.dart';
 /// Height is used for BMI calculations, body composition estimates,
 /// and biomechanical exercise modifications.
 class HeightQuestion extends OnboardingQuestion {
+  static const String questionId = 'height';
   
   //MARK: UI PRESENTATION DATA
   
   @override
-  String get id => 'height';
+  String get id => HeightQuestion.questionId;
   
   @override
   String get questionText => 'What is your height?';

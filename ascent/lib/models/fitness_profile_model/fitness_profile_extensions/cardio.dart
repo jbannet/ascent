@@ -1,5 +1,7 @@
 import 'package:ascent/constants_features.dart';
 import '../fitness_profile.dart';
+import '../../../workflows/question_bank/questions/demographics/age_question.dart';
+import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
 
 /// Extension to calculate cardio exercise feature importance.
 /// 
@@ -10,8 +12,8 @@ extension Cardio on FitnessProfile {
   
   /// Calculate cardiovascular exercise importance based on multiple factors
   void calculateCardio() {
-    final age = answers['age'] as int?;
-    final gender = answers['gender'] as String?;
+    final age = answers[AgeQuestion.questionId] as int?;
+    final gender = answers[GenderQuestion.questionId] as String?;
     
     if (age == null || gender == null) {
       throw Exception('Missing required answers for cardio calculation: age=$age, gender=$gender');
