@@ -1,6 +1,6 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../onboarding_question.dart';
-import '../../fitness_profile_model/feature_contribution.dart';
+import '../../../../models/fitness_profile_model/feature_contribution.dart';
 
 /// Sleep hours assessment question.
 class SleepHoursQuestion extends OnboardingQuestion {
