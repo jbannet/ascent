@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ascent/core/onboarding_workflow/widgets/onboarding/question_input/multiple_choice_widget.dart';
-import 'package:ascent/core/onboarding_workflow/models/questions/question_option.dart';
+import 'package:ascent/workflows/onboarding_workflow/widgets/onboarding/question_input/multiple_choice_widget.dart';
+import 'package:ascent/workflows/onboarding_workflow/models/questions/question_option.dart';
 import 'test_helpers.dart';
 
 void main() {

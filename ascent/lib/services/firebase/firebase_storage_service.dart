@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../core/onboarding_workflow/models/answers/onboarding_answers.dart';
+import '../../workflows/onboarding_workflow/models/answers/onboarding_answers.dart';
 import '../../constants.dart';
 import 'firebase_auth_service.dart';
 import 'firebase_retry_service.dart';

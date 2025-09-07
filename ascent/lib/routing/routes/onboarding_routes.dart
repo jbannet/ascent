@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import '../../core/onboarding_workflow/views/onboarding_survey_container.dart';
+import '../../workflows/onboarding_workflow/views/onboarding_survey_container.dart';
 
 /// Onboarding workflow routes for the application
 class OnboardingRoutes {

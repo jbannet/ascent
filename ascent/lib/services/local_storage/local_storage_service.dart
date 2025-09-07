@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../core/onboarding_workflow/models/answers/onboarding_answers.dart';
+import '../../workflows/onboarding_workflow/models/answers/onboarding_answers.dart';
 import '../../constants.dart';
 
 /// Service for managing local storage of onboarding data using Hive database
