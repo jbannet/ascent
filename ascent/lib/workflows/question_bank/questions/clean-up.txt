@@ -1,0 +1,74 @@
+Question Files Migration Table
+
+  | File Name                            | Question Type  | Proposed Return Type | Uses String Literals                      | Needs
+  Constants                   |
+  |--------------------------------------|----------------|----------------------|-------------------------------------------|-----------
+  ------------------------|
+  | Demographics                         |                |                      |                                           |
+                          |
+  | age_question.dart                    | numberInput    | int                  | No                                        | ✅ Clean
+                           |
+  | gender_question.dart                 | singleChoice   | String               | Yes - 'male', 'female', etc.              | ⚠️ Partial
+   (some constants exist) |
+  | height_question.dart                 | numberInput    | double               | No                                        | ✅ Clean
+                           |
+  | user_name_question.dart              | textInput      | String               | No                                        | ✅ Clean
+                           |
+  | Fitness Assessment                   |                |                      |                                           |
+                          |
+  | current_activities_question.dart     | multipleChoice | List<String>         | Yes - activity names                      | ❌ Needs
+  constants                 |
+  | current_fitness_level_question.dart  | singleChoice   | String               | Yes - 'beginner', 'intermediate', etc.    | ⚠️ Partial
+   (some constants exist) |
+  | q3_stairs_question.dart              | singleChoice   | String               | Yes - 'not_at_all', 'slightly', etc.      | ❌ Needs
+  constants                 |
+  | q4_twelve_minute_run_question.dart   | numberInput    | double               | No                                        | ✅ Clean
+                           |
+  | q4a_fall_history_question.dart       | singleChoice   | bool                 | Yes - 'yes', 'no'                         | ⚠️ Partial
+   (constants exist)      |
+  | q4b_fall_risk_factors_question.dart  | multipleChoice | List<String>         | Uses constants                            | ✅ Updated
+                           |
+  | q5_pushups_question.dart             | numberInput    | int                  | No                                        | ✅ Clean
+                           |
+  | q6_structured_program_question.dart  | singleChoice   | bool                 | Yes - 'yes', 'no'                         | ❌ Needs
+  constants                 |
+  | q7_free_weights_question.dart        | singleChoice   | bool                 | Yes - 'yes', 'no'                         | ❌ Needs
+  constants                 |
+  | q8_training_days_question.dart       | singleChoice   | int                  | Yes - '1', '2', '3', etc.                 | ❌ Needs
+  constants                 |
+  | q9_session_time_question.dart        | singleChoice   | int                  | Yes - time values                         | ❌ Needs
+  constants                 |
+  | workout_duration_question.dart       | singleChoice   | String               | Yes - duration ranges                     | ❌ Needs
+  constants                 |
+  | workout_frequency_question.dart      | slider         | double               | No                                        | ✅ Clean
+                           |
+  | Goals                                |                |                      |                                           |
+                          |
+  | fitness_goals_question.dart          | multipleChoice | List<String>         | Yes - 'lose_weight', 'build_muscle', etc. | ❌ Needs
+  constants                 |
+  | target_completion_date_question.dart | datePicker     | DateTime             | No                                        | ✅ Clean
+                           |
+  | weight_loss_target_question.dart     | slider         | double               | Conditional check                         | ⚠️ Check
+  condition                |
+  | Lifestyle                            |                |                      |                                           |
+                          |
+  | current_diet_question.dart           | singleChoice   | String               | Yes - 'very_healthy', 'average', etc.     | ❌ Needs
+  constants                 |
+  | sleep_hours_question.dart            | slider         | double               | No                                        | ✅ Clean
+                           |
+  | Motivation                           |                |                      |                                           |
+                          |
+  | primary_motivation_question.dart     | singleChoice   | String               | Yes - motivation types                    | ❌ Needs
+  constants                 |
+  | progress_tracking_question.dart      | multipleChoice | List<String>         | Yes - tracking methods                    | ❌ Needs
+  constants                 |
+  | Practical Constraints                |                |                      |                                           |
+                          |
+  | q1_injuries_question.dart            | multipleChoice | List<String>         | Yes - 'back', 'knee', 'none', etc.        | ❌ Needs
+  constants                 |
+  | q2_high_impact_question.dart         | multipleChoice | List<String>         | Yes - restriction types                   | ❌ Needs
+  constants                 |
+  | q10_equipment_question.dart          | multipleChoice | List<String>         | Yes - equipment types                     | ❌ Needs
+  constants                 |
+  | q11_training_location_question.dart  | singleChoice   | String               | Yes - 'home', 'gym', etc.                 | ❌ Needs
+  constants                 |

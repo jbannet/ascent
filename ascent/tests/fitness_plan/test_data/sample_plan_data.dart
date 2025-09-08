@@ -1,7 +1,7 @@
-import 'package:ascent/models/plan.dart';
-import 'package:ascent/models/planned_week.dart';
-import 'package:ascent/models/planned_day.dart';
-import 'package:ascent/models/session.dart';
+import 'package:ascent/models/plan_concepts/plan.dart';
+import 'package:ascent/models/plan_concepts/planned_week.dart';
+import 'package:ascent/models/plan_concepts/planned_day.dart';
+import 'package:ascent/models/plan_concepts/session.dart';
 import 'package:ascent/models/blocks/block.dart';
 import 'package:ascent/models/blocks/exercise_prescription_step.dart';
 import 'package:ascent/enums/goal.dart';

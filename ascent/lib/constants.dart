@@ -21,3 +21,25 @@ class AppConstants {
   /// Version constants
   static const int localStorageUninitialized = -1;
 }
+
+/// Question Answer Constants
+class AnswerConstants {
+  // Gender options
+  static const String male = 'male';
+  static const String female = 'female';
+  
+  // Yes/No options
+  static const String yes = 'yes';
+  static const String no = 'no';
+  
+  // Experience level options
+  static const String beginner = 'beginner';
+  static const String intermediate = 'intermediate';
+  static const String advanced = 'advanced';
+  
+  // Fall risk factors (Q4B)
+  static const String fearFalling = 'fear_falling';
+  static const String mobilityAids = 'mobility_aids';
+  static const String balanceProblems = 'balance';
+  static const String none = 'none';
+}

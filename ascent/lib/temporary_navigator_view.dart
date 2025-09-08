@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'models/plan.dart';
-import 'models/session.dart';
-import 'models/planned_week.dart';
-import 'models/planned_day.dart';
+import 'models/plan_concepts/plan.dart';
+import 'models/plan_concepts/session.dart';
+import 'models/plan_concepts/planned_week.dart';
+import 'models/plan_concepts/planned_day.dart';
 import 'models/blocks/block.dart';
 import 'models/blocks/exercise_prescription_step.dart';
 import 'models/blocks/rest_step.dart';

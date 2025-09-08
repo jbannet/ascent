@@ -4,6 +4,7 @@ import '../../../workflows/question_bank/questions/demographics/age_question.dar
 import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
 import '../../../workflows/question_bank/questions/fitness_assessment/q4a_fall_history_question.dart';
 import '../../../workflows/question_bank/questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
+import '../../../constants.dart';
 
 /// Extension to calculate balance feature importance.
 /// 
@@ -26,7 +27,6 @@ extension Balance on FitnessProfile {
     }
     
     double importance = _calculateBalanceImportance(age, gender);
-    importance = _applyPhysicalLimitationModifiers(importance, physicalLimitations);
     importance = _applyActivityLevelModifiers(importance, experienceLevel, age);
     importance = _applyFallRiskModifiers(importance, hasFallen, fallRiskFactors);
     
@@ -47,7 +47,7 @@ extension Balance on FitnessProfile {
     else baseImportance = 1.0;                 // Maximum priority
     
     // Gender adjustments for women (higher fall risk)
-    if (gender == 'female') {
+    if (gender == AnswerConstants.female) {
       if (age >= 35) baseImportance += 0.05; // Peak bone mass decline begins
       if (age >= 45) baseImportance += 0.1;  // Perimenopause effects
       if (age >= 55) baseImportance += 0.1;  // Post-menopause acceleration
@@ -55,28 +55,16 @@ extension Balance on FitnessProfile {
     
     return baseImportance;
   }
-  
-  /// Apply modifiers based on physical limitations that affect balance
-  double _applyPhysicalLimitationModifiers(double baseImportance, List<dynamic> limitations) {
-    // Limitations that directly impact balance and fall risk
-    final balanceAffecting = ['knee', 'ankle', 'hip', 'back', 'vision', 'neurological'];
-    
-    // Convert dynamic list to strings and check for balance-affecting limitations
-    final limitationsAsStrings = limitations.map((e) => e.toString()).toList();
-    final affectedCount = limitationsAsStrings.where((limit) => balanceAffecting.contains(limit)).length;
-    
-    // Add 0.1 per limitation, max of 0.3 total increase
-    return baseImportance + (affectedCount * 0.1).clamp(0.0, 0.3);
-  }
+
   
   /// Apply modifiers based on activity level and sedentary behavior
   double _applyActivityLevelModifiers(double baseImportance, String? level, int age) {
     // Sedentary lifestyle increases fall risk, especially in older adults
-    if (level == 'beginner' && age >= 50) {
+    if (level == AnswerConstants.beginner && age >= 50) {
       return baseImportance + 0.1;
     }
     // Very active individuals may have slightly lower balance priority
-    else if (level == 'advanced' && age < 50) {
+    else if (level == AnswerConstants.advanced && age < 50) {
       return baseImportance - 0.05;
     }
     return baseImportance;
@@ -84,26 +72,27 @@ extension Balance on FitnessProfile {
   
   /// Apply modifiers based on fall history and risk factors
   double _applyFallRiskModifiers(double baseImportance, String? hasFallen, List<dynamic> riskFactors) {
-    double modifier = 0.0;
-    
     // Previous fall is strongest predictor of future falls
-    if (hasFallen == 'yes') {
-      modifier += 0.2;
+    // If they've fallen, balance training becomes absolute priority
+    if (hasFallen == AnswerConstants.yes) {
+      return 1.5; // Maximum priority regardless of age or other factors
     }
+    
+    double modifier = 0.0;
     
     // Additional risk factors from Q4B
     final factorsAsStrings = riskFactors.map((e) => e.toString()).toList();
     
-    if (factorsAsStrings.contains('fear_falling')) {
+    if (factorsAsStrings.contains(AnswerConstants.fearFalling)) {
       modifier += 0.1;  // Fear of falling affects movement patterns
     }
     
-    if (factorsAsStrings.contains('mobility_aids')) {
+    if (factorsAsStrings.contains(AnswerConstants.mobilityAids)) {
       modifier += 0.15;  // Using mobility aids indicates significant balance issues
     }
     
-    if (factorsAsStrings.contains('dizziness')) {
-      modifier += 0.15;  // Dizziness/balance problems are direct risk factors
+    if (factorsAsStrings.contains(AnswerConstants.balanceProblems)) {
+      modifier += 0.15;  // balance problems are direct risk factors
     }
     
     // Cap the total fall risk modifier at 0.4

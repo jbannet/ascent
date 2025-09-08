@@ -1,4 +1,4 @@
-import 'blocks/block.dart';
+import '../blocks/block.dart';
 
 class Session {
   final String id;

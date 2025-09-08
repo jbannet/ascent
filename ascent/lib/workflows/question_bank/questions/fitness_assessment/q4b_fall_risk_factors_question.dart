@@ -3,6 +3,7 @@ import '../../../onboarding_workflow/models/questions/question_option.dart';
 import '../onboarding_question.dart';
 import '../demographics/age_question.dart';
 import './q4a_fall_history_question.dart';
+import '../../../../constants.dart';
 
 /// Q4B: Do you experience any of the following?
 /// 
@@ -32,22 +33,22 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   @override
   List<QuestionOption> get options => [
     QuestionOption(
-      value: 'fear_falling', 
+      value: AnswerConstants.fearFalling, 
       label: 'Fear of falling',
       description: 'Worry about losing balance or falling during daily activities'
     ),
     QuestionOption(
-      value: 'mobility_aids', 
+      value: AnswerConstants.mobilityAids, 
       label: 'Use mobility aids',
       description: 'Walker, cane, or other assistive devices'
     ),
     QuestionOption(
-      value: 'dizziness', 
-      label: 'Dizziness or balance problems',
+      value: AnswerConstants.balanceProblems, 
+      label: 'Balance problems',
       description: 'Feeling unsteady, lightheaded, or having trouble with balance'
     ),
     QuestionOption(
-      value: 'none', 
+      value: AnswerConstants.none, 
       label: 'None of the above'
     ),
   ];
@@ -80,13 +81,13 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
     if (answer is String) return true; // Single selection
     if (answer is List) {
       // Check for valid selections
-      final validValues = ['fear_falling', 'mobility_aids', 'dizziness', 'none'];
+      final validValues = [AnswerConstants.fearFalling, AnswerConstants.mobilityAids, AnswerConstants.balanceProblems, AnswerConstants.none];
       return answer.every((item) => validValues.contains(item));
     }
     return false;
   }
   
   @override
-  dynamic getDefaultAnswer() => ['none'];
+  dynamic getDefaultAnswer() => [AnswerConstants.none];
 }
 

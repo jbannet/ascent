@@ -2,6 +2,7 @@ import 'package:ascent/constants_features.dart';
 import '../fitness_profile.dart';
 import '../../../workflows/question_bank/questions/demographics/age_question.dart';
 import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
+import '../../../constants.dart';
 
 /// Extension to calculate cardio exercise feature importance.
 /// 
@@ -34,7 +35,7 @@ extension Cardio on FitnessProfile {
     else baseImportance = 0.85;
     
     // Gender adjustments
-    if (gender == 'female' && age >= 50) {
+    if (gender == AnswerConstants.female && age >= 50) {
       // Higher importance post-menopause
       baseImportance += 0.1;
     }

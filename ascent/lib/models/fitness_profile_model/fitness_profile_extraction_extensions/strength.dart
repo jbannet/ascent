@@ -2,6 +2,7 @@ import 'package:ascent/constants_features.dart';
 import '../fitness_profile.dart';
 import '../../../workflows/question_bank/questions/demographics/age_question.dart';
 import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
+import '../../../constants.dart';
 
 /// Extension to calculate strength feature importance.
 /// 
@@ -34,7 +35,7 @@ extension Strength on FitnessProfile {
     else baseImportance = 1.0;
     
     // Gender adjustments
-    if (gender == 'female') {
+    if (gender == AnswerConstants.female) {
       // Higher importance for women due to lower baseline and menopause effects
       if (age >= 35) baseImportance += 0.1; // Post peak bone mass
       if (age >= 50) baseImportance += 0.1; // Menopause acceleration

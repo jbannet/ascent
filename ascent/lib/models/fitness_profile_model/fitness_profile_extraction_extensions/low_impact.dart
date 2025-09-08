@@ -2,6 +2,7 @@ import 'package:ascent/constants_features.dart';
 import '../fitness_profile.dart';
 import '../../../workflows/question_bank/questions/demographics/age_question.dart';
 import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
+import '../../../constants.dart';
 
 /// Extension to calculate low impact exercise feature importance.
 /// 
@@ -34,7 +35,7 @@ extension LowImpact on FitnessProfile {
     else baseImportance = 0.95;
     
     // Gender adjustments
-    if (gender == 'female') {
+    if (gender == AnswerConstants.female) {
       // Earlier importance due to higher osteoarthritis rates
       if (age >= 35) baseImportance += 0.05;
       if (age >= 50) baseImportance += 0.05;
