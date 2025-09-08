@@ -62,7 +62,7 @@ class Q10EquipmentQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ACCESSOR
   
-  /// Get available equipment as List<String> from answers
+  /// Get available equipment as List&lt;String&gt; from answers
   List<String> getAvailableEquipment(Map<String, dynamic> answers) {
     final equipment = answers[questionId];
     if (equipment == null) return [AnswerConstants.none];

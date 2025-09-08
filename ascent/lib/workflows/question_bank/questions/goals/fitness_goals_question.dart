@@ -78,7 +78,7 @@ class FitnessGoalsQuestion extends OnboardingQuestion {
   bool isValidAnswer(dynamic answer) {
     if (answer is List) {
       final selections = answer.cast<String>();
-      return selections.length >= 1 && 
+      return selections.isNotEmpty && 
              selections.length <= 3 && 
              selections.every((item) => _isValidOption(item));
     }
@@ -90,7 +90,7 @@ class FitnessGoalsQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ACCESSOR
   
-  /// Get fitness goals as List<String> from answers
+  /// Get fitness goals as List&lt;String&gt; from answers
   List<String> getFitnessGoals(Map<String, dynamic> answers) {
     final goals = answers[questionId];
     if (goals == null) return [AnswerConstants.betterHealth];

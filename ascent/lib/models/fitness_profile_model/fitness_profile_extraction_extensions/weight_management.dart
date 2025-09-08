@@ -161,8 +161,8 @@ extension WeightManagement on FitnessProfile {
   void _calculateWeightObjectives(List<String>? goals, int age) {
     final hasWeightLossGoal = goals?.contains(AnswerConstants.loseWeight) ?? false;
     final hasMuscleGainGoal = goals?.contains(AnswerConstants.buildMuscle) ?? false;
-    final needsWeightLoss = (featuresMap['needs_weight_loss'] as double? ?? 0.0) > 0.5;
-    final needsWeightGain = (featuresMap['needs_weight_gain'] as double? ?? 0.0) > 0.5;
+    final needsWeightLoss = (featuresMap['needs_weight_loss'] ?? 0.0) > 0.5;
+    final needsWeightGain = (featuresMap['needs_weight_gain'] ?? 0.0) > 0.5;
     
     // Primary weight management objective
     if (hasWeightLossGoal || needsWeightLoss) {

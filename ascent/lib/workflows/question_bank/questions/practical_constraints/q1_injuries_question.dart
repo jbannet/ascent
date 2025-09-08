@@ -62,7 +62,7 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ACCESSORS
   
-  /// Get all injuries (areas to avoid) as List<String> from answers
+  /// Get all injuries (areas to avoid) as List&lt;String&gt; from answers
   /// Returns items prefixed with 'injury_' (double-tapped items)
   List<String> getInjuries(Map<String, dynamic> answers) {
     final items = answers[questionId];
@@ -77,7 +77,7 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
         .toList();
   }
   
-  /// Get all pain areas (areas to strengthen) as List<String> from answers
+  /// Get all pain areas (areas to strengthen) as List&lt;String&gt; from answers
   /// Returns items prefixed with 'pain_' (single-tapped items)
   List<String> getPainAreas(Map<String, dynamic> answers) {
     final items = answers[questionId];

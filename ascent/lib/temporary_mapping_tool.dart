@@ -18,6 +18,8 @@ class _TemporaryMappingToolState extends State<TemporaryMappingTool> {
   // Standard body parts to map
   final List<String> _bodyParts = [
     'ankles',
+    'feet',
+    'shins',
     'wrists',
     'elbows',
     'knees',
@@ -25,12 +27,11 @@ class _TemporaryMappingToolState extends State<TemporaryMappingTool> {
     'hamstrings',
     'calves',
     'shoulders',
-    'adductors',
+    'hips',
     'glutes',
     'quadriceps',
     'biceps',
     'forearms',
-    'abductors',
     'triceps',
     'chest',
     'lower back',
@@ -50,6 +51,11 @@ class _TemporaryMappingToolState extends State<TemporaryMappingTool> {
         backgroundColor: Colors.purple,
         foregroundColor: Colors.white,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.file_upload),
+            onPressed: _importCoordinates,
+            tooltip: 'Import coordinates from clipboard',
+          ),
           IconButton(
             icon: const Icon(Icons.copy),
             onPressed: _exportCoordinates,
@@ -342,7 +348,9 @@ class _TemporaryMappingToolState extends State<TemporaryMappingTool> {
           children: [
             // Image with overlay
             GestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTapDown: _selectedBodyPart != null ? _handleImageTap : null,
+              onTap: _selectedBodyPart != null ? () {} : null,
               child: Stack(
                 children: [
                   Image.asset(
@@ -381,10 +389,11 @@ class _TemporaryMappingToolState extends State<TemporaryMappingTool> {
 
   List<Widget> _buildRegionOverlays() {
     return [
-      // Always show grid overlay
+      // Always show grid overlay - rebuilt on every state change
       Positioned.fill(
         child: IgnorePointer(
           child: CustomPaint(
+            key: ValueKey(_tappedRegions.toString()), // Force rebuild when regions change
             painter: GridOverlayPainter(
               tappedRegions: _tappedRegions,
             ),
@@ -395,24 +404,22 @@ class _TemporaryMappingToolState extends State<TemporaryMappingTool> {
   }
 
   void _handleImageTap(TapDownDetails details) {
-    print('Tap detected! Selected body part: $_selectedBodyPart');
     
     if (_selectedBodyPart == null) {
-      print('No body part selected');
       return;
     }
     
     final RenderBox? renderBox = _imageKey.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null) {
-      print('RenderBox is null');
       return;
     }
     
     final localPosition = renderBox.globalToLocal(details.globalPosition);
     final imageSize = renderBox.size;
     
-    final xPercent = (localPosition.dx / imageSize.width) * 100;
-    final yPercent = (localPosition.dy / imageSize.height) * 100;
+    if (imageSize.width <= 0 || imageSize.height <= 0) {
+      return;
+    }
     
     // Calculate which grid cell was clicked
     final cellWidth = imageSize.width / 20; // gridCols = 20
@@ -424,23 +431,42 @@ class _TemporaryMappingToolState extends State<TemporaryMappingTool> {
     final cellCenterX = ((gridX + 0.5) * cellWidth / imageSize.width) * 100;
     final cellCenterY = ((gridY + 0.5) * cellHeight / imageSize.height) * 100;
     
-    print('Clicked grid cell: ($gridX, $gridY) at $cellCenterX%, $cellCenterY% for body part: $_selectedBodyPart');
-    
     setState(() {
-      // Initialize list if doesn't exist
-      _tappedRegions[_selectedBodyPart!] ??= [];
+      // Check if this cell is already used by ANY body part
+      String? existingBodyPart;
+      for (final entry in _tappedRegions.entries) {
+        for (final region in entry.value) {
+          if (region.gridX == gridX && region.gridY == gridY) {
+            existingBodyPart = entry.key;
+            break;
+          }
+        }
+        if (existingBodyPart != null) break;
+      }
       
-      // Check if this cell is already selected for this body part
-      final existingIndex = _tappedRegions[_selectedBodyPart!]!.indexWhere(
-        (region) => (region.gridX == gridX && region.gridY == gridY)
-      );
-      
-      if (existingIndex >= 0) {
-        // Cell already selected, remove it (toggle off)
-        _tappedRegions[_selectedBodyPart!]!.removeAt(existingIndex);
-        print('Removed cell ($gridX, $gridY) from $_selectedBodyPart');
-      } else {
-        // Add new cell
+      if (existingBodyPart == _selectedBodyPart) {
+        // Cell already selected for current body part, remove it (toggle off)
+        _tappedRegions[_selectedBodyPart!]!.removeWhere(
+          (region) => region.gridX == gridX && region.gridY == gridY
+        );
+        
+        // Clean up empty lists
+        if (_tappedRegions[_selectedBodyPart!]!.isEmpty) {
+          _tappedRegions.remove(_selectedBodyPart!);
+        }
+      } else if (existingBodyPart != null) {
+        // Cell belongs to different body part, move it to current selection
+        _tappedRegions[existingBodyPart]!.removeWhere(
+          (region) => region.gridX == gridX && region.gridY == gridY
+        );
+        
+        // Clean up empty lists
+        if (_tappedRegions[existingBodyPart]!.isEmpty) {
+          _tappedRegions.remove(existingBodyPart);
+        }
+        
+        // Add to current body part
+        _tappedRegions[_selectedBodyPart!] ??= [];
         _tappedRegions[_selectedBodyPart!]!.add(TappedRegion(
           bodyPart: _selectedBodyPart!,
           xPercent: cellCenterX,
@@ -448,12 +474,16 @@ class _TemporaryMappingToolState extends State<TemporaryMappingTool> {
           gridX: gridX,
           gridY: gridY,
         ));
-        print('Added cell ($gridX, $gridY) to $_selectedBodyPart');
-      }
-      
-      // Clean up empty lists
-      if (_tappedRegions[_selectedBodyPart!]!.isEmpty) {
-        _tappedRegions.remove(_selectedBodyPart!);
+      } else {
+        // New cell, add to current body part
+        _tappedRegions[_selectedBodyPart!] ??= [];
+        _tappedRegions[_selectedBodyPart!]!.add(TappedRegion(
+          bodyPart: _selectedBodyPart!,
+          xPercent: cellCenterX,
+          yPercent: cellCenterY,
+          gridX: gridX,
+          gridY: gridY,
+        ));
       }
     });
   }
@@ -463,6 +493,142 @@ class _TemporaryMappingToolState extends State<TemporaryMappingTool> {
       _tappedRegions.clear();
       _selectedBodyPart = null;
     });
+  }
+
+  void _importCoordinates() async {
+    try {
+      final clipboardData = await Clipboard.getData('text/plain');
+      final text = clipboardData?.text?.trim();
+      
+      if (text == null || text.isEmpty) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Clipboard is empty or contains no text'),
+              backgroundColor: Colors.orange,
+            ),
+          );
+        }
+        return;
+      }
+
+      
+      // Parse the coordinate data
+      final importedRegions = _parseCoordinateData(text);
+      
+      if (importedRegions.isEmpty) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('No valid coordinate data found in clipboard'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+        return;
+      }
+
+      // Filter to only include body parts that exist in current list
+      final filteredRegions = <String, List<TappedRegion>>{};
+      final skippedParts = <String>[];
+      int totalImported = 0;
+      
+      for (final entry in importedRegions.entries) {
+        final bodyPart = entry.key;
+        final regions = entry.value;
+        
+        if (_bodyParts.contains(bodyPart)) {
+          filteredRegions[bodyPart] = regions;
+          totalImported += regions.length;
+        } else {
+          skippedParts.add(bodyPart);
+        }
+      }
+
+      setState(() {
+        _tappedRegions.clear();
+        _tappedRegions.addAll(filteredRegions);
+      });
+
+      if (mounted) {
+        String message = 'Imported $totalImported cells for ${filteredRegions.length} body parts';
+        if (skippedParts.isNotEmpty) {
+          message += '\n\nSkipped (not in current list): ${skippedParts.join(', ')}';
+        }
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
+      
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error importing coordinates: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  Map<String, List<TappedRegion>> _parseCoordinateData(String text) {
+    final regions = <String, List<TappedRegion>>{};
+    
+    try {
+      // Look for body part definitions in the format:
+      // 'bodypart': [
+      //   BodyRegion(id: 'bodypart', xPercent: X, yPercent: Y, ...),
+      // ],
+      
+      final bodyPartRegex = RegExp(r"'([^']+)':\s*\[([^\]]+)\]", multiLine: true, dotAll: true);
+      final matches = bodyPartRegex.allMatches(text);
+      
+      for (final match in matches) {
+        final bodyPart = match.group(1)!;
+        final regionsText = match.group(2)!;
+        
+        // Parse individual BodyRegion entries
+        final regionRegex = RegExp(
+          r'BodyRegion\([^)]*xPercent:\s*([\d.]+)[^)]*yPercent:\s*([\d.]+)[^)]*\)',
+          multiLine: true
+        );
+        final regionMatches = regionRegex.allMatches(regionsText);
+        
+        final bodyPartRegions = <TappedRegion>[];
+        
+        for (final regionMatch in regionMatches) {
+          final xPercent = double.parse(regionMatch.group(1)!);
+          final yPercent = double.parse(regionMatch.group(2)!);
+          
+          // Convert percentages back to grid coordinates (approximation)
+          final gridX = ((xPercent / 100) * 20 - 0.5).round().clamp(0, 19);
+          final gridY = ((yPercent / 100) * 30 - 0.5).round().clamp(0, 29);
+          
+          bodyPartRegions.add(TappedRegion(
+            bodyPart: bodyPart,
+            xPercent: xPercent,
+            yPercent: yPercent,
+            gridX: gridX,
+            gridY: gridY,
+          ));
+        }
+        
+        if (bodyPartRegions.isNotEmpty) {
+          regions[bodyPart] = bodyPartRegions;
+        }
+      }
+      
+    } catch (e) {
+      // Parsing failed silently
+    }
+    
+    return regions;
   }
 
   void _exportCoordinates() {
@@ -475,17 +641,23 @@ class _TemporaryMappingToolState extends State<TemporaryMappingTool> {
 
     final buffer = StringBuffer();
     buffer.writeln('// Body map coordinates for $_selectedImage');
-    buffer.writeln("final ${_selectedImage}BodyRegions = <String, BodyRegion>{");
+    buffer.writeln("final ${_selectedImage}BodyRegions = <String, List<BodyRegion>>{");
     
     for (final entry in _tappedRegions.entries) {
-      final region = entry.value;
-      buffer.writeln("  '${region.bodyPart}': BodyRegion(");
-      buffer.writeln("    id: '${region.bodyPart}',");
-      buffer.writeln("    xPercent: ${region.xPercent.toStringAsFixed(2)},");
-      buffer.writeln("    yPercent: ${region.yPercent.toStringAsFixed(2)},");
-      buffer.writeln("    widthPercent: 8.0, // Adjust as needed");
-      buffer.writeln("    heightPercent: 6.0, // Adjust as needed");
-      buffer.writeln("  ),");
+      final bodyPart = entry.key;
+      final regions = entry.value;
+      
+      buffer.writeln("  '$bodyPart': [");
+      for (final region in regions) {
+        buffer.writeln("    BodyRegion(");
+        buffer.writeln("      id: '${region.bodyPart}',");
+        buffer.writeln("      xPercent: ${region.xPercent.toStringAsFixed(2)},");
+        buffer.writeln("      yPercent: ${region.yPercent.toStringAsFixed(2)},");
+        buffer.writeln("      widthPercent: 5.0, // Single cell width");
+        buffer.writeln("      heightPercent: 3.33, // Single cell height");
+        buffer.writeln("    ),");
+      }
+      buffer.writeln("  ],");
     }
     
     buffer.writeln("};");
@@ -566,13 +738,14 @@ class GridOverlayPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    
     final cellWidth = size.width / gridCols;
     final cellHeight = size.height / gridRows;
     
     // Draw grid lines (more visible)
     final gridPaint = Paint()
-      ..color = Colors.blue.withValues(alpha: 0.3)
-      ..strokeWidth = 1.0
+      ..color = Colors.grey.withValues(alpha: 0.6)
+      ..strokeWidth = 0.5
       ..style = PaintingStyle.stroke;
     
     // Draw vertical grid lines
@@ -589,15 +762,12 @@ class GridOverlayPainter extends CustomPainter {
     
     // Draw mapped regions as colored grid cells
     final regionPaint = Paint()..style = PaintingStyle.fill;
-    final borderPaint = Paint()
-      ..color = Colors.deepPurple
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
     
     // Draw each mapped cell for each body part
     for (final entry in tappedRegions.entries) {
       final bodyPart = entry.key;
       final regions = entry.value;
+      final bodyPartColor = _getBodyPartColor(bodyPart);
       
       for (int i = 0; i < regions.length; i++) {
         final region = regions[i];
@@ -612,33 +782,42 @@ class GridOverlayPainter extends CustomPainter {
             cellHeight,
           );
           
-          // Color based on body part (different colors for easy identification)
-          regionPaint.color = _getBodyPartColor(bodyPart).withValues(alpha: 0.4);
+          // Fill cell with body part color (more opaque for visibility)
+          regionPaint.color = bodyPartColor.withValues(alpha: 0.7);
           canvas.drawRect(cellRect, regionPaint);
           
-          // Draw border around the cell
+          // Draw border around the cell (same color as fill but darker)
+          final borderPaint = Paint()
+            ..color = bodyPartColor.withValues(alpha: 1.0)
+            ..strokeWidth = 2
+            ..style = PaintingStyle.stroke;
           canvas.drawRect(cellRect, borderPaint);
           
-          // Add a small label in the first cell of each body part
-          if (i == 0) {
-            final textSpan = TextSpan(
-              text: _getBodyPartShortName(bodyPart),
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 8,
-                fontWeight: FontWeight.bold,
-              ),
-            );
-            final textPainter = TextPainter(
-              text: textSpan,
-              textDirection: TextDirection.ltr,
-            );
-            textPainter.layout();
-            
-            final textX = cellRect.center.dx - textPainter.width / 2;
-            final textY = cellRect.center.dy - textPainter.height / 2;
-            textPainter.paint(canvas, Offset(textX, textY));
-          }
+          // Add a small label in every cell (not just first one)
+          final textSpan = TextSpan(
+            text: _getBodyPartShortName(bodyPart),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 6,
+              fontWeight: FontWeight.bold,
+              shadows: [
+                Shadow(
+                  offset: Offset(0.5, 0.5),
+                  color: Colors.black,
+                  blurRadius: 1.0,
+                ),
+              ],
+            ),
+          );
+          final textPainter = TextPainter(
+            text: textSpan,
+            textDirection: TextDirection.ltr,
+          );
+          textPainter.layout();
+          
+          final textX = cellRect.center.dx - textPainter.width / 2;
+          final textY = cellRect.center.dy - textPainter.height / 2;
+          textPainter.paint(canvas, Offset(textX, textY));
         }
       }
     }
@@ -662,19 +841,20 @@ class GridOverlayPainter extends CustomPainter {
     // Create short abbreviations for grid labels
     const Map<String, String> shortNames = {
       'ankles': 'AN',
+      'feet': 'FT',
+      'shins': 'SH',
       'wrists': 'WR',
       'elbows': 'EL',
       'knees': 'KN',
       'abdominals': 'AB',
       'hamstrings': 'HM',
       'calves': 'CA',
-      'shoulders': 'SH',
-      'adductors': 'AD',
+      'shoulders': 'SD',
+      'hips': 'HP',
       'glutes': 'GL',
       'quadriceps': 'QU',
       'biceps': 'BI',
       'forearms': 'FA',
-      'abductors': 'ABC',
       'triceps': 'TR',
       'chest': 'CH',
       'lower back': 'LB',
@@ -689,6 +869,7 @@ class GridOverlayPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant GridOverlayPainter oldDelegate) {
-    return oldDelegate.tappedRegions != tappedRegions;
+    final shouldRepaint = oldDelegate.tappedRegions.toString() != tappedRegions.toString();
+    return shouldRepaint || oldDelegate.tappedRegions.length != tappedRegions.length;
   }
 }

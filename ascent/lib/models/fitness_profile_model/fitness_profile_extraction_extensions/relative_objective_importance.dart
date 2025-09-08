@@ -8,6 +8,9 @@ import '../../../workflows/question_bank/questions/fitness_assessment/q4b_fall_r
 import '../../../workflows/question_bank/questions/fitness_assessment/q6a_chair_stand_question.dart';
 import '../../../workflows/question_bank/questions/practical_constraints/q1_injuries_question.dart';
 import '../../../workflows/question_bank/questions/practical_constraints/q2_high_impact_question.dart';
+import '../../../workflows/question_bank/questions/demographics/glp1_medications_question.dart';
+import '../../../workflows/question_bank/questions/demographics/weight_question.dart';
+import '../../../workflows/question_bank/questions/demographics/height_question.dart';
 import '../../../constants.dart';
 
 /// Extension to calculate relative importance across all exercise modalities.
@@ -115,6 +118,20 @@ extension RelativeImportance on FitnessProfile {
     // Fitness level removed - using performance metrics instead
     final String? fitnessLevel = null;
     if (fitnessLevel == AnswerConstants.beginner) score += 0.15;
+    
+    // GLP-1 medications - SIGNIFICANT increase due to muscle mass preservation needs
+    final isOnGlp1 = Glp1MedicationsQuestion.instance.isOnGlp1Medications(answers);
+    if (isOnGlp1) score += 0.6;
+    
+    // Low weight over 35 - muscle building priority
+    if (age >= 35) {
+      final weight = WeightQuestion.instance.getWeightPounds(answers);
+      final height = HeightQuestion.instance.getHeightInches(answers);
+      if (weight != null && height != null) {
+        final bmi = (weight / (height * height)) * 703; // BMI calculation
+        if (bmi < 20.0) score += 0.4; // Low BMI indicates need for muscle building
+      }
+    }
     
     return score;
   }

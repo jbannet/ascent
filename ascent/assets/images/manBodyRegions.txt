@@ -1,0 +1,1766 @@
+// Body map coordinates for man
+final manBodyRegions = <String, List<BodyRegion>>{
+  'ankles': [
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 17.50,
+      yPercent: 91.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 22.50,
+      yPercent: 91.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 32.50,
+      yPercent: 91.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 37.50,
+      yPercent: 91.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 27.50,
+      yPercent: 91.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 77.50,
+      yPercent: 95.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 77.50,
+      yPercent: 91.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 67.50,
+      yPercent: 91.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 67.50,
+      yPercent: 95.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 22.50,
+      yPercent: 95.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 32.50,
+      yPercent: 95.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 27.50,
+      yPercent: 95.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'wrists': [
+    BodyRegion(
+      id: 'wrists',
+      xPercent: 42.50,
+      yPercent: 55.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'wrists',
+      xPercent: 12.50,
+      yPercent: 55.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'wrists',
+      xPercent: 57.50,
+      yPercent: 51.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'wrists',
+      xPercent: 87.50,
+      yPercent: 51.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'wrists',
+      xPercent: 37.50,
+      yPercent: 55.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'wrists',
+      xPercent: 7.50,
+      yPercent: 55.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'elbows': [
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 12.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 42.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 57.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 57.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 87.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 87.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 82.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 82.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 62.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 62.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 12.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 17.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 17.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 42.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 37.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'elbows',
+      xPercent: 37.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'knees': [
+    BodyRegion(
+      id: 'knees',
+      xPercent: 17.50,
+      yPercent: 75.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 22.50,
+      yPercent: 75.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 22.50,
+      yPercent: 78.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 17.50,
+      yPercent: 78.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 32.50,
+      yPercent: 75.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 37.50,
+      yPercent: 75.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 37.50,
+      yPercent: 78.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 32.50,
+      yPercent: 78.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 62.50,
+      yPercent: 75.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 67.50,
+      yPercent: 75.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 77.50,
+      yPercent: 75.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 82.50,
+      yPercent: 75.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 27.50,
+      yPercent: 78.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 27.50,
+      yPercent: 75.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'knees',
+      xPercent: 72.50,
+      yPercent: 75.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'abdominals': [
+    BodyRegion(
+      id: 'abdominals',
+      xPercent: 22.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'abdominals',
+      xPercent: 22.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'abdominals',
+      xPercent: 22.50,
+      yPercent: 45.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'abdominals',
+      xPercent: 27.50,
+      yPercent: 45.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'abdominals',
+      xPercent: 27.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'abdominals',
+      xPercent: 27.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'abdominals',
+      xPercent: 32.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'abdominals',
+      xPercent: 32.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'abdominals',
+      xPercent: 32.50,
+      yPercent: 45.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'hamstrings': [
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 67.50,
+      yPercent: 65.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 62.50,
+      yPercent: 65.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 62.50,
+      yPercent: 68.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 67.50,
+      yPercent: 71.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 67.50,
+      yPercent: 68.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 62.50,
+      yPercent: 71.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 77.50,
+      yPercent: 65.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 82.50,
+      yPercent: 65.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 82.50,
+      yPercent: 68.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 77.50,
+      yPercent: 68.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 72.50,
+      yPercent: 68.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 72.50,
+      yPercent: 65.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 72.50,
+      yPercent: 71.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 77.50,
+      yPercent: 71.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hamstrings',
+      xPercent: 82.50,
+      yPercent: 71.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'calves': [
+    BodyRegion(
+      id: 'calves',
+      xPercent: 62.50,
+      yPercent: 81.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 67.50,
+      yPercent: 81.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 67.50,
+      yPercent: 85.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 62.50,
+      yPercent: 85.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 62.50,
+      yPercent: 88.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 67.50,
+      yPercent: 88.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 67.50,
+      yPercent: 78.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 62.50,
+      yPercent: 78.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 77.50,
+      yPercent: 78.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 82.50,
+      yPercent: 78.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 82.50,
+      yPercent: 81.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 77.50,
+      yPercent: 81.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 77.50,
+      yPercent: 85.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 82.50,
+      yPercent: 85.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 82.50,
+      yPercent: 88.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'calves',
+      xPercent: 77.50,
+      yPercent: 88.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'shoulders': [
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 12.50,
+      yPercent: 21.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 17.50,
+      yPercent: 21.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 12.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 17.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 37.50,
+      yPercent: 21.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 37.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 62.50,
+      yPercent: 21.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 82.50,
+      yPercent: 21.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 87.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 82.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 57.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 62.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 87.50,
+      yPercent: 21.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 57.50,
+      yPercent: 21.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 42.50,
+      yPercent: 21.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shoulders',
+      xPercent: 42.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'glutes': [
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 67.50,
+      yPercent: 51.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 62.50,
+      yPercent: 51.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 62.50,
+      yPercent: 55.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 67.50,
+      yPercent: 55.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 67.50,
+      yPercent: 58.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 62.50,
+      yPercent: 58.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 72.50,
+      yPercent: 51.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 72.50,
+      yPercent: 58.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 82.50,
+      yPercent: 55.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 82.50,
+      yPercent: 58.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 82.50,
+      yPercent: 51.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 77.50,
+      yPercent: 51.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 77.50,
+      yPercent: 55.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 77.50,
+      yPercent: 58.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'glutes',
+      xPercent: 72.50,
+      yPercent: 55.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'quadriceps': [
+    BodyRegion(
+      id: 'quadriceps',
+      xPercent: 17.50,
+      yPercent: 61.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'quadriceps',
+      xPercent: 22.50,
+      yPercent: 61.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'quadriceps',
+      xPercent: 22.50,
+      yPercent: 65.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'quadriceps',
+      xPercent: 17.50,
+      yPercent: 65.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'quadriceps',
+      xPercent: 32.50,
+      yPercent: 61.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'quadriceps',
+      xPercent: 37.50,
+      yPercent: 61.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'quadriceps',
+      xPercent: 27.50,
+      yPercent: 61.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'quadriceps',
+      xPercent: 27.50,
+      yPercent: 65.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'quadriceps',
+      xPercent: 32.50,
+      yPercent: 65.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'quadriceps',
+      xPercent: 37.50,
+      yPercent: 65.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'biceps': [
+    BodyRegion(
+      id: 'biceps',
+      xPercent: 37.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'biceps',
+      xPercent: 42.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'biceps',
+      xPercent: 37.50,
+      yPercent: 35.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'biceps',
+      xPercent: 42.50,
+      yPercent: 35.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'biceps',
+      xPercent: 12.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'biceps',
+      xPercent: 12.50,
+      yPercent: 35.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'biceps',
+      xPercent: 17.50,
+      yPercent: 35.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'biceps',
+      xPercent: 17.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'forearms': [
+    BodyRegion(
+      id: 'forearms',
+      xPercent: 12.50,
+      yPercent: 45.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'forearms',
+      xPercent: 12.50,
+      yPercent: 51.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'forearms',
+      xPercent: 12.50,
+      yPercent: 48.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'forearms',
+      xPercent: 42.50,
+      yPercent: 45.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'forearms',
+      xPercent: 42.50,
+      yPercent: 48.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'forearms',
+      xPercent: 42.50,
+      yPercent: 51.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'forearms',
+      xPercent: 57.50,
+      yPercent: 45.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'forearms',
+      xPercent: 57.50,
+      yPercent: 48.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'forearms',
+      xPercent: 87.50,
+      yPercent: 45.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'forearms',
+      xPercent: 87.50,
+      yPercent: 48.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'chest': [
+    BodyRegion(
+      id: 'chest',
+      xPercent: 22.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'chest',
+      xPercent: 22.50,
+      yPercent: 28.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'chest',
+      xPercent: 17.50,
+      yPercent: 28.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'chest',
+      xPercent: 22.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'chest',
+      xPercent: 27.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'chest',
+      xPercent: 32.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'chest',
+      xPercent: 32.50,
+      yPercent: 28.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'chest',
+      xPercent: 32.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'chest',
+      xPercent: 27.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'chest',
+      xPercent: 27.50,
+      yPercent: 28.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'chest',
+      xPercent: 37.50,
+      yPercent: 28.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'triceps': [
+    BodyRegion(
+      id: 'triceps',
+      xPercent: 57.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'triceps',
+      xPercent: 62.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'triceps',
+      xPercent: 57.50,
+      yPercent: 35.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'triceps',
+      xPercent: 62.50,
+      yPercent: 35.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'triceps',
+      xPercent: 57.50,
+      yPercent: 28.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'triceps',
+      xPercent: 87.50,
+      yPercent: 28.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'triceps',
+      xPercent: 87.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'triceps',
+      xPercent: 82.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'triceps',
+      xPercent: 82.50,
+      yPercent: 35.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'triceps',
+      xPercent: 87.50,
+      yPercent: 35.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'lower back': [
+    BodyRegion(
+      id: 'lower back',
+      xPercent: 67.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lower back',
+      xPercent: 72.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lower back',
+      xPercent: 77.50,
+      yPercent: 41.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lower back',
+      xPercent: 77.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lower back',
+      xPercent: 72.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lower back',
+      xPercent: 67.50,
+      yPercent: 38.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lower back',
+      xPercent: 67.50,
+      yPercent: 45.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lower back',
+      xPercent: 72.50,
+      yPercent: 45.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lower back',
+      xPercent: 77.50,
+      yPercent: 45.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'middle back': [
+    BodyRegion(
+      id: 'middle back',
+      xPercent: 77.50,
+      yPercent: 35.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'middle back',
+      xPercent: 72.50,
+      yPercent: 35.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'middle back',
+      xPercent: 67.50,
+      yPercent: 35.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'middle back',
+      xPercent: 67.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'middle back',
+      xPercent: 72.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'middle back',
+      xPercent: 77.50,
+      yPercent: 31.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'neck': [
+    BodyRegion(
+      id: 'neck',
+      xPercent: 72.50,
+      yPercent: 18.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'neck',
+      xPercent: 72.50,
+      yPercent: 15.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'neck',
+      xPercent: 67.50,
+      yPercent: 18.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'neck',
+      xPercent: 77.50,
+      yPercent: 18.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'neck',
+      xPercent: 77.50,
+      yPercent: 15.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'neck',
+      xPercent: 67.50,
+      yPercent: 15.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'neck',
+      xPercent: 22.50,
+      yPercent: 18.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'neck',
+      xPercent: 27.50,
+      yPercent: 18.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'neck',
+      xPercent: 32.50,
+      yPercent: 18.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'lats': [
+    BodyRegion(
+      id: 'lats',
+      xPercent: 67.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lats',
+      xPercent: 67.50,
+      yPercent: 28.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lats',
+      xPercent: 77.50,
+      yPercent: 28.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lats',
+      xPercent: 77.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lats',
+      xPercent: 62.50,
+      yPercent: 28.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'lats',
+      xPercent: 82.50,
+      yPercent: 28.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'traps': [
+    BodyRegion(
+      id: 'traps',
+      xPercent: 72.50,
+      yPercent: 28.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'traps',
+      xPercent: 72.50,
+      yPercent: 25.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'traps',
+      xPercent: 72.50,
+      yPercent: 21.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'traps',
+      xPercent: 67.50,
+      yPercent: 21.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'traps',
+      xPercent: 77.50,
+      yPercent: 21.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'hips': [
+    BodyRegion(
+      id: 'hips',
+      xPercent: 17.50,
+      yPercent: 48.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hips',
+      xPercent: 17.50,
+      yPercent: 51.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hips',
+      xPercent: 37.50,
+      yPercent: 48.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hips',
+      xPercent: 37.50,
+      yPercent: 51.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hips',
+      xPercent: 62.50,
+      yPercent: 45.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hips',
+      xPercent: 62.50,
+      yPercent: 48.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hips',
+      xPercent: 77.50,
+      yPercent: 48.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hips',
+      xPercent: 82.50,
+      yPercent: 48.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hips',
+      xPercent: 82.50,
+      yPercent: 45.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hips',
+      xPercent: 67.50,
+      yPercent: 48.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hips',
+      xPercent: 32.50,
+      yPercent: 48.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'hips',
+      xPercent: 22.50,
+      yPercent: 48.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'shins': [
+    BodyRegion(
+      id: 'shins',
+      xPercent: 17.50,
+      yPercent: 81.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 22.50,
+      yPercent: 81.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 22.50,
+      yPercent: 85.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 17.50,
+      yPercent: 85.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 17.50,
+      yPercent: 88.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 22.50,
+      yPercent: 88.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 27.50,
+      yPercent: 88.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 27.50,
+      yPercent: 85.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 27.50,
+      yPercent: 81.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 32.50,
+      yPercent: 81.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 37.50,
+      yPercent: 81.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 37.50,
+      yPercent: 85.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 37.50,
+      yPercent: 88.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 32.50,
+      yPercent: 88.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'shins',
+      xPercent: 32.50,
+      yPercent: 85.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+  'feet': [
+    BodyRegion(
+      id: 'feet',
+      xPercent: 22.50,
+      yPercent: 98.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 17.50,
+      yPercent: 98.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 12.50,
+      yPercent: 98.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 32.50,
+      yPercent: 98.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 37.50,
+      yPercent: 98.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 27.50,
+      yPercent: 98.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 62.50,
+      yPercent: 98.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 67.50,
+      yPercent: 98.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 77.50,
+      yPercent: 98.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 82.50,
+      yPercent: 98.33,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 82.50,
+      yPercent: 95.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 62.50,
+      yPercent: 95.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 17.50,
+      yPercent: 95.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'feet',
+      xPercent: 37.50,
+      yPercent: 95.00,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+  ],
+};
+
+// Usage example:
+// final region = manBodyRegions['chest'];
+// final rect = region?.toRect(imageSize);

@@ -62,7 +62,7 @@ class Q2HighImpactQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ACCESSOR
   
-  /// Get medical restrictions as List<String> from answers
+  /// Get medical restrictions as List&lt;String&gt; from answers
   List<String> getMedicalRestrictions(Map<String, dynamic> answers) {
     final restrictions = answers[questionId];
     if (restrictions == null) return [AnswerConstants.none];

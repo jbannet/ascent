@@ -94,7 +94,7 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ACCESSOR
   
-  /// Get fall risk factors as List<String> from answers
+  /// Get fall risk factors as List&lt;String&gt; from answers
   List<String> getRiskFactors(Map<String, dynamic> answers) {
     final factors = answers[questionId];
     if (factors == null) return [];
