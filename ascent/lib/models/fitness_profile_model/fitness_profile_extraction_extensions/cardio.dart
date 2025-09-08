@@ -37,7 +37,7 @@ extension Cardio on FitnessProfile {
     _calculateCardioWorkoutParameters(age, gender);
   }
   
-  /// Calculate baseline cardiovascular fitness metrics from Cooper test or stairs
+  /// Calculate baseline cardiovascular fitness metrics from Cooper test
   void _calculateCardiovascularBaseline(int age, String gender) {
     // Primary: Use Cooper test if available
     final cooperDistanceMiles = Q4TwelveMinuteRunQuestion.instance.getTwelveMinuteRunDistance(answers);

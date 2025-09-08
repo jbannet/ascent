@@ -3,24 +3,18 @@ import '../questions/onboarding_question.dart';
 import '../questions/demographics/user_name_question.dart';
 import '../questions/demographics/age_question.dart';
 import '../questions/demographics/gender_question.dart';
-import '../questions/demographics/height_question.dart';
 // Motivation
 import '../questions/motivation/primary_motivation_question.dart';
 import '../questions/motivation/progress_tracking_question.dart';
 // Goals
 import '../questions/goals/fitness_goals_question.dart';
-import '../questions/goals/weight_loss_target_question.dart';
-import '../questions/goals/target_completion_date_question.dart';
 // Fitness Assessment
 import '../questions/fitness_assessment/current_fitness_level_question.dart';
-import '../questions/fitness_assessment/stairs_question.dart';
 import '../questions/fitness_assessment/q4_twelve_minute_run_question.dart';
 import '../questions/fitness_assessment/q4a_fall_history_question.dart';
 import '../questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
 import '../questions/fitness_assessment/q5_pushups_question.dart';
 import '../questions/fitness_assessment/current_activities_question.dart';
-import '../questions/fitness_assessment/q6_structured_program_question.dart';
-import '../questions/fitness_assessment/q7_free_weights_question.dart';
 import '../questions/fitness_assessment/workout_frequency_question.dart';
 import '../questions/fitness_assessment/q8_training_days_question.dart';
 import '../questions/fitness_assessment/workout_duration_question.dart';
@@ -47,7 +41,6 @@ class QuestionBank {
     UserNameQuestion.instance,           // user_name
     AgeQuestion.instance,                // age  
     GenderQuestion.instance,             // gender
-    HeightQuestion.instance,             // height
     
     // 2. Motivation
     PrimaryMotivationQuestion.instance,  // primary_motivation
@@ -55,11 +48,9 @@ class QuestionBank {
     
     // 3. Goals
     FitnessGoalsQuestion.instance,       // fitness_goals
-    WeightLossTargetQuestion.instance,   // weight_loss_target (conditional)
     
     // 4. Fitness Assessment
     CurrentFitnessLevelQuestion.instance, // current_fitness_level
-    StairsQuestion.instance,             // stairs
     Q4TwelveMinuteRunQuestion.instance,  // Q4 (12-min run)
     Q4AFallHistoryQuestion.instance,     // Q4A (fall history - conditional)
     Q4BFallRiskFactorsQuestion.instance, // Q4B (fall risk factors - conditional)
@@ -72,11 +63,7 @@ class QuestionBank {
     // 6. Current Activities
     CurrentActivitiesQuestion.instance,  // current_activities
     
-    // 7. Training Experience
-    Q6StructuredProgramQuestion.instance, // Q6 (structured program)
-    Q7FreeWeightsQuestion.instance,      // Q7 (free weights)
-    
-    // 8. Schedule and Constraints
+    // 7. Schedule and Constraints
     WorkoutFrequencyQuestion.instance,   // workout_frequency (similar to Q8)
     Q8TrainingDaysQuestion.instance,     // Q8 (training days) - keep both for now
     WorkoutDurationQuestion.instance,    // workout_duration (similar to Q9)
@@ -87,9 +74,6 @@ class QuestionBank {
     Q2HighImpactQuestion.instance,       // Q2 (high impact)
     Q10EquipmentQuestion.instance,       // Q10 (equipment)
     Q11TrainingLocationQuestion.instance, // Q11 (location)
-    
-    // 10. Goals Timeline
-    TargetCompletionDateQuestion.instance, // target_completion_date
   ];
   
   //MARK: INITIALIZATION

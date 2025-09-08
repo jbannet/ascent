@@ -7,6 +7,7 @@ import 'single_choice_widget.dart';
 import 'multiple_choice_widget.dart';
 import 'slider_widget.dart';
 import 'date_picker_widget.dart';
+import 'body_map_widget.dart';
 
 /// Factory for creating question input widgets based on question type.
 /// 
@@ -65,6 +66,16 @@ class FactoryQuestionInputs {
       
       case EnumQuestionType.datePicker:
         return DatePickerWidget.fromConfig(config);
+      
+      case EnumQuestionType.bodyMap:
+        // Handle body map selections (List<String> with pain_/injury_ prefixes)
+        final currentValue = currentAnswers[question.id];
+        if (currentValue is List) {
+          config['selectedValues'] = currentValue.cast<String>();
+        } else if (currentValue is String) {
+          config['selectedValues'] = [currentValue];
+        }
+        return BodyMapWidget.fromConfig(config);
     }
   }
 }

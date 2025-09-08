@@ -25,7 +25,11 @@ enum EnumQuestionType {
   slider,
   
   /// Calendar date picker (e.g., target date, birthday)
-  datePicker
+  datePicker,
+  
+  /// Body map selector for pain/injury locations
+  /// Single tap marks as pain (to strengthen), double tap marks as injury (to avoid)
+  bodyMap
 }
 
 extension QuestionTypeExtension on EnumQuestionType {
@@ -48,6 +52,8 @@ extension QuestionTypeExtension on EnumQuestionType {
         return EnumQuestionType.slider;
       case 'date_picker':
         return EnumQuestionType.datePicker;
+      case 'body_map':
+        return EnumQuestionType.bodyMap;
       default:
         throw ArgumentError('Unknown question type: $value');
     }

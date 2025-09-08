@@ -16,7 +16,7 @@ class UserNameQuestion extends OnboardingQuestion {
   String get id => UserNameQuestion.questionId;
   
   @override
-  String get questionText => 'What\'s your name?';
+  String get questionText => 'What can I call you?';
   
   @override
   String get section => 'personal_info';
@@ -29,7 +29,7 @@ class UserNameQuestion extends OnboardingQuestion {
     'isRequired': true,
     'minLength': 2,
     'maxLength': 50,
-    'placeholder': 'Enter your full name',
+    'placeholder': 'Name or nickname',
   };
   
   

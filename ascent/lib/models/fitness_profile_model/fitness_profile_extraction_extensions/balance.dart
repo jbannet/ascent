@@ -8,11 +8,43 @@ import '../../../constants.dart';
 
 /// Extension to calculate balance and fall risk metrics.
 /// 
-/// This extension focuses on core balance/fall risk metrics:
-/// 1. Fall risk score calculation
-/// 2. Balance assessment metrics
-/// 3. Mobility and functional movement indicators
-/// 4. Age and gender-based risk factors
+/// This extension calculates three critical metrics that work together to create a 
+/// comprehensive safety and capability profile for personalizing fitness programs:
+/// 
+/// ## 1. FALL RISK SCORE (0.0-1.0)
+/// Measures probability of falling based on CDC STEADI guidelines.
+/// - Previous fall = automatic 1.0 (maximum risk)
+/// - Otherwise calculated from age thresholds, gender, and risk factors
+/// - 0.0-0.3: Low risk - standard exercises appropriate
+/// - 0.3-0.6: Moderate risk - needs balance focus, avoid high-impact
+/// - 0.6-1.0: High risk - requires supervised/seated exercises
+/// 
+/// ## 2. BALANCE CAPACITY (0.3-1.0)
+/// Measures actual physical balance ability.
+/// - Accounts for age decline (1% per year after 30)
+/// - Modified by fitness level and gender
+/// - 0.8-1.0: Excellent - can handle dynamic challenges (single-leg work)
+/// - 0.6-0.8: Good - standard balance exercises appropriate
+/// - Below 0.6: Needs basic stability training first
+/// 
+/// ## 3. MOBILITY INDEX (0.2-1.0)
+/// Measures functional movement capacity and confidence.
+/// - Combines physical limitations with psychological factors
+/// - Heavily impacted by fall history (-0.4), mobility aids (-0.3), fear (-0.2)
+/// - 0.8-1.0: Full range movements, sports training appropriate
+/// - 0.4-0.8: Modified exercises, confidence building needed
+/// - Below 0.4: Chair-based or rehabilitation focus
+/// 
+/// ## USAGE IN FITNESS APP:
+/// 1. Fall Risk Score is the primary safety gate - if ≥0.6, override other metrics
+/// 2. Balance Capacity determines exercise complexity you can assign
+/// 3. Mobility Index guides movement range and psychological readiness
+/// 
+/// Example: A 70-year-old with fall history might have:
+/// - fallRiskScore=1.0 (maximum due to fall)
+/// - balanceCapacity=0.5 (age-related decline)
+/// - mobilityIndex=0.3 (low confidence after fall)
+/// Result: Seated exercises with gradual balance rehabilitation focus
 /// 
 /// Based on CDC STEADI Program, WHO Fall Prevention Guidelines.
 /// Note: Balance importance is calculated in relative_objective_importance.dart
