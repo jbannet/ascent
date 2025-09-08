@@ -8,6 +8,7 @@ import 'multiple_choice_widget.dart';
 import 'slider_widget.dart';
 import 'date_picker_widget.dart';
 import 'body_map_widget.dart';
+import 'dual_column_selector_widget.dart';
 
 /// Factory for creating question input widgets based on question type.
 /// 
@@ -76,6 +77,14 @@ class FactoryQuestionInputs {
           config['selectedValues'] = [currentValue];
         }
         return BodyMapWidget.fromConfig(config);
+      
+      case EnumQuestionType.dualColumnSelector:
+        // Handle dual column selections (Map with full_sessions and micro_sessions)
+        return DualColumnSelectorWidget(
+          config: question.answerConfigurationSettings ?? {},
+          onChanged: (value) => onAnswerChanged(question.id, value),
+          initialValue: currentAnswers[question.id] as Map<String, dynamic>?,
+        );
     }
   }
 }

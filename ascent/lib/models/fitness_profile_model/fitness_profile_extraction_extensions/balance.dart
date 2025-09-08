@@ -3,7 +3,6 @@ import '../../../workflows/question_bank/questions/demographics/age_question.dar
 import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
 import '../../../workflows/question_bank/questions/fitness_assessment/q4a_fall_history_question.dart';
 import '../../../workflows/question_bank/questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
-import '../../../workflows/question_bank/questions/fitness_assessment/current_fitness_level_question.dart';
 import '../../../constants.dart';
 
 /// Extension to calculate balance and fall risk metrics.
@@ -54,7 +53,7 @@ extension Balance on FitnessProfile {
   void calculateBalance() {
     final age = AgeQuestion.instance.getAge(answers);
     final gender = GenderQuestion.instance.getGender(answers);
-    final experienceLevel = CurrentFitnessLevelQuestion.instance.getFitnessLevel(answers);
+    // Experience level removed - using performance metrics instead
     final hasFallen = Q4AFallHistoryQuestion.instance.hasFallen(answers);
     final fallRiskFactors = Q4BFallRiskFactorsQuestion.instance.getRiskFactors(answers);
     
@@ -64,7 +63,7 @@ extension Balance on FitnessProfile {
     
     // Calculate core balance/fall risk metrics
     _calculateFallRiskScore(age, gender, hasFallen, fallRiskFactors);
-    _calculateBalanceCapacity(age, gender, experienceLevel);
+    _calculateBalanceCapacity(age, gender);
     _calculateMobilityMetrics(age, hasFallen, fallRiskFactors);
   }
   
@@ -107,8 +106,8 @@ extension Balance on FitnessProfile {
     featuresMap['fall_risk_score'] = fallRiskScore.clamp(0.0, 1.0);
   }
   
-  /// Calculate balance capacity metrics based on age and fitness level
-  void _calculateBalanceCapacity(int age, String gender, String? experienceLevel) {
+  /// Calculate balance capacity metrics based on age
+  void _calculateBalanceCapacity(int age, String gender) {
     // Age-related balance decline
     double balanceCapacity = 1.0;
     if (age >= 30) {
@@ -121,12 +120,7 @@ extension Balance on FitnessProfile {
       balanceCapacity += 0.05;
     }
     
-    // Fitness level impact on balance
-    if (experienceLevel == AnswerConstants.advanced) {
-      balanceCapacity += 0.1;
-    } else if (experienceLevel == AnswerConstants.beginner) {
-      balanceCapacity -= 0.15;
-    }
+    // Without fitness level, use neutral baseline
     
     featuresMap['balance_capacity'] = balanceCapacity.clamp(0.3, 1.0);
   }

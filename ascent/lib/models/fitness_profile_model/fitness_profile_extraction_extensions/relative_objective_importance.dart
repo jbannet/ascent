@@ -3,10 +3,9 @@ import 'package:ascent/constants_features.dart';
 import '../../../workflows/question_bank/questions/demographics/age_question.dart';
 import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
 import '../../../workflows/question_bank/questions/goals/fitness_goals_question.dart';
-import '../../../workflows/question_bank/questions/fitness_assessment/current_activities_question.dart';
-import '../../../workflows/question_bank/questions/fitness_assessment/current_fitness_level_question.dart';
 import '../../../workflows/question_bank/questions/fitness_assessment/q4a_fall_history_question.dart';
 import '../../../workflows/question_bank/questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
+import '../../../workflows/question_bank/questions/fitness_assessment/q6a_chair_stand_question.dart';
 import '../../../workflows/question_bank/questions/practical_constraints/q1_injuries_question.dart';
 import '../../../workflows/question_bank/questions/practical_constraints/q2_high_impact_question.dart';
 import '../../../constants.dart';
@@ -38,6 +37,7 @@ extension RelativeImportance on FitnessProfile {
       'cardio': _calculateCardioRawScore(age, gender),
       'strength': _calculateStrengthRawScore(age, gender),
       'balance': _calculateBalanceRawScore(age, gender),
+      'functional': _calculateFunctionalRawScore(age, gender),
       'stretching': _calculateStretchingRawScore(age, gender),
       'low_impact': _calculateLowImpactRawScore(age, gender),
     };
@@ -69,7 +69,8 @@ extension RelativeImportance on FitnessProfile {
     }
     
     // Current activity deficit
-    final activities = CurrentActivitiesQuestion.instance.getCurrentActivities(answers);
+    // Activities removed - using performance metrics instead
+    final List<String> activities = [];
     final hasCardio = activities.any((a) => 
       [AnswerConstants.runningJogging, AnswerConstants.cycling, 
        AnswerConstants.swimming].contains(a));
@@ -105,12 +106,14 @@ extension RelativeImportance on FitnessProfile {
     }
     
     // Current strength activity deficit
-    final activities = CurrentActivitiesQuestion.instance.getCurrentActivities(answers);
+    // Activities removed - using performance metrics instead
+    final List<String> activities = [];
     final hasStrength = activities.contains(AnswerConstants.weightTraining);
     if (!hasStrength) score += 0.2;
     
     // Experience level (beginners need more guidance)
-    final fitnessLevel = CurrentFitnessLevelQuestion.instance.getFitnessLevel(answers);
+    // Fitness level removed - using performance metrics instead
+    final String? fitnessLevel = null;
     if (fitnessLevel == AnswerConstants.beginner) score += 0.15;
     
     return score;
@@ -147,7 +150,8 @@ extension RelativeImportance on FitnessProfile {
     }
     
     // Sedentary behavior increases fall risk
-    final fitnessLevel = CurrentFitnessLevelQuestion.instance.getFitnessLevel(answers);
+    // Fitness level removed - using performance metrics instead
+    final String? fitnessLevel = null;
     if (fitnessLevel == AnswerConstants.beginner && age >= 50) {
       score += 0.15;
     }
@@ -176,15 +180,72 @@ extension RelativeImportance on FitnessProfile {
     }
     
     // Current activity level
-    final activities = CurrentActivitiesQuestion.instance.getCurrentActivities(answers);
+    // Activities removed - using performance metrics instead
+    final List<String> activities = [];
     final hasFlexibility = activities.contains(AnswerConstants.yoga);
     if (!hasFlexibility) score += 0.15;
     
     // Sedentary lifestyle increases stiffness
-    final fitnessLevel = CurrentFitnessLevelQuestion.instance.getFitnessLevel(answers);
+    // Fitness level removed - using performance metrics instead
+    final String? fitnessLevel = null;
     if (fitnessLevel == AnswerConstants.beginner) score += 0.2;
     
     return score;
+  }
+  
+  /// Calculate functional fitness raw importance score
+  double _calculateFunctionalRawScore(int age, String gender) {
+    double score = 0.15; // Base importance
+    
+    // AGE IS PRIMARY DRIVER (functional fitness becomes critical with age)
+    if (age >= 80) {
+      score += 0.6; // Highest priority for 80+
+    } else if (age >= 70) {
+      score += 0.45; // Very high priority for 70s
+    } else if (age >= 65) {
+      score += 0.35; // High priority at retirement age
+    } else if (age >= 60) {
+      score += 0.25; // Increasing importance
+    } else if (age >= 50) {
+      score += 0.15; // Starting to matter
+    }
+    
+    // Goal alignment
+    final goals = FitnessGoalsQuestion.instance.getFitnessGoals(answers);
+    if (goals.contains(AnswerConstants.buildMuscle)) score += 0.25;
+    if (goals.contains(AnswerConstants.betterHealth)) score += 0.2;
+    
+    // Functional deficit (low functional score = higher need)
+    final functionalScore = featuresMap['functional_fitness_score'];
+    if (functionalScore != null) {
+      final scoreVal = functionalScore;
+      if (scoreVal < 0.3) {
+        score += 0.5; // Critical need
+      } else if (scoreVal < 0.5) {
+        score += 0.3; // High need
+      } else if (scoreVal < 0.7) {
+        score += 0.15; // Moderate need
+      }
+    }
+    
+    // Fall history massively increases functional importance
+    final hasFallen = Q4AFallHistoryQuestion.instance.hasFallen(answers);
+    if (hasFallen) {
+      score += 0.5; // Falls indicate functional deficits
+    }
+    
+    // Chair stand inability is critical functional marker
+    final canStandFromChair = Q6AChairStandQuestion.instance.canStandFromChair(answers);
+    if (canStandFromChair == false) {
+      score += 0.6; // Maximum priority for basic function restoration
+    }
+    
+    // Gender adjustment (women have higher ADL disability rates)
+    if (gender == AnswerConstants.female && age >= 65) {
+      score += 0.1;
+    }
+    
+    return score.clamp(0.0, 2.0);
   }
   
   /// Calculate low impact raw importance score

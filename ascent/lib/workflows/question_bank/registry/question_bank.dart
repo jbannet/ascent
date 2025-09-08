@@ -9,16 +9,11 @@ import '../questions/motivation/progress_tracking_question.dart';
 // Goals
 import '../questions/goals/fitness_goals_question.dart';
 // Fitness Assessment
-import '../questions/fitness_assessment/current_fitness_level_question.dart';
 import '../questions/fitness_assessment/q4_twelve_minute_run_question.dart';
 import '../questions/fitness_assessment/q4a_fall_history_question.dart';
 import '../questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
 import '../questions/fitness_assessment/q5_pushups_question.dart';
-import '../questions/fitness_assessment/current_activities_question.dart';
-import '../questions/fitness_assessment/workout_frequency_question.dart';
-import '../questions/fitness_assessment/q8_training_days_question.dart';
-import '../questions/fitness_assessment/workout_duration_question.dart';
-import '../questions/fitness_assessment/q9_session_time_question.dart';
+import '../questions/fitness_assessment/session_commitment_question.dart';
 // Lifestyle
 import '../questions/lifestyle/current_diet_question.dart';
 import '../questions/lifestyle/sleep_hours_question.dart';
@@ -50,7 +45,6 @@ class QuestionBank {
     FitnessGoalsQuestion.instance,       // fitness_goals
     
     // 4. Fitness Assessment
-    CurrentFitnessLevelQuestion.instance, // current_fitness_level
     Q4TwelveMinuteRunQuestion.instance,  // Q4 (12-min run)
     Q4AFallHistoryQuestion.instance,     // Q4A (fall history - conditional)
     Q4BFallRiskFactorsQuestion.instance, // Q4B (fall risk factors - conditional)
@@ -60,14 +54,8 @@ class QuestionBank {
     CurrentDietQuestion.instance,        // current_diet
     SleepHoursQuestion.instance,         // sleep_hours
     
-    // 6. Current Activities
-    CurrentActivitiesQuestion.instance,  // current_activities
-    
-    // 7. Schedule and Constraints
-    WorkoutFrequencyQuestion.instance,   // workout_frequency (similar to Q8)
-    Q8TrainingDaysQuestion.instance,     // Q8 (training days) - keep both for now
-    WorkoutDurationQuestion.instance,    // workout_duration (similar to Q9)
-    Q9SessionTimeQuestion.instance,      // Q9 (session time) - keep both for now
+    // 6. Schedule and Commitment
+    SessionCommitmentQuestion.instance,  // session_commitment (replaces 4 questions)
     
     // 9. Physical Constraints
     Q1InjuriesQuestion.instance,         // Q1 (injuries)

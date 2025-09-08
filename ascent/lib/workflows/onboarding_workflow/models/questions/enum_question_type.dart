@@ -29,7 +29,12 @@ enum EnumQuestionType {
   
   /// Body map selector for pain/injury locations
   /// Single tap marks as pain (to strengthen), double tap marks as injury (to avoid)
-  bodyMap
+  bodyMap,
+  
+  /// Dual column selector for session commitment
+  /// Two columns of buttons (0-7) for selecting days per week
+  /// Left column for full sessions, right for micro sessions
+  dualColumnSelector
 }
 
 extension QuestionTypeExtension on EnumQuestionType {
@@ -54,6 +59,8 @@ extension QuestionTypeExtension on EnumQuestionType {
         return EnumQuestionType.datePicker;
       case 'body_map':
         return EnumQuestionType.bodyMap;
+      case 'dual_column_selector':
+        return EnumQuestionType.dualColumnSelector;
       default:
         throw ArgumentError('Unknown question type: $value');
     }
