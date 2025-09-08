@@ -16,7 +16,7 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
   String get id => Q4TwelveMinuteRunQuestion.questionId;
   
   @override
-  String get questionText => 'How far can you run/walk in 12 minutes?';
+  String get questionText => 'Approximately how far can you run/walk in 12 minutes?';
   
   @override
   String get section => 'fitness_assessment';
@@ -25,16 +25,16 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
   EnumQuestionType get questionType => EnumQuestionType.numberInput;
   
   @override
-  String? get subtitle => 'Enter distance in meters (estimate if unsure)';
+  String? get subtitle => 'Enter distance in miles (it\'s alright to answer 0 if you have trouble walking distances)';
   
   @override
   Map<String, dynamic> get config => {
     'isRequired': true,
-    'minValue': 500.0,    // Minimum reasonable distance
-    'maxValue': 5000.0,   // Maximum reasonable distance
-    'allowDecimals': false,
-    'unit': 'meters',
-    'placeholder': '2000',
+    'minValue': 0.0,      // Allow 0 for those who can't walk distances
+    'maxValue': 3.0,      // ~10000 meters = 6.2 miles
+    'allowDecimals': true, // Need decimals for miles
+    'unit': 'miles',
+    'placeholder': '',  // Don't shame people with a default
   };
   
   
@@ -44,15 +44,15 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
   bool isValidAnswer(dynamic answer) {
     if (answer is! num) return false;
     final distance = answer.toDouble();
-    return distance >= 500 && distance <= 5000; // Reasonable range for 12 minutes
+    return distance >= 0.0 && distance <= 3.0; // Allow 0 for mobility issues
   }
   
   @override
-  dynamic getDefaultAnswer() => 2000; // Average distance for general population
+  dynamic getDefaultAnswer() => null; // ~2000 meters in miles
   
   //MARK: TYPED ACCESSOR
   
-  /// Get twelve minute run distance as double from answers (in meters)
+  /// Get twelve minute run distance as double from answers (in miles)
   double? getTwelveMinuteRunDistance(Map<String, dynamic> answers) {
     final distance = answers[questionId];
     if (distance == null) return null;

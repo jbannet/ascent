@@ -13,7 +13,7 @@ import '../questions/goals/weight_loss_target_question.dart';
 import '../questions/goals/target_completion_date_question.dart';
 // Fitness Assessment
 import '../questions/fitness_assessment/current_fitness_level_question.dart';
-import '../questions/fitness_assessment/q3_stairs_question.dart';
+import '../questions/fitness_assessment/stairs_question.dart';
 import '../questions/fitness_assessment/q4_twelve_minute_run_question.dart';
 import '../questions/fitness_assessment/q4a_fall_history_question.dart';
 import '../questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
@@ -59,7 +59,7 @@ class QuestionBank {
     
     // 4. Fitness Assessment
     CurrentFitnessLevelQuestion.instance, // current_fitness_level
-    Q3StairsQuestion.instance,           // Q3 (stairs)
+    StairsQuestion.instance,             // stairs
     Q4TwelveMinuteRunQuestion.instance,  // Q4 (12-min run)
     Q4AFallHistoryQuestion.instance,     // Q4A (fall history - conditional)
     Q4BFallRiskFactorsQuestion.instance, // Q4B (fall risk factors - conditional)

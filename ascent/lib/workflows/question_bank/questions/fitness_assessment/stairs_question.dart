@@ -1,21 +1,23 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
 import '../onboarding_question.dart';
+import './q4_twelve_minute_run_question.dart';
 import '../../../../constants.dart';
 
-/// Q3: Do you get out of breath walking up 2 flights of stairs?
+/// Stairs breathlessness assessment question.
 /// 
 /// This question assesses cardiovascular fitness and functional capacity.
+/// Only shown if Cooper test results indicate limited fitness (<0.93 miles in 12 minutes).
 /// It contributes to cardio fitness and exercise intensity features.
-class Q3StairsQuestion extends OnboardingQuestion {
-  static const String questionId = 'Q3';
-  static final Q3StairsQuestion instance = Q3StairsQuestion._();
-  Q3StairsQuestion._();
+class StairsQuestion extends OnboardingQuestion {
+  static const String questionId = 'stairs';
+  static final StairsQuestion instance = StairsQuestion._();
+  StairsQuestion._();
   
   //MARK: UI PRESENTATION DATA
   
   @override
-  String get id => Q3StairsQuestion.questionId;
+  String get id => StairsQuestion.questionId;
   
   @override
   String get questionText => 'Do you get out of breath walking up 2 flights of stairs?';
@@ -43,6 +45,17 @@ class Q3StairsQuestion extends OnboardingQuestion {
     'isRequired': true,
   };
   
+  //MARK: CONDITIONAL DISPLAY
+  
+  @override
+  bool shouldShow(Map<String, dynamic> answers) {
+    // Only show if Cooper test indicates mobility limitation risk
+    final cooperDistance = answers[Q4TwelveMinuteRunQuestion.questionId] as num?;
+    
+    if (cooperDistance != null && cooperDistance < AnswerConstants.cooperAtRiskMiles) return true;
+    
+    return false;
+  }
   
   //MARK: VALIDATION
   
@@ -61,5 +74,4 @@ class Q3StairsQuestion extends OnboardingQuestion {
   String? getStairsResponse(Map<String, dynamic> answers) {
     return answers[questionId] as String?;
   }
-  
 }

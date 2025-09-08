@@ -143,4 +143,8 @@ class AnswerConstants {
   static const String preferGym = 'prefer_gym';
   static const String outdoors = 'outdoors';
   static const String anywhere = 'anywhere';
+  
+  // Cooper test and fall risk thresholds
+  static const double cooperAtRiskMiles = 0.36; // 576m = at-risk for mobility limitation (Shirley Ryan AbilityLab)
+  static const int fallRiskAge = 65; // Age threshold for fall risk assessment
 }

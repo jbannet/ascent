@@ -1,3 +1,5 @@
+import 'age_group_utility.dart';
+
 /// ACSM push-up test norms for fitness assessment.
 /// 
 /// Based on American College of Sports Medicine guidelines for
@@ -8,7 +10,7 @@ class ACSMPushupNorms {
   /// Returns a value between 0.0 and 1.0 representing the percentile.
   /// Example: 0.5 = 50th percentile, 0.9 = 90th percentile
   static double getPercentile(int pushUpCount, int age, String gender) {
-    final ageGroup = _getAgeGroup(age);
+    final ageGroup = AgeGroupUtility.getPushupAgeGroup(age);
     final genderLower = gender.toLowerCase();
     
     // Get the appropriate norms table
@@ -36,33 +38,13 @@ class ACSMPushupNorms {
     for (final ageGroup in norms.keys) {
       final median = norms[ageGroup]?[50] ?? 0;
       if (pushUpCount >= median) {
-        return _ageGroupMidpoint(ageGroup);
+        return AgeGroupUtility.getAgeGroupMidpoint(ageGroup);
       }
     }
     
     return actualAge + 10; // Performance suggests older fitness age
   }
   
-  static String _getAgeGroup(int age) {
-    if (age < 20) return '18-19';
-    if (age < 30) return '20-29';
-    if (age < 40) return '30-39';
-    if (age < 50) return '40-49';
-    if (age < 60) return '50-59';
-    return '60+';
-  }
-  
-  static int _ageGroupMidpoint(String ageGroup) {
-    switch (ageGroup) {
-      case '18-19': return 19;
-      case '20-29': return 25;
-      case '30-39': return 35;
-      case '40-49': return 45;
-      case '50-59': return 55;
-      case '60+': return 65;
-      default: return 35;
-    }
-  }
   
   // ACSM norms: Map<AgeGroup, Map<Percentile, MinPushUps>>
   // Percentiles from highest (99th) to lowest (10th)
