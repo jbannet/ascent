@@ -92,4 +92,55 @@ class AnswerConstants {
   static const String completedOne = 'completed_one';
   static const String completedFew = 'completed_few';
   static const String experienced = 'experienced';
+  
+  // Fitness goals (fitness_goals_question)
+  static const String loseWeight = 'lose_weight';
+  static const String buildMuscle = 'build_muscle';
+  static const String improveEndurance = 'improve_endurance';
+  static const String increaseFlexibility = 'increase_flexibility';
+  static const String betterHealth = 'better_health';
+  static const String liveLonger = 'live_longer';
+  
+  // Q7 Free weights comfort levels
+  static const String neverUsed = 'never_used';
+  static const String triedFew = 'tried_few';
+  static const String somewhat = 'somewhat';
+  static const String comfortable = 'comfortable';
+  static const String veryExperienced = 'very_experienced';
+  
+  // Workout duration options
+  static const String duration15_30 = '15_30';
+  static const String duration30_45 = '30_45';
+  static const String duration45_60 = '45_60';
+  static const String duration60Plus = '60_plus';
+  
+  // Diet quality levels
+  static const String veryHealthy = 'very_healthy';
+  static const String mostlyHealthy = 'mostly_healthy';
+  static const String average = 'average';
+  static const String needsImprovement = 'needs_improvement';
+  static const String poor = 'poor';
+  
+  // Medical restriction types (Q2)
+  static const String highImpact = 'high_impact';
+  static const String heavyLifting = 'heavy_lifting';
+  static const String overhead = 'overhead';
+  static const String twisting = 'twisting';
+  static const String cardioIntense = 'cardio_intense';
+  
+  // Equipment types (Q10)
+  static const String dumbbells = 'dumbbells';
+  static const String resistanceBands = 'resistance_bands';
+  static const String barbell = 'barbell';
+  static const String cableMachine = 'cable_machine';
+  static const String cardioMachines = 'cardio_machines';
+  static const String fullGym = 'full_gym';
+  
+  // Training location preferences (Q11)
+  static const String homeOnly = 'home_only';
+  static const String gymOnly = 'gym_only';
+  static const String preferHome = 'prefer_home';
+  static const String preferGym = 'prefer_gym';
+  static const String outdoors = 'outdoors';
+  static const String anywhere = 'anywhere';
 }

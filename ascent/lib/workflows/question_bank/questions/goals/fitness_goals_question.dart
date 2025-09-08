@@ -1,17 +1,21 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
 import '../onboarding_question.dart';
+import '../../../../constants.dart';
 
 /// Fitness goals question for understanding user's primary objectives.
 /// 
 /// This question identifies the user's main fitness goals to tailor
 /// program recommendations and exercise selection.
 class FitnessGoalsQuestion extends OnboardingQuestion {
+  static const String questionId = 'fitness_goals';
+  static final FitnessGoalsQuestion instance = FitnessGoalsQuestion._();
+  FitnessGoalsQuestion._();
   
   //MARK: UI PRESENTATION DATA
   
   @override
-  String get id => 'fitness_goals';
+  String get id => FitnessGoalsQuestion.questionId;
   
   @override
   String get questionText => 'What are your primary fitness goals?';
@@ -28,32 +32,32 @@ class FitnessGoalsQuestion extends OnboardingQuestion {
   @override
   List<QuestionOption> get options => [
     QuestionOption(
-      value: 'lose_weight',
+      value: AnswerConstants.loseWeight,
       label: 'Lose weight',
       description: 'Reduce overall body weight',
     ),
     QuestionOption(
-      value: 'build_muscle',
+      value: AnswerConstants.buildMuscle,
       label: 'Build muscle',
       description: 'Increase muscle mass and strength',
     ),
     QuestionOption(
-      value: 'improve_endurance',
+      value: AnswerConstants.improveEndurance,
       label: 'Improve endurance',
       description: 'Build cardiovascular fitness',
     ),
     QuestionOption(
-      value: 'increase_flexibility',
+      value: AnswerConstants.increaseFlexibility,
       label: 'Increase flexibility',
       description: 'Improve range of motion and mobility',
     ),
     QuestionOption(
-      value: 'better_health',
+      value: AnswerConstants.betterHealth,
       label: 'Better overall health',
       description: 'General wellness and disease prevention',
     ),
     QuestionOption(
-      value: 'live_longer',
+      value: AnswerConstants.liveLonger,
       label: 'Live longer',
       description: 'Longevity and aging well',
     ),
@@ -82,7 +86,17 @@ class FitnessGoalsQuestion extends OnboardingQuestion {
   }
   
   @override
-  dynamic getDefaultAnswer() => ['better_health']; // Universal goal
+  dynamic getDefaultAnswer() => [AnswerConstants.betterHealth]; // Universal goal
+  
+  //MARK: TYPED ACCESSOR
+  
+  /// Get fitness goals as List<String> from answers
+  List<String> getFitnessGoals(Map<String, dynamic> answers) {
+    final goals = answers[questionId];
+    if (goals == null) return [AnswerConstants.betterHealth];
+    if (goals is List) return goals.cast<String>();
+    return [goals.toString()];
+  }
   
   //MARK: PRIVATE HELPERS
   

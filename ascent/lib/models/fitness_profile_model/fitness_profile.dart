@@ -8,7 +8,6 @@ import 'fitness_profile_extraction_extensions/low_impact.dart';
 import 'fitness_profile_extraction_extensions/stretching.dart';
 import 'fitness_profile_extraction_extensions/cardio.dart';
 import 'fitness_profile_extraction_extensions/bodyweight.dart';
-import 'fitness_profile_extraction_extensions/birth_year.dart';
 
 /// Evaluates onboarding answers to create a fitness profile with ML features.
 /// 
@@ -69,8 +68,5 @@ class FitnessProfile {
     calculateStretching();
     calculateCardio();
     calculateBodyweight();
-    
-    // Profile values
-    calculateBirthYear();
   }
 }

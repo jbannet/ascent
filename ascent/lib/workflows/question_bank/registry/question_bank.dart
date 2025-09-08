@@ -54,8 +54,8 @@ class QuestionBank {
     ProgressTrackingQuestion.instance,   // progress_tracking
     
     // 3. Goals
-    FitnessGoalsQuestion(),       // fitness_goals
-    WeightLossTargetQuestion(),   // weight_loss_target (conditional)
+    FitnessGoalsQuestion.instance,       // fitness_goals
+    WeightLossTargetQuestion.instance,   // weight_loss_target (conditional)
     
     // 4. Fitness Assessment
     CurrentFitnessLevelQuestion.instance, // current_fitness_level
@@ -66,7 +66,7 @@ class QuestionBank {
     Q5PushupsQuestion.instance,          // pushups_count (Q5)
     
     // 5. Lifestyle
-    CurrentDietQuestion(),        // current_diet
+    CurrentDietQuestion.instance,        // current_diet
     SleepHoursQuestion.instance,         // sleep_hours
     
     // 6. Current Activities
@@ -74,19 +74,19 @@ class QuestionBank {
     
     // 7. Training Experience
     Q6StructuredProgramQuestion.instance, // Q6 (structured program)
-    Q7FreeWeightsQuestion(),      // Q7 (free weights)
+    Q7FreeWeightsQuestion.instance,      // Q7 (free weights)
     
     // 8. Schedule and Constraints
     WorkoutFrequencyQuestion.instance,   // workout_frequency (similar to Q8)
-    Q8TrainingDaysQuestion(),     // Q8 (training days) - keep both for now
-    WorkoutDurationQuestion(),    // workout_duration (similar to Q9)
-    Q9SessionTimeQuestion(),      // Q9 (session time) - keep both for now
+    Q8TrainingDaysQuestion.instance,     // Q8 (training days) - keep both for now
+    WorkoutDurationQuestion.instance,    // workout_duration (similar to Q9)
+    Q9SessionTimeQuestion.instance,      // Q9 (session time) - keep both for now
     
     // 9. Physical Constraints
     Q1InjuriesQuestion.instance,         // Q1 (injuries)
-    Q2HighImpactQuestion(),       // Q2 (high impact)
-    Q10EquipmentQuestion(),       // Q10 (equipment)
-    Q11TrainingLocationQuestion(), // Q11 (location)
+    Q2HighImpactQuestion.instance,       // Q2 (high impact)
+    Q10EquipmentQuestion.instance,       // Q10 (equipment)
+    Q11TrainingLocationQuestion.instance, // Q11 (location)
     
     // 10. Goals Timeline
     TargetCompletionDateQuestion.instance, // target_completion_date
