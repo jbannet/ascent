@@ -7,6 +7,8 @@ import '../onboarding_question.dart';
 /// It contributes to cardio fitness, VO2 max estimation, and training intensity features.
 class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
   static const String questionId = 'Q4';
+  static final Q4TwelveMinuteRunQuestion instance = Q4TwelveMinuteRunQuestion._();
+  Q4TwelveMinuteRunQuestion._();
   
   //MARK: UI PRESENTATION DATA
   
@@ -48,4 +50,12 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => 2000; // Average distance for general population
   
+  //MARK: TYPED ACCESSOR
+  
+  /// Get twelve minute run distance as double from answers (in meters)
+  double? getTwelveMinuteRunDistance(Map<String, dynamic> answers) {
+    final distance = answers[questionId];
+    if (distance == null) return null;
+    return distance is double ? distance : double.tryParse(distance.toString());
+  }
 }

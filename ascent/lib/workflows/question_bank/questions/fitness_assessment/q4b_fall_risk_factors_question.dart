@@ -12,6 +12,8 @@ import '../../../../constants.dart';
 /// Based on CDC STEADI fall risk assessment protocol.
 class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   static const String questionId = 'Q4B';
+  static final Q4BFallRiskFactorsQuestion instance = Q4BFallRiskFactorsQuestion._();
+  Q4BFallRiskFactorsQuestion._();
   
   //MARK: UI PRESENTATION DATA
   
@@ -89,5 +91,15 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   
   @override
   dynamic getDefaultAnswer() => [AnswerConstants.none];
+  
+  //MARK: TYPED ACCESSOR
+  
+  /// Get fall risk factors as List<String> from answers
+  List<String> getRiskFactors(Map<String, dynamic> answers) {
+    final factors = answers[questionId];
+    if (factors == null) return [];
+    if (factors is List) return factors.cast<String>();
+    return [factors.toString()];
+  }
 }
 

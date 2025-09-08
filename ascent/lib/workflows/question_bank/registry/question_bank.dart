@@ -44,52 +44,52 @@ class QuestionBank {
   // Registry of all questions in the correct order (following JSON structure)
   static final List<OnboardingQuestion> _allQuestions = [
     // 1. Demographics
-    UserNameQuestion(),           // user_name
-    AgeQuestion(),                // age  
-    GenderQuestion(),             // gender
-    HeightQuestion(),             // height
+    UserNameQuestion.instance,           // user_name
+    AgeQuestion.instance,                // age  
+    GenderQuestion.instance,             // gender
+    HeightQuestion.instance,             // height
     
     // 2. Motivation
-    PrimaryMotivationQuestion(),  // primary_motivation
-    ProgressTrackingQuestion(),   // progress_tracking
+    PrimaryMotivationQuestion.instance,  // primary_motivation
+    ProgressTrackingQuestion.instance,   // progress_tracking
     
     // 3. Goals
     FitnessGoalsQuestion(),       // fitness_goals
     WeightLossTargetQuestion(),   // weight_loss_target (conditional)
     
     // 4. Fitness Assessment
-    CurrentFitnessLevelQuestion(), // current_fitness_level
-    Q3StairsQuestion(),           // Q3 (stairs)
-    Q4TwelveMinuteRunQuestion(),  // Q4 (12-min run)
-    Q4AFallHistoryQuestion(),     // Q4A (fall history - conditional)
-    Q4BFallRiskFactorsQuestion(), // Q4B (fall risk factors - conditional)
-    Q5PushupsQuestion(),          // pushups_count (Q5)
+    CurrentFitnessLevelQuestion.instance, // current_fitness_level
+    Q3StairsQuestion.instance,           // Q3 (stairs)
+    Q4TwelveMinuteRunQuestion.instance,  // Q4 (12-min run)
+    Q4AFallHistoryQuestion.instance,     // Q4A (fall history - conditional)
+    Q4BFallRiskFactorsQuestion.instance, // Q4B (fall risk factors - conditional)
+    Q5PushupsQuestion.instance,          // pushups_count (Q5)
     
     // 5. Lifestyle
     CurrentDietQuestion(),        // current_diet
-    SleepHoursQuestion(),         // sleep_hours
+    SleepHoursQuestion.instance,         // sleep_hours
     
     // 6. Current Activities
-    CurrentActivitiesQuestion(),  // current_activities
+    CurrentActivitiesQuestion.instance,  // current_activities
     
     // 7. Training Experience
-    Q6StructuredProgramQuestion(), // Q6 (structured program)
+    Q6StructuredProgramQuestion.instance, // Q6 (structured program)
     Q7FreeWeightsQuestion(),      // Q7 (free weights)
     
     // 8. Schedule and Constraints
-    WorkoutFrequencyQuestion(),   // workout_frequency (similar to Q8)
+    WorkoutFrequencyQuestion.instance,   // workout_frequency (similar to Q8)
     Q8TrainingDaysQuestion(),     // Q8 (training days) - keep both for now
     WorkoutDurationQuestion(),    // workout_duration (similar to Q9)
     Q9SessionTimeQuestion(),      // Q9 (session time) - keep both for now
     
     // 9. Physical Constraints
-    Q1InjuriesQuestion(),         // Q1 (injuries)
+    Q1InjuriesQuestion.instance,         // Q1 (injuries)
     Q2HighImpactQuestion(),       // Q2 (high impact)
     Q10EquipmentQuestion(),       // Q10 (equipment)
     Q11TrainingLocationQuestion(), // Q11 (location)
     
     // 10. Goals Timeline
-    TargetCompletionDateQuestion(), // target_completion_date
+    TargetCompletionDateQuestion.instance, // target_completion_date
   ];
   
   //MARK: INITIALIZATION

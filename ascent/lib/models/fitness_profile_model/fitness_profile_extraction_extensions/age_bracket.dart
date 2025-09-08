@@ -9,13 +9,21 @@ import '../../../workflows/question_bank/questions/demographics/age_question.dar
 /// Only one bracket will be 1.0, all others will be 0.0.
 extension AgeBracket on FitnessProfile {
   
-  /// Calculate all age bracket features using ACSM 10-year brackets
+  /// Calculate all age bracket features and age-related training parameters
   void calculateAgeBracket() {
-    final age = answers[AgeQuestion.questionId] as int?;
+    final dateOfBirth = AgeQuestion.instance.getDateOfBirth(answers);
     
-    if (age == null) {
-      throw Exception('Missing required answer for age bracket calculation: age=$age');
+    if (dateOfBirth == null) {
+      throw Exception('Missing required answer for age bracket calculation: dateOfBirth=$dateOfBirth');
     }
+    
+    // Calculate age from date of birth
+    final now = DateTime.now();
+    final age = now.year - dateOfBirth.year - (now.month < dateOfBirth.month || (now.month == dateOfBirth.month && now.day < dateOfBirth.day) ? 1 : 0);
+    
+    // Store birth year for persistence and reference age
+    answers[ProfileConstants.birthYear] = dateOfBirth.year.toDouble();
+    answers[AgeQuestion.questionId] = age;
     
     // Set all age brackets using ACSM standard (only one will be 1.0, others 0.0)
     featuresMap[FeatureConstants.ageBracketUnder20] = age < 20 ? 1.0 : 0.0;

@@ -1,12 +1,15 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
 import '../onboarding_question.dart';
-import '../../../../models/fitness_profile_model/feature_contribution.dart';
+import '../../../../constants.dart';
 
 /// Current activities assessment question.
 class CurrentActivitiesQuestion extends OnboardingQuestion {
+  static const String questionId = 'current_activities';
+  static final CurrentActivitiesQuestion instance = CurrentActivitiesQuestion._();
+  CurrentActivitiesQuestion._();
   @override
-  String get id => 'current_activities';
+  String get id => CurrentActivitiesQuestion.questionId;
   
   @override
   String get questionText => 'What types of exercise do you currently do?';
@@ -22,14 +25,14 @@ class CurrentActivitiesQuestion extends OnboardingQuestion {
   
   @override
   List<QuestionOption> get options => [
-    QuestionOption(value: 'none', label: 'None - I don\'t exercise regularly'),
-    QuestionOption(value: 'walking_hiking', label: 'Walking/hiking'),
-    QuestionOption(value: 'running_jogging', label: 'Running/jogging'),
-    QuestionOption(value: 'weight_training', label: 'Weight training/bodybuilding'),
-    QuestionOption(value: 'yoga', label: 'Yoga classes'),
-    QuestionOption(value: 'swimming', label: 'Swimming'),
-    QuestionOption(value: 'cycling', label: 'Cycling/spinning'),
-    QuestionOption(value: 'team_sports', label: 'Team sports'),
+    QuestionOption(value: AnswerConstants.none, label: 'None - I don\'t exercise regularly'),
+    QuestionOption(value: AnswerConstants.walkingHiking, label: 'Walking/hiking'),
+    QuestionOption(value: AnswerConstants.runningJogging, label: 'Running/jogging'),
+    QuestionOption(value: AnswerConstants.weightTraining, label: 'Weight training/bodybuilding'),
+    QuestionOption(value: AnswerConstants.yoga, label: 'Yoga classes'),
+    QuestionOption(value: AnswerConstants.swimming, label: 'Swimming'),
+    QuestionOption(value: AnswerConstants.cycling, label: 'Cycling/spinning'),
+    QuestionOption(value: AnswerConstants.teamSports, label: 'Team sports'),
   ];
   
   @override
@@ -40,27 +43,21 @@ class CurrentActivitiesQuestion extends OnboardingQuestion {
     'maxSelections': 5
   };
   
-  @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
-    final selections = answer is List ? answer.cast<String>() : [answer.toString()];
-    final isActive = !selections.contains('none');
-    
-    return [
-      FeatureContribution('currently_active', isActive ? 1.0 : 0.0),
-      FeatureContribution('cardio_experience', _hasCardio(selections) ? 1.0 : 0.0),
-      FeatureContribution('strength_experience', selections.contains('weight_training') ? 1.0 : 0.0),
-      FeatureContribution('flexibility_experience', selections.contains('yoga') ? 1.0 : 0.0),
-      FeatureContribution('activity_variety', selections.length / 8.0),
-    ];
-  }
   
   @override
   bool isValidAnswer(dynamic answer) => true;
   
   @override
-  dynamic getDefaultAnswer() => ['none'];
+  dynamic getDefaultAnswer() => [AnswerConstants.none];
   
-  bool _hasCardio(List<String> selections) {
-    return ['walking_hiking', 'running_jogging', 'swimming', 'cycling'].any((activity) => selections.contains(activity));
+  
+  //MARK: TYPED ACCESSOR
+  
+  /// Get current activities as List<String> from answers
+  List<String> getCurrentActivities(Map<String, dynamic> answers) {
+    final activities = answers[questionId];
+    if (activities == null) return [AnswerConstants.none];
+    if (activities is List) return activities.cast<String>();
+    return [activities.toString()];
   }
 }

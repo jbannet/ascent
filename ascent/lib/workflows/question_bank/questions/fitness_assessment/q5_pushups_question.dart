@@ -6,11 +6,14 @@ import '../onboarding_question.dart';
 /// This question assesses upper body strength and muscular endurance.
 /// It contributes to multiple ML features related to strength capacity.
 class Q5PushupsQuestion extends OnboardingQuestion {
+  static const String questionId = 'Q5';
+  static final Q5PushupsQuestion instance = Q5PushupsQuestion._();
+  Q5PushupsQuestion._();
   
   //MARK: UI PRESENTATION DATA
   
   @override
-  String get id => 'Q5';
+  String get id => Q5PushupsQuestion.questionId;
   
   @override
   String get questionText => 'How many push-ups can you do in a row (with good form)?';
@@ -46,4 +49,12 @@ class Q5PushupsQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => 0; // Default to 0 push-ups if not answered
   
+  //MARK: TYPED ACCESSOR
+  
+  /// Get pushups count as int from answers
+  int? getPushupsCount(Map<String, dynamic> answers) {
+    final count = answers[questionId];
+    if (count == null) return null;
+    return count is int ? count : int.tryParse(count.toString());
+  }
 }

@@ -1,11 +1,13 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../onboarding_question.dart';
-import '../../../../models/fitness_profile_model/feature_contribution.dart';
 
 /// Target completion date question.
 class TargetCompletionDateQuestion extends OnboardingQuestion {
+  static const String questionId = 'target_completion_date';
+  static final TargetCompletionDateQuestion instance = TargetCompletionDateQuestion._();
+  TargetCompletionDateQuestion._();
   @override
-  String get id => 'target_completion_date';
+  String get id => TargetCompletionDateQuestion.questionId;
   
   @override
   String get questionText => 'When would you like to achieve your main fitness goal?';
@@ -24,20 +26,21 @@ class TargetCompletionDateQuestion extends OnboardingQuestion {
     'initialDatePickerMode': 'day'
   };
   
-  @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
-    // For date picker, we'd need to calculate timeline
-    // For now, basic features
-    return [
-      FeatureContribution('has_target_date', 1.0),
-      FeatureContribution('goal_oriented', 1.0),
-      FeatureContribution('timeline_motivated', 1.0),
-    ];
-  }
   
   @override
   bool isValidAnswer(dynamic answer) => answer != null;
   
   @override
   dynamic getDefaultAnswer() => null;
+  
+  //MARK: TYPED ACCESSOR
+  
+  /// Get target completion date as DateTime from answers
+  DateTime? getTargetCompletionDate(Map<String, dynamic> answers) {
+    final date = answers[questionId];
+    if (date == null) return null;
+    if (date is DateTime) return date;
+    if (date is String) return DateTime.tryParse(date);
+    return null;
+  }
 }

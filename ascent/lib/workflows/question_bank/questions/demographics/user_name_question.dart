@@ -7,6 +7,8 @@ import '../onboarding_question.dart';
 /// and user account setup.
 class UserNameQuestion extends OnboardingQuestion {
   static const String questionId = 'user_name';
+  static final UserNameQuestion instance = UserNameQuestion._();
+  UserNameQuestion._();
   
   //MARK: UI PRESENTATION DATA
   
@@ -42,4 +44,11 @@ class UserNameQuestion extends OnboardingQuestion {
   
   @override
   dynamic getDefaultAnswer() => null; // No default for names
+  
+  //MARK: TYPED ACCESSOR
+  
+  /// Get user name as String from answers
+  String? getUserName(Map<String, dynamic> answers) {
+    return answers[questionId] as String?;
+  }
 }

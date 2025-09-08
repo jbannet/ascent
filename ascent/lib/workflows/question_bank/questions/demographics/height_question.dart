@@ -7,6 +7,8 @@ import '../onboarding_question.dart';
 /// and biomechanical exercise modifications.
 class HeightQuestion extends OnboardingQuestion {
   static const String questionId = 'height';
+  static final HeightQuestion instance = HeightQuestion._();
+  HeightQuestion._();
   
   //MARK: UI PRESENTATION DATA
   
@@ -48,4 +50,12 @@ class HeightQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => 170; // Average height
   
+  //MARK: TYPED ACCESSOR
+  
+  /// Get height as double from answers (in cm)
+  double? getHeight(Map<String, dynamic> answers) {
+    final height = answers[questionId];
+    if (height == null) return null;
+    return height is double ? height : double.tryParse(height.toString());
+  }
 }

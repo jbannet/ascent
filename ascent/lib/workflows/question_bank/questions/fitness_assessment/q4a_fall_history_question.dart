@@ -3,6 +3,7 @@ import '../../../onboarding_workflow/models/questions/question_option.dart';
 import '../onboarding_question.dart';
 import '../demographics/age_question.dart';
 import './q4_twelve_minute_run_question.dart';
+import '../../../../constants.dart';
 
 /// Q4A: Have you fallen in the last 12 months?
 /// 
@@ -11,6 +12,8 @@ import './q4_twelve_minute_run_question.dart';
 /// Based on CDC STEADI fall risk assessment protocol.
 class Q4AFallHistoryQuestion extends OnboardingQuestion {
   static const String questionId = 'Q4A';
+  static final Q4AFallHistoryQuestion instance = Q4AFallHistoryQuestion._();
+  Q4AFallHistoryQuestion._();
   
   //MARK: UI PRESENTATION DATA
   
@@ -31,8 +34,8 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   
   @override
   List<QuestionOption> get options => [
-    QuestionOption(value: 'yes', label: 'Yes'),
-    QuestionOption(value: 'no', label: 'No'),
+    QuestionOption(value: AnswerConstants.yes, label: 'Yes'),
+    QuestionOption(value: AnswerConstants.no, label: 'No'),
   ];
   
   @override
@@ -59,10 +62,17 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   
   @override
   bool isValidAnswer(dynamic answer) {
-    return answer == 'yes' || answer == 'no';
+    return answer == AnswerConstants.yes || answer == AnswerConstants.no;
   }
   
   @override
-  dynamic getDefaultAnswer() => 'no';
+  dynamic getDefaultAnswer() => AnswerConstants.no;
+  
+  //MARK: TYPED ACCESSOR
+  
+  /// Get fall history as boolean from answers
+  bool hasFallen(Map<String, dynamic> answers) {
+    return answers[questionId] == AnswerConstants.yes;
+  }
 }
 

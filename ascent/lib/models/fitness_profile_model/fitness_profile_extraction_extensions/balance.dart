@@ -4,6 +4,7 @@ import '../../../workflows/question_bank/questions/demographics/age_question.dar
 import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
 import '../../../workflows/question_bank/questions/fitness_assessment/q4a_fall_history_question.dart';
 import '../../../workflows/question_bank/questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
+import '../../../workflows/question_bank/questions/fitness_assessment/current_fitness_level_question.dart';
 import '../../../constants.dart';
 
 /// Extension to calculate balance feature importance.
@@ -15,12 +16,11 @@ extension Balance on FitnessProfile {
   
   /// Calculate balance training importance based on multiple factors
   void calculateBalance() {
-    final age = answers[AgeQuestion.questionId] as int?;
-    final gender = answers[GenderQuestion.questionId] as String?;
-    final physicalLimitations = answers['Q1'] as List<dynamic>? ?? [];
-    final experienceLevel = answers['experience_level'] as String?;
-    final hasFallen = answers[Q4AFallHistoryQuestion.questionId] as String?;
-    final fallRiskFactors = answers[Q4BFallRiskFactorsQuestion.questionId] as List<dynamic>? ?? [];
+    final age = AgeQuestion.instance.getAge(answers);
+    final gender = GenderQuestion.instance.getGender(answers);
+    final experienceLevel = CurrentFitnessLevelQuestion.instance.getFitnessLevel(answers);
+    final hasFallen = Q4AFallHistoryQuestion.instance.hasFallen(answers);
+    final fallRiskFactors = Q4BFallRiskFactorsQuestion.instance.getRiskFactors(answers);
     
     if (age == null || gender == null) {
       throw Exception('Missing required answers for balance calculation: age=$age, gender=$gender');
@@ -71,27 +71,25 @@ extension Balance on FitnessProfile {
   }
   
   /// Apply modifiers based on fall history and risk factors
-  double _applyFallRiskModifiers(double baseImportance, String? hasFallen, List<dynamic> riskFactors) {
+  double _applyFallRiskModifiers(double baseImportance, bool hasFallen, List<String> riskFactors) {
     // Previous fall is strongest predictor of future falls
     // If they've fallen, balance training becomes absolute priority
-    if (hasFallen == AnswerConstants.yes) {
+    if (hasFallen) {
       return 1.5; // Maximum priority regardless of age or other factors
     }
     
     double modifier = 0.0;
     
-    // Additional risk factors from Q4B
-    final factorsAsStrings = riskFactors.map((e) => e.toString()).toList();
-    
-    if (factorsAsStrings.contains(AnswerConstants.fearFalling)) {
+    // Additional risk factors from Q4B - already typed as List<String>
+    if (riskFactors.contains(AnswerConstants.fearFalling)) {
       modifier += 0.1;  // Fear of falling affects movement patterns
     }
     
-    if (factorsAsStrings.contains(AnswerConstants.mobilityAids)) {
+    if (riskFactors.contains(AnswerConstants.mobilityAids)) {
       modifier += 0.15;  // Using mobility aids indicates significant balance issues
     }
     
-    if (factorsAsStrings.contains(AnswerConstants.balanceProblems)) {
+    if (riskFactors.contains(AnswerConstants.balanceProblems)) {
       modifier += 0.15;  // balance problems are direct risk factors
     }
     

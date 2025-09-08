@@ -10,14 +10,15 @@ extension BirthYear on FitnessProfile {
   
   /// Calculate birth year and age-related training parameters
   void calculateBirthYear() {
-    final age = answers[AgeQuestion.questionId] as int?;
+    final age = AgeQuestion.instance.getAge(answers);
+    final dateOfBirth = AgeQuestion.instance.getDateOfBirth(answers);
     
-    if (age == null) {
-      throw Exception('Missing required answer for birth year calculation: age=$age');
+    if (age == null || dateOfBirth == null) {
+      throw Exception('Missing required answer for birth year calculation: age=$age, dateOfBirth=$dateOfBirth');
     }
     
     // Store birth year for persistence and reference age
-    answers[ProfileConstants.birthYear] = (DateTime.now().year - age).toDouble();
+    answers[ProfileConstants.birthYear] = dateOfBirth.year.toDouble();
     answers[ProfileConstants.age] = age.toDouble();
     
     // Training parameter calculations

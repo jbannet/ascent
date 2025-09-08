@@ -1,6 +1,7 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
 import '../onboarding_question.dart';
+import '../../../../constants.dart';
 
 /// Gender demographic question for fitness assessment normalization.
 /// 
@@ -8,6 +9,8 @@ import '../onboarding_question.dart';
 /// and gender-specific training considerations.
 class GenderQuestion extends OnboardingQuestion {
   static const String questionId = 'gender';
+  static final GenderQuestion instance = GenderQuestion._();
+  GenderQuestion._();
   
   //MARK: UI PRESENTATION DATA
   
@@ -28,10 +31,10 @@ class GenderQuestion extends OnboardingQuestion {
   
   @override
   List<QuestionOption> get options => [
-    QuestionOption(value: 'male', label: 'Male'),
-    QuestionOption(value: 'female', label: 'Female'),
-    QuestionOption(value: 'non_binary', label: 'Non-binary'),
-    QuestionOption(value: 'prefer_not_to_say', label: 'Prefer not to say'),
+    QuestionOption(value: AnswerConstants.male, label: 'Male'),
+    QuestionOption(value: AnswerConstants.female, label: 'Female'),
+    QuestionOption(value: AnswerConstants.nonBinary, label: 'Non-binary'),
+    QuestionOption(value: AnswerConstants.preferNotToSay, label: 'Prefer not to say'),
   ];
   
   @override
@@ -43,10 +46,17 @@ class GenderQuestion extends OnboardingQuestion {
   
   @override
   bool isValidAnswer(dynamic answer) {
-    final validOptions = ['male', 'female', 'non_binary', 'prefer_not_to_say'];
+    final validOptions = [AnswerConstants.male, AnswerConstants.female, AnswerConstants.nonBinary, AnswerConstants.preferNotToSay];
     return validOptions.contains(answer.toString());
   }
   
   @override
-  dynamic getDefaultAnswer() => 'prefer_not_to_say'; // Respectful default
+  dynamic getDefaultAnswer() => AnswerConstants.preferNotToSay; // Respectful default
+  
+  //MARK: TYPED ACCESSOR
+  
+  /// Get gender as string from answers
+  String? getGender(Map<String, dynamic> answers) {
+    return answers[questionId] as String?;
+  }
 }

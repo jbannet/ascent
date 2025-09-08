@@ -1,11 +1,13 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../onboarding_question.dart';
-import '../../../../models/fitness_profile_model/feature_contribution.dart';
 
 /// Workout frequency question (duplicate of Q8 but from JSON).
 class WorkoutFrequencyQuestion extends OnboardingQuestion {
+  static const String questionId = 'workout_frequency';
+  static final WorkoutFrequencyQuestion instance = WorkoutFrequencyQuestion._();
+  WorkoutFrequencyQuestion._();
   @override
-  String get id => 'workout_frequency';
+  String get id => WorkoutFrequencyQuestion.questionId;
   
   @override
   String get questionText => 'How many days per week can you exercise?';
@@ -26,16 +28,6 @@ class WorkoutFrequencyQuestion extends OnboardingQuestion {
     'unit': 'days'
   };
   
-  @override
-  List<FeatureContribution> evaluate(dynamic answer, Map<String, double> features, Map<String, double> demographics) {
-    final days = (answer as num).toInt();
-    return [
-      FeatureContribution('weekly_frequency', days / 7.0),
-      FeatureContribution('high_frequency_capable', days >= 5 ? 1.0 : 0.0),
-      FeatureContribution('moderate_frequency', days >= 3 && days <= 4 ? 1.0 : 0.0),
-      FeatureContribution('low_frequency', days <= 2 ? 1.0 : 0.0),
-    ];
-  }
   
   @override
   bool isValidAnswer(dynamic answer) {
@@ -46,4 +38,13 @@ class WorkoutFrequencyQuestion extends OnboardingQuestion {
   
   @override
   dynamic getDefaultAnswer() => 3;
+  
+  //MARK: TYPED ACCESSOR
+  
+  /// Get workout frequency as int from answers (days per week)
+  int? getWorkoutFrequency(Map<String, dynamic> answers) {
+    final frequency = answers[questionId];
+    if (frequency == null) return null;
+    return frequency is int ? frequency : int.tryParse(frequency.toString());
+  }
 }
