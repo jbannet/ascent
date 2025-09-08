@@ -1,14 +1,14 @@
 import '../../services/local_storage/local_storage_service.dart';
 
 // Import all fitness profile extensions
-import 'fitness_profile_extensions/age_bracket.dart';
-import 'fitness_profile_extensions/strength.dart';
-import 'fitness_profile_extensions/balance.dart';
-import 'fitness_profile_extensions/low_impact.dart';
-import 'fitness_profile_extensions/stretching.dart';
-import 'fitness_profile_extensions/cardio.dart';
-import 'fitness_profile_extensions/bodyweight.dart';
-import 'fitness_profile_extensions/birth_year.dart';
+import 'fitness_profile_extraction_extensions/age_bracket.dart';
+import 'fitness_profile_extraction_extensions/strength.dart';
+import 'fitness_profile_extraction_extensions/balance.dart';
+import 'fitness_profile_extraction_extensions/low_impact.dart';
+import 'fitness_profile_extraction_extensions/stretching.dart';
+import 'fitness_profile_extraction_extensions/cardio.dart';
+import 'fitness_profile_extraction_extensions/bodyweight.dart';
+import 'fitness_profile_extraction_extensions/birth_year.dart';
 
 /// Evaluates onboarding answers to create a fitness profile with ML features.
 /// 
