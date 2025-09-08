@@ -4,6 +4,7 @@ import 'theme/app_theme.dart';
 import 'routing/app_router.dart';
 //import 'services/firebase/firebase_client.dart';
 
+//TODO: needs to handle both meters and feet depending on region
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   

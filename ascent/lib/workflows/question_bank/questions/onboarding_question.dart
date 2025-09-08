@@ -86,6 +86,10 @@ abstract class OnboardingQuestion {
   /// Override to provide sensible defaults for optional questions.
   dynamic getDefaultAnswer() => null;
   
+
+  ///
+  bool shouldShow(Map<String, dynamic> answers) => true; // Default to always show, override if needed
+
   //MARK: RENDERING
   
   /// Render the complete question view including question text, subtitle, and answer widget.

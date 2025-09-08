@@ -1,6 +1,5 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
-import '../../../onboarding_workflow/models/questions/question.dart';
 import '../onboarding_question.dart';
 import '../demographics/age_question.dart';
 import './q4a_fall_history_question.dart';
@@ -60,12 +59,17 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   };
   
   //MARK: CONDITIONAL DISPLAY
-  // Note: We override toPresentation() to handle complex conditional logic
   
   @override
-  Question toPresentation() {
-    // Create a custom Question that checks conditions in shouldShow
-    return _Q4BConditionalQuestion(this);
+  bool shouldShow(Map<String, dynamic> answers) {
+    // Show if Q4A = 'yes' (has fallen) OR age >= 65
+    final hasFallen = answers[Q4AFallHistoryQuestion.questionId] as String?;
+    final age = answers[AgeQuestion.questionId] as int?;
+    
+    if (hasFallen == 'yes') return true;
+    if (age != null && age >= 65) return true;
+    
+    return false;
   }
   
   //MARK: VALIDATION
@@ -86,29 +90,3 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   dynamic getDefaultAnswer() => ['none'];
 }
 
-/// Custom Question class to handle complex conditional logic
-class _Q4BConditionalQuestion extends Question {
-  final Q4BFallRiskFactorsQuestion baseQuestion;
-  
-  _Q4BConditionalQuestion(this.baseQuestion) : super(
-    id: baseQuestion.id,
-    question: baseQuestion.questionText,
-    section: baseQuestion.section,
-    type: baseQuestion.questionType,
-    options: baseQuestion.options,
-    subtitle: baseQuestion.subtitle,
-    answerConfigurationSettings: baseQuestion.config,
-  );
-  
-  @override
-  bool shouldShow(Map<String, dynamic> answers) {
-    // Show if Q4A = 'yes' (has fallen) OR age >= 65
-    final hasFallen = answers[Q4AFallHistoryQuestion.questionId] as String?;
-    final age = answers[AgeQuestion.questionId] as int?;
-    
-    if (hasFallen == 'yes') return true;
-    if (age != null && age >= 65) return true;
-    
-    return false;
-  }
-}

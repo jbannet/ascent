@@ -1,7 +1,5 @@
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
-import '../../../onboarding_workflow/models/questions/question_condition.dart';
-import '../../../onboarding_workflow/models/questions/question.dart';
 import '../onboarding_question.dart';
 import '../demographics/age_question.dart';
 import './q4_twelve_minute_run_question.dart';
@@ -43,13 +41,18 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   };
   
   //MARK: CONDITIONAL DISPLAY
-  // Note: We override toPresentation() to handle complex conditional logic
-  // since QuestionCondition doesn't support OR logic or numeric comparisons
   
   @override
-  Question toPresentation() {
-    // Create a custom Question that checks conditions in shouldShow
-    return _Q4AConditionalQuestion(this);
+  bool shouldShow(Map<String, dynamic> answers) {
+    // Show if age >= 50 OR Cooper test < 1500m
+    
+    final age = answers[AgeQuestion.questionId] as int?;
+    final cooperDistance = answers[Q4TwelveMinuteRunQuestion.questionId] as num?;
+    
+    if (age != null && age >= 50) return true;
+    if (cooperDistance != null && cooperDistance < 1500) return true;
+    
+    return false;
   }
   
   //MARK: VALIDATION
@@ -63,29 +66,3 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   dynamic getDefaultAnswer() => 'no';
 }
 
-/// Custom Question class to handle complex conditional logic
-class _Q4AConditionalQuestion extends Question {
-  final Q4AFallHistoryQuestion baseQuestion;
-  
-  _Q4AConditionalQuestion(this.baseQuestion) : super(
-    id: baseQuestion.id,
-    question: baseQuestion.questionText,
-    section: baseQuestion.section,
-    type: baseQuestion.questionType,
-    options: baseQuestion.options,
-    subtitle: baseQuestion.subtitle,
-    answerConfigurationSettings: baseQuestion.config,
-  );
-  
-  @override
-  bool shouldShow(Map<String, dynamic> answers) {
-    // Show if age >= 50 OR Cooper test < 1500m
-    final age = answers[AgeQuestion.questionId] as int?;
-    final cooperDistance = answers[Q4TwelveMinuteRunQuestion.questionId] as num?;
-    
-    if (age != null && age >= 50) return true;
-    if (cooperDistance != null && cooperDistance < 1500) return true;
-    
-    return false;
-  }
-}

@@ -68,35 +68,40 @@ class OnboardingProvider extends ChangeNotifier {
   // Get completion percentage
   double get percentComplete {
     int questionCount = _onboardingQuestions.length;
-    int answerCount = _onboardingAnswers.length;
 
-    return questionCount == 0 ? 0 : (answerCount / questionCount) * 100;
+    return questionCount == 0 ? 0 : (_currentQuestionNumber / questionCount) * 100;
   }
   
   // Navigate to next question and save answers to disk
   void nextQuestion() {
     if (_onboardingQuestions.isEmpty) return;
-    
+  
     // Save current progress before navigating
     saveAnswersIncomplete();
     
-    if (_currentQuestionNumber < _onboardingQuestions.length - 1) {
+        // Find next visible question
+    while (_currentQuestionNumber < _onboardingQuestions.length - 1) {
       _currentQuestionNumber++;
-    } else {
-      // Last question - mark as complete
-      markOnboardingCompleted();
-      return;
+      if (_onboardingQuestions[_currentQuestionNumber].shouldShow(_onboardingAnswers.answers)) {
+        notifyListeners();
+        return;
+      }
     }
-    notifyListeners();
+    markOnboardingCompleted();
   }
   
   // Navigate to previous question and save answer to disk
   void prevQuestion() {
-    if (_currentQuestionNumber > 0) {
-      // Save current progress before navigating
-      saveAnswersIncomplete();
+    if (_currentQuestionNumber <= 0) return;
+    saveAnswersIncomplete();
+
+    // Find previous visible question
+    while (_currentQuestionNumber > 0) {
       _currentQuestionNumber--;
-      notifyListeners();
+      if (_onboardingQuestions[_currentQuestionNumber].shouldShow(_onboardingAnswers.answers)) {
+        notifyListeners();
+        return;
+      }
     }
   }
   
