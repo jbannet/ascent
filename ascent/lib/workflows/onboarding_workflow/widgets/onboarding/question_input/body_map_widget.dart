@@ -157,7 +157,7 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
                 theme: theme,
               ),
               child: Stack(
-                children: _buildInteractiveRegions(),
+                children: _buildInteractiveRegions(theme),
               ),
             ),
           ),
@@ -239,67 +239,67 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
     }).join(' ');
   }
 
-  List<Widget> _buildInteractiveRegions() {
+  List<Widget> _buildInteractiveRegions(ThemeData theme) {
     return [
       // Head/Neck
-      _buildBodyPartRegion('neck', 
+      _buildBodyPartRegion('neck', theme,
           left: 130, top: 50, width: 40, height: 30),
       
       // Shoulders
-      _buildBodyPartRegion('shoulder_left', 
+      _buildBodyPartRegion('shoulder_left', theme,
           left: 80, top: 80, width: 50, height: 40),
-      _buildBodyPartRegion('shoulder_right', 
+      _buildBodyPartRegion('shoulder_right', theme,
           left: 170, top: 80, width: 50, height: 40),
       
       // Upper Back
-      _buildBodyPartRegion('upper_back', 
+      _buildBodyPartRegion('upper_back', theme,
           left: 120, top: 100, width: 60, height: 50),
       
       // Chest
-      _buildBodyPartRegion('chest', 
+      _buildBodyPartRegion('chest', theme,
           left: 120, top: 120, width: 60, height: 50),
       
       // Lower Back
-      _buildBodyPartRegion('lower_back', 
+      _buildBodyPartRegion('lower_back', theme,
           left: 120, top: 170, width: 60, height: 50),
       
       // Core/Abs
-      _buildBodyPartRegion('core', 
+      _buildBodyPartRegion('core', theme,
           left: 120, top: 190, width: 60, height: 50),
       
       // Hips
-      _buildBodyPartRegion('hip_left', 
+      _buildBodyPartRegion('hip_left', theme,
           left: 100, top: 240, width: 40, height: 40),
-      _buildBodyPartRegion('hip_right', 
+      _buildBodyPartRegion('hip_right', theme,
           left: 160, top: 240, width: 40, height: 40),
       
       // Knees
-      _buildBodyPartRegion('knee_left', 
+      _buildBodyPartRegion('knee_left', theme,
           left: 100, top: 320, width: 40, height: 40),
-      _buildBodyPartRegion('knee_right', 
+      _buildBodyPartRegion('knee_right', theme,
           left: 160, top: 320, width: 40, height: 40),
       
       // Ankles
-      _buildBodyPartRegion('ankle_left', 
+      _buildBodyPartRegion('ankle_left', theme,
           left: 100, top: 420, width: 40, height: 30),
-      _buildBodyPartRegion('ankle_right', 
+      _buildBodyPartRegion('ankle_right', theme,
           left: 160, top: 420, width: 40, height: 30),
       
       // Wrists (on arms)
-      _buildBodyPartRegion('wrist_left', 
+      _buildBodyPartRegion('wrist_left', theme,
           left: 50, top: 180, width: 30, height: 30),
-      _buildBodyPartRegion('wrist_right', 
+      _buildBodyPartRegion('wrist_right', theme,
           left: 220, top: 180, width: 30, height: 30),
       
       // Elbows
-      _buildBodyPartRegion('elbow_left', 
+      _buildBodyPartRegion('elbow_left', theme,
           left: 60, top: 140, width: 30, height: 30),
-      _buildBodyPartRegion('elbow_right', 
+      _buildBodyPartRegion('elbow_right', theme,
           left: 210, top: 140, width: 30, height: 30),
     ];
   }
 
-  Widget _buildBodyPartRegion(String bodyPart, 
+  Widget _buildBodyPartRegion(String bodyPart, ThemeData theme,
       {required double left, 
        required double top, 
        required double width, 
@@ -316,8 +316,17 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.transparent,
-              width: 2,
+              color: theme.colorScheme.primary.withValues(alpha: 0.4),
+              width: 1.5,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: CustomPaint(
+            painter: DottedBorderPainter(
+              color: theme.colorScheme.primary.withValues(alpha: 0.6),
+              strokeWidth: 1.5,
+              dashLength: 4,
+              gapLength: 3,
             ),
           ),
         ),
@@ -355,6 +364,9 @@ class BodyMapPainter extends CustomPainter {
     // Draw body outline
     _drawBodyOutline(canvas, size, paint);
     
+    // Draw dotted outlines for clickable areas
+    _drawClickableAreaOutlines(canvas, size);
+    
     // Draw highlighted regions
     _drawHighlightedRegions(canvas, size, fillPaint);
   }
@@ -391,6 +403,101 @@ class BodyMapPainter extends CustomPainter {
     // Feet
     canvas.drawRect(Rect.fromLTWH(95, 450, 30, 10), paint);
     canvas.drawRect(Rect.fromLTWH(175, 450, 30, 10), paint);
+  }
+
+  void _drawClickableAreaOutlines(Canvas canvas, Size size) {
+    final dottedPaint = Paint()
+      ..color = theme.colorScheme.primary.withValues(alpha: 0.3)
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+
+    // Draw dotted outlines for all clickable regions using the same coordinates
+    // as in _buildInteractiveRegions
+    
+    // Head/Neck
+    _drawDottedRect(canvas, Rect.fromLTWH(130, 50, 40, 30), dottedPaint);
+    
+    // Shoulders
+    _drawDottedRect(canvas, Rect.fromLTWH(80, 80, 50, 40), dottedPaint);
+    _drawDottedRect(canvas, Rect.fromLTWH(170, 80, 50, 40), dottedPaint);
+    
+    // Upper Back
+    _drawDottedRect(canvas, Rect.fromLTWH(120, 100, 60, 50), dottedPaint);
+    
+    // Chest  
+    _drawDottedRect(canvas, Rect.fromLTWH(120, 120, 60, 50), dottedPaint);
+    
+    // Lower Back
+    _drawDottedRect(canvas, Rect.fromLTWH(120, 170, 60, 50), dottedPaint);
+    
+    // Core/Abs
+    _drawDottedRect(canvas, Rect.fromLTWH(120, 190, 60, 50), dottedPaint);
+    
+    // Hips
+    _drawDottedRect(canvas, Rect.fromLTWH(100, 240, 40, 40), dottedPaint);
+    _drawDottedRect(canvas, Rect.fromLTWH(160, 240, 40, 40), dottedPaint);
+    
+    // Knees
+    _drawDottedCircle(canvas, Offset(120, 340), 20, dottedPaint);
+    _drawDottedCircle(canvas, Offset(180, 340), 20, dottedPaint);
+    
+    // Ankles
+    _drawDottedRect(canvas, Rect.fromLTWH(100, 420, 40, 30), dottedPaint);
+    _drawDottedRect(canvas, Rect.fromLTWH(160, 420, 40, 30), dottedPaint);
+    
+    // Wrists
+    _drawDottedRect(canvas, Rect.fromLTWH(50, 180, 30, 30), dottedPaint);
+    _drawDottedRect(canvas, Rect.fromLTWH(220, 180, 30, 30), dottedPaint);
+    
+    // Elbows
+    _drawDottedRect(canvas, Rect.fromLTWH(60, 140, 30, 30), dottedPaint);
+    _drawDottedRect(canvas, Rect.fromLTWH(210, 140, 30, 30), dottedPaint);
+  }
+
+  void _drawDottedRect(Canvas canvas, Rect rect, Paint paint) {
+    const dashLength = 3.0;
+    const gapLength = 2.0;
+    
+    // Top border
+    _drawDottedLine(canvas, Offset(rect.left, rect.top), Offset(rect.right, rect.top), paint, dashLength, gapLength);
+    // Right border
+    _drawDottedLine(canvas, Offset(rect.right, rect.top), Offset(rect.right, rect.bottom), paint, dashLength, gapLength);
+    // Bottom border
+    _drawDottedLine(canvas, Offset(rect.right, rect.bottom), Offset(rect.left, rect.bottom), paint, dashLength, gapLength);
+    // Left border  
+    _drawDottedLine(canvas, Offset(rect.left, rect.bottom), Offset(rect.left, rect.top), paint, dashLength, gapLength);
+  }
+
+  void _drawDottedCircle(Canvas canvas, Offset center, double radius, Paint paint) {
+    const dashLength = 3.0;
+    const gapLength = 2.0;
+    final circumference = 2 * 3.14159 * radius;
+    final dashCount = (circumference / (dashLength + gapLength)).floor();
+    final anglePerDash = (2 * 3.14159) / dashCount;
+
+    for (int i = 0; i < dashCount; i++) {
+      final startAngle = i * anglePerDash;
+      final endAngle = startAngle + (anglePerDash * dashLength / (dashLength + gapLength));
+      
+      final startX = center.dx + radius * math.cos(startAngle);
+      final startY = center.dy + radius * math.sin(startAngle);
+      final endX = center.dx + radius * math.cos(endAngle);
+      final endY = center.dy + radius * math.sin(endAngle);
+      
+      canvas.drawLine(Offset(startX, startY), Offset(endX, endY), paint);
+    }
+  }
+
+  void _drawDottedLine(Canvas canvas, Offset start, Offset end, Paint paint, double dashLength, double gapLength) {
+    final distance = (end - start).distance;
+    final dashCount = (distance / (dashLength + gapLength)).floor();
+    final direction = (end - start) / distance;
+
+    for (int i = 0; i < dashCount; i++) {
+      final dashStart = start + direction * (i * (dashLength + gapLength));
+      final dashEnd = dashStart + direction * dashLength;
+      canvas.drawLine(dashStart, dashEnd, paint);
+    }
   }
 
   void _drawHighlightedRegions(Canvas canvas, Size size, Paint fillPaint) {
@@ -461,5 +568,85 @@ class BodyMapPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant BodyMapPainter oldDelegate) {
     return oldDelegate.bodyPartStates != bodyPartStates;
+  }
+}
+
+/// Custom painter for drawing dotted borders around clickable regions
+class DottedBorderPainter extends CustomPainter {
+  final Color color;
+  final double strokeWidth;
+  final double dashLength;
+  final double gapLength;
+
+  const DottedBorderPainter({
+    required this.color,
+    required this.strokeWidth,
+    required this.dashLength,
+    required this.gapLength,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke;
+
+    // Draw dotted rectangle border
+    _drawDottedRect(canvas, Rect.fromLTWH(0, 0, size.width, size.height), paint);
+  }
+
+  void _drawDottedRect(Canvas canvas, Rect rect, Paint paint) {
+    // Top border
+    _drawDottedLine(
+      canvas,
+      Offset(rect.left, rect.top),
+      Offset(rect.right, rect.top),
+      paint,
+    );
+    
+    // Right border
+    _drawDottedLine(
+      canvas,
+      Offset(rect.right, rect.top),
+      Offset(rect.right, rect.bottom),
+      paint,
+    );
+    
+    // Bottom border
+    _drawDottedLine(
+      canvas,
+      Offset(rect.right, rect.bottom),
+      Offset(rect.left, rect.bottom),
+      paint,
+    );
+    
+    // Left border
+    _drawDottedLine(
+      canvas,
+      Offset(rect.left, rect.bottom),
+      Offset(rect.left, rect.top),
+      paint,
+    );
+  }
+
+  void _drawDottedLine(Canvas canvas, Offset start, Offset end, Paint paint) {
+    final distance = (end - start).distance;
+    final dashCount = (distance / (dashLength + gapLength)).floor();
+    final direction = (end - start) / distance;
+
+    for (int i = 0; i < dashCount; i++) {
+      final dashStart = start + direction * (i * (dashLength + gapLength));
+      final dashEnd = dashStart + direction * dashLength;
+      canvas.drawLine(dashStart, dashEnd, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant DottedBorderPainter oldDelegate) {
+    return oldDelegate.color != color ||
+           oldDelegate.strokeWidth != strokeWidth ||
+           oldDelegate.dashLength != dashLength ||
+           oldDelegate.gapLength != gapLength;
   }
 }

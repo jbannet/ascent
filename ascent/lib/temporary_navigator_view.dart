@@ -19,6 +19,7 @@ import 'enums/session_status.dart';
 import 'enums/block_type.dart';
 import 'enums/item_mode.dart';
 import 'routing/route_names.dart';
+import 'temporary_mapping_tool.dart';
 
 /// Temporary development navigation screen to access all views during development
 class TemporaryNavigatorView extends StatelessWidget {
@@ -154,6 +155,25 @@ class TemporaryNavigatorView extends StatelessWidget {
               context,
               'Cooldown Step Card',
               CooldownStepCard(step: CooldownStep(displayName: 'Static Stretching', timeSec: 600)),
+            ),
+          ),
+
+          const Divider(),
+          const Text(
+            'Development Tools:',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+
+          _buildNavigationTile(
+            context,
+            title: 'Body Map Coordinate Mapper',
+            subtitle: 'Map body part coordinates on gender-specific images',
+            icon: Icons.touch_app,
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const TemporaryMappingTool(),
+              ),
             ),
           ),
 

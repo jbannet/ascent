@@ -34,7 +34,11 @@ enum EnumQuestionType {
   /// Dual column selector for session commitment
   /// Two columns of buttons (0-7) for selecting days per week
   /// Left column for full sessions, right for micro sessions
-  dualColumnSelector
+  dualColumnSelector,
+  
+  /// Height selector with feet and inches dropdowns
+  /// Two dropdown selectors for selecting height in US imperial units
+  heightSelector
 }
 
 extension QuestionTypeExtension on EnumQuestionType {
@@ -61,6 +65,8 @@ extension QuestionTypeExtension on EnumQuestionType {
         return EnumQuestionType.bodyMap;
       case 'dual_column_selector':
         return EnumQuestionType.dualColumnSelector;
+      case 'height_selector':
+        return EnumQuestionType.heightSelector;
       default:
         throw ArgumentError('Unknown question type: $value');
     }

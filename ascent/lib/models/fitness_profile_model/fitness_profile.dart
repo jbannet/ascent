@@ -8,6 +8,7 @@ import 'fitness_profile_extraction_extensions/functional.dart';
 import 'fitness_profile_extraction_extensions/low_impact.dart';
 import 'fitness_profile_extraction_extensions/stretching.dart';
 import 'fitness_profile_extraction_extensions/cardio.dart';
+import 'fitness_profile_extraction_extensions/weight_management.dart';
 import 'fitness_profile_extraction_extensions/relative_objective_importance.dart';
 
 /// Evaluates onboarding answers to create a fitness profile with ML features.
@@ -69,6 +70,7 @@ class FitnessProfile {
     calculateLowImpact();
     calculateStretching();
     calculateCardio();
+    calculateWeightManagement();
     
     // Calculate relative importance across all modalities (MUST be last)
     calculateRelativeImportance();

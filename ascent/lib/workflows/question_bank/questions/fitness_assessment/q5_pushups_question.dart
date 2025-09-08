@@ -22,18 +22,21 @@ class Q5PushupsQuestion extends OnboardingQuestion {
   String get section => 'fitness_assessment';
   
   @override
-  EnumQuestionType get questionType => EnumQuestionType.numberInput;
+  EnumQuestionType get questionType => EnumQuestionType.slider;
   
   @override
-  String? get subtitle => 'Do as many as you can without stopping';
+  String? get subtitle => 'Slide to select your maximum push-ups';
   
   @override
   Map<String, dynamic> get config => {
     'isRequired': true,
     'minValue': 0.0,
-    'maxValue': 200.0,
-    'allowDecimals': false,
-    'unit': 'reps',
+    'maxValue': 100.0,
+    'step': 1.0,
+    'showValue': true,
+    'divisions': 10,
+    'unit': ' reps',
+    'labelFormatter': (double value) => value >= 100 ? '100+' : value.toInt().toString(),
   };
   
   
@@ -42,12 +45,12 @@ class Q5PushupsQuestion extends OnboardingQuestion {
   @override
   bool isValidAnswer(dynamic answer) {
     if (answer is! num) return false;
-    final count = answer.toInt();
-    return count >= 0 && count <= 200; // Reasonable range
+    final count = answer.toDouble();
+    return count >= 0 && count <= 100; // Slider range
   }
   
   @override
-  dynamic getDefaultAnswer() => 0; // Default to 0 push-ups if not answered
+  dynamic getDefaultAnswer() => 0.0; // Default to 0 push-ups if not answered
   
   //MARK: TYPED ACCESSOR
   
@@ -55,6 +58,8 @@ class Q5PushupsQuestion extends OnboardingQuestion {
   int? getPushupsCount(Map<String, dynamic> answers) {
     final count = answers[questionId];
     if (count == null) return null;
-    return count is int ? count : int.tryParse(count.toString());
+    if (count is int) return count;
+    if (count is double) return count.toInt();
+    return int.tryParse(count.toString());
   }
 }

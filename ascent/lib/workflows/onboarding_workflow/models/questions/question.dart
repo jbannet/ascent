@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'enum_question_type.dart';
 import 'question_option.dart';
 import 'question_condition.dart';
-import '../../widgets/onboarding/question_input/factory_question_inputs.dart';
 
 /// Represents a single question in the onboarding flow.
 /// 
@@ -129,18 +127,4 @@ class Question {
     return condition!.evaluate(answer);
   }
 
-  /// Builds the appropriate answer widget for this question.
-  /// 
-  /// This method encapsulates the question's responsibility for creating
-  /// its own input widget based on its type and configuration.
-  Widget buildAnswerWidget({
-    required Map<String, dynamic> currentAnswers,
-    required Function(String, dynamic) onAnswerChanged,
-  }) {
-    return FactoryQuestionInputs.createWidget(
-      question: this,
-      currentAnswers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
-    );
-  }
 }

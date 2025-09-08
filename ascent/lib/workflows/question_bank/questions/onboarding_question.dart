@@ -10,6 +10,9 @@ import '../views/question_types/single_choice_view.dart';
 import '../views/question_types/multiple_choice_view.dart';
 import '../views/question_types/slider_view.dart';
 import '../views/question_types/date_picker_view.dart';
+import '../../onboarding_workflow/widgets/onboarding/question_input/body_map_widget.dart';
+import '../../onboarding_workflow/widgets/onboarding/question_input/dual_column_selector_widget.dart';
+import '../../onboarding_workflow/widgets/onboarding/question_input/height_selector_widget.dart';
 
 /// Base class for all onboarding questions.
 /// 
@@ -173,8 +176,38 @@ abstract class OnboardingQuestion {
           config: config,
         );
         
-      default:
-        return Text('Unsupported question type: ${questionType.toString()}');
+      case EnumQuestionType.bodyMap:
+        return BodyMapWidget(
+          questionId: id,
+          title: questionText,
+          subtitle: subtitle,
+          onAnswerChanged: (questionId, values) => onAnswerChanged(questionId, values),
+          selectedValues: currentAnswer == null 
+              ? null 
+              : currentAnswer is List 
+                  ? currentAnswer.cast<String>()
+                  : currentAnswer is String 
+                      ? [currentAnswer]
+                      : null,
+        );
+        
+      case EnumQuestionType.dualColumnSelector:
+        return DualColumnSelectorWidget(
+          config: config ?? {},
+          onChanged: (value) => onAnswerChanged(id, value),
+          initialValue: currentAnswer is Map<String, dynamic>
+              ? currentAnswer
+              : null,
+        );
+        
+      case EnumQuestionType.heightSelector:
+        return HeightSelectorWidget(
+          config: config ?? {},
+          onChanged: (value) => onAnswerChanged(id, value),
+          initialValue: currentAnswer is Map<String, dynamic>
+              ? currentAnswer
+              : null,
+        );
     }
   }
 }
