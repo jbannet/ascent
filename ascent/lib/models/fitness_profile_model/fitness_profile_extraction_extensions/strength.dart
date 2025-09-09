@@ -32,8 +32,8 @@ extension Strength on FitnessProfile {
   
   /// Calculate strength fitness metrics and training parameters
   void calculateStrength() {
-    final age = AgeQuestion.instance.getAge(answers);
-    final gender = GenderQuestion.instance.getGender(answers);
+    final age = AgeQuestion.instance.calculatedAge;
+    final gender = GenderQuestion.instance.genderAnswer;
     
     if (age == null || gender == null) {
       throw Exception('Missing required answers for strength calculation: age=$age, gender=$gender');

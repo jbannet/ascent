@@ -11,11 +11,11 @@ import '../../../workflows/question_bank/questions/demographics/age_question.dar
 /// 
 /// Based on Exercise and Sport Sciences Reviews 2024, ACSM Position Stand.
 /// Note: Stretching importance is calculated in relative_objective_importance.dart
-extension Stretching on FitnessProfile {
+extension Flexibility on FitnessProfile {
   
   /// Calculate flexibility and stretching metrics
   void calculateStretching() {
-    final age = AgeQuestion.instance.getAge(answers);
+    final age = AgeQuestion.instance.calculatedAge;
     
     if (age == null) {
       throw Exception('Missing required answer for stretching calculation: age=$age');

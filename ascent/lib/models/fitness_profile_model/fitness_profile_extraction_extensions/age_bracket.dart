@@ -11,7 +11,7 @@ extension AgeBracket on FitnessProfile {
   
   /// Calculate all age bracket features and age-related training parameters
   void calculateAgeBracket() {
-    final dateOfBirth = AgeQuestion.instance.getDateOfBirth(answers);
+    final dateOfBirth = AgeQuestion.instance.dateOfBirth;
     
     if (dateOfBirth == null) {
       throw Exception('Missing required answer for age bracket calculation: dateOfBirth=$dateOfBirth');

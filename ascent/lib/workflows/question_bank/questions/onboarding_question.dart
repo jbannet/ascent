@@ -62,16 +62,40 @@ abstract class OnboardingQuestion {
   
   //MARK: ANSWER STORAGE
   
-  /// Store the raw answer for this question.
-  /// 
-  /// [answer] is the user's response (String, num, List of String, etc.)
-  /// [answers] is the raw answers map where the answer will be stored
-  /// 
-  /// By default, simply stores the answer using the question's ID as the key.
-  /// Override if special storage logic is needed.
-  void storeAnswer(dynamic answer, Map<String, dynamic> answers) {
-    answers[id] = answer;
+  /// The answer to this question stored directly on the question instance.
+  /// Each subclass should provide typed getters/setters for this field.
+  dynamic _answer;
+  
+  /// Get the current answer for this question.
+  /// Subclasses should override with typed getters.
+  dynamic get answer => _answer;
+  
+  /// Set the answer for this question.
+  /// Subclasses should override with typed setters.
+  set answer(dynamic value) => _answer = value;
+
+  //MARK: SERIALIZATION
+  
+  /// Serialize this question's answer to JSON for storage.
+  /// Returns a map with question ID and serialized answer.
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'answer': answerToJson(_answer),
+  };
+  
+  /// Deserialize answer from JSON storage.
+  /// Updates the question's answer from the JSON data.
+  void fromJson(Map<String, dynamic> json) {
+    _answer = answerFromJson(json['answer']);
   }
+  
+  /// Convert answer value to JSON-compatible format.
+  /// Override for types that need special serialization (DateTime -> ISO String).
+  dynamic answerToJson(dynamic value) => value;
+  
+  /// Convert JSON value back to typed answer.
+  /// Override for types that need deserialization (ISO String -> DateTime).
+  dynamic answerFromJson(dynamic json) => json;
   
   //MARK: VALIDATION
   
@@ -94,12 +118,10 @@ abstract class OnboardingQuestion {
   /// This method allows questions to be fully self-contained by handling their own rendering.
   /// The container simply calls this method instead of having complex switch statements.
   /// 
-  /// [currentAnswers] contains all current answers indexed by question ID
   /// [onAnswerChanged] callback for when the user changes their answer  
   /// [accentColor] optional color override for theming
   Widget renderQuestionView({
-    required Map<String, dynamic> currentAnswers,
-    required Function(String, dynamic) onAnswerChanged,
+    required Function() onAnswerChanged,
     Color? accentColor,
   }) {
     return BaseQuestionView(
@@ -110,17 +132,17 @@ abstract class OnboardingQuestion {
       reason: null, // Can be overridden by individual questions if needed
       accentColor: accentColor,
       noPadding: questionType == EnumQuestionType.bodyMap,
-      answerWidget: buildAnswerWidget(currentAnswers, onAnswerChanged),
+      isRequired: config?['isRequired'] ?? false,
+      answerWidget: buildAnswerWidget(onAnswerChanged),
     );
   }
   
   /// Build the appropriate answer widget based on question type.
   /// 
   /// Each question subclass must implement this method to provide its specific widget.
-  /// This enables true polymorphic delegation where each question controls its own rendering.
+  /// The question provides its own answer value and handles change notifications.
   @protected
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   );
 }

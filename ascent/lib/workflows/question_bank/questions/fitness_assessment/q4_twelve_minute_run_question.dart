@@ -61,15 +61,25 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
     return distance is double ? distance : double.tryParse(distance.toString());
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the twelve minute run distance as a typed num
+  num? get runDistance => answer as num?;
+  
+  /// Set the twelve minute run distance with a typed num
+  set runDistance(num? value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return NumberInputView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: runDistance},
+      onAnswerChanged: (questionId, value) {
+        runDistance = value as num;
+        onAnswerChanged();
+      },
       config: config,
     );
   }

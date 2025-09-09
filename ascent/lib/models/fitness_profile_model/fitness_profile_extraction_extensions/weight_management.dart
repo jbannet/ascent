@@ -33,8 +33,8 @@ extension WeightManagement on FitnessProfile {
   
   /// Calculate weight management metrics and training parameters
   void calculateWeightManagement() {
-    final age = AgeQuestion.instance.getAge(answers);
-    final gender = GenderQuestion.instance.getGender(answers);
+    final age = AgeQuestion.instance.calculatedAge;
+    final gender = GenderQuestion.instance.genderAnswer;
     final weight = WeightQuestion.instance.getWeightPounds(answers);
     final height = HeightQuestion.instance.getHeightInches(answers);
     final goals = FitnessGoalsQuestion.instance.getFitnessGoals(answers);

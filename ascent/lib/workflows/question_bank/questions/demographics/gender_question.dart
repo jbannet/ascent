@@ -57,20 +57,30 @@ class GenderQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ACCESSOR
   
-  /// Get gender as string from answers
-  String? getGender(Map<String, dynamic> answers) {
-    return answers[questionId] as String?;
-  }
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the gender as a typed String
+  String? get genderAnswer => answer as String?;
+  
+  /// Set the gender with a typed String
+  set genderAnswer(String? value) => answer = value;
+  
+  /// Check for specific gender values
+  bool get isMale => genderAnswer == AnswerConstants.male;
+  bool get isFemale => genderAnswer == AnswerConstants.female;
+  bool get isNonBinary => genderAnswer == AnswerConstants.nonBinary;
 
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: genderAnswer},
+      onAnswerChanged: (questionId, value) {
+        genderAnswer = value as String;
+        onAnswerChanged();
+      },
       options: options,
     );
   }

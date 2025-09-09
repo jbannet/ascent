@@ -28,8 +28,8 @@ extension RelativeImportance on FitnessProfile {
 
   /// Calculate relative importance for all exercise modalities
   void calculateRelativeImportance() {
-    final age = AgeQuestion.instance.getAge(answers);
-    final gender = GenderQuestion.instance.getGender(answers);
+    final age = AgeQuestion.instance.calculatedAge;
+    final gender = GenderQuestion.instance.genderAnswer;
     
     if (age == null || gender == null) {
       throw Exception('Missing required answers for importance calculation: age=$age, gender=$gender');
@@ -141,7 +141,7 @@ extension RelativeImportance on FitnessProfile {
     double score = 0.1; // Low base importance for young adults
     
     // Fall history is absolute priority
-    final hasFallen = Q4AFallHistoryQuestion.instance.hasFallen(answers);
+    final hasFallen = Q4AFallHistoryQuestion.instance.fallHistoryAnswer == AnswerConstants.yes;
     if (hasFallen) {
       return 1.0; // Maximum priority regardless of other factors
     }
@@ -156,7 +156,7 @@ extension RelativeImportance on FitnessProfile {
     }
     
     // Fall risk factors
-    final fallRiskFactors = Q4BFallRiskFactorsQuestion.instance.getRiskFactors(answers);
+    final fallRiskFactors = Q4BFallRiskFactorsQuestion.instance.riskFactors;
     if (fallRiskFactors.contains(AnswerConstants.balanceProblems)) score += 0.4;
     if (fallRiskFactors.contains(AnswerConstants.fearFalling)) score += 0.2;
     if (fallRiskFactors.contains(AnswerConstants.mobilityAids)) score += 0.3;
@@ -246,13 +246,13 @@ extension RelativeImportance on FitnessProfile {
     }
     
     // Fall history massively increases functional importance
-    final hasFallen = Q4AFallHistoryQuestion.instance.hasFallen(answers);
+    final hasFallen = Q4AFallHistoryQuestion.instance.fallHistoryAnswer == AnswerConstants.yes;
     if (hasFallen) {
       score += 0.5; // Falls indicate functional deficits
     }
     
     // Chair stand inability is critical functional marker
-    final canStandFromChair = Q6AChairStandQuestion.instance.canStandFromChair(answers);
+    final canStandFromChair = Q6AChairStandQuestion.instance.chairStandAbility == AnswerConstants.yes;
     if (canStandFromChair == false) {
       score += 0.6; // Maximum priority for basic function restoration
     }

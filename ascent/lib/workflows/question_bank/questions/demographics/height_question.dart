@@ -101,19 +101,25 @@ class HeightQuestion extends OnboardingQuestion {
     return "${heightData['feet']}'${heightData['inches']}\"";
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the height data as a typed Map<String, dynamic>
+  Map<String, dynamic>? get heightData => answer as Map<String, dynamic>?;
+  
+  /// Set the height data with a typed Map<String, dynamic>
+  set heightData(Map<String, dynamic>? value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
-    final currentAnswer = currentAnswers[id];
-    
     return HeightSelectorWidget(
       config: config,
-      onChanged: (value) => onAnswerChanged(id, value),
-      initialValue: currentAnswer is Map<String, dynamic>
-          ? currentAnswer
-          : null,
+      onChanged: (value) {
+        heightData = value as Map<String, dynamic>;
+        onAnswerChanged();
+      },
+      initialValue: heightData,
     );
   }
 }

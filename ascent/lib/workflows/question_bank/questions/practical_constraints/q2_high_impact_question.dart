@@ -72,15 +72,25 @@ class Q2HighImpactQuestion extends OnboardingQuestion {
     return [restrictions.toString()];
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the high impact restrictions as a typed List<String>
+  List<String> get restrictions => (answer as List<String>?) ?? [];
+  
+  /// Set the restrictions with a typed List<String>
+  set restrictions(List<String> value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return MultipleChoiceView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: restrictions},
+      onAnswerChanged: (questionId, value) {
+        restrictions = value as List<String>;
+        onAnswerChanged();
+      },
       options: options,
       config: config,
     );

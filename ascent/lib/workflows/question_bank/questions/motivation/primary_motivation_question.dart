@@ -82,22 +82,25 @@ class PrimaryMotivationQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => AnswerConstants.healthLongevity; // Health is a universal motivator
   
-  //MARK: TYPED ACCESSOR
+  //MARK: TYPED ANSWER INTERFACE
   
-  /// Get primary motivation as String from answers
-  String? getPrimaryMotivation(Map<String, dynamic> answers) {
-    return answers[questionId] as String?;
-  }
+  /// Get the primary motivation as a typed String
+  String? get primaryMotivation => answer as String?;
+  
+  /// Set the primary motivation with a typed String
+  set primaryMotivation(String? value) => answer = value;
 
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: primaryMotivation},
+      onAnswerChanged: (questionId, value) {
+        primaryMotivation = value as String;
+        onAnswerChanged();
+      },
       options: options,
     );
   }

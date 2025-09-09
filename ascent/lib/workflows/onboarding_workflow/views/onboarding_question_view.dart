@@ -23,31 +23,8 @@ class OnboardingQuestionView extends StatelessWidget {
     
     // Let the question render itself using its self-rendering capability
     return question.renderQuestionView(
-      currentAnswers: _buildCurrentAnswersMap(provider),
-      onAnswerChanged: (questionId, value) => provider.updateQuestionAnswer(questionId, value),
+      onAnswerChanged: () => provider.updateQuestionAnswer(question.id, question.answer),
       accentColor: accentColor,
     );
-  }
-  
-  /// Build a map of current answers for the question rendering system
-  Map<String, dynamic> _buildCurrentAnswersMap(OnboardingProvider provider) {
-    final answers = <String, dynamic>{};
-    
-    // Add the current question's answer
-    final currentAnswer = provider.onboardingAnswers.getAnswer(question.id);
-    if (currentAnswer != null) {
-      answers[question.id] = currentAnswer;
-    }
-    
-    // Add all other answers in case questions need context from other answers
-    // This is useful for conditional questions or questions that depend on previous answers
-    for (final q in provider.onboardingQuestions) {
-      final answer = provider.onboardingAnswers.getAnswer(q.id);
-      if (answer != null) {
-        answers[q.id] = answer;
-      }
-    }
-    
-    return answers;
   }
 }

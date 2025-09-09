@@ -17,8 +17,8 @@ extension LowImpact on FitnessProfile {
   
   /// Calculate joint health and low impact exercise metrics
   void calculateLowImpact() {
-    final age = AgeQuestion.instance.getAge(answers);
-    final gender = GenderQuestion.instance.getGender(answers);
+    final age = AgeQuestion.instance.calculatedAge;
+    final gender = GenderQuestion.instance.genderAnswer;
     
     if (age == null || gender == null) {
       throw Exception('Missing required answers for low impact calculation: age=$age, gender=$gender');

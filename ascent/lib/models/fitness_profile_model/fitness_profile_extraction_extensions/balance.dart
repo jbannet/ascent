@@ -51,11 +51,11 @@ extension Balance on FitnessProfile {
   
   /// Calculate balance and fall risk metrics
   void calculateBalance() {
-    final age = AgeQuestion.instance.getAge(answers);
-    final gender = GenderQuestion.instance.getGender(answers);
+    final age = AgeQuestion.instance.calculatedAge;
+    final gender = GenderQuestion.instance.genderAnswer;
     // Experience level removed - using performance metrics instead
-    final hasFallen = Q4AFallHistoryQuestion.instance.hasFallen(answers);
-    final fallRiskFactors = Q4BFallRiskFactorsQuestion.instance.getRiskFactors(answers);
+    final hasFallen = Q4AFallHistoryQuestion.instance.fallHistoryAnswer == AnswerConstants.yes;
+    final fallRiskFactors = Q4BFallRiskFactorsQuestion.instance.riskFactors;
     
     if (age == null || gender == null) {
       throw Exception('Missing required answers for balance calculation: age=$age, gender=$gender');

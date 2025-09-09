@@ -111,15 +111,25 @@ class FitnessGoalsQuestion extends OnboardingQuestion {
     return validOptions.contains(option);
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the fitness goals as a typed List<String>
+  List<String> get fitnessGoals => (answer as List<String>?) ?? [];
+  
+  /// Set the fitness goals with a typed List<String>
+  set fitnessGoals(List<String> value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return MultipleChoiceView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: fitnessGoals},
+      onAnswerChanged: (questionId, value) {
+        fitnessGoals = value as List<String>;
+        onAnswerChanged();
+      },
       options: options,
       config: config,
     );

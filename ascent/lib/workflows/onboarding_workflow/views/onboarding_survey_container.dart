@@ -189,13 +189,54 @@ class _OnboardingSurveyContainerState extends State<OnboardingSurveyContainer> {
           const SizedBox(width: 16),
           
           Expanded(
-            child: UniversalElevatedButton(
-              onPressed: provider.nextQuestion,
-              child: const Text('Next'),
-            ),
+            child: _buildNextSkipButton(provider),
           ),
         ],
       ),
     );
+  }
+
+  Widget _buildNextSkipButton(OnboardingProvider provider) {
+    final currentQuestion = provider.currentOnboardingQuestion;
+    if (currentQuestion == null) {
+      return UniversalElevatedButton(
+        onPressed: null,
+        child: const Text('Next'),
+      );
+    }
+
+    final isRequired = currentQuestion.config?['isRequired'] ?? false;
+    final hasAnswer = provider.hasAnswerForCurrentQuestion();
+    final isValid = provider.isCurrentAnswerValid();
+
+    if (isRequired && !isValid) {
+      // Disabled Next button for unanswered required questions
+      return Semantics(
+        label: 'Next button disabled, please answer the required question',
+        child: UniversalElevatedButton(
+          onPressed: null,
+          backgroundColor: Theme.of(context).disabledColor,
+          child: const Text('Next'),
+        ),
+      );
+    } else if (!isRequired && !hasAnswer) {
+      // Skip button for unanswered optional questions
+      return Semantics(
+        label: 'Skip this optional question',
+        child: UniversalOutlinedButton(
+          onPressed: provider.skipQuestion,
+          child: const Text('Skip'),
+        ),
+      );
+    } else {
+      // Enabled Next button for any answered question
+      return Semantics(
+        label: 'Next',
+        child: UniversalElevatedButton(
+          onPressed: provider.nextQuestion,
+          child: const Text('Next'),
+        ),
+      );
+    }
   }
 }

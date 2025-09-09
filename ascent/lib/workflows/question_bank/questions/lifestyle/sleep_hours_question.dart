@@ -51,17 +51,27 @@ class SleepHoursQuestion extends OnboardingQuestion {
     return hours is double ? hours : double.tryParse(hours.toString());
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the sleep hours as a typed double
+  double? get sleepHours => answer as double?;
+  
+  /// Set the sleep hours with a typed double
+  set sleepHours(double? value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return Column(
       children: [
         SliderView(
           questionId: id,
-          answers: currentAnswers,
-          onAnswerChanged: onAnswerChanged,
+          answers: {id: sleepHours},
+          onAnswerChanged: (questionId, value) {
+            sleepHours = value as double;
+            onAnswerChanged();
+          },
           config: config,
         ),
         const SizedBox(height: 40),

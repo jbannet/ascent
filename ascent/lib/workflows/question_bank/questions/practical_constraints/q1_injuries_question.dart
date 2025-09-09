@@ -142,26 +142,28 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
     return [items.toString()];
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the injury/pain areas as a typed List<String>
+  List<String> get injuryPainAreas => (answer as List<String>?) ?? [];
+  
+  /// Set the injury/pain areas with a typed List<String>
+  set injuryPainAreas(List<String> value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
-    final currentAnswer = currentAnswers[id];
-    
     return BodyMapWidget(
       questionId: id,
       title: questionText,
       subtitle: subtitle,
-      onAnswerChanged: (questionId, values) => onAnswerChanged(questionId, values),
-      selectedValues: currentAnswer == null 
-          ? null 
-          : currentAnswer is List 
-              ? currentAnswer.cast<String>()
-              : currentAnswer is String 
-                  ? [currentAnswer]
-                  : null,
-      currentAnswers: currentAnswers,
+      onAnswerChanged: (questionId, values) {
+        injuryPainAreas = values as List<String>;
+        onAnswerChanged();
+      },
+      selectedValues: injuryPainAreas.isEmpty ? null : injuryPainAreas,
+      currentAnswers: {id: injuryPainAreas},
     );
   }
 }

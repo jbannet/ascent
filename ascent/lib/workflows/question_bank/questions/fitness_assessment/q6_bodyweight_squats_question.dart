@@ -71,15 +71,25 @@ class Q6BodyweightSquatsQuestion extends OnboardingQuestion {
     return count is int ? count : int.tryParse(count.toString());
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the squats count as a typed num
+  num? get squatsCount => answer as num?;
+  
+  /// Set the squats count with a typed num
+  set squatsCount(num? value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return NumberInputView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: squatsCount},
+      onAnswerChanged: (questionId, value) {
+        squatsCount = value as num;
+        onAnswerChanged();
+      },
       config: config,
     );
   }

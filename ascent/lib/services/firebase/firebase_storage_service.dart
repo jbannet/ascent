@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../workflows/onboarding_workflow/models/answers/onboarding_answers.dart';
+import '../../workflows/question_bank/registry/question_bank.dart';
 import '../../constants.dart';
 import 'firebase_auth_service.dart';
 import 'firebase_retry_service.dart';
@@ -10,7 +10,7 @@ class FirebaseStorageService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   
   /// Load answers from Firebase for current user
-  static Future<OnboardingAnswers> loadAnswers() async {
+  static Future<Map<String, dynamic>> loadAnswers() async {
     return await FirebaseRetryService.executeWithRetry(() async {
       final String currentUserId = await FirebaseAuthService.getCurrentUserId();
       final DocumentSnapshot answersDoc = await _firestore
@@ -21,16 +21,16 @@ class FirebaseStorageService {
           .get();
       
       if (!answersDoc.exists || answersDoc.data() == null) {
-        return OnboardingAnswers.empty();
+        return <String, dynamic>{};
       }
       
       final Map<String, dynamic> answersData = answersDoc.data() as Map<String, dynamic>;
-      return OnboardingAnswers.fromJson(answersData);
+      return answersData;
     });
   }
   
   /// Save answers to Firebase for current user
-  static Future<void> saveAnswers(OnboardingAnswers pAnswers) async {
+  static Future<void> saveAnswers(Map<String, dynamic> answers) async {
     return await FirebaseRetryService.executeWithRetry(() async {
       final String currentUserId = await FirebaseAuthService.getCurrentUserId();
       await _firestore
@@ -38,7 +38,7 @@ class FirebaseStorageService {
           .doc(currentUserId)
           .collection(AppConstants.onboardingCollectionName)
           .doc(AppConstants.answersDocumentName)
-          .set(pAnswers.toJson());
+          .set(answers);
     });
   }
 }

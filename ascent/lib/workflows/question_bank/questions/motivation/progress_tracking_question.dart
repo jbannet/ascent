@@ -102,15 +102,25 @@ class ProgressTrackingQuestion extends OnboardingQuestion {
     return [tracking.toString()];
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the progress tracking preferences as a typed List<String>
+  List<String> get progressTrackingPreferences => (answer as List<String>?) ?? [];
+  
+  /// Set the progress tracking preferences with a typed List<String>
+  set progressTrackingPreferences(List<String> value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return MultipleChoiceView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: progressTrackingPreferences},
+      onAnswerChanged: (questionId, value) {
+        progressTrackingPreferences = value as List<String>;
+        onAnswerChanged();
+      },
       options: options,
       config: config,
     );

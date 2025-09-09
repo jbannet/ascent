@@ -65,15 +65,25 @@ class Q5PushupsQuestion extends OnboardingQuestion {
     return int.tryParse(count.toString());
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the pushups count as a typed double
+  double? get pushupsCount => answer as double?;
+  
+  /// Set the pushups count with a typed double
+  set pushupsCount(double? value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return SliderView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: pushupsCount},
+      onAnswerChanged: (questionId, value) {
+        pushupsCount = value as double;
+        onAnswerChanged();
+      },
       config: config,
     );
   }

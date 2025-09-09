@@ -108,15 +108,25 @@ class Q6AChairStandQuestion extends OnboardingQuestion {
     return canStand == false;
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the chair stand ability as a typed String
+  String? get chairStandAbility => answer as String?;
+  
+  /// Set the chair stand ability with a typed String
+  set chairStandAbility(String? value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: chairStandAbility},
+      onAnswerChanged: (questionId, value) {
+        chairStandAbility = value as String;
+        onAnswerChanged();
+      },
       options: options,
     );
   }

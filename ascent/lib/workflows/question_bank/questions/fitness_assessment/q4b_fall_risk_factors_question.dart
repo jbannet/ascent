@@ -68,22 +68,35 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   @override
   bool shouldShow(Map<String, dynamic> answers) {
     // Show if Q4A = 'yes' (has fallen) OR age >= 65
-    final hasFallen = answers[Q4AFallHistoryQuestion.questionId] as String?;
-    final age = AgeQuestion.instance.getAge(answers);
+    final hasFallen = Q4AFallHistoryQuestion.instance.fallHistoryAnswer == AnswerConstants.yes;
+    final age = AgeQuestion.instance.calculatedAge;
     
-    if (hasFallen == 'yes') return true;
+    if (hasFallen) return true;
     if (age != null && age >= 65) return true;
     
     return false;
   }
+  
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the fall risk factors as a typed List<String>
+  List<String> get riskFactors => (answer as List<String>?) ?? [];
+  
+  /// Set the fall risk factors with a typed List<String>
+  set riskFactors(List<String> value) => answer = value;
+  
+  /// Check if specific risk factors are present
+  bool get hasFearOfFalling => riskFactors.contains(AnswerConstants.fearFalling);
+  bool get usesMobilityAids => riskFactors.contains(AnswerConstants.mobilityAids);
+  bool get hasBalanceProblems => riskFactors.contains(AnswerConstants.balanceProblems);
+  bool get hasNoRiskFactors => riskFactors.contains(AnswerConstants.none);
   
   //MARK: VALIDATION
   
   @override
   bool isValidAnswer(dynamic answer) {
     if (answer == null) return false;
-    if (answer is String) return true; // Single selection
-    if (answer is List) {
+    if (answer is List<String>) {
       // Check for valid selections
       final validValues = [AnswerConstants.fearFalling, AnswerConstants.mobilityAids, AnswerConstants.balanceProblems, AnswerConstants.none];
       return answer.every((item) => validValues.contains(item));
@@ -93,26 +106,18 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   
   @override
   dynamic getDefaultAnswer() => [AnswerConstants.none];
-  
-  //MARK: TYPED ACCESSOR
-  
-  /// Get fall risk factors as List<String> from answers
-  List<String> getRiskFactors(Map<String, dynamic> answers) {
-    final factors = answers[questionId];
-    if (factors == null) return [];
-    if (factors is List) return factors.cast<String>();
-    return [factors.toString()];
-  }
 
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return MultipleChoiceView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: riskFactors},
+      onAnswerChanged: (questionId, value) {
+        riskFactors = value as List<String>;
+        onAnswerChanged();
+      },
       options: options,
       config: config,
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import '../models/answers/onboarding_answers.dart';
 import '../../../services/local_storage/local_storage_service.dart';
 import '../../question_bank/registry/question_bank.dart';
 import '../../question_bank/questions/onboarding_question.dart';
@@ -8,13 +7,11 @@ import '../../question_bank/questions/onboarding_question.dart';
 class OnboardingProvider extends ChangeNotifier {
   // State
   List<OnboardingQuestion> _onboardingQuestions = [];
-  OnboardingAnswers _onboardingAnswers = OnboardingAnswers.empty();
   int _currentQuestionNumber = 0;
   bool _onboardingComplete = false;
 
   // Getters
   List<OnboardingQuestion> get onboardingQuestions => _onboardingQuestions;
-  OnboardingAnswers get onboardingAnswers => _onboardingAnswers;
   int get currentQuestionNumber => _currentQuestionNumber;
   bool get isOnboardingComplete => _onboardingComplete;
   
@@ -35,32 +32,67 @@ class OnboardingProvider extends ChangeNotifier {
       throw Exception('Failed to load questions from question bank');
     }
 
-    // Load answers from local storage (keep this for persistence)
-    final OnboardingAnswers localAnswers = await LocalStorageService.loadAnswers();
-    
-    if (!localAnswers.isInitialized) {
-      _onboardingAnswers = OnboardingAnswers.empty();
-    } else {
-      _onboardingAnswers = localAnswers; 
-    }
+    // Load answers from local storage and populate questions
+    final Map<String, dynamic> storedAnswers = await LocalStorageService.loadAnswers();
+    QuestionBank.fromJson(storedAnswers);
   }
 
 //MARK: STORAGE
   // Save to local storage
   Future<void> saveAnswersIncomplete() async {    
-    await LocalStorageService.saveAnswers(_onboardingAnswers);
+    final answersJson = QuestionBank.toJson();
+    await LocalStorageService.saveAnswers(answersJson);
   }
 
   // Save to Firebase and Local Storage
   Future<void> saveAnswersComplete() async {
-    //await FirebaseStorageService.saveAnswers(_onboardingAnswers);
-    await LocalStorageService.saveAnswers(_onboardingAnswers);
+    final answersJson = QuestionBank.toJson();
+    //await FirebaseStorageService.saveAnswers(answersJson);
+    await LocalStorageService.saveAnswers(answersJson);
   }
 
   // Update answer for a specific question
   void updateQuestionAnswer(String questionId, dynamic answerValue) {
-    _onboardingAnswers.setAnswer(questionId, answerValue);
-    notifyListeners();
+    final question = QuestionBank.getQuestion(questionId);
+    if (question != null) {
+      question.answer = answerValue;
+      notifyListeners();
+    }
+  }
+
+  // Check if current question has been answered
+  bool hasAnswerForCurrentQuestion() {
+    final currentQuestion = currentOnboardingQuestion;
+    if (currentQuestion == null) return false;
+    
+    final answer = currentQuestion.answer;
+    return answer != null && answer.toString().trim().isNotEmpty;
+  }
+
+  // Check if current answer is valid
+  bool isCurrentAnswerValid() {
+    final currentQuestion = currentOnboardingQuestion;
+    if (currentQuestion == null) return false;
+    
+    return currentQuestion.isValidAnswer(currentQuestion.answer);
+  }
+
+  // Skip current question (for optional questions)
+  void skipQuestion() {
+    if (_onboardingQuestions.isEmpty) return;
+  
+    // Save current progress before navigating
+    saveAnswersIncomplete();
+    
+    // Find next visible question
+    while (_currentQuestionNumber < _onboardingQuestions.length - 1) {
+      _currentQuestionNumber++;
+      if (_onboardingQuestions[_currentQuestionNumber].shouldShow({})) {
+        notifyListeners();
+        return;
+      }
+    }
+    markOnboardingCompleted();
   }
 
 //MARK: NAVIGATION
@@ -75,14 +107,24 @@ class OnboardingProvider extends ChangeNotifier {
   // Navigate to next question and save answers to disk
   void nextQuestion() {
     if (_onboardingQuestions.isEmpty) return;
+    
+    // Validate required questions before proceeding
+    final currentQuestion = currentOnboardingQuestion;
+    if (currentQuestion != null) {
+      final isRequired = currentQuestion.config?['isRequired'] ?? false;
+      if (isRequired && !isCurrentAnswerValid()) {
+        // Don't proceed if required question is not answered validly
+        return;
+      }
+    }
   
     // Save current progress before navigating
     saveAnswersIncomplete();
     
-        // Find next visible question
+    // Find next visible question
     while (_currentQuestionNumber < _onboardingQuestions.length - 1) {
       _currentQuestionNumber++;
-      if (_onboardingQuestions[_currentQuestionNumber].shouldShow(_onboardingAnswers.answers)) {
+      if (_onboardingQuestions[_currentQuestionNumber].shouldShow({})) {
         notifyListeners();
         return;
       }
@@ -98,7 +140,7 @@ class OnboardingProvider extends ChangeNotifier {
     // Find previous visible question
     while (_currentQuestionNumber > 0) {
       _currentQuestionNumber--;
-      if (_onboardingQuestions[_currentQuestionNumber].shouldShow(_onboardingAnswers.answers)) {
+      if (_onboardingQuestions[_currentQuestionNumber].shouldShow({})) {
         notifyListeners();
         return;
       }

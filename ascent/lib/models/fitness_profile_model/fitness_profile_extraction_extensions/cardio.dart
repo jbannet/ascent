@@ -23,8 +23,8 @@ extension Cardio on FitnessProfile {
   
   /// Calculate cardiovascular fitness metrics and training parameters
   void calculateCardio() {
-    final age = AgeQuestion.instance.getAge(answers);
-    final gender = GenderQuestion.instance.getGender(answers);
+    final age = AgeQuestion.instance.calculatedAge;
+    final gender = GenderQuestion.instance.genderAnswer;
     
     if (age == null || gender == null) {
       throw Exception('Missing required answers for cardio calculation: age=$age, gender=$gender');

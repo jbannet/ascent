@@ -72,15 +72,25 @@ class Q10EquipmentQuestion extends OnboardingQuestion {
     return [equipment.toString()];
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the available equipment as a typed List<String>
+  List<String> get availableEquipment => (answer as List<String>?) ?? [];
+  
+  /// Set the available equipment with a typed List<String>
+  set availableEquipment(List<String> value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return MultipleChoiceView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: availableEquipment},
+      onAnswerChanged: (questionId, value) {
+        availableEquipment = value as List<String>;
+        onAnswerChanged();
+      },
       options: options,
       config: config,
     );

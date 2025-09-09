@@ -117,19 +117,25 @@ class SessionCommitmentQuestion extends OnboardingQuestion {
     return (full * 45) + (micro * 10);
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the session commitment as a typed Map<String, dynamic>
+  Map<String, dynamic>? get sessionCommitment => answer as Map<String, dynamic>?;
+  
+  /// Set the session commitment with a typed Map<String, dynamic>
+  set sessionCommitment(Map<String, dynamic>? value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
-    final currentAnswer = currentAnswers[id];
-    
     return DualColumnSelectorWidget(
       config: config,
-      onChanged: (value) => onAnswerChanged(id, value),
-      initialValue: currentAnswer is Map<String, dynamic>
-          ? currentAnswer
-          : null,
+      onChanged: (value) {
+        sessionCommitment = value as Map<String, dynamic>;
+        onAnswerChanged();
+      },
+      initialValue: sessionCommitment,
     );
   }
 }

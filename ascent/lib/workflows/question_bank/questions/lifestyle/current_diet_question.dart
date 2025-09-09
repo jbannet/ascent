@@ -43,22 +43,25 @@ class CurrentDietQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => AnswerConstants.average;
   
-  //MARK: TYPED ACCESSOR
+  //MARK: TYPED ANSWER INTERFACE
   
-  /// Get current diet as String from answers
-  String? getCurrentDiet(Map<String, dynamic> answers) {
-    return answers[questionId] as String?;
-  }
+  /// Get the current diet as a typed String
+  String? get currentDiet => answer as String?;
+  
+  /// Set the current diet with a typed String
+  set currentDiet(String? value) => answer = value;
 
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: currentDiet},
+      onAnswerChanged: (questionId, value) {
+        currentDiet = value as String;
+        onAnswerChanged();
+      },
       options: options,
     );
   }

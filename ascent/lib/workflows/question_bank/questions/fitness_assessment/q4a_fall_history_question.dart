@@ -51,14 +51,25 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   bool shouldShow(Map<String, dynamic> answers) {
     // Show if age >= fall risk threshold OR Cooper test indicates mobility limitation risk
     
-    final age = AgeQuestion.instance.getAge(answers);
-    final cooperDistance = answers[Q4TwelveMinuteRunQuestion.questionId] as num?;
+    final age = AgeQuestion.instance.calculatedAge;
+    final cooperDistance = Q4TwelveMinuteRunQuestion.instance.answer as num?;
     
     if (age != null && age >= AnswerConstants.fallRiskAge) return true;
     if (cooperDistance != null && cooperDistance < AnswerConstants.cooperAtRiskMiles) return true;
     
     return false;
   }
+  
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the fall history answer as a typed String
+  String? get fallHistoryAnswer => answer as String?;
+  
+  /// Set the fall history answer with a typed String
+  set fallHistoryAnswer(String? value) => answer = value;
+  
+  /// Get fall history as a boolean
+  bool get hasFallen => fallHistoryAnswer == AnswerConstants.yes;
   
   //MARK: VALIDATION
   
@@ -69,23 +80,18 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   
   @override
   dynamic getDefaultAnswer() => AnswerConstants.no;
-  
-  //MARK: TYPED ACCESSOR
-  
-  /// Get fall history as boolean from answers
-  bool hasFallen(Map<String, dynamic> answers) {
-    return answers[questionId] == AnswerConstants.yes;
-  }
 
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: fallHistoryAnswer},
+      onAnswerChanged: (questionId, value) {
+        fallHistoryAnswer = value as String;
+        onAnswerChanged();
+      },
       options: options,
     );
   }

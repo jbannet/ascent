@@ -14,6 +14,7 @@ class BaseQuestionView extends StatelessWidget {
   final Widget answerWidget;
   final Color? accentColor;
   final bool noPadding;
+  final bool isRequired;
 
   const BaseQuestionView({
     super.key,
@@ -25,6 +26,7 @@ class BaseQuestionView extends StatelessWidget {
     required this.answerWidget,
     this.accentColor,
     this.noPadding = false,
+    this.isRequired = false,
   });
 
   @override
@@ -90,11 +92,25 @@ class BaseQuestionView extends StatelessWidget {
           ),
 
         //MARK: QuestionText
-        Text(
-          questionText,
-          style: theme.textTheme.headlineMedium?.copyWith(
-            color: theme.colorScheme.onSurface,
-            fontWeight: FontWeight.w600,
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: questionText,
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  color: theme.colorScheme.onSurface,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              if (isRequired)
+                TextSpan(
+                  text: ' *',
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+            ],
           ),
         ),
         

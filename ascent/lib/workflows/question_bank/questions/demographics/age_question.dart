@@ -41,73 +41,63 @@ class AgeQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the date of birth as a typed DateTime
+  DateTime? get dateOfBirth => answer as DateTime?;
+  
+  /// Set the date of birth with a typed DateTime
+  set dateOfBirth(DateTime? value) => answer = value;
+  
+  /// Calculate age from the stored date of birth
+  int? get calculatedAge {
+    if (dateOfBirth == null) return null;
+    final now = DateTime.now();
+    final birth = dateOfBirth!;
+    return now.year - birth.year - (now.month < birth.month || (now.month == birth.month && now.day < birth.day) ? 1 : 0);
+  }
+
+  //MARK: VALIDATION & SERIALIZATION
+  
   @override
   bool isValidAnswer(dynamic answer) {
-    DateTime? date;
-    
-    // Handle DateTime objects directly (from DatePickerView)
-    if (answer is DateTime) {
-      date = answer;
-    } else if (answer is String) {
-      // Handle String values (for backward compatibility)
-      try {
-        date = DateTime.parse(answer);
-      } catch (e) {
-        return false;
-      }
-    } else {
-      return false;
-    }
+    final date = answer as DateTime?;
+    if (date == null) return false;
     
     final now = DateTime.now();
     final age = now.year - date.year - (now.month < date.month || (now.month == date.month && now.day < date.day) ? 1 : 0);
     return age >= 13 && age <= 100;
   }
-  
+
   @override
-  dynamic getDefaultAnswer() => DateTime(DateTime.now().year - 35, DateTime.now().month, DateTime.now().day).toIso8601String();
-  
-  //MARK: TYPED ACCESSOR
-  
-  /// Get date of birth as DateTime from answers
-  DateTime? getDateOfBirth(Map<String, dynamic> answers) {
-    final answer = answers[questionId];
-    if (answer == null) return null;
-    
-    // Handle DateTime objects directly (from DatePickerView)
-    if (answer is DateTime) return answer;
-    
-    // Handle String values (for backward compatibility)
-    if (answer is String) {
-      try {
-        return DateTime.parse(answer);
-      } catch (e) {
-        return null;
-      }
-    }
-    
-    return null;
+  dynamic answerToJson(dynamic value) {
+    final date = value as DateTime?;
+    return date?.toIso8601String();
+  }
+
+  @override
+  dynamic answerFromJson(dynamic json) {
+    if (json == null) return null;
+    return DateTime.parse(json as String);
   }
   
-  /// Get age as integer calculated from date of birth
-  int? getAge(Map<String, dynamic> answers) {
-    final dateOfBirth = getDateOfBirth(answers);
-    if (dateOfBirth == null) return null;
-    
-    final now = DateTime.now();
-    final age = now.year - dateOfBirth.year - (now.month < dateOfBirth.month || (now.month == dateOfBirth.month && now.day < dateOfBirth.day) ? 1 : 0);
-    return age;
+  @override
+  dynamic getDefaultAnswer() {
+    final defaultDate = DateTime(DateTime.now().year - 35, DateTime.now().month, DateTime.now().day);
+    return defaultDate;
   }
 
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return DatePickerView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: dateOfBirth},
+      onAnswerChanged: (questionId, selectedDate) {
+        dateOfBirth = selectedDate as DateTime;
+        onAnswerChanged();
+      },
       config: config,
     );
   }

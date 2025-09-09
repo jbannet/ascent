@@ -88,4 +88,37 @@ class QuestionBank {
   static List<OnboardingQuestion> getAllQuestions() {
     return List.unmodifiable(_allQuestions);
   }
+  
+  //MARK: SERIALIZATION
+  
+  /// Serialize all answers to JSON for storage.
+  /// Returns a map with question IDs as keys and serialized answers as values.
+  static Map<String, dynamic> toJson() {
+    final result = <String, dynamic>{};
+    for (final question in _allQuestions) {
+      final jsonData = question.toJson();
+      result[jsonData['id']] = jsonData['answer'];
+    }
+    return result;
+  }
+  
+  /// Deserialize answers from JSON storage.
+  /// Updates each question's answer from the stored JSON data.
+  static void fromJson(Map<String, dynamic> json) {
+    for (final question in _allQuestions) {
+      final answerData = json[question.id];
+      if (answerData != null) {
+        question.fromJson({
+          'id': question.id,
+          'answer': answerData,
+        });
+      }
+    }
+  }
+  
+  /// Get typed question instance by type.
+  /// Useful for accessing specific questions with their typed interfaces.
+  static T getQuestionByType<T extends OnboardingQuestion>() {
+    return _allQuestions.whereType<T>().first;
+  }
 }

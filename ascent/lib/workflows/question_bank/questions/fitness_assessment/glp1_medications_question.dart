@@ -96,15 +96,25 @@ class Glp1MedicationsQuestion extends OnboardingQuestion {
     return status == AnswerConstants.yes || status == AnswerConstants.no;
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the GLP-1 medication status as a typed String
+  String? get glp1Status => answer as String?;
+  
+  /// Set the GLP-1 medication status with a typed String
+  set glp1Status(String? value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: glp1Status},
+      onAnswerChanged: (questionId, value) {
+        glp1Status = value as String;
+        onAnswerChanged();
+      },
       options: options,
     );
   }

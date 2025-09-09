@@ -1,5 +1,4 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../workflows/onboarding_workflow/models/answers/onboarding_answers.dart';
 import '../../constants.dart';
 
 /// Service for managing local storage of onboarding data using Hive database
@@ -20,23 +19,27 @@ class LocalStorageService {
   }
   
   
-  /// Load answers from answerBox
-  static Future<OnboardingAnswers> loadAnswers() async {
+  /// Load answers from answerBox as raw JSON
+  static Future<Map<String, dynamic>> loadAnswers() async {
     final Box answerBox = await Hive.openBox(AppConstants.answerBoxName);
     final dynamic rawData = answerBox.get(AppConstants.answersStorageKey);
     
     if (rawData == null) {
-      return OnboardingAnswers.empty();
+      return {};
     }
     
     final Map<String, dynamic> answersData = _castToStringValueMap(rawData) as Map<String, dynamic>;
-    return OnboardingAnswers.fromJson(answersData);
+    // Handle legacy OnboardingAnswers format
+    if (answersData.containsKey('answers')) {
+      return answersData['answers'] as Map<String, dynamic>;
+    }
+    return answersData;
   }
   
-  /// Save answers to answerBox
-  static Future<void> saveAnswers(OnboardingAnswers pAnswers) async {
+  /// Save answers to answerBox as raw JSON
+  static Future<void> saveAnswers(Map<String, dynamic> answersJson) async {
     final Box answerBox = await Hive.openBox(AppConstants.answerBoxName);
-    await answerBox.put(AppConstants.answersStorageKey, pAnswers.toJson());
+    await answerBox.put(AppConstants.answersStorageKey, answersJson);
   }
 
   /// Load fitness profile features from fitnessProfileBox

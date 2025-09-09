@@ -65,15 +65,25 @@ class Q11TrainingLocationQuestion extends OnboardingQuestion {
     return answers[questionId] as String?;
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the training location preference as a typed String
+  String? get trainingLocation => answer as String?;
+  
+  /// Set the training location preference with a typed String
+  set trainingLocation(String? value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: trainingLocation},
+      onAnswerChanged: (questionId, value) {
+        trainingLocation = value as String;
+        onAnswerChanged();
+      },
       options: options,
     );
   }

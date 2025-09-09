@@ -69,15 +69,25 @@ class WeightQuestion extends OnboardingQuestion {
     return weightPounds * 0.453592; // Convert pounds to kg
   }
 
+  //MARK: TYPED ANSWER INTERFACE
+  
+  /// Get the weight as a typed number
+  num? get weightValue => answer as num?;
+  
+  /// Set the weight with a typed number
+  set weightValue(num? value) => answer = value;
+
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return NumberInputView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: weightValue},
+      onAnswerChanged: (questionId, value) {
+        weightValue = value as num;
+        onAnswerChanged();
+      },
       config: config,
     );
   }

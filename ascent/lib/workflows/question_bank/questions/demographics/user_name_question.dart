@@ -47,22 +47,25 @@ class UserNameQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => null; // No default for names
   
-  //MARK: TYPED ACCESSOR
+  //MARK: TYPED ANSWER INTERFACE
   
-  /// Get user name as String from answers
-  String? getUserName(Map<String, dynamic> answers) {
-    return answers[questionId] as String?;
-  }
+  /// Get the user name as a typed String
+  String? get userName => answer as String?;
+  
+  /// Set the user name with a typed String
+  set userName(String? value) => answer = value;
 
   @override
   Widget buildAnswerWidget(
-    Map<String, dynamic> currentAnswers,
-    Function(String, dynamic) onAnswerChanged,
+    Function() onAnswerChanged,
   ) {
     return TextInputView(
       questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
+      answers: {id: userName},
+      onAnswerChanged: (questionId, value) {
+        userName = value as String;
+        onAnswerChanged();
+      },
       config: config,
     );
   }

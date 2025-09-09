@@ -4,6 +4,9 @@
 ## BEFORE ANY RESPONSE:
   □ RUN: context-keeper agent 
   □ SAY: "Checked with context-keeper: [result]"
+  □ MANDATORY: Use ux-ui-designer sub-agent for non-trivial UI changes
+  □ MANDATORY: Use design-architect sub-agent for medium to large system design decisions 
+  □ MANDATORY: Use codebase-indexer-qa for any questions or codebase searches and to reindex code after large tasks.
 ## IF YOU SKIP THESE → YOU FAILED
  # INSTANT FAIL CONDITIONS
   ❌ Started without context-keeper = FAILED
@@ -12,14 +15,9 @@
   ❌ Used placeholder/temporary code = FAILED
   ❌ Guessed instead of checking = FAILED
   ❌ Assumed instead of verifying = FAILED
+  ❌ Didn't check with the ux-ui-designer, design-architect, or codebase-indexer-qa sub agent (if appropriate) = FAILED
 
-  # SPECIFIC RULES - NO EXCEPTIONS
-  ## SQL/DATABASE:
-  ✓ MUST: start with INVOKER, SET search_path, fully qualify tables
-  ✓ MUST: prefix parameters with "p_", variables with "v_"  
-  ✓ MUST: use UPSERT for saves
-  ❌ NEVER: use default privileges or guess table names
-  ## CODE:
+  # SPECIFIC RULES 
   ✓ MUST: Check existing patterns FIRST (find where it was done before)
   ✓ MUST: Get actual names from code (grep/read, don't assume or make up names)
   ❌ NEVER: "// TODO", "// for now", placeholder code
@@ -33,6 +31,14 @@
   3. Implement correctly → No shortcuts
   4. Verify → Say "Confirmed: follows all rules"
 ## END SPECIFIC RULES 
+
+
+## SQL/DATABASE GUIDELINES:
+MUST: start with INVOKER, SET search_path, fully qualify tables
+MUST: prefix parameters with "p_", variables with "v_"  
+MUST: use UPSERT for saves
+NEVER: use default privileges or guess table names
+
 
 # PROJECT CONTEXT FILES
 Always check these files first to understand the codebase:

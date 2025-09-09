@@ -83,10 +83,8 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
   
   void _determineGender() {
     print('DEBUG: currentAnswers = ${widget.currentAnswers}');
-    if (widget.currentAnswers != null) {
-      _userGender = GenderQuestion.instance.getGender(widget.currentAnswers!);
-      print('DEBUG: GenderQuestion.getGender() returned: $_userGender');
-    }
+    _userGender = GenderQuestion.instance.genderAnswer;
+    print('DEBUG: GenderQuestion.genderAnswer returned: $_userGender');
     _userGender ??= 'male'; // Default to male if gender not specified
     print('DEBUG: Final _userGender = $_userGender');
   }

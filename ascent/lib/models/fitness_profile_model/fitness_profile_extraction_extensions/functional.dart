@@ -31,8 +31,8 @@ extension FunctionalFitness on FitnessProfile {
   
   /// Calculate functional fitness metrics
   void calculateFunctional() {
-    final age = AgeQuestion.instance.getAge(answers);
-    final gender = GenderQuestion.instance.getGender(answers);
+    final age = AgeQuestion.instance.calculatedAge;
+    final gender = GenderQuestion.instance.genderAnswer;
     
     if (age == null || gender == null) {
       throw Exception('Missing required answers for functional calculation: age=$age, gender=$gender');
@@ -177,7 +177,7 @@ extension FunctionalFitness on FitnessProfile {
     functionalScore = (lowerBodyFunction * 0.6) + (upperBodyFunction * 0.4);
     
     // APPLY FALL HISTORY MODIFIER
-    final hasFallen = Q4AFallHistoryQuestion.instance.hasFallen(answers);
+    final hasFallen = Q4AFallHistoryQuestion.instance.fallHistoryAnswer == AnswerConstants.yes;
     if (hasFallen) {
       // Previous fall indicates functional limitations
       functionalScore *= 0.7;
