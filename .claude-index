@@ -11,11 +11,12 @@ A comprehensive Flutter fitness application with Go backend featuring AI-driven 
 
 ## Core Features
 
-### 1. Onboarding Workflow (`ascent/lib/core/onboarding_workflow/`)
-- Dynamic questionnaire system with conditional logic
-- JSON-driven configuration (`ascent/assets/config/initial_questions.json`)
-- Factory pattern for question input widgets
-- Progress tracking and validation
+### 1. Question Bank System (`ascent/lib/workflows/question_bank/`)
+- Code-based question registry replacing JSON configuration
+- Type-safe question implementations with validation in setters
+- Self-rendering questions with `buildAnswerWidget()` method
+- Singleton pattern for consistent question instances
+- Real-time visualization for complex questions (nutrition charts)
 
 ### 2. Fitness Planning (`ascent/lib/core/fitness_plan/`)
 - AI-driven workout and nutrition recommendations
@@ -34,20 +35,60 @@ A comprehensive Flutter fitness application with Go backend featuring AI-driven 
 - Block system (warmup, exercise, cooldown, rest)
 - Progressive session and plan structures
 
+### 5. Fitness Profile System (`ascent/lib/models/fitness_profile_model/`)
+- Extension-based feature extraction from typed question answers
+- ACSM reference data for fitness norms and percentiles
+- Modular calculation system for easy feature updates
+- Feature contribution tracking for transparency
+- Unified importance calculation across exercise modalities
+
 ## Key Directories
-- `ascent/lib/core/` - Business logic and domain models
+- `ascent/lib/workflows/` - Question bank system and workflow management
+- `ascent/lib/models/` - Data models including fitness profile extraction
+- `ascent/lib/core/` - Core business logic and domain models
 - `ascent/lib/ui/` & `ascent/lib/theme/` - UI components and theming
 - `ascent/lib/services/` - Firebase, storage, and utility services
 - `ascent/lib/routing/` - App navigation and route management
 - `server/` - Go backend with handlers, models, and middleware
-- `ascent/assets/` - Configuration JSON and static assets
+- `ascent/assets/` - Static assets (JSON config now deprecated)
 
 ## Development Patterns
 - Provider pattern for state management
+- Singleton pattern for question instances
 - Factory pattern for dynamic component creation
 - Feature-based code organization by business domain
-- JSON-driven configuration for business rules
+- Type-safe answer storage with validation in setters
+- Self-rendering components with `buildAnswerWidget()`
+- Extension methods for modular feature calculation
+- Registry pattern (QuestionBank) replacing JSON-driven config
+- Defensive JSON deserialization handling multiple input types
 - Comprehensive testing with widget/unit test coverage
+
+## Recent Architecture Improvements
+
+### Migration from JSON to Code-Based Questions
+- Replaced `initial_questions.json` with `QuestionBank` registry
+- Each question is now a strongly-typed class with validation
+- Compile-time type checking eliminates runtime errors
+- Self-contained questions handle their own rendering and validation
+
+### Type Safety Enhancements
+- **Typed Answer Storage**: Each question has specific typed fields (DateTime?, List<String>?, int?)
+- **Validation in Setters**: Invalid data is prevented at storage time
+- **Defensive Deserialization**: JSON input handles multiple formats gracefully
+- **Compile-time Checking**: Type mismatches caught during development
+
+### Self-Rendering Question Pattern
+- Questions encapsulate UI logic with `buildAnswerWidget()` method
+- Specialized views for complex interactions (nutrition with real-time charts)
+- Consistent styling and behavior across question types
+- Reduced coupling between question logic and UI components
+
+### Feature Extraction Improvements
+- Extension methods on FitnessProfile for modular feature calculation
+- Type-safe access to question answers for feature extraction
+- ACSM reference data integration for fitness percentiles
+- Feature contribution tracking for transparency and debugging
 
 ## Tech Stack
 - **Frontend**: Flutter/Dart with Provider state management

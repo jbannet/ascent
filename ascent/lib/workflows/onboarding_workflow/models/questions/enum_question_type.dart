@@ -46,7 +46,11 @@ enum EnumQuestionType {
   
   /// Dual column picker for decimal values
   /// Two columns for selecting combined values like miles and tenths
-  dualPicker
+  dualPicker,
+  
+  /// Custom widget implementation
+  /// Questions with special UI requirements use their own buildAnswerWidget
+  custom
 }
 
 extension QuestionTypeExtension on EnumQuestionType {
@@ -79,6 +83,8 @@ extension QuestionTypeExtension on EnumQuestionType {
         return EnumQuestionType.wheelPicker;
       case 'dual_picker':
         return EnumQuestionType.dualPicker;
+      case 'custom':
+        return EnumQuestionType.custom;
       default:
         throw ArgumentError('Unknown question type: $value');
     }

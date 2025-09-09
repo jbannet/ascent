@@ -1,164 +1,254 @@
-Fitness Objective Prioritization Framework
+=========================================
+OBJECTIVE-ONLY FITNESS ALLOCATION SYSTEM
+=========================================
 
-  Available Objectives
+## OVERVIEW
+Allocate exercise priorities based on objective performance data and medical needs.
+NO user goals/preferences influence allocation.
 
-  - Cardio (cardiovascular endurance)
-  - Strength (muscle building/preservation)
-  - Balance (stability/fall prevention)
-  - Functional (activities of daily living)
-  - Flexibility (range of motion)
+## AVAILABLE OBJECTIVES (5 total)
+- Cardio (cardiovascular endurance)
+- Strength (muscle building/preservation)  
+- Balance (stability/fall prevention)
+- Functional (activities of daily living)
+- Flexibility (range of motion)
 
-  Question → Answer → Percentage Mappings
+## TWO-PHASE CALCULATION
 
-  Age-Based Allocations
+### PHASE 1: BASE DISTRIBUTION FROM PERFORMANCE
+Build initial allocation based on performance gaps and age.
 
-  - Age 18-29 → Cardio: 25%, Strength: 30%, Balance: 0%,
-  Functional: 0%, Flexibility: 10%
-  - Age 30-39 → Cardio: 25%, Strength: 30%, Balance: 5%,
-  Functional: 5%, Flexibility: 10%
-  - Age 40-49 → Cardio: 25%, Strength: 25%, Balance: 10%,
-  Functional: 10%, Flexibility: 15%
-  - Age 50-59 → Cardio: 20%, Strength: 25%, Balance: 15%,
-  Functional: 15%, Flexibility: 15%
-  - Age 60-64 → Cardio: 20%, Strength: 20%, Balance: 20%,
-  Functional: 20%, Flexibility: 15%
-  - Age 65-69 → Cardio: 15%, Strength: 20%, Balance: 25%,
-  Functional: 25%, Flexibility: 15%
-  - Age 70-74 → Cardio: 15%, Strength: 15%, Balance: 30%,
-  Functional: 30%, Flexibility: 15%
-  - Age 75-79 → Cardio: 10%, Strength: 15%, Balance: 35%,
-  Functional: 35%, Flexibility: 15%
-  - Age 80+ → Cardio: 10%, Strength: 10%, Balance: 40%,
-  Functional: 40%, Flexibility: 15%
+### PHASE 2: MEDICAL OVERRIDES
+Apply critical safety minimums that override base distribution.
 
-  Medical/Safety Conditions
+=========================================
+PHASE 1: BASE DISTRIBUTION CALCULATION
+=========================================
 
-  Fall History:
-  - Yes → Balance: +40%, Functional: +30%, Strength: +10%,
-  Flexibility: +10%
-  - No → No additional allocation
+## INPUT DATA NEEDED
+1. Age (integer)
+2. Cooper test result (miles or percentile)
+3. Pushup test result (count or percentile)
+4. BMI (calculated from height/weight)
 
-  Chair Stand Test:
-  - Cannot stand without hands → Functional: +25%, Strength: +20%,
-   Balance: +10%, Flexibility: +5%
-  - Can stand → No additional allocation
+## BASE FORMULAS
 
-  GLP-1 Medications:
-  - Yes → Strength: +35%, Cardio: +10%, Functional: +10%,
-  Flexibility: +5%
-  - No → No additional allocation
+### Cardio Base
+```
+IF cooper_percentile exists:
+  cardio_base = 25 + (100 - cooper_percentile) × 0.3
+ELSE:
+  cardio_base = 30  // Default if no test data
+```
 
-  BMI-Based Allocations
+### Strength Base  
+```
+IF pushup_percentile exists:
+  strength_base = 25 + (100 - pushup_percentile) × 0.3
+ELSE:
+  strength_base = 30  // Default if no test data
+```
 
-  - BMI <18.5 → Strength: +40%, Functional: +10%, Flexibility:
-  +10%, Cardio: +5%, Balance: +5%
-  - BMI 18.5-24.9 → Cardio: +10%, Strength: +15%, Balance: +5%,
-  Functional: +5%, Flexibility: +5%
-  - BMI 25-29.9 → Cardio: +20%, Strength: +20%, Functional: +10%,
-  Balance: +5%, Flexibility: +5%
-  - BMI 30-34.9 → Cardio: +30%, Strength: +20%, Functional: +15%,
-  Balance: +10%, Flexibility: +5%
-  - BMI 35-39.9 → Cardio: +35%, Strength: +20%, Functional: +20%,
-  Balance: +10%, Flexibility: +5%
-  - BMI ≥40 → Cardio: +40%, Functional: +25%, Strength: +15%,
-  Balance: +10%, Flexibility: +5%
+### Balance Base (Age-driven)
+```
+IF age < 50: balance_base = 5
+IF age 50-64: balance_base = 10
+IF age 65-74: balance_base = 20
+IF age 75+: balance_base = 25
+```
 
-  User Goals (can select multiple)
+### Functional Base (Age-driven)
+```
+IF age < 50: functional_base = 5
+IF age 50-64: functional_base = 10  
+IF age 65-74: functional_base = 20
+IF age 75+: functional_base = 25
+```
 
-  - lose_weight → Cardio: +30%, Strength: +15%, Functional: +5%,
-  Flexibility: +5%
-  - build_muscle → Strength: +40%, Cardio: +5%, Functional: +5%,
-  Flexibility: +5%
-  - improve_endurance → Cardio: +40%, Strength: +10%, Functional:
-  +5%, Flexibility: +5%
-  - increase_flexibility → Flexibility: +40%, Balance: +5%,
-  Strength: +5%, Functional: +5%
-  - better_health → Cardio: +15%, Strength: +15%, Balance: +10%,
-  Functional: +10%, Flexibility: +10%
-  - live_longer → Cardio: +15%, Strength: +15%, Balance: +10%,
-  Functional: +10%, Flexibility: +10%
+### Flexibility Base (Age-driven)
+```
+IF age < 40: flexibility_base = 10
+IF age 40-59: flexibility_base = 15
+IF age 60+: flexibility_base = 20
+```
 
-  Allocation Algorithm
-
-  1. Initialize all objectives at 0%
-  2. Add age-based percentages
-  3. Add medical condition percentages
-  4. Add BMI percentages
-  5. Add user goal percentages
-  6. Sum total allocations for each objective
-  7. Normalize to 100%:
-    - Calculate total = sum of all allocations
-    - Each final percentage = (objective allocation / total) × 100
-
-  Complete Examples
-
-  Example 1: 75-year-old who fell, can't do chair stand
-
-  1. Age 75-79: C:10%, S:15%, B:35%, Fu:35%, Fl:15%
-  2. Fall history: B:+40%, Fu:+30%, S:+10%, Fl:+10%
-  3. Can't stand: Fu:+25%, S:+20%, B:+10%, Fl:+5%
-  4. Raw totals: C:10%, S:45%, B:85%, Fu:90%, Fl:30%
-  5. Total = 260%
-  6. Normalized: C:4%, S:17%, B:33%, Fu:35%, Fl:11%
-
-  Example 2: 45-year-old on GLP-1, BMI 32, wants weight loss
-
-  1. Age 40-49: C:25%, S:25%, B:10%, Fu:10%, Fl:15%
-  2. GLP-1: S:+35%, C:+10%, Fu:+10%, Fl:+5%
-  3. BMI 30-34.9: C:+30%, S:+20%, Fu:+15%, B:+10%, Fl:+5%
-  4. Goal weight loss: C:+30%, S:+15%, Fu:+5%, Fl:+5%
-  5. Raw totals: C:95%, S:95%, B:20%, Fu:40%, Fl:30%
-  6. Total = 280%
-  7. Normalized: C:34%, S:34%, B:7%, Fu:14%, Fl:11%
-
-  Example 3: Healthy 30-year-old wanting muscle
-
-  1. Age 30-39: C:25%, S:30%, B:5%, Fu:5%, Fl:10%
-  2. BMI 18.5-24.9: C:+10%, S:+15%, B:+5%, Fu:+5%, Fl:+5%
-  3. Goal build muscle: S:+40%, C:+5%, Fu:+5%, Fl:+5%
-  4. Raw totals: C:40%, S:85%, B:10%, Fu:15%, Fl:20%
-  5. Total = 170%
-  6. Normalized: C:24%, S:50%, B:6%, Fu:9%, Fl:11%
-
------------------------------------
-  Absolute minimums from guidelines:
-  - 150 min cardio/week (WHO/CDC/ACSM)
-  - 2+ days strength/week
-  - 2-3 days balance/week for 65+
-  - 2+ days flexibility/week
-
+### BMI Adjustments (apply to bases)
+```
+IF BMI < 18.5:  // Underweight
+  strength_base += 15
+  functional_base += 5
   
-    What the actual guidelines say:
-  - WHO/ACSM/CDC give time-based recommendations (150 min
-  cardio/week, 2x strength/week, etc.)
-  - They don't provide percentage breakdowns of total exercise
-  time
-  - They add balance training for 65+ but don't specify relative
-   proportions
+IF BMI 25-29.9:  // Overweight
+  cardio_base += 10
+  
+IF BMI 30-34.9:  // Obese Class I
+  cardio_base += 15
+  functional_base += 5
+  
+IF BMI 35-39.9:  // Obese Class II
+  cardio_base += 20
+  functional_base += 10
+  
+IF BMI >= 40:  // Obese Class III
+  cardio_base += 25
+  functional_base += 15
+```
 
-  The logic behind the synthesis:
-  - Young adults (18-39): High strength/cardio because peak
-  muscle-building years, minimal fall risk
-  - Middle age (40-59): Gradual shift as sarcopenia begins,
-  balance starts declining
-  - Older adults (65+): Progressive emphasis on
-  balance/functional as fall risk increases dramatically
+### Normalization to 100%
+```
+total = cardio_base + strength_base + balance_base + functional_base + flexibility_base
 
-  The key evidence points:
-  - 1 in 4 adults 65+ fall annually → justifies increased
-  balance allocation
-  - 3-8% muscle loss per decade after 30 → justifies maintained
-  strength focus
-  - Balance training reduces falls by 19-50% → supports high
-  balance percentages for older adults
+cardio_pct = (cardio_base / total) × 100
+strength_pct = (strength_base / total) × 100
+balance_pct = (balance_base / total) × 100
+functional_pct = (functional_base / total) × 100
+flexibility_pct = (flexibility_base / total) × 100
+```
 
-  So the allocations were an educated interpretation trying to
-  translate time-based guidelines (e.g., "3x/week balance
-  training") into percentage allocations of total exercise
-  capacity. They're reasonable but not directly cited from
-  research.
+=========================================
+PHASE 2: MEDICAL OVERRIDE APPLICATION
+=========================================
 
-  Should we refine these percentages based on what we can
-  actually defend from the literature, or keep them as
-  "evidence-informed" starting points that we can adjust based
-  on your app's data?
+## CRITICAL MINIMUMS
+Check these conditions and enforce minimums:
+
+### Fall History Override
+```
+IF fall_history == YES:
+  IF balance_pct < 30:
+    deficit = 30 - balance_pct
+    balance_pct = 30
+    scale_others_down(deficit)
+```
+
+### Chair Stand Override
+```
+IF chair_stand == NO:
+  IF functional_pct < 35:
+    deficit = 35 - functional_pct
+    functional_pct = 35
+    scale_others_down(deficit)
+  IF strength_pct < 25:
+    deficit = 25 - strength_pct
+    strength_pct = 25
+    scale_others_down(deficit)
+```
+
+### GLP-1 Override
+```
+IF glp1_medications == YES:
+  IF strength_pct < 35:
+    deficit = 35 - strength_pct
+    strength_pct = 35
+    scale_others_down(deficit)
+```
+
+### Extreme BMI Override
+```
+IF BMI >= 40:
+  IF cardio_pct < 40:
+    deficit = 40 - cardio_pct
+    cardio_pct = 40
+    scale_others_down(deficit)
+```
+
+### Scale Others Down Function
+```
+function scale_others_down(deficit):
+  // Get objectives that aren't at minimum
+  available = [obj for obj in objectives if obj.pct > obj.minimum]
+  available_total = sum(available.pct)
+  
+  // Scale each proportionally
+  for obj in available:
+    reduction = (obj.pct / available_total) × deficit
+    obj.pct -= reduction
+```
+
+=========================================
+COMPLETE CALCULATION EXAMPLES
+=========================================
+
+## Example 1: 30-year-old, Cooper 20th %ile, Pushups 60th %ile, BMI 23
+
+### Phase 1: Base Distribution
+- Cardio: 25 + (100-20) × 0.3 = 25 + 24 = 49
+- Strength: 25 + (100-60) × 0.3 = 25 + 12 = 37
+- Balance: 5 (age < 50)
+- Functional: 5 (age < 50)
+- Flexibility: 10 (age < 40)
+- Total: 106
+
+### Normalized:
+- Cardio: 49/106 × 100 = 46%
+- Strength: 37/106 × 100 = 35%
+- Balance: 5/106 × 100 = 5%
+- Functional: 5/106 × 100 = 5%
+- Flexibility: 10/106 × 100 = 9%
+
+### Phase 2: No medical overrides apply
+### FINAL: C:46%, S:35%, B:5%, Fu:5%, Fl:9%
+
+## Example 2: 72-year-old, Cooper 40th %ile, Pushups 30th %ile, Fall history
+
+### Phase 1: Base Distribution
+- Cardio: 25 + (100-40) × 0.3 = 25 + 18 = 43
+- Strength: 25 + (100-30) × 0.3 = 25 + 21 = 46
+- Balance: 20 (age 65-74)
+- Functional: 20 (age 65-74)
+- Flexibility: 20 (age 60+)
+- Total: 149
+
+### Normalized:
+- Cardio: 43/149 × 100 = 29%
+- Strength: 46/149 × 100 = 31%
+- Balance: 20/149 × 100 = 13%
+- Functional: 20/149 × 100 = 13%
+- Flexibility: 20/149 × 100 = 13%
+
+### Phase 2: Fall History Override
+- Balance needs 30% (currently 13%)
+- Deficit = 30 - 13 = 17%
+- Scale others: C:29%, S:31%, Fu:13%, Fl:13% (total 86%)
+- Each loses: 17% × (their_pct/86)
+- New: C:23%, S:25%, Fu:11%, Fl:11%
+
+### FINAL: C:23%, S:25%, B:30%, Fu:11%, Fl:11%
+
+## Example 3: 45-year-old, Cooper 5th %ile, Pushups 50th %ile, GLP-1, BMI 32
+
+### Phase 1: Base Distribution
+- Cardio: 25 + (100-5) × 0.3 = 25 + 28.5 = 53.5
+- BMI adjustment: +15 = 68.5
+- Strength: 25 + (100-50) × 0.3 = 25 + 15 = 40
+- Balance: 5 (age < 50)
+- Functional: 5 + 5 (BMI adjustment) = 10
+- Flexibility: 15 (age 40-59)
+- Total: 138.5
+
+### Normalized:
+- Cardio: 68.5/138.5 × 100 = 49%
+- Strength: 40/138.5 × 100 = 29%
+- Balance: 5/138.5 × 100 = 4%
+- Functional: 10/138.5 × 100 = 7%
+- Flexibility: 15/138.5 × 100 = 11%
+
+### Phase 2: GLP-1 Override
+- Strength needs 35% (currently 29%)
+- Deficit = 35 - 29 = 6%
+- Scale others proportionally
+
+### FINAL: C:46%, S:35%, B:3%, Fu:6%, Fl:10%
+
+=========================================
+QUESTIONS NOT USED IN THIS SYSTEM
+=========================================
+- Fitness goals (lose_weight, build_muscle, etc.)
+- Primary motivation
+- Progress tracking preferences
+- Sleep hours
+- Nutrition questions
+- Equipment availability
+- Training location
+
+These may influence HOW exercises are delivered but not the relative importance percentages.

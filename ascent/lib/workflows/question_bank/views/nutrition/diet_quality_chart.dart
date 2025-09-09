@@ -37,7 +37,7 @@ class _DietQualityChartState extends State<DietQualityChart>
   late Animation<double> _barAnimation;
 
   // Chart configuration
-  static const double chartHeight = 200.0;
+  static const double chartHeight = 160.0;
   static const double barWidth = 40.0;
   
   // Nutrition metrics configuration
@@ -47,7 +47,7 @@ class _DietQualityChartState extends State<DietQualityChart>
       label: 'Sweet Treats',
       icon: '🍪',
       color: Color(0xFFFF6F61), // restGoalCoral
-      maxValue: 10,
+      maxValue: 15,
       healthyRange: [0, 2], // 0-2 treats per day is ideal
     ),
     DietMetric(
@@ -55,7 +55,7 @@ class _DietQualityChartState extends State<DietQualityChart>
       label: 'Sodas',
       icon: '🥤',
       color: Color(0xFFE9C46A), // congratulationsYellow
-      maxValue: 10,
+      maxValue: 15,
       healthyRange: [0, 1], // 0-1 soda per day is ideal
     ),
     DietMetric(
@@ -63,7 +63,7 @@ class _DietQualityChartState extends State<DietQualityChart>
       label: 'Grains',
       icon: '🌾',
       color: Color(0xFF29AD8F), // continueGreen
-      maxValue: 10,
+      maxValue: 15,
       healthyRange: [3, 8], // 3-8 servings per day is ideal
     ),
     DietMetric(
@@ -155,13 +155,8 @@ class _DietQualityChartState extends State<DietQualityChart>
           ),
           child: Column(
             children: [
-              _buildHeader(theme),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               _buildChart(theme),
-              if (widget.showMascot) ...[
-                const SizedBox(height: 20),
-                _buildMascotSection(theme),
-              ],
             ],
           ),
         );
@@ -169,49 +164,6 @@ class _DietQualityChartState extends State<DietQualityChart>
     );
   }
 
-  Widget _buildHeader(ThemeData theme) {
-    final completedMetrics = widget.activeMetrics.length;
-    final totalMetrics = metrics.length;
-    
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Your Nutrition Profile',
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Building your dietary picture...',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-              ),
-            ),
-          ],
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Text(
-            '$completedMetrics/$totalMetrics',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.primary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 
   Widget _buildChart(ThemeData theme) {
     return SizedBox(
@@ -234,8 +186,8 @@ class _DietQualityChartState extends State<DietQualityChart>
     Color barColor = metric.color.withValues(alpha: 0.3);
     
     if (isActive && value != null) {
-      final normalizedValue = (value / metric.maxValue).clamp(0.0, 1.0);
-      barHeight = normalizedValue * (chartHeight - 60); // Leave space for labels
+      final normalizedValue = math.min(value / metric.maxValue, 1.0);
+      barHeight = normalizedValue * (chartHeight - 80); // Leave more space for labels and icons
       
       // Color based on whether value is in healthy range
       if (value >= metric.healthyRange[0] && value <= metric.healthyRange[1]) {
@@ -263,7 +215,9 @@ class _DietQualityChartState extends State<DietQualityChart>
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  metric.unit == 'weekly' ? '$value/week' : '$value/day',
+                  metric.unit == 'weekly' 
+                    ? (value >= 20 ? '20+/week' : '$value/week')
+                    : (value >= 15 ? '15+/day' : '$value/day'),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: barColor,
                     fontWeight: FontWeight.w600,

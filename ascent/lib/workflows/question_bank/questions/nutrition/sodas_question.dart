@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
-import '../../views/question_types/slider_view.dart';
-import '../../views/nutrition/diet_quality_chart.dart';
+import '../../views/nutrition/nutrition_table_bars.dart';
+import '../../views/nutrition/nutrition_state_manager.dart';
 import '../onboarding_question.dart';
-import 'sugary_treats_question.dart';
 
 /// Sodas consumption question for nutrition assessment.
 /// 
@@ -27,10 +26,10 @@ class SodasQuestion extends OnboardingQuestion {
   String get section => 'nutrition_profile';
   
   @override
-  EnumQuestionType get questionType => EnumQuestionType.slider;
+  EnumQuestionType get questionType => EnumQuestionType.custom;
   
   @override
-  String? get subtitle => 'Including sodas, energy drinks, sweetened teas, and fruit juices with added sugar.';
+  String? get subtitle => 'Examples: regular sodas (Coke, Pepsi), energy drinks, sweetened juices, flavored milks';
   
   String? get reason => 'Tracking sugary beverages helps us understand your hydration patterns and sugar intake, which affects energy levels and workout performance.';
   
@@ -38,7 +37,7 @@ class SodasQuestion extends OnboardingQuestion {
   Map<String, dynamic> get config => {
     'isRequired': true,
     'minValue': 0,
-    'maxValue': 10,
+    'maxValue': 15,
     'step': 1,
     'showValue': true,
     'unit': 'drinks',
@@ -84,48 +83,21 @@ class SodasQuestion extends OnboardingQuestion {
     return _sodasCount?.toInt();
   }
   
-  /// Get nutrition data for chart visualization including previous answers
-  Map<String, int?> getNutritionData(Map<String, dynamic> answers) {
-    return {
-      'sugary_treats': SugaryTreatsQuestion.instance.getSugaryTreatsCount(answers),
-      'sodas': getSodasCount(answers),
-      'grains': null,
-      'alcohol': null,
-    };
-  }
 
   @override
   Widget buildAnswerWidget(
     Function() onAnswerChanged,
   ) {
-    return Column(
-      children: [
-        // Diet quality chart - shows first two bars as user adjusts slider
-        DietQualityChart(
-          nutritionData: getNutritionData({id: answer}),
-          activeMetrics: const ['sugary_treats', 'sodas'],
-          currentQuestionId: id,
-          encouragementMessage: 'Your profile is taking shape! Let\'s add your drink preferences. 🥤',
-        ),
-        
-        const SizedBox(height: 24),
-        
-        // Slider input
-        SliderView(
-          questionId: id,
-          answers: {id: _sodasCount},
-          onAnswerChanged: (questionId, value) {
-            setSodasCount(value);
-            onAnswerChanged();
-          },
-          config: config,
-        ),
-        
-        const SizedBox(height: 16),
-        
-        // Helpful context
-        _buildDrinkExamples(),
-      ],
+    return NutritionTableBars(
+      allValues: NutritionStateManager.instance.getAllNutritionValues(),
+      currentType: 'sodas',
+      onValueChanged: (type, newValue) {
+        if (type == 'sodas') {
+          setSodasCount(newValue.toDouble());
+          NutritionStateManager.instance.updateNutritionValue('sodas', newValue);
+          onAnswerChanged();
+        }
+      },
     );
   }
   

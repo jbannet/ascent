@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
-import '../../views/question_types/slider_view.dart';
-import '../../views/nutrition/diet_quality_chart.dart';
+import '../../views/nutrition/nutrition_table_bars.dart';
+import '../../views/nutrition/nutrition_state_manager.dart';
 import '../onboarding_question.dart';
-import 'sugary_treats_question.dart';
-import 'sodas_question.dart';
 
 /// Grains servings question for nutrition assessment.
 /// 
@@ -29,10 +27,10 @@ class GrainsQuestion extends OnboardingQuestion {
   String get section => 'nutrition_profile';
   
   @override
-  EnumQuestionType get questionType => EnumQuestionType.slider;
+  EnumQuestionType get questionType => EnumQuestionType.custom;
   
   @override
-  String? get subtitle => 'Including bread, rice, pasta, cereal, and other grain-based foods.';
+  String? get subtitle => 'Examples: 1 slice bread, 1/2 cup rice or pasta, 1 cup cereal, 1 small bagel';
   
   String? get reason => 'Grains are an important energy source for your workouts. Understanding your intake helps us optimize your training fuel and recovery nutrition.';
   
@@ -40,7 +38,7 @@ class GrainsQuestion extends OnboardingQuestion {
   Map<String, dynamic> get config => {
     'isRequired': true,
     'minValue': 0,
-    'maxValue': 10,
+    'maxValue': 15,
     'step': 1,
     'showValue': true,
     'unit': 'servings',
@@ -86,48 +84,21 @@ class GrainsQuestion extends OnboardingQuestion {
     return _grainsCount?.toInt();
   }
   
-  /// Get nutrition data for chart visualization including previous answers
-  Map<String, int?> getNutritionData(Map<String, dynamic> answers) {
-    return {
-      'sugary_treats': SugaryTreatsQuestion.instance.getSugaryTreatsCount(answers),
-      'sodas': SodasQuestion.instance.getSodasCount(answers),
-      'grains': getGrainsCount(answers),
-      'alcohol': null,
-    };
-  }
 
   @override
   Widget buildAnswerWidget(
     Function() onAnswerChanged,
   ) {
-    return Column(
-      children: [
-        // Diet quality chart - shows first three bars as user adjusts slider
-        DietQualityChart(
-          nutritionData: getNutritionData({id: answer}),
-          activeMetrics: const ['sugary_treats', 'sodas', 'grains'],
-          currentQuestionId: id,
-          encouragementMessage: 'Almost there! Grains fuel your workouts - let\'s see your intake. 🌾',
-        ),
-        
-        const SizedBox(height: 24),
-        
-        // Slider input
-        SliderView(
-          questionId: id,
-          answers: {id: _grainsCount},
-          onAnswerChanged: (questionId, value) {
-            setGrainsCount(value);
-            onAnswerChanged();
-          },
-          config: config,
-        ),
-        
-        const SizedBox(height: 16),
-        
-        // Helpful context
-        _buildGrainExamples(),
-      ],
+    return NutritionTableBars(
+      allValues: NutritionStateManager.instance.getAllNutritionValues(),
+      currentType: 'grains',
+      onValueChanged: (type, newValue) {
+        if (type == 'grains') {
+          setGrainsCount(newValue.toDouble());
+          NutritionStateManager.instance.updateNutritionValue('grains', newValue);
+          onAnswerChanged();
+        }
+      },
     );
   }
   

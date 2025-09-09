@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
-import '../../views/nutrition/diet_quality_chart.dart';
+import '../../views/nutrition/nutrition_table_bars.dart';
+import '../../views/nutrition/nutrition_state_manager.dart';
 import '../onboarding_question.dart';
-import 'sugary_treats_question.dart';
-import 'sodas_question.dart';
-import 'grains_question.dart';
 
 /// Alcohol consumption question for nutrition assessment with privacy handling.
 /// 
@@ -29,7 +27,7 @@ class AlcoholQuestion extends OnboardingQuestion {
   String get section => 'nutrition_profile';
   
   @override
-  EnumQuestionType get questionType => EnumQuestionType.numberInput; // Custom widget with privacy
+  EnumQuestionType get questionType => EnumQuestionType.custom; // Custom widget with privacy
   
   @override
   String? get subtitle => 'This helps us provide better hydration and recovery recommendations.';
@@ -98,40 +96,21 @@ class AlcoholQuestion extends OnboardingQuestion {
     return answers[questionId] == 'prefer_not_to_say';
   }
   
-  /// Get nutrition data for chart visualization including all previous answers
-  Map<String, int?> getNutritionData(Map<String, dynamic> answers) {
-    return {
-      'sugary_treats': SugaryTreatsQuestion.instance.getSugaryTreatsCount(answers),
-      'sodas': SodasQuestion.instance.getSodasCount(answers),
-      'grains': GrainsQuestion.instance.getGrainsCount(answers),
-      'alcohol': getAlcoholCount(answers),
-    };
-  }
 
   @override
   Widget buildAnswerWidget(
     Function() onAnswerChanged,
   ) {
-    return Column(
-      children: [
-        // Diet quality chart - shows all four bars
-        DietQualityChart(
-          nutritionData: getNutritionData({id: answer}),
-          activeMetrics: const ['sugary_treats', 'sodas', 'grains', 'alcohol'],
-          currentQuestionId: id,
-          encouragementMessage: 'Final step! Your complete nutrition profile is almost ready. 🍷',
-        ),
-        
-        const SizedBox(height: 24),
-        
-        // Custom alcohol input with privacy option
-        _buildAlcoholInput(onAnswerChanged),
-        
-        const SizedBox(height: 16),
-        
-        // Helpful context
-        _buildAlcoholExamples(),
-      ],
+    return NutritionTableBars(
+      allValues: NutritionStateManager.instance.getAllNutritionValues(),
+      currentType: 'alcohol',
+      onValueChanged: (type, newValue) {
+        if (type == 'alcohol') {
+          setAlcoholCount(newValue.toDouble());
+          NutritionStateManager.instance.updateNutritionValue('alcohol', newValue);
+          onAnswerChanged();
+        }
+      },
     );
   }
   

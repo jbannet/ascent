@@ -2,36 +2,91 @@
 
 ## Flutter Frontend (`ascent/`)
 
-### Core Business Logic (`ascent/lib/core/`)
+### Question Bank System (`ascent/lib/workflows/question_bank/`)
 
-#### Onboarding Workflow (`onboarding_workflow/`)
-- **models/questions/**
-  - `question.dart` - Base question model with validation and conditions
-  - `question_option.dart` - Choice options for selection questions
-  - `question_condition.dart` - Conditional logic for question flow
-  - `question_validation.dart` - Input validation rules
-  - `question_list.dart` - Container for question collections
-  - `enum_question_type.dart` - Question type enumeration
-- **models/answers/**
-  - `onboarding_answers.dart` - User response collection and storage
-- **widgets/onboarding/**
-  - `onboarding_progress_bar.dart` - Visual progress indicator
-  - **question_input/** - Input widget implementations
-    - `factory_question_inputs.dart` - Factory for creating question widgets
-    - `text_input_widget.dart` - Text input with validation
-    - `number_input_widget.dart` - Numeric input with constraints
-    - `slider_widget.dart` - Range slider for continuous values
-    - `single_choice_widget.dart` - Radio button selections
-    - `multiple_choice_widget.dart` - Checkbox selections
-    - `date_picker_widget.dart` - Date selection widget
-    - `ranking_widget.dart` - Drag-and-drop ranking interface
-- **views/**
-  - `onboarding_survey_container.dart` - Main onboarding container
-  - `question_view.dart` - Individual question display logic
-- **providers/**
-  - `onboarding_provider.dart` - State management for onboarding flow
-- **config/**
-  - `initial_questions.json` - JSON-driven question configuration
+#### Registry (`registry/`)
+- **question_bank.dart** - Central registry for all questions, single source of truth
+  - Replaces JSON configuration with code-based question definitions
+  - Maintains question order and categorization
+  - Provides access methods for evaluation and UI
+
+#### Question Implementations (`questions/`)
+- **onboarding_question.dart** - Base abstract class with type-safe answer storage
+- **demographics/**
+  - `age_question.dart` - Type-safe DateTime answer with calculated age
+  - `gender_question.dart` - String answer with validation
+  - `height_question.dart` - Double answer with unit conversion
+  - `weight_question.dart` - Double answer with unit conversion
+- **fitness_assessment/**
+  - `q4_twelve_minute_run_question.dart` - Double answer for Cooper test
+  - `q4a_fall_history_question.dart` - Boolean answer with conditional logic
+  - `q4b_fall_risk_factors_question.dart` - List<String> answer with risk factors
+  - `q5_pushups_question.dart` - Integer answer with validation
+  - `q6_bodyweight_squats_question.dart` - Integer answer with validation
+  - `q6a_chair_stand_question.dart` - Boolean answer for functional assessment
+  - `glp1_medications_question.dart` - Boolean answer with medical implications
+  - `session_commitment_question.dart` - String answer for scheduling
+- **goals/**
+  - `fitness_goals_question.dart` - List<String> answer with multiple selection
+- **lifestyle/**
+  - `sleep_hours_question.dart` - Double answer with range validation
+- **motivation/**
+  - `primary_motivation_question.dart` - String answer with single selection
+  - `progress_tracking_question.dart` - String answer with tracking preferences
+- **nutrition/**
+  - `sugary_treats_question.dart` - Integer answer with chart visualization
+  - `sodas_question.dart` - Integer answer with real-time chart updates
+  - `grains_question.dart` - Integer answer with nutritional context
+  - `alcohol_question.dart` - Integer answer with health considerations
+  - `nutrition_questions_integration.dart` - Cross-question data sharing
+- **practical_constraints/**
+  - `q1_injuries_question.dart` - List<String> answer with injury types
+  - `q2_high_impact_question.dart` - List<String> answer with medical restrictions
+  - `q10_equipment_question.dart` - List<String> answer with available equipment
+  - `q11_training_location_question.dart` - List<String> answer with location preferences
+
+#### View Components (`views/`)
+- **base_question_view.dart** - Abstract base for question rendering
+- **question_input_view.dart** - Main input widget with factory pattern
+- **question_types/** - Type-specific input widgets
+  - `single_choice_view.dart` - Radio button selections
+  - `multiple_choice_view.dart` - Checkbox selections
+  - `text_input_view.dart` - Text input with validation
+  - `number_input_view.dart` - Numeric input with constraints
+  - `slider_view.dart` - Range slider for continuous values
+  - `date_picker_view.dart` - Date selection widget
+  - `dual_picker_view.dart` - Combined picker for complex inputs
+  - `wheel_picker_view.dart` - iOS-style wheel picker
+- **nutrition/** - Specialized nutrition question views
+  - `diet_quality_chart.dart` - Real-time chart visualization for nutrition data
+  - `diet_quality_summary.dart` - Nutritional summary display
+  - `nutrition_onboarding_demo.dart` - Interactive nutrition onboarding
+
+### Fitness Profile System (`ascent/lib/models/fitness_profile_model/`)
+
+#### Core Model
+- **fitness_profile.dart** - Main profile class with feature extraction methods
+- **feature_contribution.dart** - Tracks how each answer contributes to final features
+
+#### Feature Extraction Extensions (`fitness_profile_extraction_extensions/`)
+- **relative_objective_importance.dart** - Unified importance calculation across all modalities
+- **cardio.dart** - Cardiovascular fitness metrics and training parameters
+- **strength.dart** - Strength fitness metrics from pushup/squat assessments
+- **balance.dart** - Balance and fall risk assessment
+- **functional.dart** - Activities of daily living and functional fitness
+- **flexibility.dart** - Range of motion and stretching requirements
+- **low_impact.dart** - Medical restriction and joint-friendly exercise needs
+- **weight_management.dart** - BMI and weight-related exercise modifications
+- **injuries.dart** - Injury history impact on exercise selection
+- **age_bracket.dart** - Age-specific exercise considerations
+
+#### Reference Data (`reference_data/`)
+- **acsm_cardio_norms.dart** - ACSM cardiovascular fitness norms by age/gender
+- **acsm_pushup_norms.dart** - ACSM pushup performance norms
+- **acsm_squat_norms.dart** - ACSM squat performance norms
+- **age_group_utility.dart** - Age group classification utilities
+
+### Core Business Logic (`ascent/lib/core/`)
 
 #### Brain/AI System (`brain/`)
 - **matrix_models/**
@@ -143,7 +198,33 @@
 - `temporary_navigator_view.dart` - Development navigation aid
 
 ### Assets (`ascent/assets/`)
-- `config/initial_questions.json` - Onboarding question configuration
+- `config/initial_questions.json` - Legacy onboarding question configuration (deprecated - use QuestionBank registry)
+
+## Key Features
+
+### Question Bank Registry System
+- Central `QuestionBank` class serves as single source of truth
+- Replaces JSON configuration with type-safe code-based questions
+- Singleton pattern ensures consistent question instances
+- Questions self-render with `buildAnswerWidget()` method
+
+### Type-Safe Answer Storage
+- Each question has strongly typed answer fields (DateTime?, List<String>?, int?, etc.)
+- Validation built into setter methods prevents invalid data
+- Compile-time type checking eliminates runtime errors
+- Defensive JSON deserialization handles multiple input formats
+
+### Self-Rendering Questions
+- Questions encapsulate their own UI rendering logic
+- Specialized views for complex questions (nutrition with charts)
+- Real-time visualization updates as user interacts
+- Consistent styling and behavior across question types
+
+### Feature Extraction System
+- Extension methods calculate features from typed question answers
+- ACSM reference data provides fitness norms and percentiles
+- Modular calculation allows for easy feature updates
+- Feature contribution tracking for transparency
 
 ## Go Backend (`server/`)
 
