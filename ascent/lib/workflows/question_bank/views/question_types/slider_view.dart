@@ -36,10 +36,11 @@ class SliderView extends QuestionInputView {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
-                '${currentValue.toStringAsFixed(step < 1 ? 1 : 0)}${unit ?? ''}',
+                _formatValueWithUnit(currentValue, step, unit),
                 style: theme.textTheme.titleMedium?.copyWith(
                   color: theme.colorScheme.primary,
                   fontWeight: FontWeight.w600,
+                  fontSize: 16,
                 ),
               ),
             ),
@@ -72,15 +73,17 @@ class SliderView extends QuestionInputView {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${minValue.toStringAsFixed(step < 1 ? 1 : 0)}${unit ?? ''}',
+                _formatValueWithUnit(minValue, step, unit),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  fontSize: 12,
                 ),
               ),
               Text(
-                '${maxValue.toStringAsFixed(step < 1 ? 1 : 0)}${unit ?? ''}',
+                _formatValueWithUnit(maxValue, step, unit),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  fontSize: 12,
                 ),
               ),
             ],
@@ -88,5 +91,15 @@ class SliderView extends QuestionInputView {
         ),
       ],
     );
+  }
+
+  /// Format value with unit, removing .0 for whole numbers and adding space before unit
+  String _formatValueWithUnit(double value, double step, String? unit) {
+    final isWholeNumber = value == value.roundToDouble();
+    final formattedValue = isWholeNumber 
+        ? value.round().toString() 
+        : value.toStringAsFixed(step < 1 ? 1 : 0);
+    
+    return unit != null ? '$formattedValue $unit' : formattedValue;
   }
 }

@@ -33,7 +33,7 @@ class DatePickerView extends QuestionInputView {
           onTap: () async {
             final DateTime? selectedDate = await showDatePicker(
               context: context,
-              initialDate: currentDate ?? DateTime.now(),
+              initialDate: currentDate ?? _getValidInitialDate(minDate, maxDate),
               firstDate: minDate ?? DateTime(1900),
               lastDate: maxDate ?? DateTime(2100),
               builder: (context, child) {
@@ -93,5 +93,26 @@ class DatePickerView extends QuestionInputView {
         ),
       ],
     );
+  }
+
+  /// Returns a valid initial date that falls within the min/max date constraints.
+  /// When no current date is selected, ensures the date picker opens with a valid date.
+  DateTime _getValidInitialDate(DateTime? minDate, DateTime? maxDate) {
+    final now = DateTime.now();
+    final min = minDate ?? DateTime(1900);
+    final max = maxDate ?? DateTime(2100);
+    
+    // If now is within range, use it
+    if (!now.isBefore(min) && !now.isAfter(max)) {
+      return now;
+    }
+    
+    // If now is after max, use max
+    if (now.isAfter(max)) {
+      return max;
+    }
+    
+    // If now is before min, use min
+    return min;
   }
 }

@@ -69,7 +69,7 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   bool shouldShow(Map<String, dynamic> answers) {
     // Show if Q4A = 'yes' (has fallen) OR age >= 65
     final hasFallen = answers[Q4AFallHistoryQuestion.questionId] as String?;
-    final age = answers[AgeQuestion.questionId] as int?;
+    final age = AgeQuestion.instance.getAge(answers);
     
     if (hasFallen == 'yes') return true;
     if (age != null && age >= 65) return true;

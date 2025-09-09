@@ -8,7 +8,7 @@ import '../../../workflows/question_bank/questions/fitness_assessment/q4b_fall_r
 import '../../../workflows/question_bank/questions/fitness_assessment/q6a_chair_stand_question.dart';
 import '../../../workflows/question_bank/questions/practical_constraints/q1_injuries_question.dart';
 import '../../../workflows/question_bank/questions/practical_constraints/q2_high_impact_question.dart';
-import '../../../workflows/question_bank/questions/demographics/glp1_medications_question.dart';
+import '../../../workflows/question_bank/questions/fitness_assessment/glp1_medications_question.dart';
 import '../../../workflows/question_bank/questions/demographics/weight_question.dart';
 import '../../../workflows/question_bank/questions/demographics/height_question.dart';
 import '../../../constants.dart';

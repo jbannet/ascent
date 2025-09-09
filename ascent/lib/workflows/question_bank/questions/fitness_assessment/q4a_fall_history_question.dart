@@ -51,7 +51,7 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   bool shouldShow(Map<String, dynamic> answers) {
     // Show if age >= fall risk threshold OR Cooper test indicates mobility limitation risk
     
-    final age = answers[AgeQuestion.questionId] as int?;
+    final age = AgeQuestion.instance.getAge(answers);
     final cooperDistance = answers[Q4TwelveMinuteRunQuestion.questionId] as num?;
     
     if (age != null && age >= AnswerConstants.fallRiskAge) return true;

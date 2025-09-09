@@ -43,15 +43,25 @@ class AgeQuestion extends OnboardingQuestion {
   
   @override
   bool isValidAnswer(dynamic answer) {
-    if (answer is! String) return false;
-    try {
-      final date = DateTime.parse(answer);
-      final now = DateTime.now();
-      final age = now.year - date.year - (now.month < date.month || (now.month == date.month && now.day < date.day) ? 1 : 0);
-      return age >= 13 && age <= 100;
-    } catch (e) {
+    DateTime? date;
+    
+    // Handle DateTime objects directly (from DatePickerView)
+    if (answer is DateTime) {
+      date = answer;
+    } else if (answer is String) {
+      // Handle String values (for backward compatibility)
+      try {
+        date = DateTime.parse(answer);
+      } catch (e) {
+        return false;
+      }
+    } else {
       return false;
     }
+    
+    final now = DateTime.now();
+    final age = now.year - date.year - (now.month < date.month || (now.month == date.month && now.day < date.day) ? 1 : 0);
+    return age >= 13 && age <= 100;
   }
   
   @override
@@ -61,13 +71,22 @@ class AgeQuestion extends OnboardingQuestion {
   
   /// Get date of birth as DateTime from answers
   DateTime? getDateOfBirth(Map<String, dynamic> answers) {
-    final dateStr = answers[questionId] as String?;
-    if (dateStr == null) return null;
-    try {
-      return DateTime.parse(dateStr);
-    } catch (e) {
-      return null;
+    final answer = answers[questionId];
+    if (answer == null) return null;
+    
+    // Handle DateTime objects directly (from DatePickerView)
+    if (answer is DateTime) return answer;
+    
+    // Handle String values (for backward compatibility)
+    if (answer is String) {
+      try {
+        return DateTime.parse(answer);
+      } catch (e) {
+        return null;
+      }
     }
+    
+    return null;
   }
   
   /// Get age as integer calculated from date of birth

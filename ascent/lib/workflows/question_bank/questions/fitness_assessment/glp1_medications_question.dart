@@ -26,7 +26,7 @@ class Glp1MedicationsQuestion extends OnboardingQuestion {
   String get id => Glp1MedicationsQuestion.questionId;
   
   @override
-  String get questionText => 'Are you currently taking GLP-1 medications?';
+  String get questionText => 'Are you taking GLP-1s?';
   
   @override
   String get section => 'health_info';

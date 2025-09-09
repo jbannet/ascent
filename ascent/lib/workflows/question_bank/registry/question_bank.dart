@@ -13,6 +13,7 @@ import '../questions/fitness_assessment/q4_twelve_minute_run_question.dart';
 import '../questions/fitness_assessment/q4a_fall_history_question.dart';
 import '../questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
 import '../questions/fitness_assessment/q5_pushups_question.dart';
+import '../questions/fitness_assessment/glp1_medications_question.dart';
 import '../questions/fitness_assessment/session_commitment_question.dart';
 // Lifestyle
 import '../questions/lifestyle/current_diet_question.dart';
@@ -52,6 +53,7 @@ class QuestionBank {
     
     // 5. Lifestyle
     CurrentDietQuestion.instance,        // current_diet
+    Glp1MedicationsQuestion.instance,    // GLP-1 medications
     SleepHoursQuestion.instance,         // sleep_hours
     
     // 6. Schedule and Commitment

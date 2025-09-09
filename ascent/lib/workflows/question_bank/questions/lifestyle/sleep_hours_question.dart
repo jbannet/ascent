@@ -56,11 +56,21 @@ class SleepHoursQuestion extends OnboardingQuestion {
     Map<String, dynamic> currentAnswers,
     Function(String, dynamic) onAnswerChanged,
   ) {
-    return SliderView(
-      questionId: id,
-      answers: currentAnswers,
-      onAnswerChanged: onAnswerChanged,
-      config: config,
+    return Column(
+      children: [
+        SliderView(
+          questionId: id,
+          answers: currentAnswers,
+          onAnswerChanged: onAnswerChanged,
+          config: config,
+        ),
+        const SizedBox(height: 40),
+        Image.asset(
+          'assets/images/kettlebell_sleeping.png',
+          height: 180,
+          fit: BoxFit.contain,
+        ),
+      ],
     );
   }
 }
