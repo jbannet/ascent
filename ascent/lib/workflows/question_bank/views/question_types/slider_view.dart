@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
+import '../question_input_view.dart';
 
 /// Slider widget for questions requiring selection from a range of values.
-class SliderView extends StatelessWidget {
-  final String questionId;
-  final double? currentAnswer;
-  final Function(String, double) onAnswerChanged;
-  final Map<String, dynamic>? config;
-
+class SliderView extends QuestionInputView {
   const SliderView({
     super.key,
-    required this.questionId,
-    this.currentAnswer,
-    required this.onAnswerChanged,
-    this.config,
+    required super.questionId,
+    required super.answers,
+    required super.onAnswerChanged,
+    super.config,
   });
 
   @override
@@ -26,7 +22,7 @@ class SliderView extends StatelessWidget {
     final showValue = config['showValue'] as bool? ?? true;
     final unit = config['unit'] as String?;
     
-    final currentValue = currentAnswer ?? minValue;
+    final currentValue = getCurrentAnswerAs<double>() ?? minValue;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,23 +44,16 @@ class SliderView extends StatelessWidget {
               ),
             ),
           ),
-        
-        const SizedBox(height: 16),
-        
+        const SizedBox(height: 20),
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
             trackHeight: 6,
             thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
             overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
             activeTrackColor: theme.colorScheme.primary,
-            inactiveTrackColor: theme.colorScheme.outline.withValues(alpha: 0.3),
+            inactiveTrackColor: theme.colorScheme.primary.withValues(alpha: 0.2),
             thumbColor: theme.colorScheme.primary,
-            overlayColor: theme.colorScheme.primary.withValues(alpha: 0.1),
-            valueIndicatorColor: theme.colorScheme.primary,
-            valueIndicatorTextStyle: TextStyle(
-              color: theme.colorScheme.onPrimary,
-              fontWeight: FontWeight.w500,
-            ),
+            overlayColor: theme.colorScheme.primary.withValues(alpha: 0.2),
           ),
           child: Slider(
             value: currentValue.clamp(minValue, maxValue),
@@ -77,7 +66,6 @@ class SliderView extends StatelessWidget {
             },
           ),
         ),
-        
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(

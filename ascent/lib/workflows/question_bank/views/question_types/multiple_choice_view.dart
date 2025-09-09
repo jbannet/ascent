@@ -1,35 +1,31 @@
 import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
+import '../question_input_view.dart';
 
 /// Multiple choice widget for questions allowing multiple selections.
-class MultipleChoiceView extends StatelessWidget {
-  final String questionId;
-  final List<String>? currentAnswer;
-  final Function(String, List<String>) onAnswerChanged;
-  final List<QuestionOption> options;
-  final Map<String, dynamic>? config;
-
+class MultipleChoiceView extends QuestionInputView {
   const MultipleChoiceView({
     super.key,
-    required this.questionId,
-    this.currentAnswer,
-    required this.onAnswerChanged,
-    required this.options,
-    this.config,
+    required super.questionId,
+    required super.answers,
+    required super.onAnswerChanged,
+    super.options,
+    super.config,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final selectedValues = currentAnswer ?? <String>[];
+    final selectedValues = getCurrentAnswerAsList() ?? <String>[];
+    final optionsList = options ?? <QuestionOption>[];
     final maxSelections = config?['maxSelections'] as int?;
     
     return Column(
-      children: options.map((option) {
+      children: optionsList.map((option) {
         final isSelected = selectedValues.contains(option.value);
         final canSelect = maxSelections == null || 
-                         selectedValues.length < maxSelections || 
-                         isSelected;
+            selectedValues.length < maxSelections || 
+            isSelected;
         
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
@@ -54,9 +50,7 @@ class MultipleChoiceView extends StatelessWidget {
                 border: Border.all(
                   color: isSelected
                       ? theme.colorScheme.primary
-                      : canSelect 
-                          ? theme.colorScheme.outline.withValues(alpha: 0.3)
-                          : theme.colorScheme.outline.withValues(alpha: 0.1),
+                      : theme.colorScheme.outline.withValues(alpha: 0.3),
                   width: isSelected ? 2 : 1,
                 ),
                 borderRadius: BorderRadius.circular(12),
@@ -68,7 +62,9 @@ class MultipleChoiceView extends StatelessWidget {
                     onChanged: canSelect ? (value) {
                       final newSelection = List<String>.from(selectedValues);
                       if (value == true) {
-                        newSelection.add(option.value);
+                        if (!newSelection.contains(option.value)) {
+                          newSelection.add(option.value);
+                        }
                       } else {
                         newSelection.remove(option.value);
                       }
@@ -83,20 +79,20 @@ class MultipleChoiceView extends StatelessWidget {
                         Text(
                           option.label,
                           style: theme.textTheme.bodyLarge?.copyWith(
-                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                            color: canSelect 
-                                ? theme.colorScheme.onSurface
-                                : theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                            color: isSelected 
+                                ? theme.colorScheme.primary
+                                : canSelect 
+                                    ? theme.colorScheme.onSurface
+                                    : theme.colorScheme.onSurface.withValues(alpha: 0.5),
                           ),
                         ),
                         if (option.description != null) ...[
                           const SizedBox(height: 4),
                           Text(
                             option.description!,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: canSelect
-                                  ? theme.colorScheme.onSurface.withValues(alpha: 0.6)
-                                  : theme.colorScheme.onSurface.withValues(alpha: 0.3),
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                             ),
                           ),
                         ],

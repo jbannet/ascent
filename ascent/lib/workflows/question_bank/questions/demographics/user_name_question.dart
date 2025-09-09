@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
+import '../../views/question_types/text_input_view.dart';
 import '../onboarding_question.dart';
 
 /// User name question for personalization and user identification.
@@ -50,5 +52,18 @@ class UserNameQuestion extends OnboardingQuestion {
   /// Get user name as String from answers
   String? getUserName(Map<String, dynamic> answers) {
     return answers[questionId] as String?;
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return TextInputView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      config: config,
+    );
   }
 }

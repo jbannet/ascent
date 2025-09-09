@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
+import '../../views/question_types/multiple_choice_view.dart';
 import '../onboarding_question.dart';
 import '../demographics/age_question.dart';
 import './q4a_fall_history_question.dart';
@@ -94,12 +96,25 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ACCESSOR
   
-  /// Get fall risk factors as List&lt;String&gt; from answers
+  /// Get fall risk factors as List<String> from answers
   List<String> getRiskFactors(Map<String, dynamic> answers) {
     final factors = answers[questionId];
     if (factors == null) return [];
     if (factors is List) return factors.cast<String>();
     return [factors.toString()];
   }
-}
 
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return MultipleChoiceView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      options: options,
+      config: config,
+    );
+  }
+}

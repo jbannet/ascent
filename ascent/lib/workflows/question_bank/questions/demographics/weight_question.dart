@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
+import '../../views/question_types/number_input_view.dart';
 import '../onboarding_question.dart';
 
 /// Weight demographic question for BMI calculation and weight management goals.
@@ -65,5 +67,18 @@ class WeightQuestion extends OnboardingQuestion {
     final weightPounds = getWeightPounds(answers);
     if (weightPounds == null) return null;
     return weightPounds * 0.453592; // Convert pounds to kg
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return NumberInputView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      config: config,
+    );
   }
 }

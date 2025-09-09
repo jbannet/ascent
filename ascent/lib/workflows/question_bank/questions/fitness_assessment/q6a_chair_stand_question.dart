@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
 import '../../../onboarding_workflow/models/questions/question_condition.dart';
+import '../../views/question_types/single_choice_view.dart';
 import '../onboarding_question.dart';
 import '../../../../constants.dart';
 
@@ -104,5 +106,18 @@ class Q6AChairStandQuestion extends OnboardingQuestion {
   bool needsSeatedExercises(Map<String, dynamic> answers) {
     final canStand = canStandFromChair(answers);
     return canStand == false;
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return SingleChoiceView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      options: options,
+    );
   }
 }

@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
+import '../../views/question_types/number_input_view.dart';
 import '../onboarding_question.dart';
 
 /// Q6: How many bodyweight squats can you do continuously (with good form)?
@@ -67,5 +69,18 @@ class Q6BodyweightSquatsQuestion extends OnboardingQuestion {
     final count = answers[questionId];
     if (count == null) return null;
     return count is int ? count : int.tryParse(count.toString());
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return NumberInputView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      config: config,
+    );
   }
 }

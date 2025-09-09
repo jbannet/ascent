@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
+import '../../views/question_types/multiple_choice_view.dart';
 import '../onboarding_question.dart';
 import '../../../../constants.dart';
 
@@ -62,12 +64,25 @@ class Q2HighImpactQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ACCESSOR
   
-  /// Get medical restrictions as List&lt;String&gt; from answers
+  /// Get medical restrictions as List<String> from answers
   List<String> getMedicalRestrictions(Map<String, dynamic> answers) {
     final restrictions = answers[questionId];
     if (restrictions == null) return [AnswerConstants.none];
     if (restrictions is List) return restrictions.cast<String>();
     return [restrictions.toString()];
   }
-  
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return MultipleChoiceView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      options: options,
+      config: config,
+    );
+  }
 }

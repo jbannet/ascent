@@ -31,13 +31,6 @@ final manBodyRegions = <String, List<BodyRegion>>{
     ),
     BodyRegion(
       id: 'ankles',
-      xPercent: 27.50,
-      yPercent: 91.67,
-      widthPercent: 5.0, // Single cell width
-      heightPercent: 3.33, // Single cell height
-    ),
-    BodyRegion(
-      id: 'ankles',
       xPercent: 77.50,
       yPercent: 95.00,
       widthPercent: 5.0, // Single cell width
@@ -80,8 +73,15 @@ final manBodyRegions = <String, List<BodyRegion>>{
     ),
     BodyRegion(
       id: 'ankles',
-      xPercent: 27.50,
-      yPercent: 95.00,
+      xPercent: 62.50,
+      yPercent: 91.67,
+      widthPercent: 5.0, // Single cell width
+      heightPercent: 3.33, // Single cell height
+    ),
+    BodyRegion(
+      id: 'ankles',
+      xPercent: 82.50,
+      yPercent: 91.67,
       widthPercent: 5.0, // Single cell width
       heightPercent: 3.33, // Single cell height
     ),
@@ -325,20 +325,6 @@ final manBodyRegions = <String, List<BodyRegion>>{
     BodyRegion(
       id: 'knees',
       xPercent: 82.50,
-      yPercent: 75.00,
-      widthPercent: 5.0, // Single cell width
-      heightPercent: 3.33, // Single cell height
-    ),
-    BodyRegion(
-      id: 'knees',
-      xPercent: 27.50,
-      yPercent: 78.33,
-      widthPercent: 5.0, // Single cell width
-      heightPercent: 3.33, // Single cell height
-    ),
-    BodyRegion(
-      id: 'knees',
-      xPercent: 27.50,
       yPercent: 75.00,
       widthPercent: 5.0, // Single cell width
       heightPercent: 3.33, // Single cell height
@@ -1597,27 +1583,6 @@ final manBodyRegions = <String, List<BodyRegion>>{
     ),
     BodyRegion(
       id: 'shins',
-      xPercent: 27.50,
-      yPercent: 88.33,
-      widthPercent: 5.0, // Single cell width
-      heightPercent: 3.33, // Single cell height
-    ),
-    BodyRegion(
-      id: 'shins',
-      xPercent: 27.50,
-      yPercent: 85.00,
-      widthPercent: 5.0, // Single cell width
-      heightPercent: 3.33, // Single cell height
-    ),
-    BodyRegion(
-      id: 'shins',
-      xPercent: 27.50,
-      yPercent: 81.67,
-      widthPercent: 5.0, // Single cell width
-      heightPercent: 3.33, // Single cell height
-    ),
-    BodyRegion(
-      id: 'shins',
       xPercent: 32.50,
       yPercent: 81.67,
       widthPercent: 5.0, // Single cell width
@@ -1676,13 +1641,6 @@ final manBodyRegions = <String, List<BodyRegion>>{
     ),
     BodyRegion(
       id: 'feet',
-      xPercent: 12.50,
-      yPercent: 98.33,
-      widthPercent: 5.0, // Single cell width
-      heightPercent: 3.33, // Single cell height
-    ),
-    BodyRegion(
-      id: 'feet',
       xPercent: 32.50,
       yPercent: 98.33,
       widthPercent: 5.0, // Single cell width
@@ -1691,13 +1649,6 @@ final manBodyRegions = <String, List<BodyRegion>>{
     BodyRegion(
       id: 'feet',
       xPercent: 37.50,
-      yPercent: 98.33,
-      widthPercent: 5.0, // Single cell width
-      heightPercent: 3.33, // Single cell height
-    ),
-    BodyRegion(
-      id: 'feet',
-      xPercent: 27.50,
       yPercent: 98.33,
       widthPercent: 5.0, // Single cell width
       heightPercent: 3.33, // Single cell height

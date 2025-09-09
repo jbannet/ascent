@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
+import '../../views/question_types/single_choice_view.dart';
 import '../onboarding_question.dart';
 import '../../../../constants.dart';
 
@@ -92,5 +94,18 @@ class Glp1MedicationsQuestion extends OnboardingQuestion {
   bool hasDisclosedGlp1Status(Map<String, dynamic> answers) {
     final status = getGlp1Status(answers);
     return status == AnswerConstants.yes || status == AnswerConstants.no;
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return SingleChoiceView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      options: options,
+    );
   }
 }

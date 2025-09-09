@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
+import '../../views/question_types/multiple_choice_view.dart';
 import '../onboarding_question.dart';
 import '../../../../constants.dart';
 
@@ -92,11 +94,25 @@ class ProgressTrackingQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ACCESSOR
   
-  /// Get progress tracking preferences as List&lt;String&gt; from answers
+  /// Get progress tracking preferences as List<String> from answers
   List<String> getProgressTrackingPreferences(Map<String, dynamic> answers) {
     final tracking = answers[questionId];
     if (tracking == null) return [AnswerConstants.performanceMetrics];
     if (tracking is List) return tracking.cast<String>();
     return [tracking.toString()];
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return MultipleChoiceView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      options: options,
+      config: config,
+    );
   }
 }

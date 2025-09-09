@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
+import '../../views/question_types/slider_view.dart';
 import '../onboarding_question.dart';
 
 /// Q5: How many push-ups can you do in a row (with good form)?
@@ -61,5 +63,18 @@ class Q5PushupsQuestion extends OnboardingQuestion {
     if (count is int) return count;
     if (count is double) return count.toInt();
     return int.tryParse(count.toString());
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return SliderView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      config: config,
+    );
   }
 }

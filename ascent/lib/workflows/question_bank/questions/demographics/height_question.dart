@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
+import '../../../onboarding_workflow/widgets/onboarding/question_input/height_selector_widget.dart';
 import '../onboarding_question.dart';
 
 /// Height demographic question for BMI calculation and weight management goals.
@@ -97,5 +99,21 @@ class HeightQuestion extends OnboardingQuestion {
     if (heightData == null) return null;
     
     return "${heightData['feet']}'${heightData['inches']}\"";
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    final currentAnswer = currentAnswers[id];
+    
+    return HeightSelectorWidget(
+      config: config,
+      onChanged: (value) => onAnswerChanged(id, value),
+      initialValue: currentAnswer is Map<String, dynamic>
+          ? currentAnswer
+          : null,
+    );
   }
 }

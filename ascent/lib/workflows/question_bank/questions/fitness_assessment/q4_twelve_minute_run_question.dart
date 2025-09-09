@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
+import '../../views/question_types/number_input_view.dart';
 import '../onboarding_question.dart';
 
 /// Q4: How far can you run/walk in 12 minutes? (Cooper Test)
@@ -57,5 +59,18 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
     final distance = answers[questionId];
     if (distance == null) return null;
     return distance is double ? distance : double.tryParse(distance.toString());
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return NumberInputView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      config: config,
+    );
   }
 }

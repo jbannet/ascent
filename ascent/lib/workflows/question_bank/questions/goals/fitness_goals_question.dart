@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
+import '../../views/question_types/multiple_choice_view.dart';
 import '../onboarding_question.dart';
 import '../../../../constants.dart';
 
@@ -107,5 +109,19 @@ class FitnessGoalsQuestion extends OnboardingQuestion {
       'increase_flexibility', 'better_health', 'live_longer'
     ];
     return validOptions.contains(option);
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return MultipleChoiceView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      options: options,
+      config: config,
+    );
   }
 }

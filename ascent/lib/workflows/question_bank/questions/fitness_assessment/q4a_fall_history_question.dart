@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
+import '../../views/question_types/single_choice_view.dart';
 import '../onboarding_question.dart';
 import '../demographics/age_question.dart';
 import './q4_twelve_minute_run_question.dart';
@@ -74,5 +76,17 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   bool hasFallen(Map<String, dynamic> answers) {
     return answers[questionId] == AnswerConstants.yes;
   }
-}
 
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return SingleChoiceView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      options: options,
+    );
+  }
+}

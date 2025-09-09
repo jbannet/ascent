@@ -4,15 +4,6 @@ import '../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../onboarding_workflow/models/questions/question_option.dart';
 import '../../onboarding_workflow/models/questions/question_condition.dart';
 import '../views/base_question_view.dart';
-import '../views/question_types/text_input_view.dart';
-import '../views/question_types/number_input_view.dart';
-import '../views/question_types/single_choice_view.dart';
-import '../views/question_types/multiple_choice_view.dart';
-import '../views/question_types/slider_view.dart';
-import '../views/question_types/date_picker_view.dart';
-import '../../onboarding_workflow/widgets/onboarding/question_input/body_map_widget.dart';
-import '../../onboarding_workflow/widgets/onboarding/question_input/dual_column_selector_widget.dart';
-import '../../onboarding_workflow/widgets/onboarding/question_input/height_selector_widget.dart';
 
 /// Base class for all onboarding questions.
 /// 
@@ -114,100 +105,17 @@ abstract class OnboardingQuestion {
       subtitle: subtitle,
       reason: null, // Can be overridden by individual questions if needed
       accentColor: accentColor,
-      answerWidget: _buildAnswerWidget(currentAnswers, onAnswerChanged),
+      answerWidget: buildAnswerWidget(currentAnswers, onAnswerChanged),
     );
   }
   
   /// Build the appropriate answer widget based on question type.
-  /// This encapsulates the type-specific rendering logic.
-  Widget _buildAnswerWidget(
-    Map<String, dynamic> currentAnswers, 
+  /// 
+  /// Each question subclass must implement this method to provide its specific widget.
+  /// This enables true polymorphic delegation where each question controls its own rendering.
+  @protected
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
     Function(String, dynamic) onAnswerChanged,
-  ) {
-    final currentAnswer = currentAnswers[id];
-    
-    switch (questionType) {
-      case EnumQuestionType.textInput:
-        return TextInputView(
-          questionId: id,
-          currentAnswer: currentAnswer as String?,
-          onAnswerChanged: (questionId, value) => onAnswerChanged(questionId, value),
-          config: config,
-        );
-        
-      case EnumQuestionType.numberInput:
-        return NumberInputView(
-          questionId: id,
-          currentAnswer: currentAnswer as num?,
-          onAnswerChanged: (questionId, value) => onAnswerChanged(questionId, value),
-          config: config,
-        );
-        
-      case EnumQuestionType.singleChoice:
-        return SingleChoiceView(
-          questionId: id,
-          currentAnswer: currentAnswer as String?,
-          onAnswerChanged: (questionId, value) => onAnswerChanged(questionId, value),
-          options: options ?? [],
-        );
-        
-      case EnumQuestionType.multipleChoice:
-        return MultipleChoiceView(
-          questionId: id,
-          currentAnswer: currentAnswer as List<String>?,
-          onAnswerChanged: (questionId, value) => onAnswerChanged(questionId, value),
-          options: options ?? [],
-          config: config,
-        );
-        
-      case EnumQuestionType.slider:
-        return SliderView(
-          questionId: id,
-          currentAnswer: currentAnswer as double?,
-          onAnswerChanged: (questionId, value) => onAnswerChanged(questionId, value),
-          config: config,
-        );
-        
-      case EnumQuestionType.datePicker:
-        return DatePickerView(
-          questionId: id,
-          currentAnswer: currentAnswer as DateTime?,
-          onAnswerChanged: (questionId, value) => onAnswerChanged(questionId, value),
-          config: config,
-        );
-        
-      case EnumQuestionType.bodyMap:
-        return BodyMapWidget(
-          questionId: id,
-          title: questionText,
-          subtitle: subtitle,
-          onAnswerChanged: (questionId, values) => onAnswerChanged(questionId, values),
-          selectedValues: currentAnswer == null 
-              ? null 
-              : currentAnswer is List 
-                  ? currentAnswer.cast<String>()
-                  : currentAnswer is String 
-                      ? [currentAnswer]
-                      : null,
-        );
-        
-      case EnumQuestionType.dualColumnSelector:
-        return DualColumnSelectorWidget(
-          config: config ?? {},
-          onChanged: (value) => onAnswerChanged(id, value),
-          initialValue: currentAnswer is Map<String, dynamic>
-              ? currentAnswer
-              : null,
-        );
-        
-      case EnumQuestionType.heightSelector:
-        return HeightSelectorWidget(
-          config: config ?? {},
-          onChanged: (value) => onAnswerChanged(id, value),
-          initialValue: currentAnswer is Map<String, dynamic>
-              ? currentAnswer
-              : null,
-        );
-    }
-  }
+  );
 }

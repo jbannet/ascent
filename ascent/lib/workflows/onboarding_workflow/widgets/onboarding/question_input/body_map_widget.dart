@@ -47,6 +47,7 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
   final Map<String, BodyPartState> _bodyPartStates = {};
   String? _userGender;
   final GlobalKey _imageKey = GlobalKey();
+  final GlobalKey _actualImageKey = GlobalKey();
   double _imageWidth = 300.0;
   double _imageHeight = 500.0;
   double _actualImageWidth = 300.0;
@@ -57,15 +58,34 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
   @override
   void initState() {
     super.initState();
+    print('DEBUG: BodyMapWidget initState() called');
     _initializeFromSelectedValues();
     _determineGender();
+    
+    // Check actual rendered size after frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkActualImageSize();
+    });
+  }
+  
+  void _checkActualImageSize() {
+    final RenderBox? renderBox = _actualImageKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      final actualSize = renderBox.size;
+      print('DEBUG: ACTUAL rendered image size: ${actualSize.width} x ${actualSize.height}');
+      print('DEBUG: CALCULATED dimensions were: $_actualImageWidth x $_actualImageHeight');
+      print('DEBUG: DIFFERENCE: width=${actualSize.width - _actualImageWidth}, height=${actualSize.height - _actualImageHeight}');
+    }
   }
   
   void _determineGender() {
+    print('DEBUG: currentAnswers = ${widget.currentAnswers}');
     if (widget.currentAnswers != null) {
       _userGender = GenderQuestion.instance.getGender(widget.currentAnswers!);
+      print('DEBUG: GenderQuestion.getGender() returned: $_userGender');
     }
     _userGender ??= 'male'; // Default to male if gender not specified
+    print('DEBUG: Final _userGender = $_userGender');
   }
 
   void _initializeFromSelectedValues() {
@@ -186,19 +206,28 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
               final imageAspectRatio = _userGender?.toLowerCase() == 'female' ? (1024.0 / 1536.0) : (1024.0 / 1024.0);
               final containerAspectRatio = availableWidth / availableHeight;
               
+              print('DEBUG: Container dimensions: $availableWidth x $availableHeight');
+              print('DEBUG: Image aspect ratio: $imageAspectRatio');
+              print('DEBUG: Container aspect ratio: $containerAspectRatio');
+              
               if (containerAspectRatio > imageAspectRatio) {
                 // Container is wider, image is constrained by height
                 _actualImageHeight = availableHeight;
                 _actualImageWidth = availableHeight * imageAspectRatio;
                 _imageOffsetX = (availableWidth - _actualImageWidth) / 2;
                 _imageOffsetY = 0.0;
+                print('DEBUG: Image constrained by height');
               } else {
                 // Container is taller, image is constrained by width
                 _actualImageWidth = availableWidth;
                 _actualImageHeight = availableWidth / imageAspectRatio;
                 _imageOffsetX = 0.0;
                 _imageOffsetY = (availableHeight - _actualImageHeight) / 2;
+                print('DEBUG: Image constrained by width');
               }
+              
+              print('DEBUG: Calculated actual dimensions: $_actualImageWidth x $_actualImageHeight');
+              print('DEBUG: Calculated offsets: ($_imageOffsetX, $_imageOffsetY)');
               
               return SizedBox(
                 width: availableWidth,
@@ -208,15 +237,15 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
                     // Gender-specific body image
                     Image.asset(
                       _getBodyImagePath(),
-                      key: _imageKey,
+                      key: _actualImageKey,
                       fit: BoxFit.contain,
                       width: availableWidth,
                       height: availableHeight,
                     ),
-                    // Interactive regions overlay
-                    ..._buildClickableRegions(),
-                    // Visual feedback overlay for selected regions
+                    // Visual feedback overlay for selected regions (BEHIND clickable regions)
                     ..._buildSelectedRegionOverlays(),
+                    // Interactive regions overlay (ON TOP so they can receive taps)
+                    ..._buildClickableRegions(),
                   ],
                 ),
               );
@@ -302,11 +331,14 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
 
   /// Get the appropriate body image path based on user gender
   String _getBodyImagePath() {
+    print('DEBUG: _getBodyImagePath() called with _userGender = $_userGender');
     switch (_userGender?.toLowerCase()) {
       case 'female':
+        print('DEBUG: Returning woman.png');
         return 'assets/images/woman.png';
       case 'male':
       default:
+        print('DEBUG: Returning man.png (default or male)');
         return 'assets/images/man.png';
     }
   }
@@ -332,12 +364,19 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
 
   /// Build a single clickable region
   Widget _buildClickableRegion(String bodyPart, BodyRegion region) {
-    final left = _imageOffsetX + (region.xPercent / 100.0) * _actualImageWidth;
-    final top = _imageOffsetY + (region.yPercent / 100.0) * _actualImageHeight;
     final width = (region.widthPercent / 100.0) * _actualImageWidth;
     final height = (region.heightPercent / 100.0) * _actualImageHeight;
     
-    // Removed excessive build logging
+    // Stored coordinates are CENTER of cell, so subtract half width/height to get top-left corner
+    final left = _imageOffsetX + (region.xPercent / 100.0) * _actualImageWidth - width / 2;
+    final top = _imageOffsetY + (region.yPercent / 100.0) * _actualImageHeight - height / 2;
+    
+    // Log just the first region of the first body part for debugging
+    if (bodyPart == 'chest' && region.xPercent < 50) {
+      print('DEBUG: Sample region (chest): xPercent=${region.xPercent}, yPercent=${region.yPercent}');
+      print('DEBUG: Calculated position: left=$left, top=$top, width=$width, height=$height');
+      print('DEBUG: Center would be at: ${left + width/2}, ${top + height/2}');
+    }
     
     return Positioned(
       left: left,
@@ -357,21 +396,7 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            color: Colors.blue.withValues(alpha: 0.3), // More visible for debugging
-            border: Border.all(
-              color: Colors.red,
-              width: 2,
-            ),
-          ),
-          child: Center(
-            child: Text(
-              bodyPart.substring(0, 2).toUpperCase(),
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 10,
-              ),
-            ),
+            color: Colors.transparent, // Make clickable regions invisible
           ),
         ),
       ),
@@ -396,12 +421,17 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
             : Colors.red.withValues(alpha: 0.6);
         
         for (final region in bodyRegions) {
+          final width = (region.widthPercent / 100.0) * _actualImageWidth;
+          final height = (region.heightPercent / 100.0) * _actualImageHeight;
+          final left = _imageOffsetX + (region.xPercent / 100.0) * _actualImageWidth - width / 2;
+          final top = _imageOffsetY + (region.yPercent / 100.0) * _actualImageHeight - height / 2;
+          
           overlays.add(
             Positioned(
-              left: _imageOffsetX + (region.xPercent / 100.0) * _actualImageWidth,
-              top: _imageOffsetY + (region.yPercent / 100.0) * _actualImageHeight,
-              width: (region.widthPercent / 100.0) * _actualImageWidth,
-              height: (region.heightPercent / 100.0) * _actualImageHeight,
+              left: left,
+              top: top,
+              width: width,
+              height: height,
               child: Container(
                 decoration: BoxDecoration(
                   color: color,

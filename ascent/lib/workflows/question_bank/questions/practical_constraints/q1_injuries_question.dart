@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
+import '../../../onboarding_workflow/widgets/onboarding/question_input/body_map_widget.dart';
 import '../onboarding_question.dart';
 import '../../../../constants.dart';
 
@@ -58,7 +60,7 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
   }
   
   @override
-  dynamic getDefaultAnswer() => [AnswerConstants.none]; // Default to no injuries
+  dynamic getDefaultAnswer() => <String>[]; // Default to empty list - no pre-selections
   
   //MARK: TYPED ACCESSORS
   
@@ -109,5 +111,28 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
     if (items == null) return [AnswerConstants.none];
     if (items is List) return items.cast<String>();
     return [items.toString()];
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    final currentAnswer = currentAnswers[id];
+    
+    return BodyMapWidget(
+      questionId: id,
+      title: questionText,
+      subtitle: subtitle,
+      onAnswerChanged: (questionId, values) => onAnswerChanged(questionId, values),
+      selectedValues: currentAnswer == null 
+          ? null 
+          : currentAnswer is List 
+              ? currentAnswer.cast<String>()
+              : currentAnswer is String 
+                  ? [currentAnswer]
+                  : null,
+      currentAnswers: currentAnswers,
+    );
   }
 }

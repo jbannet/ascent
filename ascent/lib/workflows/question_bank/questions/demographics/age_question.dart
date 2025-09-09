@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
+import '../../views/question_types/date_picker_view.dart';
 import '../onboarding_question.dart';
 
 /// Date of birth demographic question for fitness assessment normalization.
@@ -76,5 +78,18 @@ class AgeQuestion extends OnboardingQuestion {
     final now = DateTime.now();
     final age = now.year - dateOfBirth.year - (now.month < dateOfBirth.month || (now.month == dateOfBirth.month && now.day < dateOfBirth.day) ? 1 : 0);
     return age;
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return DatePickerView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      config: config,
+    );
   }
 }

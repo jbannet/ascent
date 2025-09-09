@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/question_option.dart';
+import '../question_input_view.dart';
 
 /// Single choice widget for questions requiring one selection from multiple options.
-class SingleChoiceView extends StatelessWidget {
-  final String questionId;
-  final String? currentAnswer;
-  final Function(String, String) onAnswerChanged;
-  final List<QuestionOption> options;
-
+class SingleChoiceView extends QuestionInputView {
   const SingleChoiceView({
     super.key,
-    required this.questionId,
-    this.currentAnswer,
-    required this.onAnswerChanged,
-    required this.options,
+    required super.questionId,
+    required super.answers,
+    required super.onAnswerChanged,
+    super.options,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final currentAnswerValue = getCurrentAnswerAs<String>();
+    final optionsList = options ?? <QuestionOption>[];
     
     return Column(
-      children: options.map((option) {
-        final isSelected = currentAnswer == option.value;
+      children: optionsList.map((option) {
+        final isSelected = currentAnswerValue == option.value;
         
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
@@ -48,7 +46,7 @@ class SingleChoiceView extends StatelessWidget {
                 children: [
                   Radio<String>(
                     value: option.value,
-                    groupValue: currentAnswer,
+                    groupValue: currentAnswerValue,
                     onChanged: (value) {
                       if (value != null) {
                         onAnswerChanged(questionId, value);
@@ -63,14 +61,17 @@ class SingleChoiceView extends StatelessWidget {
                         Text(
                           option.label,
                           style: theme.textTheme.bodyLarge?.copyWith(
-                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                            color: isSelected 
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.onSurface,
                           ),
                         ),
                         if (option.description != null) ...[
                           const SizedBox(height: 4),
                           Text(
                             option.description!,
-                            style: theme.textTheme.bodySmall?.copyWith(
+                            style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                             ),
                           ),

@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
+import '../../../onboarding_workflow/widgets/onboarding/question_input/dual_column_selector_widget.dart';
 import '../onboarding_question.dart';
 
 /// Session commitment question that captures both full and micro session availability.
@@ -113,5 +115,21 @@ class SessionCommitmentQuestion extends OnboardingQuestion {
     // Full sessions average 45 minutes
     // Micro sessions average 10 minutes
     return (full * 45) + (micro * 10);
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    final currentAnswer = currentAnswers[id];
+    
+    return DualColumnSelectorWidget(
+      config: config,
+      onChanged: (value) => onAnswerChanged(id, value),
+      initialValue: currentAnswer is Map<String, dynamic>
+          ? currentAnswer
+          : null,
+    );
   }
 }

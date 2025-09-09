@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
+import '../../views/question_types/slider_view.dart';
 import '../onboarding_question.dart';
 
 /// Sleep hours assessment question.
@@ -47,5 +49,18 @@ class SleepHoursQuestion extends OnboardingQuestion {
     final hours = answers[questionId];
     if (hours == null) return null;
     return hours is double ? hours : double.tryParse(hours.toString());
+  }
+
+  @override
+  Widget buildAnswerWidget(
+    Map<String, dynamic> currentAnswers,
+    Function(String, dynamic) onAnswerChanged,
+  ) {
+    return SliderView(
+      questionId: id,
+      answers: currentAnswers,
+      onAnswerChanged: onAnswerChanged,
+      config: config,
+    );
   }
 }

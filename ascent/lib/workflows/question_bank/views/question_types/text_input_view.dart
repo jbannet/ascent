@@ -1,47 +1,25 @@
 import 'package:flutter/material.dart';
+import '../question_input_view.dart';
 
 /// Text input widget for questions requiring text answers.
-class TextInputView extends StatefulWidget {
-  final String questionId;
-  final String? currentAnswer;
-  final Function(String, String) onAnswerChanged;
-  final Map<String, dynamic>? config;
-
+class TextInputView extends QuestionInputView {
   const TextInputView({
     super.key,
-    required this.questionId,
-    this.currentAnswer,
-    required this.onAnswerChanged,
-    this.config,
+    required super.questionId,
+    required super.answers,
+    required super.onAnswerChanged,
+    super.config,
   });
-
-  @override
-  State<TextInputView> createState() => _TextInputViewState();
-}
-
-class _TextInputViewState extends State<TextInputView> {
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController(text: widget.currentAnswer ?? '');
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final config = widget.config ?? <String, dynamic>{};
+    final config = this.config ?? <String, dynamic>{};
+    final currentAnswerText = getCurrentAnswerAs<String>() ?? '';
     
     return TextFormField(
-      controller: _controller,
-      onChanged: (value) => widget.onAnswerChanged(widget.questionId, value),
+      initialValue: currentAnswerText,
+      onChanged: (value) => onAnswerChanged(questionId, value),
       decoration: InputDecoration(
         hintText: config['placeholder'] as String?,
         border: OutlineInputBorder(
