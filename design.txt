@@ -21,6 +21,30 @@ Build initial allocation based on performance gaps and age.
 ### PHASE 2: MEDICAL OVERRIDES
 Apply critical safety minimums that override base distribution.
 
+Cannot Stand from Chair:
+
+  - Strength: 35% → 45% (research shows lower limb weakness needs priority)
+  - Functional: 40% → 25% (underlying strength more critical)
+  - Balance: 15% → 25% (chair stand inability correlates with fall risk)
+  - Cardio: 10% → 5% (minimal for this crisis)
+
+  GLP-1 + Obesity:
+
+  - Cardio: 35% → 30% (still important but not dominant)
+  - Functional: 15% → 20% (obesity creates functional limitations)
+
+  Extreme Obesity (BMI 40+):
+
+  - Strength: 20% → 30% (muscle preservation crucial during weight loss)
+  - Cardio: 40% → 35% (reduced to accommodate higher strength)
+
+  Priority Order Fixed:
+
+  - Fall history now #1 (immediate safety risk)
+  - Chair stand #2 (functional mobility crisis)
+  - Extreme obesity #3 (high medical risk)
+  - GLP-1 + obesity #4 (important but less acute)
+  
 =========================================
 PHASE 1: BASE DISTRIBUTION CALCULATION
 =========================================
@@ -129,10 +153,10 @@ IF fall_history == YES AND age >= 65:
 ```
 IF chair_stand == NO:
   REPLACE entire allocation:
-    Functional = 40%
-    Strength = 35%
-    Balance = 15%
-    Cardio = 10%
+    Strength = 45%
+    Functional = 25%
+    Balance = 25%
+    Cardio = 5%
     Flexibility = 0%
   RETURN  // Stop processing
 ```
@@ -142,8 +166,8 @@ IF chair_stand == NO:
 IF glp1_medications == YES AND BMI >= 30:
   REPLACE entire allocation:
     Strength = 40%
-    Cardio = 35%
-    Functional = 15%
+    Cardio = 30%
+    Functional = 20%
     Balance = 10%
     Flexibility = 0%
   RETURN  // Stop processing
@@ -153,21 +177,21 @@ IF glp1_medications == YES AND BMI >= 30:
 ```
 IF BMI >= 40:
   REPLACE entire allocation:
-    Cardio = 40%
+    Cardio = 35%
+    Strength = 30%
     Functional = 25%
-    Strength = 20%
     Balance = 10%
-    Flexibility = 5%
+    Flexibility = 0%
   RETURN  // Stop processing
 ```
 
 ### Multiple Conditions
 ```
 Apply in this priority order:
-1. Cannot stand from chair (most critical)
-2. Fall history + age 65+
-3. GLP-1 + obesity
-4. Extreme obesity
+1. Fall history + age 65+ (immediate safety risk)
+2. Cannot stand from chair (functional mobility crisis)
+3. Extreme obesity BMI 40+ (high medical risk)
+4. GLP-1 + obesity BMI 30+ (important but less acute)
 First matching condition wins - no combinations.
 ```
 
