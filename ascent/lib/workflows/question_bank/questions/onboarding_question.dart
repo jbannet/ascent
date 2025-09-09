@@ -32,6 +32,9 @@ abstract class OnboardingQuestion {
   /// Optional subtitle/instruction text
   String? get subtitle => null;
   
+  /// Optional subtitle widget (overrides subtitle if provided)
+  Widget? get subtitleWidget => null;
+  
   /// Options for single/multiple choice questions
   List<QuestionOption>? get options => null;
   
@@ -103,8 +106,10 @@ abstract class OnboardingQuestion {
       questionId: id,
       questionText: questionText,
       subtitle: subtitle,
+      subtitleWidget: subtitleWidget,
       reason: null, // Can be overridden by individual questions if needed
       accentColor: accentColor,
+      noPadding: questionType == EnumQuestionType.bodyMap,
       answerWidget: buildAnswerWidget(currentAnswers, onAnswerChanged),
     );
   }

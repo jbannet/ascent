@@ -9,18 +9,22 @@ class BaseQuestionView extends StatelessWidget {
   final String questionId;
   final String questionText;
   final String? subtitle;
+  final Widget? subtitleWidget;
   final String? reason;
   final Widget answerWidget;
   final Color? accentColor;
+  final bool noPadding;
 
   const BaseQuestionView({
     super.key,
     required this.questionId,
     required this.questionText,
     this.subtitle,
+    this.subtitleWidget,
     this.reason,
     required this.answerWidget,
     this.accentColor,
+    this.noPadding = false,
   });
 
   @override
@@ -95,7 +99,10 @@ class BaseQuestionView extends StatelessWidget {
         ),
         
         //MARK: Subtitle
-        if (subtitle != null) ...[
+        if (subtitleWidget != null) ...[
+          const SizedBox(height: 8),
+          subtitleWidget!,
+        ] else if (subtitle != null) ...[
           const SizedBox(height: 8),
           Text(
             subtitle!,
@@ -105,21 +112,23 @@ class BaseQuestionView extends StatelessWidget {
           ),
         ],
         
-        const SizedBox(height: 16),
+        SizedBox(height: noPadding ? 8 : 16),
         
         //MARK: AnswerWidget
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: theme.colorScheme.outline.withValues(alpha: 0.1),
+        noPadding 
+          ? answerWidget
+          : Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: theme.colorScheme.outline.withValues(alpha: 0.1),
+                ),
+              ),
+              padding: const EdgeInsets.all(20),
+              child: answerWidget,
             ),
-          ),
-          padding: const EdgeInsets.all(20),
-          child: answerWidget,
-        ),
       ],
     );
   }

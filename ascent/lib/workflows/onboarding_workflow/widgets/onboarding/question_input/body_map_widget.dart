@@ -13,6 +13,7 @@ class BodyMapWidget extends StatefulWidget {
   final String questionId;
   final String title;
   final String? subtitle;
+  final Widget? subtitleWidget;
   final Function(String questionId, List<String> values) onAnswerChanged;
   final List<String>? selectedValues;
   final Map<String, dynamic>? currentAnswers;
@@ -22,6 +23,7 @@ class BodyMapWidget extends StatefulWidget {
     required this.questionId,
     required this.title,
     this.subtitle,
+    this.subtitleWidget,
     required this.onAnswerChanged,
     this.selectedValues,
     this.currentAnswers,
@@ -34,6 +36,7 @@ class BodyMapWidget extends StatefulWidget {
         title = config['title'] ??
             (throw ArgumentError('BodyMapWidget: title is required')),
         subtitle = config['subtitle'] as String?,
+        subtitleWidget = config['subtitleWidget'] as Widget?,
         onAnswerChanged = config['onAnswerChanged'] ??
             (throw ArgumentError('BodyMapWidget: onAnswerChanged is required')),
         selectedValues = config['selectedValues'] as List<String>?,
@@ -145,92 +148,37 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Instructions
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.touch_app, 
-                       size: 20, 
-                       color: Colors.amber.shade700),
-                  const SizedBox(width: 8),
-                  Text('Single tap: Pain (Strengthen)',
-                       style: TextStyle(
-                         fontWeight: FontWeight.w500,
-                         color: Colors.amber.shade700,
-                       )),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Row(
-                children: [
-                  Icon(Icons.touch_app, 
-                       size: 20, 
-                       color: Colors.red.shade700),
-                  const SizedBox(width: 8),
-                  Text('Double tap: Injury (Avoid)',
-                       style: TextStyle(
-                         fontWeight: FontWeight.w500,
-                         color: Colors.red.shade700,
-                       )),
-                ],
-              ),
-            ],
-          ),
-        ),
-        
-        const SizedBox(height: 20),
-        
         // Body Map with Gender-Specific Image
         Center(
           child: LayoutBuilder(
             builder: (context, constraints) {
-              // Use the same approach as the mapping tool - let the image size itself with BoxFit.contain
-              // and use the available space
-              final availableWidth = constraints.maxWidth - 40;
-              final availableHeight = 500.0;
+              // Use width-based sizing to eliminate white space
+              // Let the image aspect ratio determine the height
+              final availableWidth = constraints.maxWidth;
+              final targetImageWidth = 400.0; // Target width for the body image
+              
+              // Calculate height based on actual image aspect ratios
+              // Male: 1024x1024 (1:1 ratio), Female: 1024x1536 (~0.67:1 ratio)
+              final isFemale = _userGender?.toLowerCase() == 'female';
+              final imageAspectRatio = isFemale ? (1024.0 / 1536.0) : (1024.0 / 1024.0);
+              final availableHeight = targetImageWidth / imageAspectRatio;
               
               // Store the container dimensions
               _imageWidth = availableWidth;
               _imageHeight = availableHeight;
               
-              // Calculate actual rendered image dimensions with BoxFit.contain
-              // Use actual image dimensions: man.png=1024x1024 (1.0), woman.png=1024x1536 (0.667)
-              final imageAspectRatio = _userGender?.toLowerCase() == 'female' ? (1024.0 / 1536.0) : (1024.0 / 1024.0);
-              final containerAspectRatio = availableWidth / availableHeight;
+              // Since we're using exact sizing, actual image dimensions match container
+              _actualImageWidth = targetImageWidth;
+              _actualImageHeight = availableHeight;
+              _imageOffsetX = 0.0;
+              _imageOffsetY = 0.0;
               
-              print('DEBUG: Container dimensions: $availableWidth x $availableHeight');
+              print('DEBUG: Container dimensions: $targetImageWidth x $availableHeight');
               print('DEBUG: Image aspect ratio: $imageAspectRatio');
-              print('DEBUG: Container aspect ratio: $containerAspectRatio');
-              
-              if (containerAspectRatio > imageAspectRatio) {
-                // Container is wider, image is constrained by height
-                _actualImageHeight = availableHeight;
-                _actualImageWidth = availableHeight * imageAspectRatio;
-                _imageOffsetX = (availableWidth - _actualImageWidth) / 2;
-                _imageOffsetY = 0.0;
-                print('DEBUG: Image constrained by height');
-              } else {
-                // Container is taller, image is constrained by width
-                _actualImageWidth = availableWidth;
-                _actualImageHeight = availableWidth / imageAspectRatio;
-                _imageOffsetX = 0.0;
-                _imageOffsetY = (availableHeight - _actualImageHeight) / 2;
-                print('DEBUG: Image constrained by width');
-              }
-              
-              print('DEBUG: Calculated actual dimensions: $_actualImageWidth x $_actualImageHeight');
-              print('DEBUG: Calculated offsets: ($_imageOffsetX, $_imageOffsetY)');
+              print('DEBUG: Actual dimensions: $_actualImageWidth x $_actualImageHeight');
               
               return SizedBox(
-                width: availableWidth,
+                width: targetImageWidth,
                 height: availableHeight,
                 child: Stack(
                   children: [
@@ -238,8 +186,8 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
                     Image.asset(
                       _getBodyImagePath(),
                       key: _actualImageKey,
-                      fit: BoxFit.contain,
-                      width: availableWidth,
+                      fit: BoxFit.fill,
+                      width: targetImageWidth,
                       height: availableHeight,
                     ),
                     // Visual feedback overlay for selected regions (BEHIND clickable regions)
@@ -253,72 +201,10 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
           ),
         ),
         
-        const SizedBox(height: 20),
+        const SizedBox(height: 8),
         
-        // Selected Items Summary
-        if (_bodyPartStates.isNotEmpty) ...[
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.3)),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (_bodyPartStates.values.contains(BodyPartState.pain)) ...[
-                  Row(
-                    children: [
-                      Icon(Icons.fitness_center, 
-                           size: 16, 
-                           color: Colors.amber.shade700),
-                      const SizedBox(width: 8),
-                      Text('Pain to strengthen: ',
-                           style: TextStyle(
-                             fontWeight: FontWeight.w600,
-                             color: Colors.amber.shade700,
-                           )),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _bodyPartStates.entries
-                        .where((e) => e.value == BodyPartState.pain)
-                        .map((e) => _formatBodyPartName(e.key))
-                        .join(', '),
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                ],
-                if (_bodyPartStates.values.contains(BodyPartState.injury)) ...[
-                  if (_bodyPartStates.values.contains(BodyPartState.pain))
-                    const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(Icons.warning, 
-                           size: 16, 
-                           color: Colors.red.shade700),
-                      const SizedBox(width: 8),
-                      Text('Injuries to avoid: ',
-                           style: TextStyle(
-                             fontWeight: FontWeight.w600,
-                             color: Colors.red.shade700,
-                           )),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _bodyPartStates.entries
-                        .where((e) => e.value == BodyPartState.injury)
-                        .map((e) => _formatBodyPartName(e.key))
-                        .join(', '),
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ],
+        // Body Part Pills
+        _buildBodyPartPills(theme),
       ],
     );
   }
@@ -327,6 +213,67 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
     return part.replaceAll('_', ' ').split(' ').map((word) {
       return word.isNotEmpty ? word[0].toUpperCase() + word.substring(1) : '';
     }).join(' ');
+  }
+
+  /// Build body part pills in anatomical order
+  Widget _buildBodyPartPills(ThemeData theme) {
+    // Define anatomical order (head to toe)
+    const anatomicalOrder = [
+      'neck', 'shoulders', 'chest', 'lats', 'traps',
+      'biceps', 'triceps', 'elbows', 'forearms', 'wrists',
+      'abdominals', 'lower_back',
+      'hips', 'glutes', 'quadriceps', 'hamstrings',
+      'knees', 'calves', 'shins', 'ankles', 'feet'
+    ];
+    
+    return Wrap(
+      spacing: 3,
+      runSpacing: 3,
+      children: anatomicalOrder.map((bodyPart) {
+        final state = _bodyPartStates[bodyPart];
+        final isSelected = state != null;
+        final isPain = state == BodyPartState.pain;
+        final isInjury = state == BodyPartState.injury;
+        
+        Color backgroundColor;
+        Color textColor;
+        Border border;
+        
+        if (isPain) {
+          backgroundColor = Colors.amber.shade700;
+          textColor = Colors.white;
+          border = Border.all(color: Colors.amber.shade700);
+        } else if (isInjury) {
+          backgroundColor = Colors.red.shade700;
+          textColor = Colors.white;
+          border = Border.all(color: Colors.red.shade700);
+        } else {
+          backgroundColor = Colors.transparent;
+          textColor = theme.colorScheme.onSurface.withValues(alpha: 0.6);
+          border = Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.3));
+        }
+        
+        return GestureDetector(
+          onTap: () => _handleTap(bodyPart),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              border: border,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Text(
+              _formatBodyPartName(bodyPart),
+              style: TextStyle(
+                color: textColor,
+                fontSize: 15,
+                fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
   }
 
   /// Get the appropriate body image path based on user gender

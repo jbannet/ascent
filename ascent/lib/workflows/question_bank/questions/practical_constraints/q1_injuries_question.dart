@@ -29,7 +29,7 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
   String get id => Q1InjuriesQuestion.questionId;
   
   @override
-  String get questionText => 'Do you have any pain or injuries?';
+  String get questionText => 'Do you have pain or injuries?';
   
   @override
   String get section => 'practical_constraints';
@@ -38,7 +38,36 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
   EnumQuestionType get questionType => EnumQuestionType.bodyMap;
   
   @override
-  String? get subtitle => 'Tap body parts to indicate pain or injury';
+  String? get subtitle => null;
+  
+  @override
+  Widget? get subtitleWidget => RichText(
+    text: TextSpan(
+      style: const TextStyle(fontSize: 14),
+      children: [
+        TextSpan(
+          text: 'Tap once ',
+          style: TextStyle(color: Colors.amber.shade700, fontWeight: FontWeight.w500),
+        ),
+        TextSpan(
+          text: '(pain/strengthen)',
+          style: TextStyle(color: Colors.amber.shade700),
+        ),
+        const TextSpan(
+          text: '; ',
+          style: TextStyle(color: Colors.grey),
+        ),
+        TextSpan(
+          text: 'tap twice ',
+          style: TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.w500),
+        ),
+        TextSpan(
+          text: '(injury/avoid)',
+          style: TextStyle(color: Colors.red.shade700),
+        ),
+      ],
+    ),
+  );
   
   @override
   List<QuestionOption>? get options => null; // Body map doesn't use options
