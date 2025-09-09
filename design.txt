@@ -106,63 +106,69 @@ flexibility_pct = (flexibility_base / total) × 100
 ```
 
 =========================================
-PHASE 2: MEDICAL OVERRIDE APPLICATION
+PHASE 2: CRITICAL CONDITION PROTOCOLS
 =========================================
 
-## CRITICAL MINIMUMS
-Check these conditions and enforce minimums:
+## COMPLETE REPLACEMENT PROTOCOLS
+When critical conditions are detected, REPLACE the entire allocation with evidence-based protocols.
+Do NOT normalize or adjust - use these exact percentages.
 
-### Fall History Override
+### Fall History Protocol (Age 65+)
 ```
-IF fall_history == YES:
-  IF balance_pct < 30:
-    deficit = 30 - balance_pct
-    balance_pct = 30
-    scale_others_down(deficit)
+IF fall_history == YES AND age >= 65:
+  REPLACE entire allocation:
+    Balance = 35%
+    Strength = 35%
+    Functional = 20%
+    Cardio = 10%
+    Flexibility = 0%
+  RETURN  // Stop processing
 ```
 
-### Chair Stand Override
+### Cannot Stand from Chair Protocol
 ```
 IF chair_stand == NO:
-  IF functional_pct < 35:
-    deficit = 35 - functional_pct
-    functional_pct = 35
-    scale_others_down(deficit)
-  IF strength_pct < 25:
-    deficit = 25 - strength_pct
-    strength_pct = 25
-    scale_others_down(deficit)
+  REPLACE entire allocation:
+    Functional = 40%
+    Strength = 35%
+    Balance = 15%
+    Cardio = 10%
+    Flexibility = 0%
+  RETURN  // Stop processing
 ```
 
-### GLP-1 Override
+### GLP-1 + Obesity Protocol
 ```
-IF glp1_medications == YES:
-  IF strength_pct < 35:
-    deficit = 35 - strength_pct
-    strength_pct = 35
-    scale_others_down(deficit)
+IF glp1_medications == YES AND BMI >= 30:
+  REPLACE entire allocation:
+    Strength = 40%
+    Cardio = 35%
+    Functional = 15%
+    Balance = 10%
+    Flexibility = 0%
+  RETURN  // Stop processing
 ```
 
-### Extreme BMI Override
+### Extreme Obesity Protocol (BMI 40+)
 ```
 IF BMI >= 40:
-  IF cardio_pct < 40:
-    deficit = 40 - cardio_pct
-    cardio_pct = 40
-    scale_others_down(deficit)
+  REPLACE entire allocation:
+    Cardio = 40%
+    Functional = 25%
+    Strength = 20%
+    Balance = 10%
+    Flexibility = 5%
+  RETURN  // Stop processing
 ```
 
-### Scale Others Down Function
+### Multiple Conditions
 ```
-function scale_others_down(deficit):
-  // Get objectives that aren't at minimum
-  available = [obj for obj in objectives if obj.pct > obj.minimum]
-  available_total = sum(available.pct)
-  
-  // Scale each proportionally
-  for obj in available:
-    reduction = (obj.pct / available_total) × deficit
-    obj.pct -= reduction
+Apply in this priority order:
+1. Cannot stand from chair (most critical)
+2. Fall history + age 65+
+3. GLP-1 + obesity
+4. Extreme obesity
+First matching condition wins - no combinations.
 ```
 
 =========================================
@@ -204,16 +210,13 @@ COMPLETE CALCULATION EXAMPLES
 - Strength: 46/149 × 100 = 31%
 - Balance: 20/149 × 100 = 13%
 - Functional: 20/149 × 100 = 13%
-- Flexibility: 20/149 × 100 = 13%
+- Flexibility: 20/149 × 100 = 13%3
 
-### Phase 2: Fall History Override
-- Balance needs 30% (currently 13%)
-- Deficit = 30 - 13 = 17%
-- Scale others: C:29%, S:31%, Fu:13%, Fl:13% (total 86%)
-- Each loses: 17% × (their_pct/86)
-- New: C:23%, S:25%, Fu:11%, Fl:11%
+### Phase 2: Fall History Protocol Applied
+- Condition: fall_history == YES AND age >= 65
+- Apply Fall History Protocol (complete replacement)
 
-### FINAL: C:23%, S:25%, B:30%, Fu:11%, Fl:11%
+### FINAL: C:10%, S:35%, B:35%, Fu:20%, Fl:0%
 
 ## Example 3: 45-year-old, Cooper 5th %ile, Pushups 50th %ile, GLP-1, BMI 32
 

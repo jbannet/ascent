@@ -61,24 +61,6 @@ class NutritionTableBars extends StatefulWidget {
 
 class _NutritionTableBarsState extends State<NutritionTableBars> {
   final GlobalKey _tableKey = GlobalKey();
-  double _tableWidth = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _updateTableWidth();
-    });
-  }
-
-  void _updateTableWidth() {
-    final RenderBox? renderBox = _tableKey.currentContext?.findRenderObject() as RenderBox?;
-    if (renderBox != null) {
-      setState(() {
-        _tableWidth = renderBox.size.width;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +71,7 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
         // Table
         Container(
           key: _tableKey,
+          height: 300, // Fixed height for vertical bars
           decoration: BoxDecoration(
             color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
@@ -96,99 +79,91 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
               color: theme.colorScheme.outline.withValues(alpha: 0.2),
             ),
           ),
-          child: Column(
+          child: Row(
             children: [
-              // Nutrition bars
-              ...NutritionBarConfig.configs.entries.map((entry) {
-                final config = entry.value;
-                final value = widget.allValues[config.type] ?? 0;
-                final isActive = config.type == widget.currentType;
-                
-                return _buildNutritionBar(config, value, isActive, theme);
-              }),
+              // Left scale (numbers)
+              _buildLeftScale(theme),
               
-              // Bottom scale
-              _buildBottomScale(theme),
+              // Nutrition bars (vertical)
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: NutritionBarConfig.configs.entries.map((entry) {
+                    final config = entry.value;
+                    final value = widget.allValues[config.type] ?? 0;
+                    final isActive = config.type == widget.currentType;
+                    
+                    return _buildVerticalNutritionBar(config, value, isActive, theme);
+                  }).toList(),
+                ),
+              ),
             ],
           ),
         ),
+        
+        const SizedBox(height: 8),
+        
+        // Bottom icons
+        _buildBottomIcons(theme),
       ],
     );
   }
 
-  Widget _buildNutritionBar(NutritionBarConfig config, int value, bool isActive, ThemeData theme) {
-    const rowHeight = 50.0;
-    const iconWidth = 60.0;
+  Widget _buildVerticalNutritionBar(NutritionBarConfig config, int value, bool isActive, ThemeData theme) {
+    const chartHeight = 250.0; // Leave space for padding in 300px container
     
-    return SizedBox(
-      height: rowHeight,
-      child: Row(
-        children: [
-          // Icon column (fixed width)
-          Container(
-            width: iconWidth,
-            height: rowHeight,
-            color: theme.colorScheme.surface,
-            child: Center(
-              child: Text(
-                config.icon,
-                style: TextStyle(
-                  fontSize: isActive ? 24 : 20,
+    return Expanded(
+      child: GestureDetector(
+        onTapDown: isActive ? (details) => _handleVerticalTap(details, config, chartHeight) : null,
+        onPanUpdate: isActive ? (details) => _handleVerticalDrag(details, config, chartHeight) : null,
+        child: Container(
+          height: chartHeight,
+          margin: const EdgeInsets.symmetric(horizontal: 1), // Minimal margin so bars almost touch
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              // Background bar (empty state) - full width
+              Container(
+                width: double.infinity,
+                height: chartHeight,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.outline.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(2),
                 ),
               ),
-            ),
-          ),
-          
-          // Bar area (expandable)
-          Expanded(
-            child: GestureDetector(
-              onTapDown: isActive ? (details) => _handleTap(details, config) : null,
-              onPanUpdate: isActive ? (details) => _handleDrag(details, config) : null,
-              child: Container(
-                height: rowHeight,
-                color: Colors.transparent,
-                child: Stack(
-                  children: [
-                    // Background bar (empty state)
-                    Container(
-                      height: rowHeight,
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.outline.withValues(alpha: 0.1),
-                      ),
-                    ),
-                    
-                    // Filled bar
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      height: rowHeight,
-                      width: _getBarWidth(value, config.maxValue),
-                      decoration: BoxDecoration(
-                        color: isActive 
-                          ? config.color
-                          : config.color.withValues(alpha: 0.6),
-                      ),
-                    ),
-                    
-                    // Value text (positioned at bar end)
-                    if (value > 0) _buildValueText(value, config, theme, isActive),
-                  ],
+              
+              // Filled bar (grows upward from bottom) - full width
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  width: double.infinity,
+                  height: _getBarHeight(value, config.maxValue, chartHeight),
+                  decoration: BoxDecoration(
+                    color: isActive 
+                      ? config.color
+                      : config.color.withValues(alpha: 0.6),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
-            ),
+              
+              // Value text (positioned above bar)
+              if (value > 0) _buildVerticalValueText(value, config, theme, isActive, chartHeight),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildValueText(int value, NutritionBarConfig config, ThemeData theme, bool isActive) {
-    const iconWidth = 60.0;
-    final barWidth = _getBarWidth(value, config.maxValue);
-    final leftPosition = barWidth + 8; // 8px padding from bar end
+  Widget _buildVerticalValueText(int value, NutritionBarConfig config, ThemeData theme, bool isActive, double chartHeight) {
+    final barHeight = _getBarHeight(value, config.maxValue, chartHeight);
+    // Ensure the badge doesn't go above the chart area (minimum 5px from top)
+    final topPosition = (chartHeight - barHeight - 25).clamp(5.0, chartHeight - 20);
     
     return Positioned(
-      left: leftPosition,
-      top: 12, // Center vertically in 50px row
+      top: topPosition,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         decoration: BoxDecoration(
@@ -209,113 +184,141 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
     );
   }
 
-  Widget _buildBottomScale(ThemeData theme) {
-    const iconWidth = 60.0;
-    
+  Widget _buildLeftScale(ThemeData theme) {
     return SizedBox(
-      height: 30,
-      child: Row(
-        children: [
-          // Empty space for icon column
-          SizedBox(width: iconWidth),
-          
-          // Scale markers
-          Expanded(
-            child: Stack(
-              children: [
-                // Scale line
-                Positioned(
-                  top: 10,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 1,
-                    color: theme.colorScheme.outline.withValues(alpha: 0.3),
-                  ),
-                ),
-                
-                // Scale numbers
-                ..._buildScaleMarkers(theme),
-              ],
+      width: 40,
+      child: Container(
+        height: 250, // Match chartHeight exactly
+        child: Stack(
+          alignment: Alignment.centerRight,
+          children: [
+            // "0" at the bottom - aligns with bar base
+            Positioned(
+              bottom: 0,
+              right: 8,
+              child: Text('0', style: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              )),
             ),
-          ),
-        ],
+            // "5" at 5/15 of height - aligns with 5-unit bar
+            Positioned(
+              bottom: 83, // 250 * (5/15) = 83.3
+              right: 8,
+              child: Text('5', style: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              )),
+            ),
+            // "10" at 10/15 of height - aligns with 10-unit bar
+            Positioned(
+              bottom: 167, // 250 * (10/15) = 166.7
+              right: 8,
+              child: Text('10', style: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              )),
+            ),
+            // "15+" at the top - aligns with 15-unit bar
+            Positioned(
+              top: 0,
+              right: 8,
+              child: Text('15+', style: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              )),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  List<Widget> _buildScaleMarkers(ThemeData theme) {
-    if (_tableWidth == 0) return [];
-    
-    const iconWidth = 60.0;
-    final barAreaWidth = _tableWidth - iconWidth;
-    final markers = <Widget>[];
-    
-    final scaleValues = [0, 5, 10, 15];
-    
-    for (final value in scaleValues) {
-      final position = (value / 15) * barAreaWidth;
-      
-      markers.add(
-        Positioned(
-          left: position - 10, // Center the text
-          top: 0,
-          child: Container(
-            width: 20,
-            alignment: Alignment.center,
-            child: Text(
-              value == 15 ? '15+' : value.toString(),
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                fontSize: 10,
-              ),
-            ),
+  Widget _buildBottomIcons(ThemeData theme) {
+    return Row(
+      children: [
+        // Match the left scale width exactly
+        SizedBox(width: 40),
+        // Icons aligned with bars
+        Expanded(
+          child: Row(
+            children: NutritionBarConfig.configs.entries.map((entry) {
+              final config = entry.value;
+              final isActive = config.type == widget.currentType;
+              
+              return Expanded(
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: isActive 
+                        ? config.color.withValues(alpha: 0.1)
+                        : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: isActive 
+                          ? config.color.withValues(alpha: 0.3)
+                          : Colors.transparent,
+                      ),
+                    ),
+                    child: Text(
+                      config.icon,
+                      style: TextStyle(
+                        fontSize: isActive ? 32 : 28,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
           ),
         ),
-      );
-      
-      // Add tick mark
-      markers.add(
-        Positioned(
-          left: position - 0.5,
-          top: 8,
-          child: Container(
-            width: 1,
-            height: 6,
-            color: theme.colorScheme.outline.withValues(alpha: 0.4),
-          ),
-        ),
-      );
+      ],
+    );
+  }
+
+  double _getBarHeight(int value, int maxValue, double chartHeight) {
+    // Handle edge cases that could cause BoxConstraints.lerp assertion errors
+    if (maxValue <= 0 || !chartHeight.isFinite || chartHeight <= 0) {
+      return 0.0;
     }
     
-    return markers;
-  }
-
-  double _getBarWidth(int value, int maxValue) {
-    if (_tableWidth == 0) return 0;
+    // Ensure value is valid
+    if (value < 0) {
+      return 0.0;
+    }
     
-    const iconWidth = 60.0;
-    final barAreaWidth = _tableWidth - iconWidth;
+    // Calculate ratio and ensure it's valid
     final ratio = (value / maxValue).clamp(0.0, 1.0);
+    if (!ratio.isFinite) {
+      return 0.0;
+    }
     
-    return barAreaWidth * ratio;
-  }
-
-  void _handleTap(TapDownDetails details, NutritionBarConfig config) {
-    _updateValueFromPosition(details.localPosition.dx, config);
-  }
-
-  void _handleDrag(DragUpdateDetails details, NutritionBarConfig config) {
-    _updateValueFromPosition(details.localPosition.dx, config);
-  }
-
-  void _updateValueFromPosition(double x, NutritionBarConfig config) {
-    if (_tableWidth == 0) return;
+    // Calculate final height and ensure it's valid
+    final height = chartHeight * ratio;
+    if (!height.isFinite || height < 0) {
+      return 0.0;
+    }
     
-    const iconWidth = 60.0;
-    final barAreaWidth = _tableWidth - iconWidth;
-    final relativeX = (x / barAreaWidth).clamp(0.0, 1.0);
-    final newValue = (relativeX * config.maxValue).round().clamp(0, config.maxValue);
+    return height;
+  }
+
+  void _handleVerticalTap(TapDownDetails details, NutritionBarConfig config, double chartHeight) {
+    _updateValueFromVerticalPosition(details.localPosition.dy, config, chartHeight);
+  }
+
+  void _handleVerticalDrag(DragUpdateDetails details, NutritionBarConfig config, double chartHeight) {
+    _updateValueFromVerticalPosition(details.localPosition.dy, config, chartHeight);
+  }
+
+  void _updateValueFromVerticalPosition(double y, NutritionBarConfig config, double chartHeight) {
+    // Flip Y coordinate since we want higher values at the top
+    final relativeY = (1.0 - (y / chartHeight)).clamp(0.0, 1.0);
+    final newValue = (relativeY * config.maxValue).round().clamp(0, config.maxValue);
     
     widget.onValueChanged(config.type, newValue);
   }
