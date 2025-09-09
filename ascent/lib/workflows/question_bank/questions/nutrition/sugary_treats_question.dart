@@ -80,8 +80,7 @@ class SugaryTreatsQuestion extends OnboardingQuestion {
   
   /// Get sugary treats count as integer from answers
   int? getSugaryTreatsCount(Map<String, dynamic> answers) {
-    final value = answers[questionId];
-    return value?.toInt();
+    return _sugaryTreatsCount?.toInt();
   }
   
   /// Get nutrition data for chart visualization

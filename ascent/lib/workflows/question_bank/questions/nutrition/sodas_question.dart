@@ -81,8 +81,7 @@ class SodasQuestion extends OnboardingQuestion {
   
   /// Get sodas count as integer from answers
   int? getSodasCount(Map<String, dynamic> answers) {
-    final value = answers[questionId];
-    return value?.toInt();
+    return _sodasCount?.toInt();
   }
   
   /// Get nutrition data for chart visualization including previous answers

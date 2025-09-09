@@ -119,3 +119,46 @@ Fitness Objective Prioritization Framework
   4. Raw totals: C:40%, S:85%, B:10%, Fu:15%, Fl:20%
   5. Total = 170%
   6. Normalized: C:24%, S:50%, B:6%, Fu:9%, Fl:11%
+
+-----------------------------------
+  Absolute minimums from guidelines:
+  - 150 min cardio/week (WHO/CDC/ACSM)
+  - 2+ days strength/week
+  - 2-3 days balance/week for 65+
+  - 2+ days flexibility/week
+
+  
+    What the actual guidelines say:
+  - WHO/ACSM/CDC give time-based recommendations (150 min
+  cardio/week, 2x strength/week, etc.)
+  - They don't provide percentage breakdowns of total exercise
+  time
+  - They add balance training for 65+ but don't specify relative
+   proportions
+
+  The logic behind the synthesis:
+  - Young adults (18-39): High strength/cardio because peak
+  muscle-building years, minimal fall risk
+  - Middle age (40-59): Gradual shift as sarcopenia begins,
+  balance starts declining
+  - Older adults (65+): Progressive emphasis on
+  balance/functional as fall risk increases dramatically
+
+  The key evidence points:
+  - 1 in 4 adults 65+ fall annually → justifies increased
+  balance allocation
+  - 3-8% muscle loss per decade after 30 → justifies maintained
+  strength focus
+  - Balance training reduces falls by 19-50% → supports high
+  balance percentages for older adults
+
+  So the allocations were an educated interpretation trying to
+  translate time-based guidelines (e.g., "3x/week balance
+  training") into percentage allocations of total exercise
+  capacity. They're reasonable but not directly cited from
+  research.
+
+  Should we refine these percentages based on what we can
+  actually defend from the literature, or keep them as
+  "evidence-informed" starting points that we can adjust based
+  on your app's data?

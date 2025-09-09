@@ -16,6 +16,11 @@ import '../questions/fitness_assessment/glp1_medications_question.dart';
 import '../questions/fitness_assessment/session_commitment_question.dart';
 // Lifestyle
 import '../questions/lifestyle/sleep_hours_question.dart';
+// Nutrition
+import '../questions/nutrition/sugary_treats_question.dart';
+import '../questions/nutrition/sodas_question.dart';
+import '../questions/nutrition/grains_question.dart';
+import '../questions/nutrition/alcohol_question.dart';
 // Practical Constraints
 import '../questions/practical_constraints/q1_injuries_question.dart';
 import '../questions/practical_constraints/q2_high_impact_question.dart';
@@ -51,6 +56,12 @@ class QuestionBank {
     // 5. Lifestyle
     Glp1MedicationsQuestion.instance,    // GLP-1 medications
     SleepHoursQuestion.instance,         // sleep_hours
+    
+    // 5.5 Nutrition Profile
+    SugaryTreatsQuestion.instance,       // sugary_treats
+    SodasQuestion.instance,              // sodas
+    GrainsQuestion.instance,             // grains
+    AlcoholQuestion.instance,            // alcohol
     
     // 6. Schedule and Commitment
     SessionCommitmentQuestion.instance,  // session_commitment (replaces 4 questions)

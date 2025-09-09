@@ -83,8 +83,7 @@ class GrainsQuestion extends OnboardingQuestion {
   
   /// Get grains count as integer from answers
   int? getGrainsCount(Map<String, dynamic> answers) {
-    final value = answers[questionId];
-    return value?.toInt();
+    return _grainsCount?.toInt();
   }
   
   /// Get nutrition data for chart visualization including previous answers

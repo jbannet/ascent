@@ -89,9 +89,8 @@ class AlcoholQuestion extends OnboardingQuestion {
   
   /// Get alcohol count as integer from answers, returns null if private
   int? getAlcoholCount(Map<String, dynamic> answers) {
-    final value = answers[questionId];
-    if (value == 'prefer_not_to_say' || value == null) return null;
-    return value?.toInt();
+    if (_isPrivate) return null;
+    return _alcoholCount?.toInt();
   }
   
   /// Check if user chose privacy option
