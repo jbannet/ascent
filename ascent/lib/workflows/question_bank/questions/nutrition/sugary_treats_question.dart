@@ -60,12 +60,20 @@ class SugaryTreatsQuestion extends OnboardingQuestion {
   /// Get the sugary treats count as a typed double
   double? get sugaryTreatsCount => _sugaryTreatsCount;
   
+  /// Get the sugary treats count as answerDouble
+  double? get answerDouble => _sugaryTreatsCount;
+  
   @override
   void fromJsonValue(dynamic json) {
-    if (json is double) _sugaryTreatsCount = json;
-    else if (json is num) _sugaryTreatsCount = json.toDouble();
-    else if (json is String) _sugaryTreatsCount = double.tryParse(json);
-    else _sugaryTreatsCount = null;
+    if (json is double) {
+      _sugaryTreatsCount = json;
+    } else if (json is num) {
+      _sugaryTreatsCount = json.toDouble();
+    } else if (json is String) {
+      _sugaryTreatsCount = double.tryParse(json);
+    } else {
+      _sugaryTreatsCount = null;
+    }
   }
   
   //MARK: TYPED ACCESSOR
@@ -107,7 +115,7 @@ class SugaryTreatsQuestion extends OnboardingQuestion {
           questionId: id,
           answers: {id: _sugaryTreatsCount},
           onAnswerChanged: (questionId, value) {
-            setSugaryTreatsCount(value as double?);
+            setSugaryTreatsCount(value);
             onAnswerChanged();
           },
           config: config,
@@ -128,10 +136,10 @@ class SugaryTreatsQuestion extends OnboardingQuestion {
         return Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withOpacity(0.05),
+            color: theme.colorScheme.primary.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: theme.colorScheme.primary.withOpacity(0.1),
+              color: theme.colorScheme.primary.withValues(alpha: 0.1),
             ),
           ),
           child: Column(
@@ -161,7 +169,7 @@ class SugaryTreatsQuestion extends OnboardingQuestion {
                 '🧁 Cupcakes, donuts, muffins\n'
                 '🍨 Ice cream, frozen yogurt',
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withOpacity(0.8),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
                   height: 1.4,
                 ),
               ),

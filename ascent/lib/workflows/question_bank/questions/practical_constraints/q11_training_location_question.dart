@@ -49,19 +49,20 @@ class Q11TrainingLocationQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     final validOptions = [AnswerConstants.homeOnly, AnswerConstants.gymOnly, AnswerConstants.preferHome, AnswerConstants.preferGym, AnswerConstants.outdoors, AnswerConstants.anywhere];
     return validOptions.contains(answer.toString());
   }
   
-  @override
   dynamic getDefaultAnswer() => AnswerConstants.anywhere; // Most flexible default
   
   @override
   void fromJsonValue(dynamic json) {
-    if (json is String) _trainingLocation = json;
-    else _trainingLocation = null;
+    if (json is String) {
+      _trainingLocation = json;
+    } else {
+      _trainingLocation = null;
+    }
   }
   
   //MARK: ANSWER STORAGE
@@ -90,7 +91,7 @@ class Q11TrainingLocationQuestion extends OnboardingQuestion {
       questionId: id,
       answers: {id: _trainingLocation},
       onAnswerChanged: (questionId, value) {
-        setTrainingLocation(value as String?);
+        setTrainingLocation(value);
         onAnswerChanged();
       },
       options: options,

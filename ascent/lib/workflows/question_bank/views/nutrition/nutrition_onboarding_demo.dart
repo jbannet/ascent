@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../questions/nutrition/nutrition_questions_integration.dart';
-import '../base_question_view.dart';
 import 'diet_quality_summary.dart';
 
 /// Demo widget showing the complete nutrition onboarding flow.
@@ -18,7 +17,7 @@ class NutritionOnboardingDemo extends StatefulWidget {
 class _NutritionOnboardingDemoState extends State<NutritionOnboardingDemo> {
   PageController _pageController = PageController();
   int _currentQuestionIndex = 0;
-  Map<String, dynamic> _answers = {};
+  final Map<String, dynamic> _answers = {};
   
   @override
   void initState() {
@@ -38,7 +37,7 @@ class _NutritionOnboardingDemoState extends State<NutritionOnboardingDemo> {
     final isComplete = _currentQuestionIndex >= NutritionQuestionsIntegration.questionIds.length;
     
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
         title: Text('Nutrition Profile'),
         backgroundColor: Colors.transparent,

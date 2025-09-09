@@ -74,19 +74,20 @@ class Q6AChairStandQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     if (answer is! String) return false;
     return [AnswerConstants.yes, AnswerConstants.no].contains(answer);
   }
   
-  @override
   dynamic getDefaultAnswer() => AnswerConstants.no; // Conservative default for safety
   
   @override
   void fromJsonValue(dynamic json) {
-    if (json is String) _chairStandAbility = json;
-    else _chairStandAbility = null;
+    if (json is String) {
+      _chairStandAbility = json;
+    } else {
+      _chairStandAbility = null;
+    }
   }
   
   //MARK: TYPED ACCESSORS
@@ -135,7 +136,7 @@ class Q6AChairStandQuestion extends OnboardingQuestion {
       questionId: id,
       answers: {id: _chairStandAbility},
       onAnswerChanged: (questionId, value) {
-        setChairStandAbility(value as String?);
+        setChairStandAbility(value);
         onAnswerChanged();
       },
       options: options,

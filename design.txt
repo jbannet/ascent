@@ -1,41 +1,121 @@
+Fitness Objective Prioritization Framework
 
-  - Age 65+ → Balance to Tier 1
-  - Age 70+ → Functional to Tier 1
-  - Fall history → Balance to Tier 1, Functional gets +50% boost
-  - Can't do chair stand → Functional to Tier 1, Strength gets
-  +60% boost
-  - GLP-1 meds → Strength to Tier 1
-  - BMI ≥35 → Cardio to Tier 1
+  Available Objectives
 
-  Exact Allocation Rules
+  - Cardio (cardiovascular endurance)
+  - Strength (muscle building/preservation)
+  - Balance (stability/fall prevention)
+  - Functional (activities of daily living)
+  - Flexibility (range of motion)
 
-  - Tier 1: 25% minimum each
-  - Tier 2: 15% minimum each
-  - Tier 3: Split remaining capacity
+  Question → Answer → Percentage Mappings
 
-  Overflow Handling
+  Age-Based Allocations
 
-  - If Tier 1 needs >100% → Divide 100% evenly among Tier 1
-  objectives
-  - If Tier 1+2 needs >100% → Give Tier 1 their 25%, Tier 2 splits
-   remainder
-  - Medical needs always override user preferences
+  - Age 18-29 → Cardio: 25%, Strength: 30%, Balance: 0%,
+  Functional: 0%, Flexibility: 10%
+  - Age 30-39 → Cardio: 25%, Strength: 30%, Balance: 5%,
+  Functional: 5%, Flexibility: 10%
+  - Age 40-49 → Cardio: 25%, Strength: 25%, Balance: 10%,
+  Functional: 10%, Flexibility: 15%
+  - Age 50-59 → Cardio: 20%, Strength: 25%, Balance: 15%,
+  Functional: 15%, Flexibility: 15%
+  - Age 60-64 → Cardio: 20%, Strength: 20%, Balance: 20%,
+  Functional: 20%, Flexibility: 15%
+  - Age 65-69 → Cardio: 15%, Strength: 20%, Balance: 25%,
+  Functional: 25%, Flexibility: 15%
+  - Age 70-74 → Cardio: 15%, Strength: 15%, Balance: 30%,
+  Functional: 30%, Flexibility: 15%
+  - Age 75-79 → Cardio: 10%, Strength: 15%, Balance: 35%,
+  Functional: 35%, Flexibility: 15%
+  - Age 80+ → Cardio: 10%, Strength: 10%, Balance: 40%,
+  Functional: 40%, Flexibility: 15%
 
-  Specific Examples
+  Medical/Safety Conditions
 
-  75-year-old who fell, can't do chair stand:
-  1. Tier 1: Functional (30%), Balance (30%), Strength (25%) = 85%
-  2. Tier 2: Flexibility (15%)
-  3. Tier 3: Nothing left
+  Fall History:
+  - Yes → Balance: +40%, Functional: +30%, Strength: +10%,
+  Flexibility: +10%
+  - No → No additional allocation
 
-  45-year-old on GLP-1, BMI 32, wants weight loss:
-  1. Tier 1: Strength (25%), Cardio (25%) = 50%
-  2. Tier 2: Weight Loss (15%), Flexibility (15%) = 30%
-  3. Tier 3: Balance (10%), Functional (10%) = 20%
+  Chair Stand Test:
+  - Cannot stand without hands → Functional: +25%, Strength: +20%,
+   Balance: +10%, Flexibility: +5%
+  - Can stand → No additional allocation
 
-  This gives us a complete, implementable framework. Every
-  decision point has specific values and the logic flow handles
-  all edge cases.
+  GLP-1 Medications:
+  - Yes → Strength: +35%, Cardio: +10%, Functional: +10%,
+  Flexibility: +5%
+  - No → No additional allocation
 
-  Is this the level of detail you were looking for? Should we
-  refine any specific decision branches further?
+  BMI-Based Allocations
+
+  - BMI <18.5 → Strength: +40%, Functional: +10%, Flexibility:
+  +10%, Cardio: +5%, Balance: +5%
+  - BMI 18.5-24.9 → Cardio: +10%, Strength: +15%, Balance: +5%,
+  Functional: +5%, Flexibility: +5%
+  - BMI 25-29.9 → Cardio: +20%, Strength: +20%, Functional: +10%,
+  Balance: +5%, Flexibility: +5%
+  - BMI 30-34.9 → Cardio: +30%, Strength: +20%, Functional: +15%,
+  Balance: +10%, Flexibility: +5%
+  - BMI 35-39.9 → Cardio: +35%, Strength: +20%, Functional: +20%,
+  Balance: +10%, Flexibility: +5%
+  - BMI ≥40 → Cardio: +40%, Functional: +25%, Strength: +15%,
+  Balance: +10%, Flexibility: +5%
+
+  User Goals (can select multiple)
+
+  - lose_weight → Cardio: +30%, Strength: +15%, Functional: +5%,
+  Flexibility: +5%
+  - build_muscle → Strength: +40%, Cardio: +5%, Functional: +5%,
+  Flexibility: +5%
+  - improve_endurance → Cardio: +40%, Strength: +10%, Functional:
+  +5%, Flexibility: +5%
+  - increase_flexibility → Flexibility: +40%, Balance: +5%,
+  Strength: +5%, Functional: +5%
+  - better_health → Cardio: +15%, Strength: +15%, Balance: +10%,
+  Functional: +10%, Flexibility: +10%
+  - live_longer → Cardio: +15%, Strength: +15%, Balance: +10%,
+  Functional: +10%, Flexibility: +10%
+
+  Allocation Algorithm
+
+  1. Initialize all objectives at 0%
+  2. Add age-based percentages
+  3. Add medical condition percentages
+  4. Add BMI percentages
+  5. Add user goal percentages
+  6. Sum total allocations for each objective
+  7. Normalize to 100%:
+    - Calculate total = sum of all allocations
+    - Each final percentage = (objective allocation / total) × 100
+
+  Complete Examples
+
+  Example 1: 75-year-old who fell, can't do chair stand
+
+  1. Age 75-79: C:10%, S:15%, B:35%, Fu:35%, Fl:15%
+  2. Fall history: B:+40%, Fu:+30%, S:+10%, Fl:+10%
+  3. Can't stand: Fu:+25%, S:+20%, B:+10%, Fl:+5%
+  4. Raw totals: C:10%, S:45%, B:85%, Fu:90%, Fl:30%
+  5. Total = 260%
+  6. Normalized: C:4%, S:17%, B:33%, Fu:35%, Fl:11%
+
+  Example 2: 45-year-old on GLP-1, BMI 32, wants weight loss
+
+  1. Age 40-49: C:25%, S:25%, B:10%, Fu:10%, Fl:15%
+  2. GLP-1: S:+35%, C:+10%, Fu:+10%, Fl:+5%
+  3. BMI 30-34.9: C:+30%, S:+20%, Fu:+15%, B:+10%, Fl:+5%
+  4. Goal weight loss: C:+30%, S:+15%, Fu:+5%, Fl:+5%
+  5. Raw totals: C:95%, S:95%, B:20%, Fu:40%, Fl:30%
+  6. Total = 280%
+  7. Normalized: C:34%, S:34%, B:7%, Fu:14%, Fl:11%
+
+  Example 3: Healthy 30-year-old wanting muscle
+
+  1. Age 30-39: C:25%, S:30%, B:5%, Fu:5%, Fl:10%
+  2. BMI 18.5-24.9: C:+10%, S:+15%, B:+5%, Fu:+5%, Fl:+5%
+  3. Goal build muscle: S:+40%, C:+5%, Fu:+5%, Fl:+5%
+  4. Raw totals: C:40%, S:85%, B:10%, Fu:15%, Fl:20%
+  5. Total = 170%
+  6. Normalized: C:24%, S:50%, B:6%, Fu:9%, Fl:11%

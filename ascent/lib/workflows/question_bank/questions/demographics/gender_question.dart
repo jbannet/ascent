@@ -50,8 +50,11 @@ class GenderQuestion extends OnboardingQuestion {
   
   @override
   void fromJsonValue(dynamic json) {
-    if (json is String) _genderAnswer = json;
-    else _genderAnswer = null;
+    if (json is String) {
+      _genderAnswer = json;
+    } else {
+      _genderAnswer = null;
+    }
   }
   
   //MARK: ANSWER STORAGE
@@ -80,7 +83,7 @@ class GenderQuestion extends OnboardingQuestion {
       questionId: id,
       answers: {id: _genderAnswer},
       onAnswerChanged: (questionId, value) {
-        setGenderAnswer(value as String?);
+        setGenderAnswer(value);
         onAnswerChanged();
       },
       options: options,

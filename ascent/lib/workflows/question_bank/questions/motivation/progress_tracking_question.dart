@@ -70,7 +70,6 @@ class ProgressTrackingQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     if (answer is List) {
       final selections = answer.cast<String>();
@@ -81,7 +80,6 @@ class ProgressTrackingQuestion extends OnboardingQuestion {
     return _isValidOption(answer.toString());
   }
   
-  @override
   dynamic getDefaultAnswer() => [AnswerConstants.performanceMetrics]; // Most common tracking method
   
   @override
@@ -105,7 +103,7 @@ class ProgressTrackingQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ACCESSOR
   
-  /// Get progress tracking preferences as List<String> from answers
+  /// Get progress tracking preferences as `List<String>` from answers
   List<String> getProgressTrackingPreferences(Map<String, dynamic> answers) {
     final tracking = answers[questionId];
     if (tracking == null) return [AnswerConstants.performanceMetrics];
@@ -121,10 +119,10 @@ class ProgressTrackingQuestion extends OnboardingQuestion {
   String? get answer => 
     (_progressTrackingPreferences == null || _progressTrackingPreferences!.isEmpty) ? null : _progressTrackingPreferences!.join(',');
   
-  /// Set the progress tracking preferences with a typed List<String>
+  /// Set the progress tracking preferences with a typed `List<String>`
   void setProgressTrackingPreferences(List<String>? value) => _progressTrackingPreferences = value;
   
-  /// Get the progress tracking preferences as a typed List<String>
+  /// Get the progress tracking preferences as a typed `List<String>`
   List<String> get progressTrackingPreferences => _progressTrackingPreferences ?? [];
 
   @override

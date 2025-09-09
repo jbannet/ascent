@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../workflows/question_bank/registry/question_bank.dart';
 import '../../constants.dart';
 import 'firebase_auth_service.dart';
 import 'firebase_retry_service.dart';

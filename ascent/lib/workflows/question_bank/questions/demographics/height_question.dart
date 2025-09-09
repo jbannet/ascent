@@ -39,7 +39,6 @@ class HeightQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     if (answer == null) return true; // Optional field
     if (answer is! Map<String, dynamic>) return false;
@@ -54,7 +53,6 @@ class HeightQuestion extends OnboardingQuestion {
     return true;
   }
   
-  @override
   dynamic getDefaultAnswer() => null; // Optional field
   
   @override
@@ -126,10 +124,10 @@ class HeightQuestion extends OnboardingQuestion {
   @override
   String? get answer => _heightData != null ? jsonEncode(_heightData) : null;
   
-  /// Set the height data with a typed Map<String, dynamic>
+  /// Set the height data with a typed `Map<String, dynamic>`
   void setHeightData(Map<String, dynamic>? value) => _heightData = value;
   
-  /// Get the height data as a typed Map<String, dynamic>
+  /// Get the height data as a typed `Map<String, dynamic>`
   Map<String, dynamic>? get heightData => _heightData;
 
   @override

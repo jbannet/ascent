@@ -52,7 +52,7 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
     // Show if age >= fall risk threshold OR Cooper test indicates mobility limitation risk
     
     final age = AgeQuestion.instance.calculatedAge;
-    final cooperDistance = Q4TwelveMinuteRunQuestion.instance.answer as num?;
+    final cooperDistance = Q4TwelveMinuteRunQuestion.instance.answerDouble;
     
     if (age != null && age >= AnswerConstants.fallRiskAge) return true;
     if (cooperDistance != null && cooperDistance < AnswerConstants.cooperAtRiskMiles) return true;
@@ -80,18 +80,19 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     return answer == AnswerConstants.yes || answer == AnswerConstants.no;
   }
   
-  @override
   dynamic getDefaultAnswer() => AnswerConstants.no;
   
   @override
   void fromJsonValue(dynamic json) {
-    if (json is String) _fallHistoryAnswer = json;
-    else _fallHistoryAnswer = null;
+    if (json is String) {
+      _fallHistoryAnswer = json;
+    } else {
+      _fallHistoryAnswer = null;
+    }
   }
 
   @override
@@ -102,7 +103,7 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
       questionId: id,
       answers: {id: _fallHistoryAnswer},
       onAnswerChanged: (questionId, value) {
-        setFallHistoryAnswer(value as String?);
+        setFallHistoryAnswer(value);
         onAnswerChanged();
       },
       options: options,

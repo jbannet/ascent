@@ -66,7 +66,6 @@ class AgeQuestion extends OnboardingQuestion {
 
   //MARK: VALIDATION & SERIALIZATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     DateTime? date;
     if (answer is DateTime) {
@@ -78,19 +77,18 @@ class AgeQuestion extends OnboardingQuestion {
         return false;
       }
     } else if (answer == null) {
-      return config?['isRequired'] != true;
+      return config['isRequired'] != true;
     } else {
       return false;
     }
     
-    if (date == null) return config?['isRequired'] != true;
+    // date is guaranteed to be non-null at this point
     
     final now = DateTime.now();
     final age = now.year - date.year - (now.month < date.month || (now.month == date.month && now.day < date.day) ? 1 : 0);
     return age >= 13 && age <= 100;
   }
 
-  @override
   dynamic answerToJson(dynamic value) {
     final date = value as DateTime?;
     return date?.toIso8601String();
@@ -111,7 +109,6 @@ class AgeQuestion extends OnboardingQuestion {
     }
   }
   
-  @override
   dynamic getDefaultAnswer() {
     final defaultDate = DateTime(DateTime.now().year - 35, DateTime.now().month, DateTime.now().day);
     return defaultDate;
@@ -125,7 +122,7 @@ class AgeQuestion extends OnboardingQuestion {
       questionId: id,
       answers: {id: _dateOfBirth},
       onAnswerChanged: (questionId, selectedDate) {
-        setDateOfBirth(selectedDate as DateTime?);
+        setDateOfBirth(selectedDate);
         onAnswerChanged();
       },
       config: config,

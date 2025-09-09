@@ -57,9 +57,13 @@ class Q6BodyweightSquatsQuestion extends OnboardingQuestion {
   
   @override
   void fromJsonValue(dynamic json) {
-    if (json is num) _squatsCount = json;
-    else if (json is String) _squatsCount = num.tryParse(json);
-    else _squatsCount = null;
+    if (json is num) {
+      _squatsCount = json;
+    } else if (json is String) {
+      _squatsCount = num.tryParse(json);
+    } else {
+      _squatsCount = null;
+    }
   }
   
   //MARK: TYPED ACCESSOR
@@ -85,6 +89,9 @@ class Q6BodyweightSquatsQuestion extends OnboardingQuestion {
   
   /// Get the squats count as a typed num
   num? get squatsCount => _squatsCount;
+  
+  /// Get the squats count as answerDouble
+  double? get answerDouble => _squatsCount?.toDouble();
 
   @override
   Widget buildAnswerWidget(
@@ -94,7 +101,7 @@ class Q6BodyweightSquatsQuestion extends OnboardingQuestion {
       questionId: id,
       answers: {id: _squatsCount},
       onAnswerChanged: (questionId, value) {
-        setSquatsCount(value as num?);
+        setSquatsCount(value);
         onAnswerChanged();
       },
       config: config,

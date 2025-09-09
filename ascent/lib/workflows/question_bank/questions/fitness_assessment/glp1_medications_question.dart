@@ -63,7 +63,6 @@ class Glp1MedicationsQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     if (answer == null) return true; // Optional field
     if (answer is! String) return false;
@@ -75,13 +74,15 @@ class Glp1MedicationsQuestion extends OnboardingQuestion {
     ].contains(answer);
   }
   
-  @override
   dynamic getDefaultAnswer() => null; // Optional field
   
   @override
   void fromJsonValue(dynamic json) {
-    if (json is String) _glp1Status = json;
-    else _glp1Status = null;
+    if (json is String) {
+      _glp1Status = json;
+    } else {
+      _glp1Status = null;
+    }
   }
   
   //MARK: TYPED ACCESSOR
@@ -123,7 +124,7 @@ class Glp1MedicationsQuestion extends OnboardingQuestion {
       questionId: id,
       answers: {id: _glp1Status},
       onAnswerChanged: (questionId, value) {
-        setGlp1Status(value as String?);
+        setGlp1Status(value);
         onAnswerChanged();
       },
       options: options,

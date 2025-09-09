@@ -34,7 +34,6 @@ class AlcoholQuestion extends OnboardingQuestion {
   @override
   String? get subtitle => 'This helps us provide better hydration and recovery recommendations.';
   
-  @override
   String? get reason => 'Alcohol affects hydration, sleep quality, and recovery. Understanding your intake helps us personalize your fitness plan and nutrition guidance.';
   
   @override
@@ -152,7 +151,7 @@ class AlcoholQuestion extends OnboardingQuestion {
             color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: theme.colorScheme.outline.withOpacity( 0.1),
+              color: theme.colorScheme.outline.withValues(alpha:  0.1),
             ),
           ),
           child: Column(
@@ -185,12 +184,12 @@ class AlcoholQuestion extends OnboardingQuestion {
                   ),
                   style: OutlinedButton.styleFrom(
                     backgroundColor: isPrivate 
-                      ? theme.colorScheme.primary.withOpacity( 0.1)
+                      ? theme.colorScheme.primary.withValues(alpha:  0.1)
                       : null,
                     side: BorderSide(
                       color: isPrivate 
                         ? theme.colorScheme.primary
-                        : theme.colorScheme.outline.withOpacity( 0.3),
+                        : theme.colorScheme.outline.withValues(alpha:  0.3),
                     ),
                   ),
                 ),
@@ -203,7 +202,7 @@ class AlcoholQuestion extends OnboardingQuestion {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.primary.withOpacity( 0.1),
+                    color: theme.colorScheme.primary.withValues(alpha:  0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -225,9 +224,9 @@ class AlcoholQuestion extends OnboardingQuestion {
                     thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
                     overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
                     activeTrackColor: theme.colorScheme.primary,
-                    inactiveTrackColor: theme.colorScheme.primary.withOpacity( 0.2),
+                    inactiveTrackColor: theme.colorScheme.primary.withValues(alpha:  0.2),
                     thumbColor: theme.colorScheme.primary,
-                    overlayColor: theme.colorScheme.primary.withOpacity( 0.2),
+                    overlayColor: theme.colorScheme.primary.withValues(alpha:  0.2),
                   ),
                   child: Slider(
                     value: (_alcoholCount ?? 0.0).clamp(0.0, 20.0),
@@ -250,14 +249,14 @@ class AlcoholQuestion extends OnboardingQuestion {
                       Text(
                         '0',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity( 0.6),
+                          color: theme.colorScheme.onSurface.withValues(alpha:  0.6),
                           fontSize: 12,
                         ),
                       ),
                       Text(
                         '20+',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity( 0.6),
+                          color: theme.colorScheme.onSurface.withValues(alpha:  0.6),
                           fontSize: 12,
                         ),
                       ),
@@ -279,10 +278,10 @@ class AlcoholQuestion extends OnboardingQuestion {
         return Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withOpacity( 0.05),
+            color: theme.colorScheme.primary.withValues(alpha:  0.05),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: theme.colorScheme.primary.withOpacity( 0.1),
+              color: theme.colorScheme.primary.withValues(alpha:  0.1),
             ),
           ),
           child: Column(
@@ -312,7 +311,7 @@ class AlcoholQuestion extends OnboardingQuestion {
                 '🥃 1.5 oz spirits (40% alcohol)\n'
                 '🍹 1 cocktail or mixed drink',
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withOpacity( 0.8),
+                  color: theme.colorScheme.onSurface.withValues(alpha:  0.8),
                   height: 1.4,
                 ),
               ),

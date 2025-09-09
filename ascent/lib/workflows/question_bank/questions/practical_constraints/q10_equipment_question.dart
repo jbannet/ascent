@@ -51,7 +51,6 @@ class Q10EquipmentQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     if (answer is List) {
       return answer.isNotEmpty && answer.every((item) => item is String);
@@ -59,7 +58,6 @@ class Q10EquipmentQuestion extends OnboardingQuestion {
     return answer is String && answer.isNotEmpty;
   }
   
-  @override
   dynamic getDefaultAnswer() => [AnswerConstants.none]; // Default to bodyweight only
   
   @override
@@ -91,10 +89,10 @@ class Q10EquipmentQuestion extends OnboardingQuestion {
   String? get answer => 
     (_availableEquipment == null || _availableEquipment!.isEmpty) ? null : _availableEquipment!.join(',');
   
-  /// Set the available equipment with a typed List<String>
+  /// Set the available equipment with a typed `List<String>`
   void setAvailableEquipment(List<String>? value) => _availableEquipment = value;
   
-  /// Get the available equipment as a typed List<String>
+  /// Get the available equipment as a typed `List<String>`
   List<String> get availableEquipment => _availableEquipment ?? [];
 
   @override

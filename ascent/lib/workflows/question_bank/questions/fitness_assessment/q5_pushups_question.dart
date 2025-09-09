@@ -44,22 +44,25 @@ class Q5PushupsQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     if (answer is! num) return false;
     final count = answer.toDouble();
     return count >= 0 && count <= 100; // Slider range
   }
   
-  @override
   dynamic getDefaultAnswer() => 0.0; // Default to 0 push-ups if not answered
   
   @override
   void fromJsonValue(dynamic json) {
-    if (json is double) _pushupsCount = json;
-    else if (json is num) _pushupsCount = json.toDouble();
-    else if (json is String) _pushupsCount = double.tryParse(json);
-    else _pushupsCount = null;
+    if (json is double) {
+      _pushupsCount = json;
+    } else if (json is num) {
+      _pushupsCount = json.toDouble();
+    } else if (json is String) {
+      _pushupsCount = double.tryParse(json);
+    } else {
+      _pushupsCount = null;
+    }
   }
   
   //MARK: TYPED ACCESSOR
@@ -87,6 +90,9 @@ class Q5PushupsQuestion extends OnboardingQuestion {
   
   /// Get the pushups count as a typed double
   double? get pushupsCount => _pushupsCount;
+  
+  /// Get the pushups count as answerDouble
+  double? get answerDouble => _pushupsCount;
 
   @override
   Widget buildAnswerWidget(
@@ -96,7 +102,7 @@ class Q5PushupsQuestion extends OnboardingQuestion {
       questionId: id,
       answers: {id: _pushupsCount},
       onAnswerChanged: (questionId, value) {
-        setPushupsCount(value as double?);
+        setPushupsCount(value);
         onAnswerChanged();
       },
       config: config,

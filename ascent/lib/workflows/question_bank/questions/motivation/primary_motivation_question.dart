@@ -74,8 +74,11 @@ class PrimaryMotivationQuestion extends OnboardingQuestion {
   
   @override
   void fromJsonValue(dynamic json) {
-    if (json is String) _primaryMotivation = json;
-    else _primaryMotivation = null;
+    if (json is String) {
+      _primaryMotivation = json;
+    } else {
+      _primaryMotivation = null;
+    }
   }
   
   //MARK: ANSWER STORAGE
@@ -99,7 +102,7 @@ class PrimaryMotivationQuestion extends OnboardingQuestion {
       questionId: id,
       answers: {id: _primaryMotivation},
       onAnswerChanged: (questionId, value) {
-        setPrimaryMotivation(value as String?);
+        setPrimaryMotivation(value);
         onAnswerChanged();
       },
       options: options,

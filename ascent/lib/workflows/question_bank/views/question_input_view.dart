@@ -61,7 +61,7 @@ abstract class QuestionInputView extends StatelessWidget {
     return null;
   }
   
-  /// Helper method to safely convert answer to List<String>
+  /// Helper method to safely convert answer to `List<String>`
   /// Used by multiple choice and body map questions
   List<String>? getCurrentAnswerAsList() {
     final answer = currentAnswer;

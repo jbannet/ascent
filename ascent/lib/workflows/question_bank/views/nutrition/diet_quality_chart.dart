@@ -39,7 +39,6 @@ class _DietQualityChartState extends State<DietQualityChart>
   // Chart configuration
   static const double chartHeight = 200.0;
   static const double barWidth = 40.0;
-  static const double barSpacing = 20.0;
   
   // Nutrition metrics configuration
   static const List<DietMetric> metrics = [

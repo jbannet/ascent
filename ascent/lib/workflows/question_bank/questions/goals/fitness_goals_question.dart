@@ -76,7 +76,6 @@ class FitnessGoalsQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     if (answer is List) {
       final selections = answer.cast<String>();
@@ -87,7 +86,6 @@ class FitnessGoalsQuestion extends OnboardingQuestion {
     return _isValidOption(answer.toString());
   }
   
-  @override
   dynamic getDefaultAnswer() => [AnswerConstants.betterHealth]; // Universal goal
   
   @override
@@ -130,10 +128,10 @@ class FitnessGoalsQuestion extends OnboardingQuestion {
   String? get answer => 
     (_fitnessGoals == null || _fitnessGoals!.isEmpty) ? null : _fitnessGoals!.join(',');
   
-  /// Set the fitness goals with a typed List<String>
+  /// Set the fitness goals with a typed `List<String>`
   void setFitnessGoals(List<String>? value) => _fitnessGoals = value;
   
-  /// Get the fitness goals as a typed List<String>
+  /// Get the fitness goals as a typed `List<String>`
   List<String> get fitnessGoals => _fitnessGoals ?? [];
 
   @override

@@ -52,9 +52,13 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
   
   @override
   void fromJsonValue(dynamic json) {
-    if (json is num) _runDistance = json;
-    else if (json is String) _runDistance = num.tryParse(json);
-    else _runDistance = null;
+    if (json is num) {
+      _runDistance = json;
+    } else if (json is String) {
+      _runDistance = num.tryParse(json);
+    } else {
+      _runDistance = null;
+    }
   }
   
   //MARK: TYPED ACCESSOR
@@ -78,6 +82,9 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
   /// Set the twelve minute run distance with a typed num (no validation needed)
   void setRunDistance(num? value) => _runDistance = value;
   
+  /// Get the twelve minute run distance as a typed double
+  double? get answerDouble => _runDistance?.toDouble();
+  
   /// Get the twelve minute run distance as a typed num
   num? get runDistance => _runDistance;
 
@@ -89,7 +96,7 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
       questionId: id,
       answers: {id: _runDistance},
       onAnswerChanged: (questionId, value) {
-        setRunDistance(value as num?);
+        setRunDistance(value);
         onAnswerChanged();
       },
       config: config,

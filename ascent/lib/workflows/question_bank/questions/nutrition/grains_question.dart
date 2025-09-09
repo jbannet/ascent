@@ -34,7 +34,6 @@ class GrainsQuestion extends OnboardingQuestion {
   @override
   String? get subtitle => 'Including bread, rice, pasta, cereal, and other grain-based foods.';
   
-  @override
   String? get reason => 'Grains are an important energy source for your workouts. Understanding your intake helps us optimize your training fuel and recovery nutrition.';
   
   @override
@@ -64,12 +63,20 @@ class GrainsQuestion extends OnboardingQuestion {
   /// Get the grains count as a typed double
   double? get grainsCount => _grainsCount;
   
+  /// Get the grains count as answerDouble
+  double? get answerDouble => _grainsCount;
+  
   @override
   void fromJsonValue(dynamic json) {
-    if (json is double) _grainsCount = json;
-    else if (json is num) _grainsCount = json.toDouble();
-    else if (json is String) _grainsCount = double.tryParse(json);
-    else _grainsCount = null;
+    if (json is double) {
+      _grainsCount = json;
+    } else if (json is num) {
+      _grainsCount = json.toDouble();
+    } else if (json is String) {
+      _grainsCount = double.tryParse(json);
+    } else {
+      _grainsCount = null;
+    }
   }
   
   //MARK: TYPED ACCESSOR
@@ -111,7 +118,7 @@ class GrainsQuestion extends OnboardingQuestion {
           questionId: id,
           answers: {id: _grainsCount},
           onAnswerChanged: (questionId, value) {
-            setGrainsCount(value as double?);
+            setGrainsCount(value);
             onAnswerChanged();
           },
           config: config,
@@ -132,10 +139,10 @@ class GrainsQuestion extends OnboardingQuestion {
         return Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withOpacity(0.05),
+            color: theme.colorScheme.primary.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: theme.colorScheme.primary.withOpacity(0.1),
+              color: theme.colorScheme.primary.withValues(alpha: 0.1),
             ),
           ),
           child: Column(
@@ -165,7 +172,7 @@ class GrainsQuestion extends OnboardingQuestion {
                 '🥣 1 cup ready-to-eat cereal\n'
                 '🥨 1 small bagel, 1 large crackers',
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withOpacity(0.8),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
                   height: 1.4,
                 ),
               ),

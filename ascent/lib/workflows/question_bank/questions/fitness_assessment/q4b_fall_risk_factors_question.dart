@@ -85,10 +85,10 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   String? get answer => 
     (_riskFactors == null || _riskFactors!.isEmpty) ? null : _riskFactors!.join(',');
   
-  /// Set the fall risk factors with a typed List<String>
+  /// Set the fall risk factors with a typed `List<String>`
   void setRiskFactors(List<String>? value) => _riskFactors = value;
   
-  /// Get the fall risk factors as a typed List<String>
+  /// Get the fall risk factors as a typed `List<String>`
   List<String> get riskFactors => _riskFactors ?? [];
   
   /// Check if specific risk factors are present
@@ -99,7 +99,6 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     if (answer == null) return false;
     if (answer is List<String>) {
@@ -110,7 +109,6 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
     return false;
   }
   
-  @override
   dynamic getDefaultAnswer() => [AnswerConstants.none];
   
   @override

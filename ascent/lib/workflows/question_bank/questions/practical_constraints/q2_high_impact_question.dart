@@ -51,7 +51,6 @@ class Q2HighImpactQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     if (answer is List) {
       return answer.isNotEmpty && answer.every((item) => item is String);
@@ -59,7 +58,6 @@ class Q2HighImpactQuestion extends OnboardingQuestion {
     return answer is String && answer.isNotEmpty;
   }
   
-  @override
   dynamic getDefaultAnswer() => [AnswerConstants.none]; // Default to no restrictions
   
   @override
@@ -75,7 +73,7 @@ class Q2HighImpactQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ACCESSOR
   
-  /// Get medical restrictions as List<String> from answers
+  /// Get medical restrictions as `List<String>` from answers
   List<String> getMedicalRestrictions(Map<String, dynamic> answers) {
     final restrictions = answers[questionId];
     if (restrictions == null) return [AnswerConstants.none];
@@ -91,10 +89,10 @@ class Q2HighImpactQuestion extends OnboardingQuestion {
   String? get answer => 
     (_restrictions == null || _restrictions!.isEmpty) ? null : _restrictions!.join(',');
   
-  /// Set the restrictions with a typed List<String>
+  /// Set the restrictions with a typed `List<String>`
   void setRestrictions(List<String>? value) => _restrictions = value;
   
-  /// Get the high impact restrictions as a typed List<String>
+  /// Get the high impact restrictions as a typed `List<String>`
   List<String> get restrictions => _restrictions ?? [];
 
   @override

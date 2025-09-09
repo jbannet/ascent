@@ -32,7 +32,6 @@ class SodasQuestion extends OnboardingQuestion {
   @override
   String? get subtitle => 'Including sodas, energy drinks, sweetened teas, and fruit juices with added sugar.';
   
-  @override
   String? get reason => 'Tracking sugary beverages helps us understand your hydration patterns and sugar intake, which affects energy levels and workout performance.';
   
   @override
@@ -62,12 +61,20 @@ class SodasQuestion extends OnboardingQuestion {
   /// Get the sodas count as a typed double
   double? get sodasCount => _sodasCount;
   
+  /// Get the sodas count as answerDouble
+  double? get answerDouble => _sodasCount;
+  
   @override
   void fromJsonValue(dynamic json) {
-    if (json is double) _sodasCount = json;
-    else if (json is num) _sodasCount = json.toDouble();
-    else if (json is String) _sodasCount = double.tryParse(json);
-    else _sodasCount = null;
+    if (json is double) {
+      _sodasCount = json;
+    } else if (json is num) {
+      _sodasCount = json.toDouble();
+    } else if (json is String) {
+      _sodasCount = double.tryParse(json);
+    } else {
+      _sodasCount = null;
+    }
   }
   
   //MARK: TYPED ACCESSOR
@@ -109,7 +116,7 @@ class SodasQuestion extends OnboardingQuestion {
           questionId: id,
           answers: {id: _sodasCount},
           onAnswerChanged: (questionId, value) {
-            setSodasCount(value as double?);
+            setSodasCount(value);
             onAnswerChanged();
           },
           config: config,
@@ -130,10 +137,10 @@ class SodasQuestion extends OnboardingQuestion {
         return Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withOpacity(0.05),
+            color: theme.colorScheme.primary.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: theme.colorScheme.primary.withOpacity(0.1),
+              color: theme.colorScheme.primary.withValues(alpha: 0.1),
             ),
           ),
           child: Column(
@@ -163,7 +170,7 @@ class SodasQuestion extends OnboardingQuestion {
                 '🧃 Sweetened juices, iced teas\n'
                 '🥛 Flavored milks, smoothies with added sugar',
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withOpacity(0.8),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
                   height: 1.4,
                 ),
               ),

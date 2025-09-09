@@ -31,22 +31,25 @@ class SleepHoursQuestion extends OnboardingQuestion {
   };
   
   
-  @override
   bool isValidAnswer(dynamic answer) {
     if (answer is! num) return false;
     final hours = answer.toDouble();
     return hours >= 3 && hours <= 12;
   }
   
-  @override
   dynamic getDefaultAnswer() => 7.0;
   
   @override
   void fromJsonValue(dynamic json) {
-    if (json is double) _sleepHours = json;
-    else if (json is num) _sleepHours = json.toDouble();
-    else if (json is String) _sleepHours = double.tryParse(json);
-    else _sleepHours = null;
+    if (json is double) {
+      _sleepHours = json;
+    } else if (json is num) {
+      _sleepHours = json.toDouble();
+    } else if (json is String) {
+      _sleepHours = double.tryParse(json);
+    } else {
+      _sleepHours = null;
+    }
   }
   
   
@@ -73,6 +76,9 @@ class SleepHoursQuestion extends OnboardingQuestion {
   
   /// Get the sleep hours as a typed double
   double? get sleepHours => _sleepHours;
+  
+  /// Get the sleep hours as answerDouble
+  double? get answerDouble => _sleepHours;
 
   @override
   Widget buildAnswerWidget(
@@ -84,7 +90,7 @@ class SleepHoursQuestion extends OnboardingQuestion {
           questionId: id,
           answers: {id: _sleepHours},
           onAnswerChanged: (questionId, value) {
-            setSleepHours(value as double?);
+            setSleepHours(value);
             onAnswerChanged();
           },
           config: config,

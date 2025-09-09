@@ -47,9 +47,13 @@ class WeightQuestion extends OnboardingQuestion {
   
   @override
   void fromJsonValue(dynamic json) {
-    if (json is num) _weightValue = json;
-    else if (json is String) _weightValue = num.tryParse(json);
-    else _weightValue = null;
+    if (json is num) {
+      _weightValue = json;
+    } else if (json is String) {
+      _weightValue = num.tryParse(json);
+    } else {
+      _weightValue = null;
+    }
   }
   
   //MARK: TYPED ACCESSOR
@@ -82,6 +86,9 @@ class WeightQuestion extends OnboardingQuestion {
   
   /// Get the weight as a typed number
   num? get weightValue => _weightValue;
+  
+  /// Get the weight as answerDouble
+  double? get answerDouble => _weightValue?.toDouble();
 
   @override
   Widget buildAnswerWidget(
@@ -91,7 +98,7 @@ class WeightQuestion extends OnboardingQuestion {
       questionId: id,
       answers: {id: _weightValue},
       onAnswerChanged: (questionId, value) {
-        setWeightValue(value as num?);
+        setWeightValue(value);
         onAnswerChanged();
       },
       config: config,

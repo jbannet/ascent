@@ -54,7 +54,6 @@ class SessionCommitmentQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     if (answer is! Map<String, dynamic>) return false;
     
@@ -73,7 +72,6 @@ class SessionCommitmentQuestion extends OnboardingQuestion {
     return (fullSessions + microSessions) > 0;
   }
   
-  @override
   dynamic getDefaultAnswer() => {
     'full_sessions': 3,  // Default to 3 full sessions per week
     'micro_sessions': 2, // And 2 micro sessions
@@ -140,10 +138,10 @@ class SessionCommitmentQuestion extends OnboardingQuestion {
   @override
   String? get answer => _sessionCommitment != null ? jsonEncode(_sessionCommitment) : null;
   
-  /// Set the session commitment with a typed Map<String, dynamic>
+  /// Set the session commitment with a typed `Map<String, dynamic>`
   void setSessionCommitment(Map<String, dynamic>? value) => _sessionCommitment = value;
   
-  /// Get the session commitment as a typed Map<String, dynamic>
+  /// Get the session commitment as a typed `Map<String, dynamic>`
   Map<String, dynamic>? get sessionCommitment => _sessionCommitment;
 
   @override

@@ -80,7 +80,6 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
-  @override
   bool isValidAnswer(dynamic answer) {
     if (answer is List) {
       return answer.isNotEmpty && answer.every((item) => item is String);
@@ -88,7 +87,6 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
     return answer is String && answer.isNotEmpty;
   }
   
-  @override
   dynamic getDefaultAnswer() => <String>[]; // Default to empty list - no pre-selections
   
   @override
@@ -161,10 +159,10 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
   String? get answer => 
     (_injuryPainAreas == null || _injuryPainAreas!.isEmpty) ? null : _injuryPainAreas!.join(',');
   
-  /// Set the injury/pain areas with a typed List<String>
+  /// Set the injury/pain areas with a typed `List<String>`
   void setInjuryPainAreas(List<String>? value) => _injuryPainAreas = value;
   
-  /// Get the injury/pain areas as a typed List<String>
+  /// Get the injury/pain areas as a typed `List<String>`
   List<String> get injuryPainAreas => _injuryPainAreas ?? [];
 
   @override
@@ -176,12 +174,7 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
       title: questionText,
       subtitle: subtitle,
       onAnswerChanged: (questionId, values) {
-        if (values is List<String>) {
-          setInjuryPainAreas(values.isEmpty ? null : values);
-        } else if (values is List) {
-          var stringList = values.map((e) => e.toString()).toList();
-          setInjuryPainAreas(stringList.isEmpty ? null : stringList);
-        }
+        setInjuryPainAreas(values.isEmpty ? null : values);
         onAnswerChanged();
       },
       selectedValues: injuryPainAreas.isEmpty ? null : injuryPainAreas,
