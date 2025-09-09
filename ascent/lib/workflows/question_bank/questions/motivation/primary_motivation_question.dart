@@ -70,25 +70,26 @@ class PrimaryMotivationQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
+  /// Validation is handled in the setter
+  
   @override
-  bool isValidAnswer(dynamic answer) {
-    final validOptions = [
-      AnswerConstants.physicalChanges, AnswerConstants.feelingStronger, AnswerConstants.performanceGoals,
-      AnswerConstants.socialConnection, AnswerConstants.stressRelief, AnswerConstants.healthLongevity
-    ];
-    return validOptions.contains(answer.toString());
+  void fromJsonValue(dynamic json) {
+    if (json is String) _primaryMotivation = json;
+    else _primaryMotivation = null;
   }
   
-  @override
-  dynamic getDefaultAnswer() => AnswerConstants.healthLongevity; // Health is a universal motivator
+  //MARK: ANSWER STORAGE
   
-  //MARK: TYPED ANSWER INTERFACE
+  String? _primaryMotivation;
+  
+  @override
+  String? get answer => _primaryMotivation;
+  
+  /// Set the primary motivation (no validation needed - UI enforces valid options)
+  void setPrimaryMotivation(String? value) => _primaryMotivation = value;
   
   /// Get the primary motivation as a typed String
-  String? get primaryMotivation => answer as String?;
-  
-  /// Set the primary motivation with a typed String
-  set primaryMotivation(String? value) => answer = value;
+  String? get primaryMotivation => _primaryMotivation;
 
   @override
   Widget buildAnswerWidget(
@@ -96,9 +97,9 @@ class PrimaryMotivationQuestion extends OnboardingQuestion {
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: {id: primaryMotivation},
+      answers: {id: _primaryMotivation},
       onAnswerChanged: (questionId, value) {
-        primaryMotivation = value as String;
+        setPrimaryMotivation(value as String?);
         onAnswerChanged();
       },
       options: options,

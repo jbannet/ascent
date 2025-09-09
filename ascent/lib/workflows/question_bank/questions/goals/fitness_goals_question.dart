@@ -90,6 +90,17 @@ class FitnessGoalsQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => [AnswerConstants.betterHealth]; // Universal goal
   
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is List) {
+      _fitnessGoals = json.map((e) => e.toString()).toList();
+    } else if (json is String) {
+      _fitnessGoals = json.split(',');
+    } else {
+      _fitnessGoals = null;
+    }
+  }
+  
   //MARK: TYPED ACCESSOR
   
   /// Get fitness goals as List&lt;String&gt; from answers
@@ -111,13 +122,19 @@ class FitnessGoalsQuestion extends OnboardingQuestion {
     return validOptions.contains(option);
   }
 
-  //MARK: TYPED ANSWER INTERFACE
+  //MARK: ANSWER STORAGE
   
-  /// Get the fitness goals as a typed List<String>
-  List<String> get fitnessGoals => (answer as List<String>?) ?? [];
+  List<String>? _fitnessGoals;
+  
+  @override
+  String? get answer => 
+    (_fitnessGoals == null || _fitnessGoals!.isEmpty) ? null : _fitnessGoals!.join(',');
   
   /// Set the fitness goals with a typed List<String>
-  set fitnessGoals(List<String> value) => answer = value;
+  void setFitnessGoals(List<String>? value) => _fitnessGoals = value;
+  
+  /// Get the fitness goals as a typed List<String>
+  List<String> get fitnessGoals => _fitnessGoals ?? [];
 
   @override
   Widget buildAnswerWidget(
@@ -125,9 +142,14 @@ class FitnessGoalsQuestion extends OnboardingQuestion {
   ) {
     return MultipleChoiceView(
       questionId: id,
-      answers: {id: fitnessGoals},
+      answers: {id: _fitnessGoals ?? []},
       onAnswerChanged: (questionId, value) {
-        fitnessGoals = value as List<String>;
+        if (value is List<String>) {
+          setFitnessGoals(value.isEmpty ? null : value);
+        } else if (value is List) {
+          var stringList = value.map((e) => e.toString()).toList();
+          setFitnessGoals(stringList.isEmpty ? null : stringList);
+        }
         onAnswerChanged();
       },
       options: options,

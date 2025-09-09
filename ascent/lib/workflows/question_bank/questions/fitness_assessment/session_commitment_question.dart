@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/widgets/onboarding/question_input/dual_column_selector_widget.dart';
@@ -78,6 +79,21 @@ class SessionCommitmentQuestion extends OnboardingQuestion {
     'micro_sessions': 2, // And 2 micro sessions
   };
   
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is Map<String, dynamic>) {
+      _sessionCommitment = json;
+    } else if (json is String) {
+      try {
+        _sessionCommitment = jsonDecode(json) as Map<String, dynamic>;
+      } catch (_) {
+        _sessionCommitment = null;
+      }
+    } else {
+      _sessionCommitment = null;
+    }
+  }
+  
   //MARK: TYPED ACCESSORS
   
   /// Get number of full session days per week
@@ -117,13 +133,18 @@ class SessionCommitmentQuestion extends OnboardingQuestion {
     return (full * 45) + (micro * 10);
   }
 
-  //MARK: TYPED ANSWER INTERFACE
+  //MARK: ANSWER STORAGE
   
-  /// Get the session commitment as a typed Map<String, dynamic>
-  Map<String, dynamic>? get sessionCommitment => answer as Map<String, dynamic>?;
+  Map<String, dynamic>? _sessionCommitment;
+  
+  @override
+  String? get answer => _sessionCommitment != null ? jsonEncode(_sessionCommitment) : null;
   
   /// Set the session commitment with a typed Map<String, dynamic>
-  set sessionCommitment(Map<String, dynamic>? value) => answer = value;
+  void setSessionCommitment(Map<String, dynamic>? value) => _sessionCommitment = value;
+  
+  /// Get the session commitment as a typed Map<String, dynamic>
+  Map<String, dynamic>? get sessionCommitment => _sessionCommitment;
 
   @override
   Widget buildAnswerWidget(
@@ -132,10 +153,10 @@ class SessionCommitmentQuestion extends OnboardingQuestion {
     return DualColumnSelectorWidget(
       config: config,
       onChanged: (value) {
-        sessionCommitment = value as Map<String, dynamic>;
+        setSessionCommitment(value as Map<String, dynamic>?);
         onAnswerChanged();
       },
-      initialValue: sessionCommitment,
+      initialValue: _sessionCommitment,
     );
   }
 }

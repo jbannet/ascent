@@ -78,6 +78,12 @@ class Glp1MedicationsQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => null; // Optional field
   
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is String) _glp1Status = json;
+    else _glp1Status = null;
+  }
+  
   //MARK: TYPED ACCESSOR
   
   /// Get GLP-1 medication status from answers
@@ -96,13 +102,18 @@ class Glp1MedicationsQuestion extends OnboardingQuestion {
     return status == AnswerConstants.yes || status == AnswerConstants.no;
   }
 
-  //MARK: TYPED ANSWER INTERFACE
+  //MARK: ANSWER STORAGE
   
-  /// Get the GLP-1 medication status as a typed String
-  String? get glp1Status => answer as String?;
+  String? _glp1Status;
+  
+  @override
+  String? get answer => _glp1Status;
   
   /// Set the GLP-1 medication status with a typed String
-  set glp1Status(String? value) => answer = value;
+  void setGlp1Status(String? value) => _glp1Status = value;
+  
+  /// Get the GLP-1 medication status as a typed String
+  String? get glp1Status => _glp1Status;
 
   @override
   Widget buildAnswerWidget(
@@ -110,9 +121,9 @@ class Glp1MedicationsQuestion extends OnboardingQuestion {
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: {id: glp1Status},
+      answers: {id: _glp1Status},
       onAnswerChanged: (questionId, value) {
-        glp1Status = value as String;
+        setGlp1Status(value as String?);
         onAnswerChanged();
       },
       options: options,

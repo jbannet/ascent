@@ -83,6 +83,12 @@ class Q6AChairStandQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => AnswerConstants.no; // Conservative default for safety
   
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is String) _chairStandAbility = json;
+    else _chairStandAbility = null;
+  }
+  
   //MARK: TYPED ACCESSORS
   
   /// Check if user can stand from chair without hands
@@ -108,13 +114,18 @@ class Q6AChairStandQuestion extends OnboardingQuestion {
     return canStand == false;
   }
 
-  //MARK: TYPED ANSWER INTERFACE
+  //MARK: ANSWER STORAGE
   
-  /// Get the chair stand ability as a typed String
-  String? get chairStandAbility => answer as String?;
+  String? _chairStandAbility;
+  
+  @override
+  String? get answer => _chairStandAbility;
   
   /// Set the chair stand ability with a typed String
-  set chairStandAbility(String? value) => answer = value;
+  void setChairStandAbility(String? value) => _chairStandAbility = value;
+  
+  /// Get the chair stand ability as a typed String
+  String? get chairStandAbility => _chairStandAbility;
 
   @override
   Widget buildAnswerWidget(
@@ -122,9 +133,9 @@ class Q6AChairStandQuestion extends OnboardingQuestion {
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: {id: chairStandAbility},
+      answers: {id: _chairStandAbility},
       onAnswerChanged: (questionId, value) {
-        chairStandAbility = value as String;
+        setChairStandAbility(value as String?);
         onAnswerChanged();
       },
       options: options,

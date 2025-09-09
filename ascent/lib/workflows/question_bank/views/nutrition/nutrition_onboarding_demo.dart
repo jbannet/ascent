@@ -147,7 +147,7 @@ class _NutritionOnboardingDemoState extends State<NutritionOnboardingDemo> {
     final canGoBack = _currentQuestionIndex > 0;
     final currentQuestionId = NutritionQuestionsIntegration.questionIds[_currentQuestionIndex];
     final currentQuestion = NutritionQuestionsIntegration.getQuestionById(currentQuestionId);
-    final canContinue = currentQuestion?.isValidAnswer(_answers[currentQuestionId]) ?? false;
+    final canContinue = currentQuestion?.hasAnswer ?? false;
     final isLastQuestion = _currentQuestionIndex >= NutritionQuestionsIntegration.questionIds.length - 1;
     
     return Container(

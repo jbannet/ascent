@@ -47,16 +47,28 @@ class SodasQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
+  /// Validation is handled by the UI
+  
+  //MARK: ANSWER STORAGE
+  
+  double? _sodasCount;
+  
   @override
-  bool isValidAnswer(dynamic answer) {
-    if (answer == null) return false;
-    if (answer is! num) return false;
-    final value = answer.toInt();
-    return value >= 0 && value <= 10;
+  String? get answer => _sodasCount?.toString();
+  
+  /// Set the sodas count with a typed double
+  void setSodasCount(double? value) => _sodasCount = value;
+  
+  /// Get the sodas count as a typed double
+  double? get sodasCount => _sodasCount;
+  
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is double) _sodasCount = json;
+    else if (json is num) _sodasCount = json.toDouble();
+    else if (json is String) _sodasCount = double.tryParse(json);
+    else _sodasCount = null;
   }
-
-  @override
-  dynamic getDefaultAnswer() => 1; // Reasonable default
   
   //MARK: TYPED ACCESSOR
   
@@ -95,9 +107,9 @@ class SodasQuestion extends OnboardingQuestion {
         // Slider input
         SliderView(
           questionId: id,
-          answers: {id: answer},
+          answers: {id: _sodasCount},
           onAnswerChanged: (questionId, value) {
-            answer = value;
+            setSodasCount(value as double?);
             onAnswerChanged();
           },
           config: config,

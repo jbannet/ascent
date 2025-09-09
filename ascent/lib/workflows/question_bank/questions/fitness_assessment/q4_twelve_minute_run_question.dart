@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
-import '../../views/question_types/number_input_view.dart';
+import '../../views/question_types/dual_picker_view.dart';
 import '../onboarding_question.dart';
 
 /// Q4: How far can you run/walk in 12 minutes? (Cooper Test)
@@ -24,33 +24,38 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
   String get section => 'fitness_assessment';
   
   @override
-  EnumQuestionType get questionType => EnumQuestionType.numberInput;
+  EnumQuestionType get questionType => EnumQuestionType.dualPicker;
   
   @override
-  String? get subtitle => 'Enter distance in miles (it\'s alright to answer 0 if you have trouble walking distances)';
+  String? get subtitle => 'Select distance in miles (it\'s alright to select 0 if you have trouble walking distances)';
   
   @override
   Map<String, dynamic> get config => {
     'isRequired': true,
-    'minValue': 0.0,      // Allow 0 for those who can't walk distances
-    'maxValue': 3.0,      // ~10000 meters = 6.2 miles
-    'allowDecimals': true, // Need decimals for miles
+    'leftColumn': {
+      'label': 'miles',
+      'values': [0, 1, 2],
+    },
+    'rightColumn': {
+      'label': 'tenths', 
+      'values': [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+    },
+    'maxValue': 2.9,
+    'showTotal': true,
     'unit': 'miles',
-    'placeholder': '',  // Don't shame people with a default
   };
   
   
   //MARK: VALIDATION
   
-  @override
-  bool isValidAnswer(dynamic answer) {
-    if (answer is! num) return false;
-    final distance = answer.toDouble();
-    return distance >= 0.0 && distance <= 3.0; // Allow 0 for mobility issues
-  }
+  /// Validation is handled by the dual picker UI
   
   @override
-  dynamic getDefaultAnswer() => null; // ~2000 meters in miles
+  void fromJsonValue(dynamic json) {
+    if (json is num) _runDistance = json;
+    else if (json is String) _runDistance = num.tryParse(json);
+    else _runDistance = null;
+  }
   
   //MARK: TYPED ACCESSOR
   
@@ -63,21 +68,28 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
 
   //MARK: TYPED ANSWER INTERFACE
   
-  /// Get the twelve minute run distance as a typed num
-  num? get runDistance => answer as num?;
+  //MARK: ANSWER STORAGE
   
-  /// Set the twelve minute run distance with a typed num
-  set runDistance(num? value) => answer = value;
+  num? _runDistance;
+  
+  @override
+  String? get answer => _runDistance?.toString();
+  
+  /// Set the twelve minute run distance with a typed num (no validation needed)
+  void setRunDistance(num? value) => _runDistance = value;
+  
+  /// Get the twelve minute run distance as a typed num
+  num? get runDistance => _runDistance;
 
   @override
   Widget buildAnswerWidget(
     Function() onAnswerChanged,
   ) {
-    return NumberInputView(
+    return DualPickerView(
       questionId: id,
-      answers: {id: runDistance},
+      answers: {id: _runDistance},
       onAnswerChanged: (questionId, value) {
-        runDistance = value as num;
+        setRunDistance(value as num?);
         onAnswerChanged();
       },
       config: config,

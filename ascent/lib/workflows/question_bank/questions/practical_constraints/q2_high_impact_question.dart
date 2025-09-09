@@ -62,6 +62,17 @@ class Q2HighImpactQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => [AnswerConstants.none]; // Default to no restrictions
   
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is List) {
+      _restrictions = json.map((e) => e.toString()).toList();
+    } else if (json is String) {
+      _restrictions = json.split(',');
+    } else {
+      _restrictions = null;
+    }
+  }
+  
   //MARK: TYPED ACCESSOR
   
   /// Get medical restrictions as List<String> from answers
@@ -72,13 +83,19 @@ class Q2HighImpactQuestion extends OnboardingQuestion {
     return [restrictions.toString()];
   }
 
-  //MARK: TYPED ANSWER INTERFACE
+  //MARK: ANSWER STORAGE
   
-  /// Get the high impact restrictions as a typed List<String>
-  List<String> get restrictions => (answer as List<String>?) ?? [];
+  List<String>? _restrictions;
+  
+  @override
+  String? get answer => 
+    (_restrictions == null || _restrictions!.isEmpty) ? null : _restrictions!.join(',');
   
   /// Set the restrictions with a typed List<String>
-  set restrictions(List<String> value) => answer = value;
+  void setRestrictions(List<String>? value) => _restrictions = value;
+  
+  /// Get the high impact restrictions as a typed List<String>
+  List<String> get restrictions => _restrictions ?? [];
 
   @override
   Widget buildAnswerWidget(
@@ -86,9 +103,14 @@ class Q2HighImpactQuestion extends OnboardingQuestion {
   ) {
     return MultipleChoiceView(
       questionId: id,
-      answers: {id: restrictions},
+      answers: {id: _restrictions ?? []},
       onAnswerChanged: (questionId, value) {
-        restrictions = value as List<String>;
+        if (value is List<String>) {
+          setRestrictions(value.isEmpty ? null : value);
+        } else if (value is List) {
+          var stringList = value.map((e) => e.toString()).toList();
+          setRestrictions(stringList.isEmpty ? null : stringList);
+        }
         onAnswerChanged();
       },
       options: options,

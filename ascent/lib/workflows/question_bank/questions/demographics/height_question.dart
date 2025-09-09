@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
 import '../../../onboarding_workflow/widgets/onboarding/question_input/height_selector_widget.dart';
@@ -56,6 +57,21 @@ class HeightQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => null; // Optional field
   
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is Map<String, dynamic>) {
+      _heightData = json;
+    } else if (json is String) {
+      try {
+        _heightData = jsonDecode(json) as Map<String, dynamic>;
+      } catch (_) {
+        _heightData = null;
+      }
+    } else {
+      _heightData = null;
+    }
+  }
+  
   //MARK: TYPED ACCESSORS
   
   /// Get height data as Map from answers
@@ -103,11 +119,18 @@ class HeightQuestion extends OnboardingQuestion {
 
   //MARK: TYPED ANSWER INTERFACE
   
-  /// Get the height data as a typed Map<String, dynamic>
-  Map<String, dynamic>? get heightData => answer as Map<String, dynamic>?;
+  //MARK: ANSWER STORAGE
+  
+  Map<String, dynamic>? _heightData;
+  
+  @override
+  String? get answer => _heightData != null ? jsonEncode(_heightData) : null;
   
   /// Set the height data with a typed Map<String, dynamic>
-  set heightData(Map<String, dynamic>? value) => answer = value;
+  void setHeightData(Map<String, dynamic>? value) => _heightData = value;
+  
+  /// Get the height data as a typed Map<String, dynamic>
+  Map<String, dynamic>? get heightData => _heightData;
 
   @override
   Widget buildAnswerWidget(
@@ -116,10 +139,10 @@ class HeightQuestion extends OnboardingQuestion {
     return HeightSelectorWidget(
       config: config,
       onChanged: (value) {
-        heightData = value as Map<String, dynamic>;
+        setHeightData(value as Map<String, dynamic>?);
         onAnswerChanged();
       },
-      initialValue: heightData,
+      initialValue: _heightData,
     );
   }
 }

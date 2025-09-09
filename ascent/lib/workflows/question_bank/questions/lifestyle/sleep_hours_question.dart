@@ -41,6 +41,14 @@ class SleepHoursQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => 7.0;
   
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is double) _sleepHours = json;
+    else if (json is num) _sleepHours = json.toDouble();
+    else if (json is String) _sleepHours = double.tryParse(json);
+    else _sleepHours = null;
+  }
+  
   
   //MARK: TYPED ACCESSOR
   
@@ -53,11 +61,18 @@ class SleepHoursQuestion extends OnboardingQuestion {
 
   //MARK: TYPED ANSWER INTERFACE
   
-  /// Get the sleep hours as a typed double
-  double? get sleepHours => answer as double?;
+  //MARK: ANSWER STORAGE
+  
+  double? _sleepHours;
+  
+  @override
+  String? get answer => _sleepHours?.toString();
   
   /// Set the sleep hours with a typed double
-  set sleepHours(double? value) => answer = value;
+  void setSleepHours(double? value) => _sleepHours = value;
+  
+  /// Get the sleep hours as a typed double
+  double? get sleepHours => _sleepHours;
 
   @override
   Widget buildAnswerWidget(
@@ -67,9 +82,9 @@ class SleepHoursQuestion extends OnboardingQuestion {
       children: [
         SliderView(
           questionId: id,
-          answers: {id: sleepHours},
+          answers: {id: _sleepHours},
           onAnswerChanged: (questionId, value) {
-            sleepHours = value as double;
+            setSleepHours(value as double?);
             onAnswerChanged();
           },
           config: config,

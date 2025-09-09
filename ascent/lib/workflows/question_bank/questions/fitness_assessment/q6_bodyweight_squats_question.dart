@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
-import '../../views/question_types/number_input_view.dart';
+import '../../views/question_types/slider_view.dart';
 import '../onboarding_question.dart';
 
 /// Q6: How many bodyweight squats can you do continuously (with good form)?
@@ -35,7 +35,7 @@ class Q6BodyweightSquatsQuestion extends OnboardingQuestion {
   String get section => 'fitness_assessment';
   
   @override
-  EnumQuestionType get questionType => EnumQuestionType.numberInput;
+  EnumQuestionType get questionType => EnumQuestionType.slider;
   
   @override
   String? get subtitle => 'Go down until thighs are parallel to ground, then back up';
@@ -43,24 +43,24 @@ class Q6BodyweightSquatsQuestion extends OnboardingQuestion {
   @override
   Map<String, dynamic> get config => {
     'isRequired': true,
-    'minValue': 0.0,
-    'maxValue': 200.0,
-    'allowDecimals': false,
+    'minValue': 0,
+    'maxValue': 100,
+    'step': 1,
+    'showValue': true,
     'unit': 'reps',
   };
   
   
   //MARK: VALIDATION
   
-  @override
-  bool isValidAnswer(dynamic answer) {
-    if (answer is! num) return false;
-    final count = answer.toInt();
-    return count >= 0 && count <= 200; // Reasonable range
-  }
+  /// Validation is handled by the slider UI
   
   @override
-  dynamic getDefaultAnswer() => 0; // Default to 0 squats if not answered
+  void fromJsonValue(dynamic json) {
+    if (json is num) _squatsCount = json;
+    else if (json is String) _squatsCount = num.tryParse(json);
+    else _squatsCount = null;
+  }
   
   //MARK: TYPED ACCESSOR
   
@@ -73,21 +73,28 @@ class Q6BodyweightSquatsQuestion extends OnboardingQuestion {
 
   //MARK: TYPED ANSWER INTERFACE
   
-  /// Get the squats count as a typed num
-  num? get squatsCount => answer as num?;
+  //MARK: ANSWER STORAGE
   
-  /// Set the squats count with a typed num
-  set squatsCount(num? value) => answer = value;
+  num? _squatsCount;
+  
+  @override
+  String? get answer => _squatsCount?.toString();
+  
+  /// Set the squats count with a typed num (no validation needed)
+  void setSquatsCount(num? value) => _squatsCount = value;
+  
+  /// Get the squats count as a typed num
+  num? get squatsCount => _squatsCount;
 
   @override
   Widget buildAnswerWidget(
     Function() onAnswerChanged,
   ) {
-    return NumberInputView(
+    return SliderView(
       questionId: id,
-      answers: {id: squatsCount},
+      answers: {id: _squatsCount},
       onAnswerChanged: (questionId, value) {
-        squatsCount = value as num;
+        setSquatsCount(value as num?);
         onAnswerChanged();
       },
       config: config,

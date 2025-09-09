@@ -31,7 +31,6 @@ class SugaryTreatsQuestion extends OnboardingQuestion {
   @override
   String? get subtitle => 'Think cookies, candy, pastries, or desserts - we\'re building your nutrition profile!';
   
-  @override
   String? get reason => 'Understanding your sweet treat habits helps us personalize your nutrition guidance and create realistic, sustainable recommendations.';
   
   @override
@@ -46,16 +45,28 @@ class SugaryTreatsQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
+  /// Validation is handled by the UI
+  
+  //MARK: ANSWER STORAGE
+  
+  double? _sugaryTreatsCount;
+  
   @override
-  bool isValidAnswer(dynamic answer) {
-    if (answer == null) return false;
-    if (answer is! num) return false;
-    final value = answer.toInt();
-    return value >= 0 && value <= 10;
+  String? get answer => _sugaryTreatsCount?.toString();
+  
+  /// Set the sugary treats count with a typed double
+  void setSugaryTreatsCount(double? value) => _sugaryTreatsCount = value;
+  
+  /// Get the sugary treats count as a typed double
+  double? get sugaryTreatsCount => _sugaryTreatsCount;
+  
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is double) _sugaryTreatsCount = json;
+    else if (json is num) _sugaryTreatsCount = json.toDouble();
+    else if (json is String) _sugaryTreatsCount = double.tryParse(json);
+    else _sugaryTreatsCount = null;
   }
-
-  @override
-  dynamic getDefaultAnswer() => 1; // Reasonable default
   
   //MARK: TYPED ACCESSOR
   
@@ -94,9 +105,9 @@ class SugaryTreatsQuestion extends OnboardingQuestion {
         // Slider input
         SliderView(
           questionId: id,
-          answers: {id: answer},
+          answers: {id: _sugaryTreatsCount},
           onAnswerChanged: (questionId, value) {
-            answer = value;
+            setSugaryTreatsCount(value as double?);
             onAnswerChanged();
           },
           config: config,

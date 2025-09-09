@@ -50,17 +50,41 @@ class AlcoholQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
+  /// Validation is handled by the UI
+  
+  //MARK: ANSWER STORAGE
+  
+  double? _alcoholCount;
+  bool _isPrivate = false;
+  
   @override
-  bool isValidAnswer(dynamic answer) {
-    if (answer == null) return true; // Allow null for privacy
-    if (answer is String && answer == 'prefer_not_to_say') return true;
-    if (answer is! num) return false;
-    final value = answer.toInt();
-    return value >= 0 && value <= 20;
+  String? get answer => _isPrivate ? 'prefer_not_to_say' : _alcoholCount?.toString();
+  
+  /// Set the alcohol count with a typed double
+  void setAlcoholCount(double? value) => _alcoholCount = value;
+  
+  /// Get the alcohol count as a typed double
+  double? get alcoholCount => _alcoholCount;
+  
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json == 'prefer_not_to_say') {
+      _isPrivate = true;
+      _alcoholCount = null;
+    } else if (json is double) {
+      _alcoholCount = json;
+      _isPrivate = false;
+    } else if (json is num) {
+      _alcoholCount = json.toDouble();
+      _isPrivate = false;
+    } else if (json is String) {
+      _alcoholCount = double.tryParse(json);
+      _isPrivate = false;
+    } else {
+      _alcoholCount = null;
+      _isPrivate = false;
+    }
   }
-
-  @override
-  dynamic getDefaultAnswer() => 2; // Reasonable default
   
   //MARK: TYPED ACCESSOR
   
@@ -119,9 +143,8 @@ class AlcoholQuestion extends OnboardingQuestion {
     return Builder(
       builder: (context) {
         final theme = Theme.of(context);
-        final currentValue = answer;
-        final isPrivate = currentValue == 'prefer_not_to_say';
-        final numericValue = (currentValue is num) ? currentValue.toInt() : 2;
+        final isPrivate = _isPrivate;
+        final numericValue = _alcoholCount?.toInt() ?? 2;
         
         return Container(
           padding: const EdgeInsets.all(20),
@@ -140,9 +163,11 @@ class AlcoholQuestion extends OnboardingQuestion {
                 child: OutlinedButton.icon(
                   onPressed: () {
                     if (isPrivate) {
-                      answer = numericValue; // Return to numeric
+                      _isPrivate = false;
+                      _alcoholCount = numericValue.toDouble();
                     } else {
-                      answer = 'prefer_not_to_say';
+                      _isPrivate = true;
+                      _alcoholCount = null;
                     }
                     onAnswerChanged();
                   },
@@ -205,12 +230,12 @@ class AlcoholQuestion extends OnboardingQuestion {
                     overlayColor: theme.colorScheme.primary.withOpacity( 0.2),
                   ),
                   child: Slider(
-                    value: numericValue.toDouble().clamp(0.0, 20.0),
+                    value: (_alcoholCount ?? 0.0).clamp(0.0, 20.0),
                     min: 0.0,
                     max: 20.0,
                     divisions: 20,
                     onChanged: (value) {
-                      answer = value.round();
+                      setAlcoholCount(value);
                       onAnswerChanged();
                     },
                   ),

@@ -1,48 +1,41 @@
 
-Four-Layer Logic Split
-------------------------------------------------------------------------------
-------------------------------------------------------------------------------
+  - Age 65+ → Balance to Tier 1
+  - Age 70+ → Functional to Tier 1
+  - Fall history → Balance to Tier 1, Functional gets +50% boost
+  - Can't do chair stand → Functional to Tier 1, Strength gets
+  +60% boost
+  - GLP-1 meds → Strength to Tier 1
+  - BMI ≥35 → Cardio to Tier 1
 
-1. **Eligibility Filters**: Remove unsafe/impossible options 
-(injuries, equipment, time)
+  Exact Allocation Rules
 
+  - Tier 1: 25% minimum each
+  - Tier 2: 15% minimum each
+  - Tier 3: Split remaining capacity
 
-------------------------------------------------------------------------------
-------------------------------------------------------------------------------
+  Overflow Handling
 
-2. **Archetype Selection**: Choose training style via decision table
-[LIST IN training_styles_catalog_extended.xls]
+  - If Tier 1 needs >100% → Divide 100% evenly among Tier 1
+  objectives
+  - If Tier 1+2 needs >100% → Give Tier 1 their 25%, Tier 2 splits
+   remainder
+  - Medical needs always override user preferences
 
-------------------------------------------------------------------------------
-------------------------------------------------------------------------------
+  Specific Examples
 
-3. **Parameterization**: Set volumes, frequency, sets/reps, progression
-Session length cap: 40 min
+  75-year-old who fell, can't do chair stand:
+  1. Tier 1: Functional (30%), Balance (30%), Strength (25%) = 85%
+  2. Tier 2: Flexibility (15%)
+  3. Tier 3: Nothing left
 
-Required patterns: squat, hinge, push, pull, core
+  45-year-old on GLP-1, BMI 32, wants weight loss:
+  1. Tier 1: Strength (25%), Cardio (25%) = 50%
+  2. Tier 2: Weight Loss (15%), Flexibility (15%) = 30%
+  3. Tier 3: Balance (10%), Functional (10%) = 20%
 
-Slot structure: main, pair, accessory, core, finisher
+  This gives us a complete, implementable framework. Every
+  decision point has specific values and the logic flow handles
+  all edge cases.
 
-Set budget: main=3, pair=3 each, accessory=2, core=2, finisher=optional 8 min
-
-Rep/effort: main 6–8 @ RPE7, accessory 8–12 @ RPE7, core 30s holds
-
-Rest/tempo: main 120s rest, accessory 60s, tempo 2-0-2
-
-Superset policy: prefer (to fit in cap)
-
-Finisher policy: goal_based (add if fat loss priority)
-
-Pattern weights: bias hinge slightly higher this block
-
-Accessory ceiling: 1
-
-Unilateral/stability: optional (ok to add split squat if time)
-
-Variety horizon: don’t repeat same main as last block
-
-------------------------------------------------------------------------------
-------------------------------------------------------------------------------
-
-
-4. **Instantiation**: Select exercises, assemble sessions, apply progression
+  Is this the level of detail you were looking for? Should we
+  refine any specific decision branches further?

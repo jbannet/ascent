@@ -58,20 +58,29 @@ class Q11TrainingLocationQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => AnswerConstants.anywhere; // Most flexible default
   
-  //MARK: TYPED ACCESSOR
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is String) _trainingLocation = json;
+    else _trainingLocation = null;
+  }
+  
+  //MARK: ANSWER STORAGE
+  
+  String? _trainingLocation;
+  
+  @override
+  String? get answer => _trainingLocation;
+  
+  /// Set the training location preference with a typed String
+  void setTrainingLocation(String? value) => _trainingLocation = value;
+  
+  /// Get the training location preference as a typed String
+  String? get trainingLocation => _trainingLocation;
   
   /// Get training location preference as String from answers
   String? getTrainingLocation(Map<String, dynamic> answers) {
     return answers[questionId] as String?;
   }
-
-  //MARK: TYPED ANSWER INTERFACE
-  
-  /// Get the training location preference as a typed String
-  String? get trainingLocation => answer as String?;
-  
-  /// Set the training location preference with a typed String
-  set trainingLocation(String? value) => answer = value;
 
   @override
   Widget buildAnswerWidget(
@@ -79,9 +88,9 @@ class Q11TrainingLocationQuestion extends OnboardingQuestion {
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: {id: trainingLocation},
+      answers: {id: _trainingLocation},
       onAnswerChanged: (questionId, value) {
-        trainingLocation = value as String;
+        setTrainingLocation(value as String?);
         onAnswerChanged();
       },
       options: options,

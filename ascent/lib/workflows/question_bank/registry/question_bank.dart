@@ -1,6 +1,5 @@
 import '../questions/onboarding_question.dart';
 // Demographics
-import '../questions/demographics/user_name_question.dart';
 import '../questions/demographics/age_question.dart';
 import '../questions/demographics/gender_question.dart';
 // Motivation
@@ -16,7 +15,6 @@ import '../questions/fitness_assessment/q5_pushups_question.dart';
 import '../questions/fitness_assessment/glp1_medications_question.dart';
 import '../questions/fitness_assessment/session_commitment_question.dart';
 // Lifestyle
-import '../questions/lifestyle/current_diet_question.dart';
 import '../questions/lifestyle/sleep_hours_question.dart';
 // Practical Constraints
 import '../questions/practical_constraints/q1_injuries_question.dart';
@@ -34,7 +32,6 @@ class QuestionBank {
   // Registry of all questions in the correct order (following JSON structure)
   static final List<OnboardingQuestion> _allQuestions = [
     // 1. Demographics
-    UserNameQuestion.instance,           // user_name
     AgeQuestion.instance,                // age  
     GenderQuestion.instance,             // gender
     
@@ -52,7 +49,6 @@ class QuestionBank {
     Q5PushupsQuestion.instance,          // pushups_count (Q5)
     
     // 5. Lifestyle
-    CurrentDietQuestion.instance,        // current_diet
     Glp1MedicationsQuestion.instance,    // GLP-1 medications
     SleepHoursQuestion.instance,         // sleep_hours
     

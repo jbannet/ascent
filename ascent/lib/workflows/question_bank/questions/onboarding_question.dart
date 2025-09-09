@@ -62,17 +62,13 @@ abstract class OnboardingQuestion {
   
   //MARK: ANSWER STORAGE
   
-  /// The answer to this question stored directly on the question instance.
-  /// Each subclass should provide typed getters/setters for this field.
-  dynamic _answer;
+  /// Get the current answer as a string representation for serialization.
+  /// Each subclass must implement this method to return their typed value as a string.
+  String? get answer;
   
-  /// Get the current answer for this question.
-  /// Subclasses should override with typed getters.
-  dynamic get answer => _answer;
-  
-  /// Set the answer for this question.
-  /// Subclasses should override with typed setters.
-  set answer(dynamic value) => _answer = value;
+  /// Check if this question has been answered.
+  /// Returns true if the answer is not null, indicating the question has valid data.
+  bool get hasAnswer => answer != null;
 
   //MARK: SERIALIZATION
   
@@ -80,32 +76,25 @@ abstract class OnboardingQuestion {
   /// Returns a map with question ID and serialized answer.
   Map<String, dynamic> toJson() => {
     'id': id,
-    'answer': answerToJson(_answer),
+    'answer': answer,
   };
   
   /// Deserialize answer from JSON storage.
   /// Updates the question's answer from the JSON data.
   void fromJson(Map<String, dynamic> json) {
-    _answer = answerFromJson(json['answer']);
+    fromJsonValue(json['answer']);
   }
   
-  /// Convert answer value to JSON-compatible format.
-  /// Override for types that need special serialization (DateTime -> ISO String).
-  dynamic answerToJson(dynamic value) => value;
-  
-  /// Convert JSON value back to typed answer.
-  /// Override for types that need deserialization (ISO String -> DateTime).
-  dynamic answerFromJson(dynamic json) => json;
+  /// Convert JSON value to the question's typed field.
+  /// Each subclass must implement this method to handle deserialization defensively.
+  /// Should handle multiple input types (String, DateTime, List, etc.) without throwing.
+  void fromJsonValue(dynamic json);
   
   //MARK: VALIDATION
   
-  /// Validate that an answer is acceptable for this question.
-  /// Override for custom validation beyond basic type checking.
-  bool isValidAnswer(dynamic answer) => false;
-  
-  /// Get a default value if the user hasn't answered this question.
-  /// Override to provide sensible defaults for optional questions.
-  dynamic getDefaultAnswer() => null;
+  /// Validation is now handled in the typed setters.
+  /// Each question validates input before storing it.
+  /// If a value is stored (answer != null), it is valid.
   
 
   ///

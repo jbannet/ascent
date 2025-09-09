@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../onboarding_workflow/models/questions/enum_question_type.dart';
-import '../../views/question_types/number_input_view.dart';
+import '../../views/question_types/wheel_picker_view.dart';
 import '../onboarding_question.dart';
 
 /// Weight demographic question for BMI calculation and weight management goals.
@@ -26,7 +26,7 @@ class WeightQuestion extends OnboardingQuestion {
   String get section => 'personal_info';
   
   @override
-  EnumQuestionType get questionType => EnumQuestionType.numberInput;
+  EnumQuestionType get questionType => EnumQuestionType.wheelPicker;
   
   @override
   String? get subtitle => 'Used for weight management goals and exercise recommendations (optional)';
@@ -34,24 +34,23 @@ class WeightQuestion extends OnboardingQuestion {
   @override
   Map<String, dynamic> get config => {
     'isRequired': false,
-    'allowDecimal': true,
     'minValue': 80,
     'maxValue': 500,
+    'step': 1,
     'unit': 'lbs',
-    'placeholder': 'Enter weight in pounds',
+    'wheelStyle': 'weight',
   };
   
   //MARK: VALIDATION
   
-  @override
-  bool isValidAnswer(dynamic answer) {
-    if (answer == null) return true; // Optional field
-    if (answer is! num) return false;
-    return answer >= 80 && answer <= 500;
-  }
+  /// Validation is handled by the wheel picker UI
   
   @override
-  dynamic getDefaultAnswer() => null; // Optional field
+  void fromJsonValue(dynamic json) {
+    if (json is num) _weightValue = json;
+    else if (json is String) _weightValue = num.tryParse(json);
+    else _weightValue = null;
+  }
   
   //MARK: TYPED ACCESSOR
   
@@ -71,21 +70,28 @@ class WeightQuestion extends OnboardingQuestion {
 
   //MARK: TYPED ANSWER INTERFACE
   
-  /// Get the weight as a typed number
-  num? get weightValue => answer as num?;
+  //MARK: ANSWER STORAGE
   
-  /// Set the weight with a typed number
-  set weightValue(num? value) => answer = value;
+  num? _weightValue;
+  
+  @override
+  String? get answer => _weightValue?.toString();
+  
+  /// Set the weight with a typed number (no validation needed)
+  void setWeightValue(num? value) => _weightValue = value;
+  
+  /// Get the weight as a typed number
+  num? get weightValue => _weightValue;
 
   @override
   Widget buildAnswerWidget(
     Function() onAnswerChanged,
   ) {
-    return NumberInputView(
+    return WheelPickerView(
       questionId: id,
-      answers: {id: weightValue},
+      answers: {id: _weightValue},
       onAnswerChanged: (questionId, value) {
-        weightValue = value as num;
+        setWeightValue(value as num?);
         onAnswerChanged();
       },
       config: config,

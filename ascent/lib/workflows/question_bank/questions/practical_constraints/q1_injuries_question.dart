@@ -91,6 +91,17 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => <String>[]; // Default to empty list - no pre-selections
   
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is List) {
+      _injuryPainAreas = json.map((e) => e.toString()).toList();
+    } else if (json is String) {
+      _injuryPainAreas = json.split(',');
+    } else {
+      _injuryPainAreas = null;
+    }
+  }
+  
   //MARK: TYPED ACCESSORS
   
   /// Get all injuries (areas to avoid) as List&lt;String&gt; from answers
@@ -142,13 +153,19 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
     return [items.toString()];
   }
 
-  //MARK: TYPED ANSWER INTERFACE
+  //MARK: ANSWER STORAGE
   
-  /// Get the injury/pain areas as a typed List<String>
-  List<String> get injuryPainAreas => (answer as List<String>?) ?? [];
+  List<String>? _injuryPainAreas;
+  
+  @override
+  String? get answer => 
+    (_injuryPainAreas == null || _injuryPainAreas!.isEmpty) ? null : _injuryPainAreas!.join(',');
   
   /// Set the injury/pain areas with a typed List<String>
-  set injuryPainAreas(List<String> value) => answer = value;
+  void setInjuryPainAreas(List<String>? value) => _injuryPainAreas = value;
+  
+  /// Get the injury/pain areas as a typed List<String>
+  List<String> get injuryPainAreas => _injuryPainAreas ?? [];
 
   @override
   Widget buildAnswerWidget(
@@ -159,7 +176,12 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
       title: questionText,
       subtitle: subtitle,
       onAnswerChanged: (questionId, values) {
-        injuryPainAreas = values as List<String>;
+        if (values is List<String>) {
+          setInjuryPainAreas(values.isEmpty ? null : values);
+        } else if (values is List) {
+          var stringList = values.map((e) => e.toString()).toList();
+          setInjuryPainAreas(stringList.isEmpty ? null : stringList);
+        }
         onAnswerChanged();
       },
       selectedValues: injuryPainAreas.isEmpty ? null : injuryPainAreas,

@@ -62,14 +62,21 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ANSWER INTERFACE
   
-  /// Get the fall history answer as a typed String
-  String? get fallHistoryAnswer => answer as String?;
+  //MARK: ANSWER STORAGE
+  
+  String? _fallHistoryAnswer;
+  
+  @override
+  String? get answer => _fallHistoryAnswer;
   
   /// Set the fall history answer with a typed String
-  set fallHistoryAnswer(String? value) => answer = value;
+  void setFallHistoryAnswer(String? value) => _fallHistoryAnswer = value;
+  
+  /// Get the fall history answer as a typed String
+  String? get fallHistoryAnswer => _fallHistoryAnswer;
   
   /// Get fall history as a boolean
-  bool get hasFallen => fallHistoryAnswer == AnswerConstants.yes;
+  bool get hasFallen => _fallHistoryAnswer == AnswerConstants.yes;
   
   //MARK: VALIDATION
   
@@ -80,6 +87,12 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   
   @override
   dynamic getDefaultAnswer() => AnswerConstants.no;
+  
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is String) _fallHistoryAnswer = json;
+    else _fallHistoryAnswer = null;
+  }
 
   @override
   Widget buildAnswerWidget(
@@ -87,9 +100,9 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: {id: fallHistoryAnswer},
+      answers: {id: _fallHistoryAnswer},
       onAnswerChanged: (questionId, value) {
-        fallHistoryAnswer = value as String;
+        setFallHistoryAnswer(value as String?);
         onAnswerChanged();
       },
       options: options,

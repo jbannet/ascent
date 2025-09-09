@@ -77,19 +77,25 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
     return false;
   }
   
-  //MARK: TYPED ANSWER INTERFACE
+  //MARK: ANSWER STORAGE
   
-  /// Get the fall risk factors as a typed List<String>
-  List<String> get riskFactors => (answer as List<String>?) ?? [];
+  List<String>? _riskFactors;
+  
+  @override
+  String? get answer => 
+    (_riskFactors == null || _riskFactors!.isEmpty) ? null : _riskFactors!.join(',');
   
   /// Set the fall risk factors with a typed List<String>
-  set riskFactors(List<String> value) => answer = value;
+  void setRiskFactors(List<String>? value) => _riskFactors = value;
+  
+  /// Get the fall risk factors as a typed List<String>
+  List<String> get riskFactors => _riskFactors ?? [];
   
   /// Check if specific risk factors are present
-  bool get hasFearOfFalling => riskFactors.contains(AnswerConstants.fearFalling);
-  bool get usesMobilityAids => riskFactors.contains(AnswerConstants.mobilityAids);
-  bool get hasBalanceProblems => riskFactors.contains(AnswerConstants.balanceProblems);
-  bool get hasNoRiskFactors => riskFactors.contains(AnswerConstants.none);
+  bool get hasFearOfFalling => _riskFactors?.contains(AnswerConstants.fearFalling) ?? false;
+  bool get usesMobilityAids => _riskFactors?.contains(AnswerConstants.mobilityAids) ?? false;
+  bool get hasBalanceProblems => _riskFactors?.contains(AnswerConstants.balanceProblems) ?? false;
+  bool get hasNoRiskFactors => _riskFactors?.contains(AnswerConstants.none) ?? false;
   
   //MARK: VALIDATION
   
@@ -106,6 +112,17 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   
   @override
   dynamic getDefaultAnswer() => [AnswerConstants.none];
+  
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is List) {
+      _riskFactors = json.map((e) => e.toString()).toList();
+    } else if (json is String) {
+      _riskFactors = json.split(',');
+    } else {
+      _riskFactors = null;
+    }
+  }
 
   @override
   Widget buildAnswerWidget(
@@ -113,9 +130,14 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   ) {
     return MultipleChoiceView(
       questionId: id,
-      answers: {id: riskFactors},
+      answers: {id: _riskFactors ?? []},
       onAnswerChanged: (questionId, value) {
-        riskFactors = value as List<String>;
+        if (value is List<String>) {
+          setRiskFactors(value.isEmpty ? null : value);
+        } else if (value is List) {
+          var stringList = value.map((e) => e.toString()).toList();
+          setRiskFactors(stringList.isEmpty ? null : stringList);
+        }
         onAnswerChanged();
       },
       options: options,

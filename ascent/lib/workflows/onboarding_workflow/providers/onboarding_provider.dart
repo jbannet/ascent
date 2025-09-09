@@ -35,6 +35,7 @@ class OnboardingProvider extends ChangeNotifier {
     // Load answers from local storage and populate questions
     final Map<String, dynamic> storedAnswers = await LocalStorageService.loadAnswers();
     QuestionBank.fromJson(storedAnswers);
+    debugPrint('Loaded ${storedAnswers.length} answers from local storage');
   }
 
 //MARK: STORAGE
@@ -55,7 +56,7 @@ class OnboardingProvider extends ChangeNotifier {
   void updateQuestionAnswer(String questionId, dynamic answerValue) {
     final question = QuestionBank.getQuestion(questionId);
     if (question != null) {
-      question.answer = answerValue;
+      question.fromJsonValue(answerValue);
       notifyListeners();
     }
   }
@@ -74,7 +75,7 @@ class OnboardingProvider extends ChangeNotifier {
     final currentQuestion = currentOnboardingQuestion;
     if (currentQuestion == null) return false;
     
-    return currentQuestion.isValidAnswer(currentQuestion.answer);
+    return currentQuestion.hasAnswer;
   }
 
   // Skip current question (for optional questions)

@@ -49,16 +49,28 @@ class GrainsQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
+  /// Validation is handled by the UI
+  
+  //MARK: ANSWER STORAGE
+  
+  double? _grainsCount;
+  
   @override
-  bool isValidAnswer(dynamic answer) {
-    if (answer == null) return false;
-    if (answer is! num) return false;
-    final value = answer.toInt();
-    return value >= 0 && value <= 10;
+  String? get answer => _grainsCount?.toString();
+  
+  /// Set the grains count with a typed double
+  void setGrainsCount(double? value) => _grainsCount = value;
+  
+  /// Get the grains count as a typed double
+  double? get grainsCount => _grainsCount;
+  
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is double) _grainsCount = json;
+    else if (json is num) _grainsCount = json.toDouble();
+    else if (json is String) _grainsCount = double.tryParse(json);
+    else _grainsCount = null;
   }
-
-  @override
-  dynamic getDefaultAnswer() => 4; // Reasonable default - closer to healthy range
   
   //MARK: TYPED ACCESSOR
   
@@ -97,9 +109,9 @@ class GrainsQuestion extends OnboardingQuestion {
         // Slider input
         SliderView(
           questionId: id,
-          answers: {id: answer},
+          answers: {id: _grainsCount},
           onAnswerChanged: (questionId, value) {
-            answer = value;
+            setGrainsCount(value as double?);
             onAnswerChanged();
           },
           config: config,

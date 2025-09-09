@@ -54,6 +54,14 @@ class Q5PushupsQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => 0.0; // Default to 0 push-ups if not answered
   
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is double) _pushupsCount = json;
+    else if (json is num) _pushupsCount = json.toDouble();
+    else if (json is String) _pushupsCount = double.tryParse(json);
+    else _pushupsCount = null;
+  }
+  
   //MARK: TYPED ACCESSOR
   
   /// Get pushups count as int from answers
@@ -67,11 +75,18 @@ class Q5PushupsQuestion extends OnboardingQuestion {
 
   //MARK: TYPED ANSWER INTERFACE
   
-  /// Get the pushups count as a typed double
-  double? get pushupsCount => answer as double?;
+  //MARK: ANSWER STORAGE
+  
+  double? _pushupsCount;
+  
+  @override
+  String? get answer => _pushupsCount?.toString();
   
   /// Set the pushups count with a typed double
-  set pushupsCount(double? value) => answer = value;
+  void setPushupsCount(double? value) => _pushupsCount = value;
+  
+  /// Get the pushups count as a typed double
+  double? get pushupsCount => _pushupsCount;
 
   @override
   Widget buildAnswerWidget(
@@ -79,9 +94,9 @@ class Q5PushupsQuestion extends OnboardingQuestion {
   ) {
     return SliderView(
       questionId: id,
-      answers: {id: pushupsCount},
+      answers: {id: _pushupsCount},
       onAnswerChanged: (questionId, value) {
-        pushupsCount = value as double;
+        setPushupsCount(value as double?);
         onAnswerChanged();
       },
       config: config,

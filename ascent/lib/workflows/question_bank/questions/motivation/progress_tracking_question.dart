@@ -84,6 +84,17 @@ class ProgressTrackingQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => [AnswerConstants.performanceMetrics]; // Most common tracking method
   
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is List) {
+      _progressTrackingPreferences = json.map((e) => e.toString()).toList();
+    } else if (json is String) {
+      _progressTrackingPreferences = json.split(',');
+    } else {
+      _progressTrackingPreferences = null;
+    }
+  }
+  
   //MARK: PRIVATE HELPERS
   
   /// Check if selection is a valid option
@@ -102,13 +113,19 @@ class ProgressTrackingQuestion extends OnboardingQuestion {
     return [tracking.toString()];
   }
 
-  //MARK: TYPED ANSWER INTERFACE
+  //MARK: ANSWER STORAGE
   
-  /// Get the progress tracking preferences as a typed List<String>
-  List<String> get progressTrackingPreferences => (answer as List<String>?) ?? [];
+  List<String>? _progressTrackingPreferences;
+  
+  @override
+  String? get answer => 
+    (_progressTrackingPreferences == null || _progressTrackingPreferences!.isEmpty) ? null : _progressTrackingPreferences!.join(',');
   
   /// Set the progress tracking preferences with a typed List<String>
-  set progressTrackingPreferences(List<String> value) => answer = value;
+  void setProgressTrackingPreferences(List<String>? value) => _progressTrackingPreferences = value;
+  
+  /// Get the progress tracking preferences as a typed List<String>
+  List<String> get progressTrackingPreferences => _progressTrackingPreferences ?? [];
 
   @override
   Widget buildAnswerWidget(
@@ -116,9 +133,14 @@ class ProgressTrackingQuestion extends OnboardingQuestion {
   ) {
     return MultipleChoiceView(
       questionId: id,
-      answers: {id: progressTrackingPreferences},
+      answers: {id: _progressTrackingPreferences ?? []},
       onAnswerChanged: (questionId, value) {
-        progressTrackingPreferences = value as List<String>;
+        if (value is List<String>) {
+          setProgressTrackingPreferences(value.isEmpty ? null : value);
+        } else if (value is List) {
+          var stringList = value.map((e) => e.toString()).toList();
+          setProgressTrackingPreferences(stringList.isEmpty ? null : stringList);
+        }
         onAnswerChanged();
       },
       options: options,

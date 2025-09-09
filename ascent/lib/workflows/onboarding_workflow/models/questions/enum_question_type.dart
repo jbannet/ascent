@@ -38,7 +38,15 @@ enum EnumQuestionType {
   
   /// Height selector with feet and inches dropdowns
   /// Two dropdown selectors for selecting height in US imperial units
-  heightSelector
+  heightSelector,
+  
+  /// Spinning wheel picker for numeric values
+  /// iOS-style wheel picker with smooth scrolling (e.g., weight)
+  wheelPicker,
+  
+  /// Dual column picker for decimal values
+  /// Two columns for selecting combined values like miles and tenths
+  dualPicker
 }
 
 extension QuestionTypeExtension on EnumQuestionType {
@@ -67,6 +75,10 @@ extension QuestionTypeExtension on EnumQuestionType {
         return EnumQuestionType.dualColumnSelector;
       case 'height_selector':
         return EnumQuestionType.heightSelector;
+      case 'wheel_picker':
+        return EnumQuestionType.wheelPicker;
+      case 'dual_picker':
+        return EnumQuestionType.dualPicker;
       default:
         throw ArgumentError('Unknown question type: $value');
     }

@@ -22,6 +22,7 @@
   ✓ MUST: Get actual names from code (grep/read, don't assume or make up names)
   ❌ NEVER: "// TODO", "// for now", placeholder code
   ❌ NEVER: Duplicate code that should be abstracted
+  ❌ NEVER: Use dynamic or Object types if avoidable. They circumvent type safety.
   
   # THE ONLY ACCEPTABLE FLOW:
   1. Run context-keeper → Say "Checked with 

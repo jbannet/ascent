@@ -43,11 +43,18 @@ class AgeQuestion extends OnboardingQuestion {
   
   //MARK: TYPED ANSWER INTERFACE
   
-  /// Get the date of birth as a typed DateTime
-  DateTime? get dateOfBirth => answer as DateTime?;
+  //MARK: ANSWER STORAGE
+  
+  DateTime? _dateOfBirth;
+  
+  @override
+  String? get answer => _dateOfBirth?.toIso8601String();
   
   /// Set the date of birth with a typed DateTime
-  set dateOfBirth(DateTime? value) => answer = value;
+  void setDateOfBirth(DateTime? value) => _dateOfBirth = value;
+  
+  /// Get the date of birth as a typed DateTime
+  DateTime? get dateOfBirth => _dateOfBirth;
   
   /// Calculate age from the stored date of birth
   int? get calculatedAge {
@@ -61,8 +68,22 @@ class AgeQuestion extends OnboardingQuestion {
   
   @override
   bool isValidAnswer(dynamic answer) {
-    final date = answer as DateTime?;
-    if (date == null) return false;
+    DateTime? date;
+    if (answer is DateTime) {
+      date = answer;
+    } else if (answer is String) {
+      try {
+        date = DateTime.parse(answer);
+      } catch (_) {
+        return false;
+      }
+    } else if (answer == null) {
+      return config?['isRequired'] != true;
+    } else {
+      return false;
+    }
+    
+    if (date == null) return config?['isRequired'] != true;
     
     final now = DateTime.now();
     final age = now.year - date.year - (now.month < date.month || (now.month == date.month && now.day < date.day) ? 1 : 0);
@@ -76,9 +97,18 @@ class AgeQuestion extends OnboardingQuestion {
   }
 
   @override
-  dynamic answerFromJson(dynamic json) {
-    if (json == null) return null;
-    return DateTime.parse(json as String);
+  void fromJsonValue(dynamic json) {
+    if (json is DateTime) {
+      _dateOfBirth = json;
+    } else if (json is String) {
+      try {
+        _dateOfBirth = DateTime.parse(json);
+      } catch (_) {
+        _dateOfBirth = null;
+      }
+    } else {
+      _dateOfBirth = null;
+    }
   }
   
   @override
@@ -93,9 +123,9 @@ class AgeQuestion extends OnboardingQuestion {
   ) {
     return DatePickerView(
       questionId: id,
-      answers: {id: dateOfBirth},
+      answers: {id: _dateOfBirth},
       onAnswerChanged: (questionId, selectedDate) {
-        dateOfBirth = selectedDate as DateTime;
+        setDateOfBirth(selectedDate as DateTime?);
         onAnswerChanged();
       },
       config: config,

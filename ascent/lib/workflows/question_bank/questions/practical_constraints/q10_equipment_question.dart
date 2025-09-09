@@ -62,6 +62,17 @@ class Q10EquipmentQuestion extends OnboardingQuestion {
   @override
   dynamic getDefaultAnswer() => [AnswerConstants.none]; // Default to bodyweight only
   
+  @override
+  void fromJsonValue(dynamic json) {
+    if (json is List) {
+      _availableEquipment = json.map((e) => e.toString()).toList();
+    } else if (json is String) {
+      _availableEquipment = json.split(',');
+    } else {
+      _availableEquipment = null;
+    }
+  }
+  
   //MARK: TYPED ACCESSOR
   
   /// Get available equipment as List&lt;String&gt; from answers
@@ -72,13 +83,19 @@ class Q10EquipmentQuestion extends OnboardingQuestion {
     return [equipment.toString()];
   }
 
-  //MARK: TYPED ANSWER INTERFACE
+  //MARK: ANSWER STORAGE
   
-  /// Get the available equipment as a typed List<String>
-  List<String> get availableEquipment => (answer as List<String>?) ?? [];
+  List<String>? _availableEquipment;
+  
+  @override
+  String? get answer => 
+    (_availableEquipment == null || _availableEquipment!.isEmpty) ? null : _availableEquipment!.join(',');
   
   /// Set the available equipment with a typed List<String>
-  set availableEquipment(List<String> value) => answer = value;
+  void setAvailableEquipment(List<String>? value) => _availableEquipment = value;
+  
+  /// Get the available equipment as a typed List<String>
+  List<String> get availableEquipment => _availableEquipment ?? [];
 
   @override
   Widget buildAnswerWidget(
@@ -86,9 +103,14 @@ class Q10EquipmentQuestion extends OnboardingQuestion {
   ) {
     return MultipleChoiceView(
       questionId: id,
-      answers: {id: availableEquipment},
+      answers: {id: _availableEquipment ?? []},
       onAnswerChanged: (questionId, value) {
-        availableEquipment = value as List<String>;
+        if (value is List<String>) {
+          setAvailableEquipment(value.isEmpty ? null : value);
+        } else if (value is List) {
+          var stringList = value.map((e) => e.toString()).toList();
+          setAvailableEquipment(stringList.isEmpty ? null : stringList);
+        }
         onAnswerChanged();
       },
       options: options,

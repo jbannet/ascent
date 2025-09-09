@@ -77,7 +77,7 @@ class NutritionQuestionsIntegration {
       if (id == AlcoholQuestion.questionId) {
         return answer != null; // Allow 'prefer_not_to_say' as valid
       }
-      return question.isValidAnswer(answer);
+      return question.hasAnswer;
     });
   }
   
@@ -92,7 +92,7 @@ class NutritionQuestionsIntegration {
         // Special handling for alcohol privacy option
         if (id == AlcoholQuestion.questionId) {
           if (answer != null) completedCount++;
-        } else if (question.isValidAnswer(answer)) {
+        } else if (question.hasAnswer) {
           completedCount++;
         }
       }
@@ -122,7 +122,7 @@ class NutritionQuestionsIntegration {
       final question = getQuestionById(id);
       if (question != null) {
         final answer = answers[id];
-        if (!question.isValidAnswer(answer)) {
+        if (!question.hasAnswer) {
           // Don't treat missing alcohol answer as error if privacy is expected
           if (id == AlcoholQuestion.questionId && answer == null) {
             continue; // Allow missing alcohol answer

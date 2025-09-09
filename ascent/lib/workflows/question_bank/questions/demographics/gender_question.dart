@@ -46,29 +46,31 @@ class GenderQuestion extends OnboardingQuestion {
   
   //MARK: VALIDATION
   
+  /// Validation is handled in the setter
+  
   @override
-  bool isValidAnswer(dynamic answer) {
-    final validOptions = [AnswerConstants.male, AnswerConstants.female, AnswerConstants.nonBinary, AnswerConstants.preferNotToSay];
-    return validOptions.contains(answer.toString());
+  void fromJsonValue(dynamic json) {
+    if (json is String) _genderAnswer = json;
+    else _genderAnswer = null;
   }
   
+  //MARK: ANSWER STORAGE
+  
+  String? _genderAnswer;
+  
   @override
-  dynamic getDefaultAnswer() => AnswerConstants.preferNotToSay; // Respectful default
+  String? get answer => _genderAnswer;
   
-  //MARK: TYPED ACCESSOR
-  
-  //MARK: TYPED ANSWER INTERFACE
+  /// Set the gender (no validation needed - UI enforces valid options)
+  void setGenderAnswer(String? value) => _genderAnswer = value;
   
   /// Get the gender as a typed String
-  String? get genderAnswer => answer as String?;
-  
-  /// Set the gender with a typed String
-  set genderAnswer(String? value) => answer = value;
+  String? get genderAnswer => _genderAnswer;
   
   /// Check for specific gender values
-  bool get isMale => genderAnswer == AnswerConstants.male;
-  bool get isFemale => genderAnswer == AnswerConstants.female;
-  bool get isNonBinary => genderAnswer == AnswerConstants.nonBinary;
+  bool get isMale => _genderAnswer == AnswerConstants.male;
+  bool get isFemale => _genderAnswer == AnswerConstants.female;
+  bool get isNonBinary => _genderAnswer == AnswerConstants.nonBinary;
 
   @override
   Widget buildAnswerWidget(
@@ -76,9 +78,9 @@ class GenderQuestion extends OnboardingQuestion {
   ) {
     return SingleChoiceView(
       questionId: id,
-      answers: {id: genderAnswer},
+      answers: {id: _genderAnswer},
       onAnswerChanged: (questionId, value) {
-        genderAnswer = value as String;
+        setGenderAnswer(value as String?);
         onAnswerChanged();
       },
       options: options,
