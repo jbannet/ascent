@@ -49,6 +49,10 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
   final GlobalKey _imageKey = GlobalKey();
   double _imageWidth = 300.0;
   double _imageHeight = 500.0;
+  double _actualImageWidth = 300.0;
+  double _actualImageHeight = 500.0;
+  double _imageOffsetX = 0.0;
+  double _imageOffsetY = 0.0;
   
   @override
   void initState() {
@@ -90,24 +94,26 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
     return values;
   }
 
-  void _handleSingleTap(String bodyPart) {
+  void _handleTap(String bodyPart) {
+    print('*** TAP HANDLER CALLED FOR $bodyPart ***'); // Debug logging
     setState(() {
-      if (_bodyPartStates[bodyPart] == BodyPartState.pain) {
-        _bodyPartStates.remove(bodyPart);
-      } else {
+      final currentState = _bodyPartStates[bodyPart];
+      print('DEBUG: Current state for $bodyPart: $currentState');
+      print('DEBUG: All states: $_bodyPartStates');
+      
+      if (currentState == null) {
         _bodyPartStates[bodyPart] = BodyPartState.pain;
-      }
-    });
-    widget.onAnswerChanged(widget.questionId, _getSelectedValues());
-  }
-
-  void _handleDoubleTap(String bodyPart) {
-    setState(() {
-      if (_bodyPartStates[bodyPart] == BodyPartState.injury) {
-        _bodyPartStates.remove(bodyPart);
-      } else {
+        print('DEBUG: Set $bodyPart to pain');
+      } else if (currentState == BodyPartState.pain) {
         _bodyPartStates[bodyPart] = BodyPartState.injury;
+        print('DEBUG: Set $bodyPart to injury');
+      } else if (currentState == BodyPartState.injury) {
+        _bodyPartStates.remove(bodyPart);
+        print('DEBUG: Removed $bodyPart from selection');
       }
+      
+      print('DEBUG: New state for $bodyPart: ${_bodyPartStates[bodyPart]}');
+      print('DEBUG: All states after change: $_bodyPartStates');
     });
     widget.onAnswerChanged(widget.questionId, _getSelectedValues());
   }
@@ -171,9 +177,28 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
               final availableWidth = constraints.maxWidth - 40;
               final availableHeight = 500.0;
               
-              // Store the available dimensions - the actual scaling will be handled by BoxFit.contain
+              // Store the container dimensions
               _imageWidth = availableWidth;
               _imageHeight = availableHeight;
+              
+              // Calculate actual rendered image dimensions with BoxFit.contain
+              // Use actual image dimensions: man.png=1024x1024 (1.0), woman.png=1024x1536 (0.667)
+              final imageAspectRatio = _userGender?.toLowerCase() == 'female' ? (1024.0 / 1536.0) : (1024.0 / 1024.0);
+              final containerAspectRatio = availableWidth / availableHeight;
+              
+              if (containerAspectRatio > imageAspectRatio) {
+                // Container is wider, image is constrained by height
+                _actualImageHeight = availableHeight;
+                _actualImageWidth = availableHeight * imageAspectRatio;
+                _imageOffsetX = (availableWidth - _actualImageWidth) / 2;
+                _imageOffsetY = 0.0;
+              } else {
+                // Container is taller, image is constrained by width
+                _actualImageWidth = availableWidth;
+                _actualImageHeight = availableWidth / imageAspectRatio;
+                _imageOffsetX = 0.0;
+                _imageOffsetY = (availableHeight - _actualImageHeight) / 2;
+              }
               
               return SizedBox(
                 width: availableWidth,
@@ -307,22 +332,46 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
 
   /// Build a single clickable region
   Widget _buildClickableRegion(String bodyPart, BodyRegion region) {
+    final left = _imageOffsetX + (region.xPercent / 100.0) * _actualImageWidth;
+    final top = _imageOffsetY + (region.yPercent / 100.0) * _actualImageHeight;
+    final width = (region.widthPercent / 100.0) * _actualImageWidth;
+    final height = (region.heightPercent / 100.0) * _actualImageHeight;
+    
+    // Removed excessive build logging
+    
     return Positioned(
-      left: (region.xPercent / 100.0) * _imageWidth,
-      top: (region.yPercent / 100.0) * _imageHeight,
-      width: (region.widthPercent / 100.0) * _imageWidth,
-      height: (region.heightPercent / 100.0) * _imageHeight,
+      left: left,
+      top: top,
+      width: width,
+      height: height,
       child: GestureDetector(
-        onTap: () => _handleSingleTap(bodyPart),
-        onDoubleTap: () => _handleDoubleTap(bodyPart),
-        behavior: HitTestBehavior.opaque,
+        onTapUp: (details) {
+          print('DEBUG: GestureDetector onTapUp fired for $bodyPart');
+          _handleTap(bodyPart);
+        },
+        onTapDown: (details) {
+          print('DEBUG: onTapDown detected for $bodyPart at ${details.localPosition}');
+        },
+        behavior: HitTestBehavior.translucent,
         child: Container(
+          width: width,
+          height: height,
           decoration: BoxDecoration(
+            color: Colors.blue.withValues(alpha: 0.3), // More visible for debugging
             border: Border.all(
-              color: Colors.transparent, // Invisible clickable area
-              width: 1,
+              color: Colors.red,
+              width: 2,
             ),
-            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Center(
+            child: Text(
+              bodyPart.substring(0, 2).toUpperCase(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 10,
+              ),
+            ),
           ),
         ),
       ),
@@ -349,31 +398,13 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
         for (final region in bodyRegions) {
           overlays.add(
             Positioned(
-              left: (region.xPercent / 100.0) * _imageWidth,
-              top: (region.yPercent / 100.0) * _imageHeight,
-              width: (region.widthPercent / 100.0) * _imageWidth,
-              height: (region.heightPercent / 100.0) * _imageHeight,
+              left: _imageOffsetX + (region.xPercent / 100.0) * _actualImageWidth,
+              top: _imageOffsetY + (region.yPercent / 100.0) * _actualImageHeight,
+              width: (region.widthPercent / 100.0) * _actualImageWidth,
+              height: (region.heightPercent / 100.0) * _actualImageHeight,
               child: Container(
                 decoration: BoxDecoration(
                   color: color,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Center(
-                  child: Text(
-                    _formatBodyPartName(bodyPart).substring(0, 2).toUpperCase(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 8,
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        Shadow(
-                          offset: Offset(0.5, 0.5),
-                          color: Colors.black,
-                          blurRadius: 1.0,
-                        ),
-                      ],
-                    ),
-                  ),
                 ),
               ),
             ),

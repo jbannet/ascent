@@ -32,15 +32,52 @@ class _DualColumnSelectorWidgetState extends State<DualColumnSelectorWidget> {
     rightValue = widget.initialValue?['micro_sessions'] ?? 0;
   }
   
-  void _updateValues(int left, int right) {
-    setState(() {
-      leftValue = left;
-      rightValue = right;
-    });
+  void _updateValues(int left, int right) async {
+    final oldLeft = leftValue;
+    final oldRight = rightValue;
+    
+    // Determine which column is changing and animate it
+    if (left != oldLeft) {
+      await _animateColumnChange(left, true);
+    }
+    if (right != oldRight) {
+      await _animateColumnChange(right, false);
+    }
+    
     widget.onChanged({
       'full_sessions': left,
       'micro_sessions': right,
     });
+  }
+  
+  Future<void> _animateColumnChange(int targetValue, bool isLeft) async {
+    final currentValue = isLeft ? leftValue : rightValue;
+    
+    if (targetValue > currentValue) {
+      // Animate up (light up buttons one by one)
+      for (int i = currentValue + 1; i <= targetValue; i++) {
+        setState(() {
+          if (isLeft) {
+            leftValue = i;
+          } else {
+            rightValue = i;
+          }
+        });
+        await Future.delayed(const Duration(milliseconds: 100));
+      }
+    } else if (targetValue < currentValue) {
+      // Animate down (turn off buttons one by one)
+      for (int i = currentValue; i > targetValue; i--) {
+        setState(() {
+          if (isLeft) {
+            leftValue = i - 1;
+          } else {
+            rightValue = i - 1;
+          }
+        });
+        await Future.delayed(const Duration(milliseconds: 100));
+      }
+    }
   }
   
   Widget _buildColumn({
