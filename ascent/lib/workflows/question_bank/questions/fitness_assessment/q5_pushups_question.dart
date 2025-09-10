@@ -98,14 +98,24 @@ class Q5PushupsQuestion extends OnboardingQuestion {
   Widget buildAnswerWidget(
     Function() onAnswerChanged,
   ) {
-    return SliderView(
-      questionId: id,
-      answers: {id: _pushupsCount},
-      onAnswerChanged: (questionId, value) {
-        setPushupsCount(value);
-        onAnswerChanged();
-      },
-      config: config,
+    return Column(
+      children: [
+        SliderView(
+          questionId: id,
+          answers: {id: _pushupsCount},
+          onAnswerChanged: (questionId, value) {
+            setPushupsCount(value);
+            onAnswerChanged();
+          },
+          config: config,
+        ),
+        const SizedBox(height: 40),
+        Image.asset(
+          'assets/images/kettle-pushups.png',
+          height: 180,
+          fit: BoxFit.contain,
+        ),
+      ],
     );
   }
 }

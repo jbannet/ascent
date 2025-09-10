@@ -81,12 +81,12 @@ IF age 65-74: balance_base = 20
 IF age 75+: balance_base = 25
 ```
 
-### Functional Base (Age-driven)
+### Functional Base (Age-driven ONLY)
 ```
-IF age < 50: functional_base = 5
-IF age 50-64: functional_base = 10  
+IF age < 65: functional_base = 0  // No functional allocation for general population
 IF age 65-74: functional_base = 20
 IF age 75+: functional_base = 25
+Note: Functional fitness only allocated for older adults or specific deficits (chair stand failure)
 ```
 
 ### Flexibility Base (Age-driven)
@@ -166,9 +166,9 @@ IF chair_stand == NO:
 IF glp1_medications == YES AND BMI >= 30:
   REPLACE entire allocation:
     Strength = 40%
-    Cardio = 30%
-    Functional = 20%
+    Cardio = 45%
     Balance = 10%
+    Functional = 5%
     Flexibility = 0%
   RETURN  // Stop processing
 ```
@@ -177,10 +177,10 @@ IF glp1_medications == YES AND BMI >= 30:
 ```
 IF BMI >= 40:
   REPLACE entire allocation:
-    Cardio = 35%
-    Strength = 30%
-    Functional = 25%
-    Balance = 10%
+    Cardio = 55%
+    Strength = 35%
+    Balance = 5%
+    Functional = 5%
     Flexibility = 0%
   RETURN  // Stop processing
 ```

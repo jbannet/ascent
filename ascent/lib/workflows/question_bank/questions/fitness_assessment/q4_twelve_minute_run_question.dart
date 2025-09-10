@@ -92,14 +92,24 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
   Widget buildAnswerWidget(
     Function() onAnswerChanged,
   ) {
-    return DualPickerView(
-      questionId: id,
-      answers: {id: _runDistance},
-      onAnswerChanged: (questionId, value) {
-        setRunDistance(value);
-        onAnswerChanged();
-      },
-      config: config,
+    return Column(
+      children: [
+        DualPickerView(
+          questionId: id,
+          answers: {id: _runDistance},
+          onAnswerChanged: (questionId, value) {
+            setRunDistance(value);
+            onAnswerChanged();
+          },
+          config: config,
+        ),
+        const SizedBox(height: 40),
+        Image.asset(
+          'assets/images/kettle_running.png',
+          height: 180,
+          fit: BoxFit.contain,
+        ),
+      ],
     );
   }
 }
