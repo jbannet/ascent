@@ -1,12 +1,14 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../lib/workflows/question_bank/registry/question_bank.dart';
-import '../lib/workflows/question_bank/questions/onboarding_question.dart';
 import '../lib/models/fitness_profile_model/fitness_profile.dart';
 import '../lib/constants_features.dart';
-import '../lib/constants.dart';
+import '../lib/models/fitness_profile_model/reference_data/acsm_cardio_norms.dart';
+import '../lib/models/fitness_profile_model/reference_data/acsm_pushup_norms.dart';
 import 'persona_definitions.dart';
 
 /// Test case representing a user persona with predefined answers
@@ -151,12 +153,19 @@ class PersonaTestHarness {
     final bmi = ProductionAllocationCalculator.calculateBMI(heightCm, weightKg);
     final cooperMiles = persona.answers['Q4'] ?? 0.0;
     final pushups = (persona.answers['Q5'] ?? 0).round();
+    final gender = persona.answers['gender'] ?? 'male';
+
+    // Calculate percentiles
+    final cardioPercentile = ACSMCardioNorms.getPercentile(cooperMiles, age, gender);
+    final pushupPercentile = ACSMPushupNorms.getPercentile(pushups, age, gender);
 
     final calculatedValues = {
       'age': age,
       'bmi': bmi,
       'cooper_miles': cooperMiles,
       'pushups': pushups,
+      'cardio_percentile': cardioPercentile,
+      'pushup_percentile': pushupPercentile,
     };
 
     // Calculate allocations using REAL production code
@@ -226,7 +235,9 @@ class PersonaTestHarness {
       'Age',
       'BMI',
       'Cooper Miles',
+      'Cardio %ile',
       'Pushups',
+      'Pushup %ile',
       'Triggered Protocol',
       'Cardio %',
       'Strength %',
@@ -237,12 +248,17 @@ class PersonaTestHarness {
 
     // Data rows
     for (final result in results) {
+      final cardioPercentile = ((result.calculatedValues['cardio_percentile'] as double) * 100).round();
+      final pushupPercentile = ((result.calculatedValues['pushup_percentile'] as double) * 100).round();
+
       csvLines.add([
         result.personaId,
         result.calculatedValues['age'],
         (result.calculatedValues['bmi'] as double).toStringAsFixed(1),
         result.calculatedValues['cooper_miles'],
+        cardioPercentile,
         result.calculatedValues['pushups'],
+        pushupPercentile,
         result.triggeredProtocol ?? 'none',
         result.allocations['cardio'],
         result.allocations['strength'],
@@ -300,7 +316,10 @@ class PersonaTestHarness {
 
       // Add calculated values for context
       final calc = result.calculatedValues;
-      lines.add('Calculated: Age=${calc['age']}, BMI=${(calc['bmi'] as double).toStringAsFixed(1)}, Cooper=${calc['cooper_miles']}mi, Pushups=${calc['pushups']}');
+      // Add calculated values for context
+      final cardioPercentile = ((calc['cardio_percentile'] as double) * 100).round();
+      final pushupPercentile = ((calc['pushup_percentile'] as double) * 100).round();
+      lines.add('Calculated: Age=${calc['age']}, BMI=${(calc['bmi'] as double).toStringAsFixed(1)}, Cooper=${calc['cooper_miles']}mi (${cardioPercentile}th %ile), Pushups=${calc['pushups']} (${pushupPercentile}th %ile)');
 
       lines.add('-' * 80);
       lines.add('');
@@ -377,6 +396,8 @@ void main() {
       print('Persona: ${result.personaId}');
       print('Age: ${result.calculatedValues['age']}');
       print('BMI: ${result.calculatedValues['bmi']}');
+      print('Cooper Test: ${result.calculatedValues['cooper_miles']}mi (${((result.calculatedValues['cardio_percentile'] as double) * 100).round()}th percentile)');
+      print('Pushups: ${result.calculatedValues['pushups']} (${((result.calculatedValues['pushup_percentile'] as double) * 100).round()}th percentile)');
       print('Triggered Protocol: ${result.triggeredProtocol}');
       print('Allocations: ${result.allocations}');
 
@@ -393,6 +414,8 @@ void main() {
       print('Persona: ${result.personaId}');
       print('Age: ${result.calculatedValues['age']}');
       print('BMI: ${result.calculatedValues['bmi']}');
+      print('Cooper Test: ${result.calculatedValues['cooper_miles']}mi (${((result.calculatedValues['cardio_percentile'] as double) * 100).round()}th percentile)');
+      print('Pushups: ${result.calculatedValues['pushups']} (${((result.calculatedValues['pushup_percentile'] as double) * 100).round()}th percentile)');
       print('Triggered Protocol: ${result.triggeredProtocol}');
       print('Allocations: ${result.allocations}');
 
@@ -409,6 +432,8 @@ void main() {
       print('Persona: ${result.personaId}');
       print('Age: ${result.calculatedValues['age']}');
       print('BMI: ${result.calculatedValues['bmi']}');
+      print('Cooper Test: ${result.calculatedValues['cooper_miles']}mi (${((result.calculatedValues['cardio_percentile'] as double) * 100).round()}th percentile)');
+      print('Pushups: ${result.calculatedValues['pushups']} (${((result.calculatedValues['pushup_percentile'] as double) * 100).round()}th percentile)');
       print('Triggered Protocol: ${result.triggeredProtocol}');
       print('Allocations: ${result.allocations}');
 

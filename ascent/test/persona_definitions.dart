@@ -1,10 +1,11 @@
 import 'onboarding_personas_test.dart';
 
-/// 25 diverse personas for testing onboarding flow distribution
+/// 40 diverse personas for testing onboarding flow distribution
 class PersonaDefinitions {
 
   static List<PersonaTestCase> getAllPersonas() {
     return [
+      // ORIGINAL PERSONAS (25)
       // CRITICAL MEDICAL CONDITIONS (5)
       elderlyWithFallHistory(),
       cannotStandFromChair(),
@@ -39,6 +40,30 @@ class PersonaDefinitions {
       homeBoundParent(),
       retiree(),
       collegeStudent(),
+
+      // NEW PERSONAS FOR COMPREHENSIVE COVERAGE (15)
+      // RISK FACTOR COMBINATIONS (5)
+      elderlyFearFalling(),
+      mobilityAidsUser(),
+      balanceProblemsYoung(),
+      multipleRiskFactors(),
+      nearFallRisk(),
+
+      // AGE BOUNDARY CASES (3)
+      age49Active(),
+      age50Sedentary(),
+      age64PreSenior(),
+
+      // OBESITY VARIANTS (3)
+      overweightAthlete(),
+      obesityYoung(),
+      obesitySenior(),
+
+      // SPECIAL CONDITIONS (4)
+      wheelchairUser(),
+      visionImpaired(),
+      pregnancySecondTrimester(),
+      strokeRecovery(),
     ];
   }
 
@@ -58,7 +83,7 @@ class PersonaDefinitions {
         'fitness_goals': ['better_health', 'live_longer'],
         'Q4': 0.3, // Very poor 12-min run
         'Q4A': 'yes', // Fall history
-        'Q4B': ['medication', 'vision'], // Risk factors
+        'Q4B': ['fear_falling', 'balance'], // Risk factors
         'Q5': 0.0, // No pushups
         'Q6A': 'yes', // Can stand from chair (barely)
         'glp1_medications': 'no',
@@ -202,7 +227,7 @@ class PersonaDefinitions {
         'fitness_goals': ['better_health', 'live_longer'],
         'Q4': 0.4,
         'Q4A': 'yes', // Fall history (should trigger first)
-        'Q4B': ['medication', 'balance'],
+        'Q4B': ['balance', 'mobility_aids'],
         'Q5': 0.0,
         'Q6A': 'yes',
         'glp1_medications': 'no',
@@ -348,7 +373,7 @@ class PersonaDefinitions {
         'fitness_goals': ['better_health', 'live_longer'],
         'Q4': 0.2, // Cannot really walk far
         'Q4A': 'no', // No falls yet
-        'Q4B': ['balance', 'medication'],
+        'Q4B': ['balance', 'fear_falling'],
         'Q5': 0.0,
         'Q6A': 'no',
         'glp1_medications': 'no',
@@ -948,6 +973,556 @@ class PersonaDefinitions {
       metadata: {
         'category': 'lifestyle',
         'expected_protocol': 'none',
+      },
+    );
+  }
+
+  // NEW PERSONAS FOR COMPREHENSIVE RISK FACTOR COVERAGE
+
+  // RISK FACTOR COMBINATIONS
+
+  static PersonaTestCase elderlyFearFalling() {
+    return PersonaTestCase(
+      personaId: 'elderly_fear_falling',
+      description: '72-year-old with fear of falling but no actual falls',
+      answers: {
+        'age': '1952-08-15',
+        'gender': 'female',
+        'height_cm': 160.0,
+        'weight_kg': 68.0,
+        'primary_motivation': 'better_health',
+        'progress_tracking': 'weekly_check_ins',
+        'fitness_goals': ['better_health', 'live_longer'],
+        'Q4': 0.5,
+        'Q4A': 'no', // No actual falls
+        'Q4B': ['fear_falling'], // But has fear
+        'Q5': 3.0,
+        'Q6A': 'yes',
+        'glp1_medications': 'no',
+        'sleep_hours': 7.5,
+        'sugary_treats': 'rarely',
+        'sodas': 'never',
+        'grains': 'sometimes',
+        'alcohol': 'never',
+        'session_commitment': 'moderate',
+        'Q1': 'none',
+        'Q2': 'caution',
+        'Q10': 'basic',
+        'Q11': 'home',
+      },
+      metadata: {
+        'category': 'risk_factors',
+        'expected_protocol': 'fear_based',
+      },
+    );
+  }
+
+  static PersonaTestCase mobilityAidsUser() {
+    return PersonaTestCase(
+      personaId: 'mobility_aids_user',
+      description: '78-year-old using walker, moderate fitness',
+      answers: {
+        'age': '1946-12-03',
+        'gender': 'male',
+        'height_cm': 172.0,
+        'weight_kg': 75.0,
+        'primary_motivation': 'maintain_independence',
+        'progress_tracking': 'family_support',
+        'fitness_goals': ['better_health', 'live_longer'],
+        'Q4': 0.4,
+        'Q4A': 'no',
+        'Q4B': ['mobility_aids'], // Uses walker
+        'Q5': 2.0,
+        'Q6A': 'yes',
+        'glp1_medications': 'no',
+        'sleep_hours': 8.0,
+        'sugary_treats': 'sometimes',
+        'sodas': 'rarely',
+        'grains': 'often',
+        'alcohol': 'rarely',
+        'session_commitment': 'low',
+        'Q1': 'hip',
+        'Q2': 'avoid',
+        'Q10': 'basic',
+        'Q11': 'physical_therapy',
+      },
+      metadata: {
+        'category': 'risk_factors',
+        'expected_protocol': 'mobility_assisted',
+      },
+    );
+  }
+
+  static PersonaTestCase balanceProblemsYoung() {
+    return PersonaTestCase(
+      personaId: 'balance_problems_young',
+      description: '45-year-old with vestibular issues',
+      answers: {
+        'age': '1979-05-20',
+        'gender': 'female',
+        'height_cm': 168.0,
+        'weight_kg': 70.0,
+        'primary_motivation': 'health_management',
+        'progress_tracking': 'medical_guidance',
+        'fitness_goals': ['better_health'],
+        'Q4': 0.8,
+        'Q4A': 'no',
+        'Q4B': ['balance'], // Vestibular disorder
+        'Q5': 8.0,
+        'Q6A': 'yes',
+        'glp1_medications': 'no',
+        'sleep_hours': 7.0,
+        'sugary_treats': 'rarely',
+        'sodas': 'never',
+        'grains': 'sometimes',
+        'alcohol': 'never',
+        'session_commitment': 'moderate',
+        'Q1': 'none',
+        'Q2': 'caution',
+        'Q10': 'basic',
+        'Q11': 'physical_therapy',
+      },
+      metadata: {
+        'category': 'risk_factors',
+        'expected_protocol': 'balance_focused',
+      },
+    );
+  }
+
+  static PersonaTestCase multipleRiskFactors() {
+    return PersonaTestCase(
+      personaId: 'multiple_risk_factors',
+      description: '80-year-old with fear + mobility aids + balance issues',
+      answers: {
+        'age': '1944-02-10',
+        'gender': 'female',
+        'height_cm': 155.0,
+        'weight_kg': 58.0,
+        'primary_motivation': 'maintain_independence',
+        'progress_tracking': 'family_support',
+        'fitness_goals': ['better_health', 'live_longer'],
+        'Q4': 0.2,
+        'Q4A': 'yes', // Has fallen
+        'Q4B': ['fear_falling', 'mobility_aids', 'balance'], // All three
+        'Q5': 0.0,
+        'Q6A': 'no',
+        'glp1_medications': 'no',
+        'sleep_hours': 9.0,
+        'sugary_treats': 'rarely',
+        'sodas': 'never',
+        'grains': 'sometimes',
+        'alcohol': 'never',
+        'session_commitment': 'very_low',
+        'Q1': 'multiple',
+        'Q2': 'avoid',
+        'Q10': 'none',
+        'Q11': 'home',
+      },
+      metadata: {
+        'category': 'risk_factors',
+        'expected_protocol': 'maximum_safety',
+      },
+    );
+  }
+
+  static PersonaTestCase nearFallRisk() {
+    return PersonaTestCase(
+      personaId: 'near_fall_risk',
+      description: '67-year-old with balance problems but no falls yet',
+      answers: {
+        'age': '1957-11-08',
+        'gender': 'male',
+        'height_cm': 178.0,
+        'weight_kg': 82.0,
+        'primary_motivation': 'prevent_decline',
+        'progress_tracking': 'monthly_check_ins',
+        'fitness_goals': ['better_health', 'live_longer'],
+        'Q4': 0.7,
+        'Q4A': 'no', // No falls yet
+        'Q4B': ['balance'], // But has balance issues
+        'Q5': 5.0,
+        'Q6A': 'yes',
+        'glp1_medications': 'no',
+        'sleep_hours': 7.0,
+        'sugary_treats': 'sometimes',
+        'sodas': 'rarely',
+        'grains': 'often',
+        'alcohol': 'sometimes',
+        'session_commitment': 'moderate',
+        'Q1': 'none',
+        'Q2': 'caution',
+        'Q10': 'basic',
+        'Q11': 'gym',
+      },
+      metadata: {
+        'category': 'risk_factors',
+        'expected_protocol': 'preventive',
+      },
+    );
+  }
+
+  // AGE BOUNDARY CASES
+
+  static PersonaTestCase age49Active() {
+    return PersonaTestCase(
+      personaId: 'age_49_active',
+      description: '49-year-old just under functional threshold, very active',
+      answers: {
+        'age': '1975-01-15',
+        'gender': 'male',
+        'height_cm': 180.0,
+        'weight_kg': 80.0,
+        'primary_motivation': 'maintain_fitness',
+        'progress_tracking': 'data_driven',
+        'fitness_goals': ['maintain_fitness', 'improve_endurance'],
+        'Q4': 1.4,
+        'Q4A': 'no',
+        'Q4B': [],
+        'Q5': 20.0,
+        'Q6A': 'yes',
+        'glp1_medications': 'no',
+        'sleep_hours': 7.5,
+        'sugary_treats': 'rarely',
+        'sodas': 'never',
+        'grains': 'often',
+        'alcohol': 'sometimes',
+        'session_commitment': 'very_high',
+        'Q1': 'none',
+        'Q2': 'prefer',
+        'Q10': 'full_gym',
+        'Q11': 'gym',
+      },
+      metadata: {
+        'category': 'age_boundary',
+        'expected_protocol': 'none',
+      },
+    );
+  }
+
+  static PersonaTestCase age50Sedentary() {
+    return PersonaTestCase(
+      personaId: 'age_50_sedentary',
+      description: '50-year-old just over functional threshold, sedentary',
+      answers: {
+        'age': '1974-06-10',
+        'gender': 'female',
+        'height_cm': 165.0,
+        'weight_kg': 75.0,
+        'primary_motivation': 'better_health',
+        'progress_tracking': 'weekly_check_ins',
+        'fitness_goals': ['better_health', 'lose_weight'],
+        'Q4': 0.6,
+        'Q4A': 'no',
+        'Q4B': [],
+        'Q5': 2.0,
+        'Q6A': 'yes',
+        'glp1_medications': 'no',
+        'sleep_hours': 6.5,
+        'sugary_treats': 'often',
+        'sodas': 'sometimes',
+        'grains': 'often',
+        'alcohol': 'sometimes',
+        'session_commitment': 'low',
+        'Q1': 'none',
+        'Q2': 'neutral',
+        'Q10': 'basic',
+        'Q11': 'home',
+      },
+      metadata: {
+        'category': 'age_boundary',
+        'expected_protocol': 'age_related',
+      },
+    );
+  }
+
+  static PersonaTestCase age64PreSenior() {
+    return PersonaTestCase(
+      personaId: 'age_64_pre_senior',
+      description: '64-year-old just under fall risk auto-show',
+      answers: {
+        'age': '1960-09-25',
+        'gender': 'male',
+        'height_cm': 175.0,
+        'weight_kg': 85.0,
+        'primary_motivation': 'maintain_fitness',
+        'progress_tracking': 'monthly_check_ins',
+        'fitness_goals': ['better_health', 'maintain_fitness'],
+        'Q4': 1.0,
+        'Q4A': 'no',
+        'Q4B': [], // Won't auto-show Q4B yet
+        'Q5': 12.0,
+        'Q6A': 'yes',
+        'glp1_medications': 'no',
+        'sleep_hours': 7.0,
+        'sugary_treats': 'sometimes',
+        'sodas': 'rarely',
+        'grains': 'often',
+        'alcohol': 'sometimes',
+        'session_commitment': 'moderate',
+        'Q1': 'none',
+        'Q2': 'neutral',
+        'Q10': 'basic',
+        'Q11': 'gym',
+      },
+      metadata: {
+        'category': 'age_boundary',
+        'expected_protocol': 'none',
+      },
+    );
+  }
+
+  // OBESITY VARIANTS
+
+  static PersonaTestCase overweightAthlete() {
+    return PersonaTestCase(
+      personaId: 'overweight_athlete',
+      description: '35-year-old BMI 28, strong but overweight',
+      answers: {
+        'age': '1989-04-12',
+        'gender': 'male',
+        'height_cm': 185.0,
+        'weight_kg': 96.0, // BMI 28.1
+        'primary_motivation': 'lose_weight',
+        'progress_tracking': 'data_driven',
+        'fitness_goals': ['lose_weight', 'maintain_fitness'],
+        'Q4': 1.3,
+        'Q4A': 'no',
+        'Q4B': [],
+        'Q5': 35.0, // Very strong
+        'Q6A': 'yes',
+        'glp1_medications': 'no',
+        'sleep_hours': 8.0,
+        'sugary_treats': 'sometimes',
+        'sodas': 'rarely',
+        'grains': 'often',
+        'alcohol': 'often',
+        'session_commitment': 'very_high',
+        'Q1': 'none',
+        'Q2': 'prefer',
+        'Q10': 'full_gym',
+        'Q11': 'gym',
+      },
+      metadata: {
+        'category': 'obesity_variants',
+        'expected_protocol': 'none',
+      },
+    );
+  }
+
+  static PersonaTestCase obesityYoung() {
+    return PersonaTestCase(
+      personaId: 'obesity_young',
+      description: '22-year-old BMI 32, early intervention needed',
+      answers: {
+        'age': '2002-07-18',
+        'gender': 'female',
+        'height_cm': 160.0,
+        'weight_kg': 82.0, // BMI 32.0
+        'primary_motivation': 'lose_weight',
+        'progress_tracking': 'social_sharing',
+        'fitness_goals': ['lose_weight', 'better_health'],
+        'Q4': 0.5,
+        'Q4A': 'no',
+        'Q4B': [],
+        'Q5': 1.0,
+        'Q6A': 'yes',
+        'glp1_medications': 'no',
+        'sleep_hours': 6.0,
+        'sugary_treats': 'often',
+        'sodas': 'often',
+        'grains': 'often',
+        'alcohol': 'sometimes',
+        'session_commitment': 'moderate',
+        'Q1': 'none',
+        'Q2': 'neutral',
+        'Q10': 'basic',
+        'Q11': 'gym',
+      },
+      metadata: {
+        'category': 'obesity_variants',
+        'expected_protocol': 'obesity_young',
+      },
+    );
+  }
+
+  static PersonaTestCase obesitySenior() {
+    return PersonaTestCase(
+      personaId: 'obesity_senior',
+      description: '72-year-old BMI 31, combined age+weight risks',
+      answers: {
+        'age': '1952-03-22',
+        'gender': 'male',
+        'height_cm': 168.0,
+        'weight_kg': 88.0, // BMI 31.2
+        'primary_motivation': 'health_management',
+        'progress_tracking': 'medical_guidance',
+        'fitness_goals': ['lose_weight', 'better_health'],
+        'Q4': 0.3,
+        'Q4A': 'no',
+        'Q4B': ['fear_falling'], // Age-related fear
+        'Q5': 1.0,
+        'Q6A': 'yes',
+        'glp1_medications': 'no',
+        'sleep_hours': 7.5,
+        'sugary_treats': 'often',
+        'sodas': 'sometimes',
+        'grains': 'often',
+        'alcohol': 'rarely',
+        'session_commitment': 'low',
+        'Q1': 'knee',
+        'Q2': 'avoid',
+        'Q10': 'none',
+        'Q11': 'home',
+      },
+      metadata: {
+        'category': 'obesity_variants',
+        'expected_protocol': 'age_obesity_combo',
+      },
+    );
+  }
+
+  // SPECIAL CONDITIONS
+
+  static PersonaTestCase wheelchairUser() {
+    return PersonaTestCase(
+      personaId: 'wheelchair_user',
+      description: '40-year-old wheelchair user, upper body focus',
+      answers: {
+        'age': '1984-11-30',
+        'gender': 'female',
+        'height_cm': 165.0,
+        'weight_kg': 65.0,
+        'primary_motivation': 'maintain_fitness',
+        'progress_tracking': 'adaptive_tracking',
+        'fitness_goals': ['build_muscle', 'improve_endurance'],
+        'Q4': 0.0, // Cannot do run test
+        'Q4A': 'no',
+        'Q4B': [],
+        'Q5': 15.0, // Strong upper body
+        'Q6A': 'no', // Cannot stand
+        'glp1_medications': 'no',
+        'sleep_hours': 7.5,
+        'sugary_treats': 'rarely',
+        'sodas': 'never',
+        'grains': 'sometimes',
+        'alcohol': 'rarely',
+        'session_commitment': 'high',
+        'Q1': 'spinal_cord',
+        'Q2': 'adaptive',
+        'Q10': 'adaptive_gym',
+        'Q11': 'adaptive_facility',
+      },
+      metadata: {
+        'category': 'special_conditions',
+        'expected_protocol': 'wheelchair_adapted',
+      },
+    );
+  }
+
+  static PersonaTestCase visionImpaired() {
+    return PersonaTestCase(
+      personaId: 'vision_impaired',
+      description: '55-year-old legally blind, safety concerns',
+      answers: {
+        'age': '1969-08-05',
+        'gender': 'male',
+        'height_cm': 175.0,
+        'weight_kg': 78.0,
+        'primary_motivation': 'maintain_independence',
+        'progress_tracking': 'audio_guided',
+        'fitness_goals': ['better_health', 'maintain_fitness'],
+        'Q4': 0.8, // Guided cardio
+        'Q4A': 'no',
+        'Q4B': ['balance'], // Balance concerns due to vision
+        'Q5': 10.0,
+        'Q6A': 'yes',
+        'glp1_medications': 'no',
+        'sleep_hours': 8.0,
+        'sugary_treats': 'rarely',
+        'sodas': 'never',
+        'grains': 'sometimes',
+        'alcohol': 'rarely',
+        'session_commitment': 'moderate',
+        'Q1': 'vision',
+        'Q2': 'caution',
+        'Q10': 'adaptive',
+        'Q11': 'adaptive_facility',
+      },
+      metadata: {
+        'category': 'special_conditions',
+        'expected_protocol': 'vision_adapted',
+      },
+    );
+  }
+
+  static PersonaTestCase pregnancySecondTrimester() {
+    return PersonaTestCase(
+      personaId: 'pregnancy_second_trimester',
+      description: '30-year-old pregnant, modified exercise',
+      answers: {
+        'age': '1994-05-14',
+        'gender': 'female',
+        'height_cm': 168.0,
+        'weight_kg': 72.0, // Pre-pregnancy weight used
+        'primary_motivation': 'healthy_pregnancy',
+        'progress_tracking': 'prenatal_guidance',
+        'fitness_goals': ['better_health', 'prepare_for_birth'],
+        'Q4': 0.9, // Modified cardio
+        'Q4A': 'no',
+        'Q4B': [],
+        'Q5': 5.0, // Modified pushups
+        'Q6A': 'yes',
+        'glp1_medications': 'no',
+        'sleep_hours': 8.0,
+        'sugary_treats': 'sometimes',
+        'sodas': 'rarely',
+        'grains': 'often',
+        'alcohol': 'never',
+        'session_commitment': 'moderate',
+        'Q1': 'pregnancy',
+        'Q2': 'prenatal_safe',
+        'Q10': 'prenatal',
+        'Q11': 'prenatal_class',
+      },
+      metadata: {
+        'category': 'special_conditions',
+        'expected_protocol': 'prenatal_modified',
+      },
+    );
+  }
+
+  static PersonaTestCase strokeRecovery() {
+    return PersonaTestCase(
+      personaId: 'stroke_recovery',
+      description: '60-year-old post-stroke, hemiparesis',
+      answers: {
+        'age': '1964-12-08',
+        'gender': 'male',
+        'height_cm': 170.0,
+        'weight_kg': 75.0,
+        'primary_motivation': 'recover_function',
+        'progress_tracking': 'medical_guidance',
+        'fitness_goals': ['recover_function', 'prevent_decline'],
+        'Q4': 0.4, // Limited mobility
+        'Q4A': 'yes', // Fall risk post-stroke
+        'Q4B': ['balance', 'fear_falling'], // Neurological effects
+        'Q5': 3.0, // Affected side weakness
+        'Q6A': 'yes', // With difficulty
+        'glp1_medications': 'no',
+        'sleep_hours': 8.0,
+        'sugary_treats': 'rarely',
+        'sodas': 'never',
+        'grains': 'sometimes',
+        'alcohol': 'never',
+        'session_commitment': 'moderate',
+        'Q1': 'neurological',
+        'Q2': 'medical_clearance',
+        'Q10': 'medical_supervised',
+        'Q11': 'physical_therapy',
+      },
+      metadata: {
+        'category': 'special_conditions',
+        'expected_protocol': 'stroke_rehabilitation',
       },
     );
   }

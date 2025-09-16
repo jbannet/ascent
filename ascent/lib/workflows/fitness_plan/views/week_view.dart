@@ -11,7 +11,13 @@ class WeekView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final week = plan.weeks.firstWhere((w) => w.weekIndex == weekIndex);
+    final week = plan.weeks.firstWhere(
+      (w) => w.weekIndex == weekIndex,
+      orElse: () => plan.getNext4Weeks().firstWhere(
+        (w) => w.weekIndex == weekIndex,
+        orElse: () => throw StateError('Week $weekIndex not found'),
+      ),
+    );
     return Scaffold(
       appBar: AppBar(title: Text('Week $weekIndex')),
       body: ListView.separated(
