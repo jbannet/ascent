@@ -1,5 +1,5 @@
 import '../fitness_profile.dart';
-import '../../../workflow_views/question_bank/questions/demographics/age_question.dart';
+import '../../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/age_question.dart';
 
 /// Extension to calculate flexibility and stretching metrics.
 /// 

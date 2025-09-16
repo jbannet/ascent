@@ -1,8 +1,8 @@
 import 'package:ascent/models/fitness_profile_model/reference_data/acsm_cardio_norms.dart';
 import '../fitness_profile.dart';
-import '../../../workflow_views/question_bank/questions/demographics/age_question.dart';
-import '../../../workflow_views/question_bank/questions/demographics/gender_question.dart';
-import '../../../workflow_views/question_bank/questions/fitness_assessment/q4_twelve_minute_run_question.dart';
+import '../../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/age_question.dart';
+import '../../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/gender_question.dart';
+import '../../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q4_twelve_minute_run_question.dart';
 
 /// Extension to calculate cardiovascular fitness metrics and training parameters.
 /// 

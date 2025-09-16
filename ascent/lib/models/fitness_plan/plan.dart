@@ -3,9 +3,9 @@ import '../../enums/exercise_style.dart';
 import '../../enums/session_status.dart';
 import '../../enums/session_type.dart';
 import '../../enums/day_of_week.dart';
-import '../plan_concepts/planned_week.dart';
-import '../plan_concepts/planned_day.dart';
-import '../plan_concepts/session.dart';
+import '../rewrite_or_delete_plan_concepts/planned_week.dart';
+import '../rewrite_or_delete_plan_concepts/planned_day.dart';
+import '../rewrite_or_delete_plan_concepts/session.dart';
 
 class Plan {
   final String planId;

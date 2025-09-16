@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/onboarding_provider.dart';
-import '../../question_bank/questions/onboarding_question.dart';
+import '../question_bank/questions/onboarding_question.dart';
 
 /// Widget that renders an OnboardingQuestion using its self-rendering capability.
 /// 

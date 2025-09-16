@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../models/body_map_coordinates.dart';
-import '../../../../question_bank/questions/demographics/gender_question.dart';
+import '../../../question_bank/questions/demographics/gender_question.dart';
 
 /// Widget that displays an interactive body map for selecting pain areas and injuries.
 /// 

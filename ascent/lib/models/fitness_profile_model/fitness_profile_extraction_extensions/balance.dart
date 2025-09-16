@@ -1,9 +1,9 @@
 import '../fitness_profile.dart';
-import '../../../workflow_views/question_bank/questions/demographics/age_question.dart';
-import '../../../workflow_views/question_bank/questions/demographics/gender_question.dart';
-import '../../../workflow_views/question_bank/questions/fitness_assessment/q4a_fall_history_question.dart';
-import '../../../workflow_views/question_bank/questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
-import '../../../constants.dart';
+import '../../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/age_question.dart';
+import '../../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/gender_question.dart';
+import '../../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q4a_fall_history_question.dart';
+import '../../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
+import '../../../../constants.dart';
 
 /// Extension to calculate balance and fall risk metrics.
 /// 

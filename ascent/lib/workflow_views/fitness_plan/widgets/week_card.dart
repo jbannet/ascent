@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../models/fitness_plan/plan.dart';
-import '../../../models/plan_concepts/planned_week.dart';
+import '../../../models/rewrite_or_delete_plan_concepts/planned_week.dart';
 import '../../../enums/session_status.dart';
 import '../../../theme/app_colors.dart';
 import '../../../routing/route_names.dart';
