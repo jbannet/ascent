@@ -4,7 +4,6 @@ import '../../services/local_storage/local_storage_service.dart';
 import 'fitness_profile_extraction_extensions/age_bracket.dart';
 import 'fitness_profile_extraction_extensions/strength.dart';
 import 'fitness_profile_extraction_extensions/balance.dart';
-import 'fitness_profile_extraction_extensions/functional.dart';
 import 'fitness_profile_extraction_extensions/low_impact.dart';
 import 'fitness_profile_extraction_extensions/flexibility.dart';
 import 'fitness_profile_extraction_extensions/cardio.dart';
@@ -66,7 +65,7 @@ class FitnessProfile {
     // Core metrics for each exercise modality (NOT importance)
     calculateStrength();
     calculateBalance();
-    calculateFunctional();
+    // calculateFunctional(); // Removed - using question-based allocation instead
     calculateLowImpact();
     calculateStretching();
     calculateCardio();

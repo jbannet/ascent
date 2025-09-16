@@ -1,0 +1,22 @@
+# Plan View 4-Week Allocation Implementation Tasks
+
+## Data Model Updates
+- [ ] Create session type enum for micro/macro categorization (/ascent/lib/enums/session_type.dart)
+- [ ] Create exercise style enum for different workout styles (/ascent/lib/enums/exercise_style.dart)
+- [ ] Extend Session model with type and style properties (/ascent/lib/models/plan_concepts/session.dart)
+- [ ] Add style allocation calculation methods to Plan model (/ascent/lib/models/plan_concepts/plan.dart)
+
+## Widget Components
+- [ ] Create SessionIcon widget for micro/macro visual indicators (/ascent/lib/workflows/fitness_plan/widgets/session_icon.dart)
+- [ ] Create StyleAllocationHeader widget for time distribution (/ascent/lib/workflows/fitness_plan/widgets/style_allocation_header.dart)
+- [ ] Create WeekCard widget for displaying individual weeks (/ascent/lib/workflows/fitness_plan/widgets/week_card.dart)
+
+## Main View Update
+- [ ] Update PlanView to use new 4-week dashboard layout (/ascent/lib/workflows/fitness_plan/views/plan_view.dart)
+
+## Features Required
+- Visual distinction between micro (🏃‍♂️) and macro (💪) workouts
+- Current week highlighting with completion status
+- Style allocation percentage display across 4 weeks
+- Color coding: doneTeal for completed, basePurple for pending
+- Maintain existing navigation structure

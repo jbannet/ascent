@@ -1,0 +1,1006 @@
+{
+  "generated_at": "2025-09-15T23:27:52.059416",
+  "total_personas": 25,
+  "results": [
+    {
+      "persona_id": "elderly_fall_history",
+      "timestamp": "2025-09-15T23:27:52.049414",
+      "calculated_values": {
+        "age": 76,
+        "bmi": 24.76756591982929,
+        "cooper_miles": 0.3,
+        "pushups": 0
+      },
+      "allocations": {
+        "cardio": 26,
+        "strength": 26,
+        "balance": 15,
+        "flexibility": 11,
+        "functional": 22
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1949-01-15T00:00:00.000",
+        "gender": "female",
+        "primary_motivation": "better_health",
+        "progress_tracking": "weekly_check_ins",
+        "fitness_goals": "better_health,live_longer",
+        "Q4": "0.3",
+        "Q4A": "yes",
+        "Q4B": "medication,vision",
+        "Q5": "0.0",
+        "glp1_medications": "no",
+        "sleep_hours": "7.0",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "avoid",
+        "Q10": "none",
+        "Q11": "home"
+      }
+    },
+    {
+      "persona_id": "cannot_stand_chair",
+      "timestamp": "2025-09-15T23:27:52.050032",
+      "calculated_values": {
+        "age": 69,
+        "bmi": 27.755102040816325,
+        "cooper_miles": 0.1,
+        "pushups": 0
+      },
+      "allocations": {
+        "cardio": 24,
+        "strength": 22,
+        "balance": 13,
+        "flexibility": 13,
+        "functional": 27
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1956-06-20T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "better_health",
+        "progress_tracking": "monthly_check_ins",
+        "fitness_goals": "better_health",
+        "Q4": "0.1",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "0.0",
+        "glp1_medications": "no",
+        "sleep_hours": "8.0",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "knee",
+        "Q2": "avoid",
+        "Q10": "none",
+        "Q11": "home"
+      }
+    },
+    {
+      "persona_id": "glp1_obesity",
+      "timestamp": "2025-09-15T23:27:52.050430",
+      "calculated_values": {
+        "age": 46,
+        "bmi": 34.894398530762174,
+        "cooper_miles": 0.6,
+        "pushups": 2
+      },
+      "allocations": {
+        "cardio": 37,
+        "strength": 41,
+        "balance": 8,
+        "flexibility": 15,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1979-03-10T00:00:00.000",
+        "gender": "female",
+        "primary_motivation": "lose_weight",
+        "progress_tracking": "weekly_check_ins",
+        "fitness_goals": "lose_weight,better_health",
+        "Q4": "0.6",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "2.0",
+        "glp1_medications": "yes",
+        "sleep_hours": "6.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "caution",
+        "Q10": "basic",
+        "Q11": "gym"
+      }
+    },
+    {
+      "persona_id": "extreme_obesity",
+      "timestamp": "2025-09-15T23:27:52.052419",
+      "calculated_values": {
+        "age": 38,
+        "bmi": 41.03017295795985,
+        "cooper_miles": 0.2,
+        "pushups": 0
+      },
+      "allocations": {
+        "cardio": 42,
+        "strength": 24,
+        "balance": 3,
+        "flexibility": 16,
+        "functional": 15
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1986-09-22T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "lose_weight",
+        "progress_tracking": "weekly_check_ins",
+        "fitness_goals": "lose_weight,better_health",
+        "Q4": "0.2",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "0.0",
+        "glp1_medications": "no",
+        "sleep_hours": "5.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "knee",
+        "Q2": "avoid",
+        "Q10": "none",
+        "Q11": "home"
+      }
+    },
+    {
+      "persona_id": "multiple_conditions",
+      "timestamp": "2025-09-15T23:27:52.052736",
+      "calculated_values": {
+        "age": 71,
+        "bmi": 33.20312499999999,
+        "cooper_miles": 0.4,
+        "pushups": 0
+      },
+      "allocations": {
+        "cardio": 26,
+        "strength": 26,
+        "balance": 15,
+        "flexibility": 11,
+        "functional": 22
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1954-04-15T00:00:00.000",
+        "gender": "female",
+        "primary_motivation": "better_health",
+        "progress_tracking": "monthly_check_ins",
+        "fitness_goals": "better_health,live_longer",
+        "Q4": "0.4",
+        "Q4A": "yes",
+        "Q4B": "medication,balance",
+        "Q5": "0.0",
+        "glp1_medications": "no",
+        "sleep_hours": "7.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "hip",
+        "Q2": "avoid",
+        "Q10": "none",
+        "Q11": "home"
+      }
+    },
+    {
+      "persona_id": "young_athlete",
+      "timestamp": "2025-09-15T23:27:52.053092",
+      "calculated_values": {
+        "age": 26,
+        "bmi": 23.54788069073783,
+        "cooper_miles": 2.1,
+        "pushups": 45
+      },
+      "allocations": {
+        "cardio": 42,
+        "strength": 42,
+        "balance": 4,
+        "flexibility": 13,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1999-07-08T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "improve_performance",
+        "progress_tracking": "daily_tracking",
+        "fitness_goals": "build_muscle,improve_endurance",
+        "Q4": "2.1",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "45.0",
+        "glp1_medications": "no",
+        "sleep_hours": "8.0",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "prefer",
+        "Q10": "full_gym",
+        "Q11": "gym"
+      }
+    },
+    {
+      "persona_id": "middle_aged_beginner",
+      "timestamp": "2025-09-15T23:27:52.053359",
+      "calculated_values": {
+        "age": 42,
+        "bmi": 25.510204081632658,
+        "cooper_miles": 0.7,
+        "pushups": 3
+      },
+      "allocations": {
+        "cardio": 45,
+        "strength": 31,
+        "balance": 6,
+        "flexibility": 18,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1982-11-30T00:00:00.000",
+        "gender": "female",
+        "primary_motivation": "better_health",
+        "progress_tracking": "weekly_check_ins",
+        "fitness_goals": "better_health,lose_weight",
+        "Q4": "0.7",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "3.0",
+        "glp1_medications": "no",
+        "sleep_hours": "6.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "neutral",
+        "Q10": "basic",
+        "Q11": "gym"
+      }
+    },
+    {
+      "persona_id": "active_senior",
+      "timestamp": "2025-09-15T23:27:52.054364",
+      "calculated_values": {
+        "age": 69,
+        "bmi": 24.489795918367346,
+        "cooper_miles": 1.1,
+        "pushups": 8
+      },
+      "allocations": {
+        "cardio": 28,
+        "strength": 29,
+        "balance": 15,
+        "flexibility": 15,
+        "functional": 13
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1956-02-18T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "maintain_fitness",
+        "progress_tracking": "monthly_check_ins",
+        "fitness_goals": "better_health,live_longer",
+        "Q4": "1.1",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "8.0",
+        "glp1_medications": "no",
+        "sleep_hours": "7.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "caution",
+        "Q10": "basic",
+        "Q11": "outdoor"
+      }
+    },
+    {
+      "persona_id": "frail_elderly",
+      "timestamp": "2025-09-15T23:27:52.054630",
+      "calculated_values": {
+        "age": 83,
+        "bmi": 22.031725684986377,
+        "cooper_miles": 0.2,
+        "pushups": 0
+      },
+      "allocations": {
+        "cardio": 24,
+        "strength": 24,
+        "balance": 16,
+        "flexibility": 10,
+        "functional": 25
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1942-08-05T00:00:00.000",
+        "gender": "female",
+        "primary_motivation": "maintain_independence",
+        "progress_tracking": "family_support",
+        "fitness_goals": "better_health,live_longer",
+        "Q4": "0.2",
+        "Q4A": "no",
+        "Q4B": "balance,medication",
+        "Q5": "0.0",
+        "glp1_medications": "no",
+        "sleep_hours": "9.0",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "multiple",
+        "Q2": "avoid",
+        "Q10": "none",
+        "Q11": "home"
+      }
+    },
+    {
+      "persona_id": "teen_starter",
+      "timestamp": "2025-09-15T23:27:52.054875",
+      "calculated_values": {
+        "age": 17,
+        "bmi": 21.30394857667585,
+        "cooper_miles": 1.0,
+        "pushups": 8
+      },
+      "allocations": {
+        "cardio": 34,
+        "strength": 45,
+        "balance": 4,
+        "flexibility": 18,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "2008-05-12T00:00:00.000",
+        "gender": "female",
+        "primary_motivation": "look_better",
+        "progress_tracking": "social_sharing",
+        "fitness_goals": "build_muscle,better_health",
+        "Q4": "1.0",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "8.0",
+        "glp1_medications": "no",
+        "sleep_hours": "7.0",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "prefer",
+        "Q10": "basic",
+        "Q11": "gym"
+      }
+    },
+    {
+      "persona_id": "deconditioned_adult",
+      "timestamp": "2025-09-15T23:27:52.055106",
+      "calculated_values": {
+        "age": 35,
+        "bmi": 27.777777777777775,
+        "cooper_miles": 0.4,
+        "pushups": 0
+      },
+      "allocations": {
+        "cardio": 50,
+        "strength": 28,
+        "balance": 4,
+        "flexibility": 18,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1989-12-03T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "better_health",
+        "progress_tracking": "weekly_check_ins",
+        "fitness_goals": "lose_weight,better_health",
+        "Q4": "0.4",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "0.0",
+        "glp1_medications": "no",
+        "sleep_hours": "5.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "neutral",
+        "Q10": "none",
+        "Q11": "home"
+      }
+    },
+    {
+      "persona_id": "weekend_warrior",
+      "timestamp": "2025-09-15T23:27:52.055333",
+      "calculated_values": {
+        "age": 49,
+        "bmi": 25.88057063502083,
+        "cooper_miles": 1.2,
+        "pushups": 15
+      },
+      "allocations": {
+        "cardio": 28,
+        "strength": 46,
+        "balance": 6,
+        "flexibility": 19,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1976-01-20T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "maintain_fitness",
+        "progress_tracking": "weekly_check_ins",
+        "fitness_goals": "better_health,build_muscle",
+        "Q4": "1.2",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "15.0",
+        "glp1_medications": "no",
+        "sleep_hours": "6.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "prefer",
+        "Q10": "basic",
+        "Q11": "gym"
+      }
+    },
+    {
+      "persona_id": "former_athlete",
+      "timestamp": "2025-09-15T23:27:52.055595",
+      "calculated_values": {
+        "age": 56,
+        "bmi": 27.757487216946675,
+        "cooper_miles": 0.8,
+        "pushups": 25
+      },
+      "allocations": {
+        "cardio": 41,
+        "strength": 26,
+        "balance": 10,
+        "flexibility": 16,
+        "functional": 6
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1969-04-14T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "better_health",
+        "progress_tracking": "monthly_check_ins",
+        "fitness_goals": "improve_endurance,better_health",
+        "Q4": "0.8",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "25.0",
+        "glp1_medications": "no",
+        "sleep_hours": "7.0",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "knee",
+        "Q2": "caution",
+        "Q10": "full_gym",
+        "Q11": "gym"
+      }
+    },
+    {
+      "persona_id": "yoga_practitioner",
+      "timestamp": "2025-09-15T23:27:52.055875",
+      "calculated_values": {
+        "age": 40,
+        "bmi": 21.453287197231838,
+        "cooper_miles": 1.0,
+        "pushups": 5
+      },
+      "allocations": {
+        "cardio": 20,
+        "strength": 45,
+        "balance": 7,
+        "flexibility": 28,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1984-10-07T00:00:00.000",
+        "gender": "female",
+        "primary_motivation": "better_health",
+        "progress_tracking": "mindful_practice",
+        "fitness_goals": "build_muscle,increase_flexibility",
+        "Q4": "1.0",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "5.0",
+        "glp1_medications": "no",
+        "sleep_hours": "8.0",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "neutral",
+        "Q10": "basic",
+        "Q11": "home"
+      }
+    },
+    {
+      "persona_id": "marathon_runner",
+      "timestamp": "2025-09-15T23:27:52.056112",
+      "calculated_values": {
+        "age": 34,
+        "bmi": 20.202020202020204,
+        "cooper_miles": 2.3,
+        "pushups": 2
+      },
+      "allocations": {
+        "cardio": 41,
+        "strength": 42,
+        "balance": 4,
+        "flexibility": 13,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1991-06-25T00:00:00.000",
+        "gender": "female",
+        "primary_motivation": "improve_performance",
+        "progress_tracking": "data_driven",
+        "fitness_goals": "build_muscle,improve_endurance",
+        "Q4": "2.3",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "2.0",
+        "glp1_medications": "no",
+        "sleep_hours": "8.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "prefer",
+        "Q10": "full_gym",
+        "Q11": "gym"
+      }
+    },
+    {
+      "persona_id": "post_surgery",
+      "timestamp": "2025-09-15T23:27:52.056346",
+      "calculated_values": {
+        "age": 53,
+        "bmi": 27.968016063681024,
+        "cooper_miles": 0.5,
+        "pushups": 8
+      },
+      "allocations": {
+        "cardio": 27,
+        "strength": 28,
+        "balance": 11,
+        "flexibility": 14,
+        "functional": 20
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1972-03-18T00:00:00.000",
+        "gender": "female",
+        "primary_motivation": "recover_function",
+        "progress_tracking": "medical_guidance",
+        "fitness_goals": "better_health",
+        "Q4": "0.5",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "8.0",
+        "glp1_medications": "no",
+        "sleep_hours": "7.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "knee",
+        "Q2": "avoid",
+        "Q10": "basic",
+        "Q11": "physical_therapy"
+      }
+    },
+    {
+      "persona_id": "chronic_back_pain",
+      "timestamp": "2025-09-15T23:27:52.056575",
+      "calculated_values": {
+        "age": 47,
+        "bmi": 27.755102040816325,
+        "cooper_miles": 0.9,
+        "pushups": 12
+      },
+      "allocations": {
+        "cardio": 33,
+        "strength": 29,
+        "balance": 6,
+        "flexibility": 32,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1978-08-12T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "pain_management",
+        "progress_tracking": "symptom_tracking",
+        "fitness_goals": "better_health,increase_flexibility",
+        "Q4": "0.9",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "12.0",
+        "glp1_medications": "no",
+        "sleep_hours": "6.0",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "back",
+        "Q2": "avoid",
+        "Q10": "basic",
+        "Q11": "home"
+      }
+    },
+    {
+      "persona_id": "diabetes_type2",
+      "timestamp": "2025-09-15T23:27:52.056825",
+      "calculated_values": {
+        "age": 58,
+        "bmi": 29.745808545159548,
+        "cooper_miles": 0.7,
+        "pushups": 6
+      },
+      "allocations": {
+        "cardio": 40,
+        "strength": 27,
+        "balance": 10,
+        "flexibility": 17,
+        "functional": 6
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1966-11-09T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "health_management",
+        "progress_tracking": "medical_guidance",
+        "fitness_goals": "lose_weight,better_health",
+        "Q4": "0.7",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "6.0",
+        "glp1_medications": "no",
+        "sleep_hours": "6.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "neutral",
+        "Q10": "basic",
+        "Q11": "gym"
+      }
+    },
+    {
+      "persona_id": "underweight",
+      "timestamp": "2025-09-15T23:27:52.057077",
+      "calculated_values": {
+        "age": 29,
+        "bmi": 17.901234567901234,
+        "cooper_miles": 1.3,
+        "pushups": 8
+      },
+      "allocations": {
+        "cardio": 32,
+        "strength": 46,
+        "balance": 4,
+        "flexibility": 18,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1996-04-22T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "build_muscle",
+        "progress_tracking": "weight_gain",
+        "fitness_goals": "build_muscle,better_health",
+        "Q4": "1.3",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "8.0",
+        "glp1_medications": "no",
+        "sleep_hours": "7.0",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "prefer",
+        "Q10": "full_gym",
+        "Q11": "gym"
+      }
+    },
+    {
+      "persona_id": "postpartum",
+      "timestamp": "2025-09-15T23:27:52.057309",
+      "calculated_values": {
+        "age": 33,
+        "bmi": 26.573129251700685,
+        "cooper_miles": 0.8,
+        "pushups": 3
+      },
+      "allocations": {
+        "cardio": 43,
+        "strength": 41,
+        "balance": 4,
+        "flexibility": 12,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1992-07-16T00:00:00.000",
+        "gender": "female",
+        "primary_motivation": "get_back_in_shape",
+        "progress_tracking": "body_changes",
+        "fitness_goals": "lose_weight,build_muscle",
+        "Q4": "0.8",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "3.0",
+        "glp1_medications": "no",
+        "sleep_hours": "5.0",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "core",
+        "Q2": "caution",
+        "Q10": "basic",
+        "Q11": "home"
+      }
+    },
+    {
+      "persona_id": "busy_executive",
+      "timestamp": "2025-09-15T23:27:52.057535",
+      "calculated_values": {
+        "age": 45,
+        "bmi": 26.82742078020452,
+        "cooper_miles": 0.9,
+        "pushups": 12
+      },
+      "allocations": {
+        "cardio": 32,
+        "strength": 44,
+        "balance": 6,
+        "flexibility": 18,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1980-02-28T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "stress_management",
+        "progress_tracking": "efficiency_focus",
+        "fitness_goals": "better_health,build_muscle",
+        "Q4": "0.9",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "12.0",
+        "glp1_medications": "no",
+        "sleep_hours": "5.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "prefer",
+        "Q10": "full_gym",
+        "Q11": "gym"
+      }
+    },
+    {
+      "persona_id": "night_shift_worker",
+      "timestamp": "2025-09-15T23:27:52.057754",
+      "calculated_values": {
+        "age": 37,
+        "bmi": 25.71166207529844,
+        "cooper_miles": 0.8,
+        "pushups": 5
+      },
+      "allocations": {
+        "cardio": 49,
+        "strength": 30,
+        "balance": 3,
+        "flexibility": 18,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1988-05-30T00:00:00.000",
+        "gender": "female",
+        "primary_motivation": "energy_levels",
+        "progress_tracking": "energy_tracking",
+        "fitness_goals": "better_health,improve_endurance",
+        "Q4": "0.8",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "5.0",
+        "glp1_medications": "no",
+        "sleep_hours": "4.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "neutral",
+        "Q10": "basic",
+        "Q11": "home"
+      }
+    },
+    {
+      "persona_id": "homebound_parent",
+      "timestamp": "2025-09-15T23:27:52.057969",
+      "calculated_values": {
+        "age": 40,
+        "bmi": 23.529411764705884,
+        "cooper_miles": 1.0,
+        "pushups": 8
+      },
+      "allocations": {
+        "cardio": 27,
+        "strength": 48,
+        "balance": 7,
+        "flexibility": 18,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1985-09-14T00:00:00.000",
+        "gender": "female",
+        "primary_motivation": "be_good_example",
+        "progress_tracking": "family_accountability",
+        "fitness_goals": "better_health,build_muscle",
+        "Q4": "1.0",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "8.0",
+        "glp1_medications": "no",
+        "sleep_hours": "6.5",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "neutral",
+        "Q10": "none",
+        "Q11": "home"
+      }
+    },
+    {
+      "persona_id": "retiree",
+      "timestamp": "2025-09-15T23:27:52.058256",
+      "calculated_values": {
+        "age": 66,
+        "bmi": 26.122448979591837,
+        "cooper_miles": 0.9,
+        "pushups": 10
+      },
+      "allocations": {
+        "cardio": 30,
+        "strength": 29,
+        "balance": 15,
+        "flexibility": 14,
+        "functional": 13
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "1959-01-25T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "social_activity",
+        "progress_tracking": "social_sharing",
+        "fitness_goals": "better_health,live_longer",
+        "Q4": "0.9",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "10.0",
+        "glp1_medications": "no",
+        "sleep_hours": "8.0",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "caution",
+        "Q10": "basic",
+        "Q11": "gym"
+      }
+    },
+    {
+      "persona_id": "college_student",
+      "timestamp": "2025-09-15T23:27:52.058521",
+      "calculated_values": {
+        "age": 20,
+        "bmi": 22.20408163265306,
+        "cooper_miles": 1.2,
+        "pushups": 12
+      },
+      "allocations": {
+        "cardio": 44,
+        "strength": 40,
+        "balance": 4,
+        "flexibility": 12,
+        "functional": 0
+      },
+      "triggered_protocol": null,
+      "raw_answers": {
+        "age": "2004-11-08T00:00:00.000",
+        "gender": "male",
+        "primary_motivation": "look_better",
+        "progress_tracking": "social_media",
+        "fitness_goals": "build_muscle,improve_endurance",
+        "Q4": "1.2",
+        "Q4A": "no",
+        "Q4B": null,
+        "Q5": "12.0",
+        "glp1_medications": "no",
+        "sleep_hours": "6.0",
+        "sugary_treats": null,
+        "sodas": null,
+        "grains": null,
+        "alcohol": null,
+        "session_commitment": null,
+        "Q1": "none",
+        "Q2": "prefer",
+        "Q10": "full_gym",
+        "Q11": "gym"
+      }
+    }
+  ]
+}

@@ -12,9 +12,9 @@ class FeatureConstants {
   // Exercise category feature constants
   static const String categoryStrength = 'strength';
   static const String categoryBalance = 'balance';
-  static const String categoryLowImpact = 'low impact';
   static const String categoryStretching = 'stretching';
   static const String categoryCardio = 'cardio';
+  static const String categoryFunctional = 'functional';
   static const String categoryBodyweight = 'bodyweight';
 }
 

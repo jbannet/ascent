@@ -7,7 +7,6 @@ import '../../../workflows/question_bank/questions/fitness_assessment/q4a_fall_h
 import '../../../workflows/question_bank/questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
 import '../../../workflows/question_bank/questions/fitness_assessment/q6a_chair_stand_question.dart';
 import '../../../workflows/question_bank/questions/practical_constraints/q1_injuries_question.dart';
-import '../../../workflows/question_bank/questions/practical_constraints/q2_high_impact_question.dart';
 import '../../../workflows/question_bank/questions/fitness_assessment/glp1_medications_question.dart';
 import '../../../workflows/question_bank/questions/demographics/weight_question.dart';
 import '../../../workflows/question_bank/questions/demographics/height_question.dart';
@@ -42,7 +41,6 @@ extension RelativeImportance on FitnessProfile {
       'balance': _calculateBalanceRawScore(age, gender),
       'functional': _calculateFunctionalRawScore(age, gender),
       'stretching': _calculateStretchingRawScore(age, gender),
-      'low_impact': _calculateLowImpactRawScore(age, gender),
     };
     
     // Normalize scores to sum to 1.0
@@ -212,101 +210,69 @@ extension RelativeImportance on FitnessProfile {
   
   /// Calculate functional fitness raw importance score
   double _calculateFunctionalRawScore(int age, String gender) {
-    double score = 0.15; // Base importance
-    
-    // AGE IS PRIMARY DRIVER (functional fitness becomes critical with age)
+    double score = 0.0; // Start at zero
+
+    // Under 50: Only get functional if they have actual deficits
+    if (age < 50) {
+      // Fall history increases functional need
+      final hasFallen = Q4AFallHistoryQuestion.instance.fallHistoryAnswer == AnswerConstants.yes;
+      if (hasFallen) {
+        score += 0.3; // Moderate functional need for young people with falls
+      }
+
+      // Chair stand difficulty is critical functional marker
+      final canStandFromChair = Q6AChairStandQuestion.instance.canStandFromChair(answers);
+      if (canStandFromChair == false) {
+        score += 0.5; // High priority for basic function restoration
+      }
+
+      return score.clamp(0.0, 2.0);
+    }
+
+    // 50+: Base functional importance starts
+    score = 0.1; // Small base for 50+
+
+    // AGE PROGRESSION (functional fitness becomes critical with age)
     if (age >= 80) {
-      score += 0.6; // Highest priority for 80+
+      score += 0.7; // Highest priority for 80+
     } else if (age >= 70) {
-      score += 0.45; // Very high priority for 70s
+      score += 0.5; // Very high priority for 70s
     } else if (age >= 65) {
       score += 0.35; // High priority at retirement age
     } else if (age >= 60) {
       score += 0.25; // Increasing importance
-    } else if (age >= 50) {
-      score += 0.15; // Starting to matter
+    } else if (age >= 55) {
+      score += 0.15; // Starting to matter more
     }
-    
-    // Goal alignment
-    final goals = FitnessGoalsQuestion.instance.getFitnessGoals(answers);
-    if (goals.contains(AnswerConstants.buildMuscle)) score += 0.25;
-    if (goals.contains(AnswerConstants.betterHealth)) score += 0.2;
-    
-    // Functional deficit (low functional score = higher need)
-    final functionalScore = featuresMap['functional_fitness_score'];
-    if (functionalScore != null) {
-      final scoreVal = functionalScore;
-      if (scoreVal < 0.3) {
-        score += 0.5; // Critical need
-      } else if (scoreVal < 0.5) {
-        score += 0.3; // High need
-      } else if (scoreVal < 0.7) {
-        score += 0.15; // Moderate need
-      }
-    }
-    
+
+    // DEFICIT MARKERS (regardless of age)
     // Fall history massively increases functional importance
     final hasFallen = Q4AFallHistoryQuestion.instance.fallHistoryAnswer == AnswerConstants.yes;
     if (hasFallen) {
-      score += 0.5; // Falls indicate functional deficits
+      score += 0.6; // Falls indicate serious functional deficits
     }
-    
+
     // Chair stand inability is critical functional marker
-    final canStandFromChair = Q6AChairStandQuestion.instance.chairStandAbility == AnswerConstants.yes;
+    final canStandFromChair = Q6AChairStandQuestion.instance.canStandFromChair(answers);
     if (canStandFromChair == false) {
-      score += 0.6; // Maximum priority for basic function restoration
+      score += 0.8; // Maximum priority for basic function restoration
     }
-    
+
+    // OTHER RISK FACTORS for 50+
     // Gender adjustment (women have higher ADL disability rates)
     if (gender == AnswerConstants.female && age >= 65) {
       score += 0.1;
     }
-    
+
+    // Health goals for older adults
+    final goals = FitnessGoalsQuestion.instance.getFitnessGoals(answers);
+    if (goals.contains(AnswerConstants.betterHealth) && age >= 60) {
+      score += 0.15; // Health-focused older adults need functional training
+    }
+
     return score.clamp(0.0, 2.0);
   }
   
-  /// Calculate low impact raw importance score
-  double _calculateLowImpactRawScore(int age, String gender) {
-    double score = 0.1; // Low base importance for most people
-    
-    // Medical restrictions are primary driver
-    final medicalRestrictions = Q2HighImpactQuestion.instance.getMedicalRestrictions(answers);
-    if (medicalRestrictions.contains(AnswerConstants.highImpact)) {
-      score += 0.5;
-    }
-    if (medicalRestrictions.contains(AnswerConstants.heavyLifting)) {
-      score += 0.3;
-    }
-    if (medicalRestrictions.contains(AnswerConstants.cardioIntense)) {
-      score += 0.4;
-    }
-    
-    // Injury history
-    final injuries = Q1InjuriesQuestion.instance.getInjuries(answers);
-    if (injuries.contains(AnswerConstants.knee)) {
-      score += 0.3;
-    }
-    if (injuries.contains(AnswerConstants.back)) {
-      score += 0.25;
-    }
-    if (injuries.contains(AnswerConstants.wristAnkle)) {
-      score += 0.2;
-    }
-    
-    // Age-based joint stress considerations
-    if (age >= 60) {
-      score += 0.3;
-    } else if (age >= 45) {
-      score += 0.15;
-    }
-    
-    // Gender-specific considerations (women have higher osteoarthritis rates)
-    if (gender == AnswerConstants.female && age >= 45) {
-      score += 0.15;
-    }
-    
-    return score;
-  }
   
   /// Normalize raw scores so they sum to 1.0 (true relative importance)
   void _normalizeImportanceScores(Map<String, double> rawScores) {
@@ -323,6 +289,6 @@ extension RelativeImportance on FitnessProfile {
     featuresMap[FeatureConstants.categoryStrength] = rawScores['strength']! / total;
     featuresMap[FeatureConstants.categoryBalance] = rawScores['balance']! / total;
     featuresMap[FeatureConstants.categoryStretching] = rawScores['stretching']! / total;
-    featuresMap[FeatureConstants.categoryLowImpact] = rawScores['low_impact']! / total;
+    featuresMap[FeatureConstants.categoryFunctional] = rawScores['functional']! / total;
   }
 }
