@@ -33,7 +33,7 @@ class DayView extends StatelessWidget {
               subtitle: Text('$blockMin min • ${_blockSummary(b)}'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => context.push(
-                RouteNames.blockPath(plan.planId, weekIndex, dayOfWeek.name, i),
+                RouteNames.blockPath(weekIndex, dayOfWeek.name, i),
                 extra: plan,
               ),
             ),

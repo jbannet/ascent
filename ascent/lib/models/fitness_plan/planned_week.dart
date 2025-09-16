@@ -1,4 +1,4 @@
-import 'planned_day.dart';
+import '../rewrite_or_delete_plan_concepts/planned_day.dart';
 
 class PlannedWeek {
   final int weekIndex;

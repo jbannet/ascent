@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../models/fitness_plan/plan.dart';
-import '../../../models/rewrite_or_delete_plan_concepts/planned_week.dart';
+import '../../../models/fitness_plan/planned_week.dart';
 import '../../../enums/session_status.dart';
 import '../../../theme/app_colors.dart';
 import '../../../routing/route_names.dart';
@@ -53,7 +53,7 @@ class WeekCard extends StatelessWidget {
             : null,
         child: InkWell(
           onTap: () => context.push(
-            RouteNames.weekPath(plan.planId, week.weekIndex),
+            RouteNames.weekPath(week.weekIndex),
             extra: plan,
           ),
           borderRadius: BorderRadius.circular(12),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'models/fitness_plan/plan.dart';
 import 'models/rewrite_or_delete_plan_concepts/session.dart';
-import 'models/rewrite_or_delete_plan_concepts/planned_week.dart';
+import 'models/fitness_plan/planned_week.dart';
 import 'models/rewrite_or_delete_plan_concepts/planned_day.dart';
 import 'models/blocks/block.dart';
 import 'models/blocks/exercise_prescription_step.dart';
@@ -13,7 +13,6 @@ import 'workflow_views/fitness_plan/views/block_cards/exercise_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/rest_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/warmup_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/cooldown_step_card.dart';
-import 'enums/goal.dart';
 import 'enums/day_of_week.dart';
 import 'enums/session_status.dart';
 import 'enums/session_type.dart';
@@ -71,7 +70,7 @@ class TemporaryNavigatorView extends StatelessWidget {
             onTap: () {
               final plan = _createMockPlan();
               context.push(
-                RouteNames.weekPath(plan.planId, 1),
+                RouteNames.weekPath(1),
                 extra: plan,
               );
             },
@@ -85,7 +84,7 @@ class TemporaryNavigatorView extends StatelessWidget {
             onTap: () {
               final plan = _createMockPlan();
               context.push(
-                RouteNames.dayPath(plan.planId, 1, 'mon'),
+                RouteNames.dayPath(1, 'mon'),
                 extra: plan,
               );
             },
@@ -99,7 +98,7 @@ class TemporaryNavigatorView extends StatelessWidget {
             onTap: () {
               final plan = _createMockPlan();
               context.push(
-                RouteNames.blockPath(plan.planId, 1, 'mon', 0),
+                RouteNames.blockPath(1, 'mon', 0),
                 extra: plan,
               );
             },
@@ -287,13 +286,9 @@ class TemporaryNavigatorView extends StatelessWidget {
     ];
 
     return Plan(
-      planId: 'mock_plan_123',
-      userId: 'mock_user_456',
-      goal: Goal.buildMuscle,
       startDate: DateTime.now(),
       weeks: mockWeeks,
       sessions: mockSessions,
-      notesCoach: 'This is a mock plan for development testing.',
     );
   }
 

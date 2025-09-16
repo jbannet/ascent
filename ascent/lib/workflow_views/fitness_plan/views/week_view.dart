@@ -32,7 +32,7 @@ class WeekView extends StatelessWidget {
             subtitle: Text(_statusText(d.status)),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(
-              RouteNames.dayPath(plan.planId, weekIndex, d.dow.name),
+              RouteNames.dayPath(weekIndex, d.dow.name),
               extra: plan,
             ),
           );

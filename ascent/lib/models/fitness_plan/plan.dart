@@ -1,53 +1,36 @@
-import '../../enums/goal.dart';
 import '../../enums/exercise_style.dart';
 import '../../enums/session_status.dart';
 import '../../enums/session_type.dart';
 import '../../enums/day_of_week.dart';
-import '../rewrite_or_delete_plan_concepts/planned_week.dart';
+import 'planned_week.dart';
 import '../rewrite_or_delete_plan_concepts/planned_day.dart';
 import '../rewrite_or_delete_plan_concepts/session.dart';
 
 class Plan {
-  final String planId;
-  final String userId;
-  final Goal goal;
   final DateTime startDate;
   final List<PlannedWeek> weeks;          // calendar
   final List<Session> sessions;    // session list
-  final String notesCoach;
 
   Plan({
-    required this.planId,
-    required this.userId,
-    required this.goal,
     required this.startDate,
     List<PlannedWeek>? weeks,
     List<Session>? sessions,
-    this.notesCoach = '',
-  })  : 
+  })  :
         weeks = weeks ?? <PlannedWeek>[],
         sessions = sessions ?? <Session>[];
 
   factory Plan.fromJson(Map<String, dynamic> json) {
     return Plan(
-      planId: json['plan_id'] as String,
-      userId: json['user_id'] as String,
-      goal: goalFromString(json['goal'] as String),
       startDate: _dateFromJson(json['start_date'] as String),
       weeks: (json['weeks'] as List<dynamic>? )?.map((e)=> PlannedWeek.fromJson(Map<String, dynamic>.from(e))).toList() ?? <PlannedWeek>[],
       sessions: (json['sessions'] as List<dynamic>?)?.map((e)=> Session.fromJson(Map<String, dynamic>.from(e))).toList() ?? <Session>[],
-      notesCoach: (json['notes_coach'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'plan_id': planId,
-    'user_id': userId,
-    'goal': goalToString(goal),
     'start_date': _dateToJson(startDate),
     'weeks': weeks.map((e)=> e.toJson()).toList(),
     'sessions': sessions.map((e)=> e.toJson()).toList(),
-    'notes_coach': notesCoach,
   };
 
   // Style allocation calculations for the 4-week view
@@ -122,7 +105,7 @@ class Plan {
 
     // Create temporary micro sessions for demo purposes (since your plan only has macro sessions)
     final tempMicroSession = Session(
-      id: 'temp_micro_${weekIndex}',
+      id: 'temp_micro_$weekIndex',
       title: 'Quick Stretch',
       type: SessionType.micro,
       style: ExerciseStyle.flexibility,
@@ -130,7 +113,7 @@ class Plan {
     );
 
     final tempCardioMicro = Session(
-      id: 'temp_cardio_${weekIndex}',
+      id: 'temp_cardio_$weekIndex',
       title: 'Quick Cardio',
       type: SessionType.micro,
       style: ExerciseStyle.cardio,

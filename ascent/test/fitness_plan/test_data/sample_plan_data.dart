@@ -1,10 +1,9 @@
 import 'package:ascent/models/fitness_plan/plan.dart';
-import 'package:ascent/models/rewrite_or_delete_plan_concepts/planned_week.dart';
+import 'package:ascent/models/fitness_plan/planned_week.dart';
 import 'package:ascent/models/rewrite_or_delete_plan_concepts/planned_day.dart';
 import 'package:ascent/models/rewrite_or_delete_plan_concepts/session.dart';
 import 'package:ascent/models/blocks/block.dart';
 import 'package:ascent/models/blocks/exercise_prescription_step.dart';
-import 'package:ascent/enums/goal.dart';
 import 'package:ascent/enums/day_of_week.dart';
 import 'package:ascent/enums/session_status.dart';
 import 'package:ascent/enums/block_type.dart';
@@ -161,13 +160,9 @@ class SamplePlanData {
 
     // Create sample plan
     return Plan(
-      planId: 'plan_001',
-      userId: 'user_001',
-      goal: Goal.getStronger,
       startDate: DateTime.now(), // Start from today
       weeks: [week1, week2, week3, week4],
       sessions: [session1, session2, session3, session4, session5, session6, session7],
-      notesCoach: 'Focus on form over speed. Progress gradually.',
     );
   }
 }
