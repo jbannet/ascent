@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../workflows/fitness_plan/views/exercise_view.dart';
+import '../../workflow_views/fitness_plan/views/exercise_view.dart';
 import '../../models/blocks/exercise_prescription_step.dart';
 import '../route_names.dart';
 

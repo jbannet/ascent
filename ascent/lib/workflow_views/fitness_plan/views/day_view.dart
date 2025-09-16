@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../models/plan_concepts/plan.dart';
+import '../../../models/fitness_plan/plan.dart';
 import '../../../models/plan_concepts/session.dart';
 import '../../../models/blocks/block.dart';
 import '../../../enums/day_of_week.dart';

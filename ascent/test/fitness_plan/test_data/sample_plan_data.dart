@@ -1,4 +1,4 @@
-import 'package:ascent/models/plan_concepts/plan.dart';
+import 'package:ascent/models/fitness_plan/plan.dart';
 import 'package:ascent/models/plan_concepts/planned_week.dart';
 import 'package:ascent/models/plan_concepts/planned_day.dart';
 import 'package:ascent/models/plan_concepts/session.dart';

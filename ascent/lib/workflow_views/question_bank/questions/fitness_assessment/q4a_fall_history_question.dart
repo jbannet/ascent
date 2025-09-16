@@ -4,7 +4,7 @@ import '../../../onboarding_workflow/models/questions/question_option.dart';
 import '../../views/question_types/single_choice_view.dart';
 import '../onboarding_question.dart';
 import '../demographics/age_question.dart';
-import './q4_twelve_minute_run_question.dart';
+import 'q4_twelve_minute_run_question.dart';
 import '../../../../constants.dart';
 
 /// Q4A: Have you fallen in the last 12 months?

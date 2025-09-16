@@ -1,15 +1,15 @@
 import '../fitness_profile.dart';
 import 'package:ascent/constants_features.dart';
-import '../../../workflows/question_bank/questions/demographics/age_question.dart';
-import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
-import '../../../workflows/question_bank/questions/goals/fitness_goals_question.dart';
-import '../../../workflows/question_bank/questions/fitness_assessment/q4a_fall_history_question.dart';
-import '../../../workflows/question_bank/questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
-import '../../../workflows/question_bank/questions/fitness_assessment/q6a_chair_stand_question.dart';
-import '../../../workflows/question_bank/questions/practical_constraints/q1_injuries_question.dart';
-import '../../../workflows/question_bank/questions/fitness_assessment/glp1_medications_question.dart';
-import '../../../workflows/question_bank/questions/demographics/weight_question.dart';
-import '../../../workflows/question_bank/questions/demographics/height_question.dart';
+import '../../../workflow_views/question_bank/questions/demographics/age_question.dart';
+import '../../../workflow_views/question_bank/questions/demographics/gender_question.dart';
+import '../../../workflow_views/question_bank/questions/goals/fitness_goals_question.dart';
+import '../../../workflow_views/question_bank/questions/fitness_assessment/q4a_fall_history_question.dart';
+import '../../../workflow_views/question_bank/questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
+import '../../../workflow_views/question_bank/questions/fitness_assessment/q6a_chair_stand_question.dart';
+import '../../../workflow_views/question_bank/questions/practical_constraints/q1_injuries_question.dart';
+import '../../../workflow_views/question_bank/questions/fitness_assessment/glp1_medications_question.dart';
+import '../../../workflow_views/question_bank/questions/demographics/weight_question.dart';
+import '../../../workflow_views/question_bank/questions/demographics/height_question.dart';
 import '../../../constants.dart';
 
 /// Extension to calculate relative importance across all exercise modalities.

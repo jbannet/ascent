@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/plan_concepts/plan.dart';
+import '../../../models/fitness_plan/plan.dart';
 import '../widgets/completion_stats_header.dart';
 import '../widgets/week_card.dart';
 

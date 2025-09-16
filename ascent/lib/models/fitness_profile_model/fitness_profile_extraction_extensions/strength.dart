@@ -1,11 +1,11 @@
 import '../fitness_profile.dart';
 import '../reference_data/acsm_pushup_norms.dart';
 import '../reference_data/acsm_squat_norms.dart';
-import '../../../workflows/question_bank/questions/demographics/age_question.dart';
-import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
-import '../../../workflows/question_bank/questions/fitness_assessment/q5_pushups_question.dart';
-import '../../../workflows/question_bank/questions/fitness_assessment/q6_bodyweight_squats_question.dart';
-import '../../../workflows/question_bank/questions/fitness_assessment/q6a_chair_stand_question.dart';
+import '../../../workflow_views/question_bank/questions/demographics/age_question.dart';
+import '../../../workflow_views/question_bank/questions/demographics/gender_question.dart';
+import '../../../workflow_views/question_bank/questions/fitness_assessment/q5_pushups_question.dart';
+import '../../../workflow_views/question_bank/questions/fitness_assessment/q6_bodyweight_squats_question.dart';
+import '../../../workflow_views/question_bank/questions/fitness_assessment/q6a_chair_stand_question.dart';
 import '../../../constants.dart';
 
 /// Extension to calculate strength fitness metrics and training parameters.

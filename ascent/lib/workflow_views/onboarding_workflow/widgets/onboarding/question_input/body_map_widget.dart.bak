@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../models/body_map_coordinates.dart';
-import '../../../../../workflows/question_bank/questions/demographics/gender_question.dart';
+import '../../../../question_bank/questions/demographics/gender_question.dart';
 
 /// Widget that displays an interactive body map for selecting pain areas and injuries.
 /// 
@@ -49,7 +49,10 @@ class BodyMapWidget extends StatefulWidget {
 class _BodyMapWidgetState extends State<BodyMapWidget> {
   final Map<String, BodyPartState> _bodyPartStates = {};
   String? _userGender;
+  final GlobalKey _imageKey = GlobalKey();
   final GlobalKey _actualImageKey = GlobalKey();
+  double _imageWidth = 300.0;
+  double _imageHeight = 500.0;
   double _actualImageWidth = 300.0;
   double _actualImageHeight = 500.0;
   double _imageOffsetX = 0.0;
@@ -58,6 +61,7 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
   @override
   void initState() {
     super.initState();
+    print('DEBUG: BodyMapWidget initState() called');
     _initializeFromSelectedValues();
     _determineGender();
     
@@ -70,13 +74,19 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
   void _checkActualImageSize() {
     final RenderBox? renderBox = _actualImageKey.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox != null) {
-      // Size check for future positioning logic if needed
+      final actualSize = renderBox.size;
+      print('DEBUG: ACTUAL rendered image size: ${actualSize.width} x ${actualSize.height}');
+      print('DEBUG: CALCULATED dimensions were: $_actualImageWidth x $_actualImageHeight');
+      print('DEBUG: DIFFERENCE: width=${actualSize.width - _actualImageWidth}, height=${actualSize.height - _actualImageHeight}');
     }
   }
   
   void _determineGender() {
+    print('DEBUG: currentAnswers = ${widget.currentAnswers}');
     _userGender = GenderQuestion.instance.genderAnswer;
+    print('DEBUG: GenderQuestion.genderAnswer returned: $_userGender');
     _userGender ??= 'male'; // Default to male if gender not specified
+    print('DEBUG: Final _userGender = $_userGender');
   }
 
   void _initializeFromSelectedValues() {
@@ -106,17 +116,25 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
   }
 
   void _handleTap(String bodyPart) {
+    print('*** TAP HANDLER CALLED FOR $bodyPart ***'); // Debug logging
     setState(() {
       final currentState = _bodyPartStates[bodyPart];
+      print('DEBUG: Current state for $bodyPart: $currentState');
+      print('DEBUG: All states: $_bodyPartStates');
       
       if (currentState == null) {
         _bodyPartStates[bodyPart] = BodyPartState.pain;
+        print('DEBUG: Set $bodyPart to pain');
       } else if (currentState == BodyPartState.pain) {
         _bodyPartStates[bodyPart] = BodyPartState.injury;
+        print('DEBUG: Set $bodyPart to injury');
       } else if (currentState == BodyPartState.injury) {
         _bodyPartStates.remove(bodyPart);
+        print('DEBUG: Removed $bodyPart from selection');
       }
       
+      print('DEBUG: New state for $bodyPart: ${_bodyPartStates[bodyPart]}');
+      print('DEBUG: All states after change: $_bodyPartStates');
     });
     widget.onAnswerChanged(widget.questionId, _getSelectedValues());
   }
@@ -134,6 +152,7 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
             builder: (context, constraints) {
               // Use width-based sizing to eliminate white space
               // Let the image aspect ratio determine the height
+              final availableWidth = constraints.maxWidth;
               final targetImageWidth = 400.0; // Target width for the body image
               
               // Calculate height based on actual image aspect ratios
@@ -142,12 +161,19 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
               final imageAspectRatio = isFemale ? (1024.0 / 1536.0) : (1024.0 / 1024.0);
               final availableHeight = targetImageWidth / imageAspectRatio;
               
+              // Store the container dimensions
+              _imageWidth = availableWidth;
+              _imageHeight = availableHeight;
+              
               // Since we're using exact sizing, actual image dimensions match container
               _actualImageWidth = targetImageWidth;
               _actualImageHeight = availableHeight;
               _imageOffsetX = 0.0;
               _imageOffsetY = 0.0;
               
+              print('DEBUG: Container dimensions: $targetImageWidth x $availableHeight');
+              print('DEBUG: Image aspect ratio: $imageAspectRatio');
+              print('DEBUG: Actual dimensions: $_actualImageWidth x $_actualImageHeight');
               
               return SizedBox(
                 width: targetImageWidth,
@@ -250,11 +276,14 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
 
   /// Get the appropriate body image path based on user gender
   String _getBodyImagePath() {
+    print('DEBUG: _getBodyImagePath() called with _userGender = $_userGender');
     switch (_userGender?.toLowerCase()) {
       case 'female':
+        print('DEBUG: Returning woman.png');
         return 'assets/images/woman.png';
       case 'male':
       default:
+        print('DEBUG: Returning man.png (default or male)');
         return 'assets/images/man.png';
     }
   }
@@ -289,6 +318,9 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
     
     // Log just the first region of the first body part for debugging
     if (bodyPart == 'chest' && region.xPercent < 50) {
+      print('DEBUG: Sample region (chest): xPercent=${region.xPercent}, yPercent=${region.yPercent}');
+      print('DEBUG: Calculated position: left=$left, top=$top, width=$width, height=$height');
+      print('DEBUG: Center would be at: ${left + width/2}, ${top + height/2}');
     }
     
     return Positioned(
@@ -298,9 +330,11 @@ class _BodyMapWidgetState extends State<BodyMapWidget> {
       height: height,
       child: GestureDetector(
         onTapUp: (details) {
+          print('DEBUG: GestureDetector onTapUp fired for $bodyPart');
           _handleTap(bodyPart);
         },
         onTapDown: (details) {
+          print('DEBUG: onTapDown detected for $bodyPart at ${details.localPosition}');
         },
         behavior: HitTestBehavior.translucent,
         child: Container(

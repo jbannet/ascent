@@ -1,9 +1,9 @@
 import '../fitness_profile.dart';
-import '../../../workflows/question_bank/questions/demographics/age_question.dart';
-import '../../../workflows/question_bank/questions/demographics/gender_question.dart';
-import '../../../workflows/question_bank/questions/demographics/weight_question.dart';
-import '../../../workflows/question_bank/questions/demographics/height_question.dart';
-import '../../../workflows/question_bank/questions/goals/fitness_goals_question.dart';
+import '../../../workflow_views/question_bank/questions/demographics/age_question.dart';
+import '../../../workflow_views/question_bank/questions/demographics/gender_question.dart';
+import '../../../workflow_views/question_bank/questions/demographics/weight_question.dart';
+import '../../../workflow_views/question_bank/questions/demographics/height_question.dart';
+import '../../../workflow_views/question_bank/questions/goals/fitness_goals_question.dart';
 import '../../../constants.dart';
 
 /// Extension to calculate weight management metrics and training parameters.

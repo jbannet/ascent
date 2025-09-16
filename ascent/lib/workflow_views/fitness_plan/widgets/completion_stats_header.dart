@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import '../../../models/plan_concepts/plan.dart';
+import '../../../models/fitness_plan/plan.dart';
 import '../../../theme/app_colors.dart';
 import '../../../enums/exercise_style.dart';
 

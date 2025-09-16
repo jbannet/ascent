@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../lib/workflows/question_bank/registry/question_bank.dart';
+import '../lib/workflow_views/question_bank/registry/question_bank.dart';
 import '../lib/models/fitness_profile_model/fitness_profile.dart';
 import '../lib/constants_features.dart';
 import '../lib/models/fitness_profile_model/reference_data/acsm_cardio_norms.dart';
