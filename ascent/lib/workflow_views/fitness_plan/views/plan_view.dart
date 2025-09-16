@@ -15,16 +15,7 @@ class PlanView extends StatelessWidget {
     // Debug: Print actual plan data
     debugPrint('🔍 PLAN DEBUG:');
     debugPrint('Total weeks in plan: ${plan.weeks.length}');
-    debugPrint('Week indices: ${plan.weeks.map((w) => w.weekIndex).toList()}');
-    debugPrint('Current week index: $currentWeekIndex');
     debugPrint('Next 4 weeks found: ${next4Weeks.length}');
-    debugPrint('Next 4 week indices: ${next4Weeks.map((w) => w.weekIndex).toList()}');
-    debugPrint('📊 SESSION DEBUG:');
-    debugPrint('Total sessions in plan: ${plan.sessions.length}');
-    for (int i = 0; i < plan.sessions.length; i++) {
-      final session = plan.sessions[i];
-      debugPrint('Session $i: ${session.title} - Type: ${session.type.name} - Style: ${session.style.name}');
-    }
 
     return Scaffold(
       appBar: AppBar(

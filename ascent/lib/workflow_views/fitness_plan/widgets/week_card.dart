@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../models/fitness_plan/plan.dart';
 import '../../../models/fitness_plan/planned_week.dart';
-import '../../../enums/session_status.dart';
+import '../../../enums/session_type.dart';
 import '../../../theme/app_colors.dart';
 import '../../../routing/route_names.dart';
 import 'session_icon.dart';
@@ -134,21 +134,20 @@ class WeekCard extends StatelessWidget {
   }
 
   Widget _buildSessionIcons(BuildContext context) {
-    // Separate completed and incomplete sessions
-    final completedSessions = <Widget>[];
-    final incompleteSessions = <Widget>[];
+    // Separate completed and incomplete workouts
+    final completedWorkouts = <Widget>[];
+    final incompleteWorkouts = <Widget>[];
 
-    for (final day in week.days) {
-      final session = plan.sessions.firstWhere((s) => s.id == day.sessionId);
-      final isCompleted = day.status == SessionStatus.completed;
+    for (final workout in week.workouts) {
+      final isCompleted = workout.isCompleted;
 
-      final sessionWidget = Stack(
+      final workoutWidget = Stack(
         children: [
           Opacity(
             opacity: isCompleted ? 1.0 : 0.6,
             child: SessionIcon(
-              type: session.type,
-              style: session.style,
+              type: workout.type,
+              style: workout.style,
               size: 64,
               showBadge: false,
             ),
@@ -176,9 +175,9 @@ class WeekCard extends StatelessWidget {
       );
 
       if (isCompleted) {
-        completedSessions.add(sessionWidget);
+        completedWorkouts.add(workoutWidget);
       } else {
-        incompleteSessions.add(sessionWidget);
+        incompleteWorkouts.add(workoutWidget);
       }
     }
 
@@ -186,8 +185,8 @@ class WeekCard extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: [
-        ...completedSessions,  // Completed sessions first (left side)
-        ...incompleteSessions, // Then incomplete sessions
+        ...completedWorkouts,  // Completed workouts first (left side)
+        ...incompleteWorkouts, // Then incomplete workouts
       ],
     );
   }

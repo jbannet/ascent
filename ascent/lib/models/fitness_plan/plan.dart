@@ -1,48 +1,45 @@
 import '../../enums/exercise_style.dart';
 import '../../enums/session_status.dart';
-import '../../enums/session_type.dart';
-import '../../enums/day_of_week.dart';
 import 'planned_week.dart';
-import '../rewrite_or_delete_plan_concepts/planned_day.dart';
-import '../rewrite_or_delete_plan_concepts/session.dart';
+import 'plan_progress.dart';
 
 class Plan {
   final DateTime startDate;
   final List<PlannedWeek> weeks;          // calendar
-  final List<Session> sessions;    // session list
+  final PlanProgress planProgress; // New field for tracking progress
+
 
   Plan({
     required this.startDate,
+    required this.planProgress,
     List<PlannedWeek>? weeks,
-    List<Session>? sessions,
   })  :
-        weeks = weeks ?? <PlannedWeek>[],
-        sessions = sessions ?? <Session>[];
+        weeks = weeks ?? <PlannedWeek>[];
 
   factory Plan.fromJson(Map<String, dynamic> json) {
     return Plan(
       startDate: _dateFromJson(json['start_date'] as String),
+      planProgress: PlanProgress(),
       weeks: (json['weeks'] as List<dynamic>? )?.map((e)=> PlannedWeek.fromJson(Map<String, dynamic>.from(e))).toList() ?? <PlannedWeek>[],
-      sessions: (json['sessions'] as List<dynamic>?)?.map((e)=> Session.fromJson(Map<String, dynamic>.from(e))).toList() ?? <Session>[],
     );
   }
 
   Map<String, dynamic> toJson() => {
     'start_date': _dateToJson(startDate),
     'weeks': weeks.map((e)=> e.toJson()).toList(),
-    'sessions': sessions.map((e)=> e.toJson()).toList(),
   };
 
   // Style allocation calculations for the 4-week view
   Map<ExerciseStyle, double> getStyleAllocation() {
-    if (sessions.isEmpty) return {};
+    final allWorkouts = weeks.expand((week) => week.workouts).toList();
+    if (allWorkouts.isEmpty) return {};
 
     final styleCounts = <ExerciseStyle, int>{};
-    for (final session in sessions) {
-      styleCounts[session.style] = (styleCounts[session.style] ?? 0) + 1;
+    for (final workout in allWorkouts) {
+      styleCounts[workout.style] = (styleCounts[workout.style] ?? 0) + 1;
     }
 
-    final total = sessions.length;
+    final total = allWorkouts.length;
     return styleCounts.map((style, count) =>
       MapEntry(style, count / total * 100));
   }
@@ -72,8 +69,8 @@ class Plan {
     final week = weeks.where((w) => w.weekIndex == weekIndex).firstOrNull;
     if (week == null) return {'completed': 0, 'total': 0};
 
-    final completedCount = week.days.where((d) => d.status == SessionStatus.completed).length;
-    return {'completed': completedCount, 'total': week.days.length};
+    final completedCount = week.workouts.where((w) => w.isCompleted).length;
+    return {'completed': completedCount, 'total': week.workouts.length};
   }
 
   // Get next 4 weeks starting from current week (with placeholders for missing weeks)
@@ -99,87 +96,9 @@ class Plan {
 
   // Generate a placeholder week with sample workouts
   PlannedWeek _generatePlaceholderWeek(int weekIndex) {
-    if (sessions.isEmpty) {
-      return PlannedWeek(weekIndex: weekIndex, days: []);
-    }
-
-    // Create temporary micro sessions for demo purposes (since your plan only has macro sessions)
-    final tempMicroSession = Session(
-      id: 'temp_micro_$weekIndex',
-      title: 'Quick Stretch',
-      type: SessionType.micro,
-      style: ExerciseStyle.flexibility,
-      blocks: [],
-    );
-
-    final tempCardioMicro = Session(
-      id: 'temp_cardio_$weekIndex',
-      title: 'Quick Cardio',
-      type: SessionType.micro,
-      style: ExerciseStyle.cardio,
-      blocks: [],
-    );
-
-    final sampleDays = <PlannedDay>[];
-
-    // Monday - use your existing macro session
-    sampleDays.add(PlannedDay(dow: DayOfWeek.mon, sessionId: sessions[0].id, status: SessionStatus.planned));
-
-    // Wednesday - use temporary micro session
-    sampleDays.add(PlannedDay(dow: DayOfWeek.wed, sessionId: tempMicroSession.id, status: SessionStatus.planned));
-
-    // Friday - use temporary cardio micro session
-    sampleDays.add(PlannedDay(dow: DayOfWeek.fri, sessionId: tempCardioMicro.id, status: SessionStatus.planned));
-
-    // Add temp sessions to plan so they can be found
-    sessions.addAll([tempMicroSession, tempCardioMicro]);
-
-    return PlannedWeek(weekIndex: weekIndex, days: sampleDays);
+    return PlannedWeek(weekIndex: weekIndex, workouts: []);
   }
 
-  // Calculate completed minutes for different time periods
-  int getCompletedMinutes({String period = 'allTime'}) {
-    final completedSessions = <String>[];
-
-    switch (period) {
-      case 'thisWeek':
-        final currentWeek = weeks.where((w) => w.weekIndex == currentWeekIndex).firstOrNull;
-        if (currentWeek != null) {
-          completedSessions.addAll(
-            currentWeek.days
-                .where((d) => d.status == SessionStatus.completed)
-                .map((d) => d.sessionId)
-          );
-        }
-        break;
-      case 'trailing4Weeks':
-        final trailing4Weeks = weeks.where((w) =>
-          w.weekIndex >= currentWeekIndex - 3 && w.weekIndex <= currentWeekIndex
-        );
-        for (final week in trailing4Weeks) {
-          completedSessions.addAll(
-            week.days
-                .where((d) => d.status == SessionStatus.completed)
-                .map((d) => d.sessionId)
-          );
-        }
-        break;
-      case 'allTime':
-      default:
-        for (final week in weeks) {
-          completedSessions.addAll(
-            week.days
-                .where((d) => d.status == SessionStatus.completed)
-                .map((d) => d.sessionId)
-          );
-        }
-        break;
-    }
-
-    return completedSessions
-        .map((sessionId) => sessions.firstWhere((s) => s.id == sessionId))
-        .fold(0, (total, session) => total + session.estimatedDurationMin);
-  }
 }
 
 DateTime _dateFromJson(String value) => DateTime.parse(value);

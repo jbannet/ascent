@@ -1,18 +1,19 @@
-import '../rewrite_or_delete_plan_concepts/planned_day.dart';
+import 'package:ascent/models/fitness_plan/workout.dart';
 
 class PlannedWeek {
   final int weekIndex;
-  final List<PlannedDay> days;
+  List<Workout> workouts;
 
-  PlannedWeek({ required this.weekIndex, List<PlannedDay>? days }) : days = days ?? <PlannedDay>[];
+  PlannedWeek({ required this.weekIndex, List<Workout>? workouts }) :
+    workouts = workouts ?? <Workout>[];
 
   factory PlannedWeek.fromJson(Map<String, dynamic> json) => PlannedWeek(
     weekIndex: json['week_index'] as int,
-    days: (json['days'] as List<dynamic>? )?.map((e)=> PlannedDay.fromJson(Map<String, dynamic>.from(e))).toList() ?? <PlannedDay>[],
+    workouts: (json['workouts'] as List<dynamic>? )?.map((e)=> Workout.fromJson(Map<String, dynamic>.from(e))).toList() ?? <Workout>[],
   );
 
   Map<String, dynamic> toJson() => {
     'week_index': weekIndex,
-    'days': days.map((e)=> e.toJson()).toList(),
+    'workouts': workouts.map((e)=> e.toJson()).toList(),
   };
 }

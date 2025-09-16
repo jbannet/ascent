@@ -1,6 +1,8 @@
+import 'package:ascent/models/fitness_plan/workout.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'models/fitness_plan/plan.dart';
+import 'models/fitness_plan/plan_progress.dart';
 import 'models/rewrite_or_delete_plan_concepts/session.dart';
 import 'models/fitness_plan/planned_week.dart';
 import 'models/rewrite_or_delete_plan_concepts/planned_day.dart';
@@ -246,50 +248,58 @@ class TemporaryNavigatorView extends StatelessWidget {
 
   /// Create mock Plan data for testing fitness views
   Plan _createMockPlan() {
-    final mockSessions = [
-      Session(
-        id: 'session_1',
-        title: 'Upper Body Strength',
-        type: SessionType.macro,
-        style: ExerciseStyle.strength,
-        blocks: [_createMockBlock(), _createMockBlock2()],
-      ),
-      Session(
-        id: 'session_2',
-        title: 'Lower Body Power',
-        type: SessionType.macro,
-        style: ExerciseStyle.strength,
-        blocks: [_createMockBlock(), _createMockBlock2()],
-      ),
-      Session(
-        id: 'session_3',
-        title: 'Full Body Conditioning',
-        type: SessionType.macro,
-        style: ExerciseStyle.cardio,
-        blocks: [_createMockBlock()],
-      ),
-    ];
+    final now = DateTime.now();
+    final startOfWeek = _getStartOfWeek(now);
 
     final mockWeeks = [
+      // Week 1 - This week
       PlannedWeek(
         weekIndex: 1,
-        days: [
-          PlannedDay(dow: DayOfWeek.mon, sessionId: 'session_1', status: SessionStatus.planned),
-          PlannedDay(dow: DayOfWeek.tue, sessionId: 'session_2', status: SessionStatus.planned),
-          PlannedDay(dow: DayOfWeek.wed, sessionId: 'session_3', status: SessionStatus.completed),
-          PlannedDay(dow: DayOfWeek.thu, sessionId: 'session_1', status: SessionStatus.planned),
-          PlannedDay(dow: DayOfWeek.fri, sessionId: 'session_2', status: SessionStatus.skipped),
-          PlannedDay(dow: DayOfWeek.sat, sessionId: 'session_3', status: SessionStatus.planned),
-          PlannedDay(dow: DayOfWeek.sun, sessionId: 'session_1', status: SessionStatus.planned),
+        workouts: [
+          Workout(type: SessionType.macro, style: ExerciseStyle.strength, isCompleted: true),
+          Workout(type: SessionType.micro, style: ExerciseStyle.cardio, isCompleted: true),
+          Workout(type: SessionType.macro, style: ExerciseStyle.flexibility, isCompleted: false),
+        ],
+      ),
+      // Week 2 - Next week
+      PlannedWeek(
+        weekIndex: 2,
+        workouts: [
+          Workout(type: SessionType.macro, style: ExerciseStyle.strength, isCompleted: false),
+          Workout(type: SessionType.micro, style: ExerciseStyle.balance, isCompleted: false),
+          Workout(type: SessionType.macro, style: ExerciseStyle.cardio, isCompleted: false),
+        ],
+      ),
+      // Week 3
+      PlannedWeek(
+        weekIndex: 3,
+        workouts: [
+          Workout(type: SessionType.macro, style: ExerciseStyle.functional, isCompleted: false),
+          Workout(type: SessionType.micro, style: ExerciseStyle.flexibility, isCompleted: false),
+        ],
+      ),
+      // Week 4
+      PlannedWeek(
+        weekIndex: 4,
+        workouts: [
+          Workout(type: SessionType.micro, style: ExerciseStyle.balance, isCompleted: false),
+          Workout(type: SessionType.macro, style: ExerciseStyle.strength, isCompleted: false),
         ],
       ),
     ];
 
     return Plan(
-      startDate: DateTime.now(),
+      startDate: startOfWeek,
+      planProgress: PlanProgress(),
       weeks: mockWeeks,
-      sessions: mockSessions,
     );
+  }
+
+  /// Get the start of the week (Sunday) for a given date
+  DateTime _getStartOfWeek(DateTime date) {
+    final daysSinceLastSunday = date.weekday % 7;
+    return DateTime(date.year, date.month, date.day)
+        .subtract(Duration(days: daysSinceLastSunday));
   }
 
   /// Create mock Block data for testing
