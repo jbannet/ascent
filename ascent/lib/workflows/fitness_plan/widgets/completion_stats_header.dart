@@ -91,11 +91,11 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
         ),
         // Main content on top
         Container(
-          padding: const EdgeInsets.fromLTRB(24, 42, 24, 24),
+          padding: const EdgeInsets.fromLTRB(24, 42, 24, 45),
           child: Column(
             children: [
               _buildMainContent(allTimeMinutes, trailing4WeeksMinutes, thisWeekMinutes),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               _buildStyleAllocation(),
             ],
           ),
