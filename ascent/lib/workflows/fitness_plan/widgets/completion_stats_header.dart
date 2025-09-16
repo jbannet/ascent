@@ -67,56 +67,52 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
     final trailing4WeeksMinutes = widget.plan.getCompletedMinutes(period: 'trailing4Weeks');
     final thisWeekMinutes = widget.plan.getCompletedMinutes(period: 'thisWeek');
 
-    return Container(
-      padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
-      child: Column(
-        children: [
-          _buildNewLayout(allTimeMinutes, trailing4WeeksMinutes, thisWeekMinutes),
-        ],
-      ),
+    return Stack(
+      children: [
+        // Waves in the background
+        Positioned.fill(
+          child: RepaintBoundary(
+            child: AnimatedBuilder(
+              animation: _waveController,
+              builder: (context, child) {
+                // Calculate progress percentage for color transitions
+                final weeklyGoal = 300; // Mock weekly goal
+                final progressPercent = (allTimeMinutes / weeklyGoal).clamp(0.0, 1.0);
+
+                return CustomPaint(
+                  painter: MomentumWavesPainter(
+                    animationValue: _waveController.value,
+                    progressPercent: progressPercent,
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        // Main content on top
+        Container(
+          padding: const EdgeInsets.fromLTRB(24, 42, 24, 24),
+          child: Column(
+            children: [
+              _buildMainContent(allTimeMinutes, trailing4WeeksMinutes, thisWeekMinutes),
+              const SizedBox(height: 30),
+              _buildStyleAllocation(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _buildNewLayout(int allTimeMinutes, int trailing4WeeksMinutes, int thisWeekMinutes) {
+  Widget _buildMainContent(int allTimeMinutes, int trailing4WeeksMinutes, int thisWeekMinutes) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent, // Make background transparent to show waves
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
-      child: Stack(
-        children: [
-          // Momentum waves background
-          Positioned.fill(
-            child: RepaintBoundary(
-              child: AnimatedBuilder(
-                animation: _waveController,
-                builder: (context, child) {
-                  // Calculate progress percentage for color transitions
-                  final weeklyGoal = 300; // Mock weekly goal
-                  final progressPercent = (allTimeMinutes / weeklyGoal).clamp(0.0, 1.0);
-
-
-                  return CustomPaint(
-                    painter: MomentumWavesPainter(
-                      animationValue: _waveController.value,
-                      progressPercent: progressPercent,
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          // Main layout
-          Column(
+      child: Column(
             children: [
               // Top row: 4-week left, streak center, this week right
               Row(
@@ -179,14 +175,7 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
-              // Style allocation section
-              _buildStyleAllocation(),
-              // Add extra space at bottom for waves to flow behind everything
-              const SizedBox(height: 80),
             ],
-          ),
-        ],
       ),
     );
   }
@@ -452,7 +441,7 @@ class MomentumWavesPainter extends CustomPainter {
       phaseOffset: 0.0,
       opacity: 0.025, // A bit more transparent
       color: primaryColor,
-      yOffset: centerY * 0.5, // Shifted down from 0.2
+      yOffset: centerY * 0.3, // Higher to cover more area
     );
 
     // Wave Layer 2 - 1.5 cycles per animation (light wave - SHIFTED DOWN)
@@ -464,7 +453,7 @@ class MomentumWavesPainter extends CustomPainter {
       phaseOffset: 0.33, // Different phase
       opacity: 0.04, // A bit more transparent
       color: primaryColor,
-      yOffset: centerY * 0.7, // Shifted down from 0.4
+      yOffset: centerY * 0.5, // Higher to cover more area
     );
 
     // Wave Layer 3 - 2 cycles per animation (medium wave - SHIFTED DOWN)
@@ -476,7 +465,7 @@ class MomentumWavesPainter extends CustomPainter {
       phaseOffset: 0.5, // 180 degree phase shift
       opacity: 0.06, // A bit more transparent
       color: primaryColor,
-      yOffset: centerY * 0.9, // Shifted down from 0.65
+      yOffset: centerY * 0.7, // Higher to cover more area
     );
 
     // Wave Layer 4 - 2.5 cycles per animation (medium-dark wave - SHIFTED DOWN)
@@ -488,7 +477,7 @@ class MomentumWavesPainter extends CustomPainter {
       phaseOffset: 0.75, // Different phase
       opacity: 0.055, // A bit more transparent
       color: primaryColor,
-      yOffset: centerY * 1.1, // Shifted down from 0.85
+      yOffset: centerY * 0.9, // Higher to cover more area
     );
 
     // Wave Layer 5 - 3 cycles per animation (dark wave - SHIFTED DOWN with gradient)
@@ -500,7 +489,7 @@ class MomentumWavesPainter extends CustomPainter {
       phaseOffset: 0.25, // 90 degree phase shift
       opacity: 0.09, // A bit more transparent
       color: primaryColor,
-      yOffset: centerY * 1.3, // Shifted down from 1.05
+      yOffset: centerY * 1.1, // Higher to cover more area
     );
 
     // Add visible background glow

@@ -43,7 +43,7 @@ class PlanView extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 16),
               itemCount: next4Weeks.length + 1, // +1 for CompletionStatsHeader
               separatorBuilder: (_, index) {
-                if (index == 0) return const SizedBox(height: 8); // Space after completion stats header
+                if (index == 0) return const SizedBox(height: 0); // No space to allow overlap
                 return const SizedBox(height: 4); // Normal space between week cards
               },
               itemBuilder: (_, index) {
@@ -56,10 +56,13 @@ class PlanView extends StatelessWidget {
                 final week = next4Weeks[weekIndex];
                 final isCurrentWeek = week.weekIndex == currentWeekIndex;
 
-                return WeekCard(
-                  plan: plan,
-                  week: week,
-                  isCurrentWeek: isCurrentWeek,
+                return Transform.translate(
+                  offset: const Offset(0, -30), // Move week cards up by 30px to overlap waves
+                  child: WeekCard(
+                    plan: plan,
+                    week: week,
+                    isCurrentWeek: isCurrentWeek,
+                  ),
                 );
               },
             )
