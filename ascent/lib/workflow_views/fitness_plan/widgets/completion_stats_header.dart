@@ -21,6 +21,10 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
   late AnimationController _waveController;
   late AnimationController _countUpController;
   late Animation<double> _countUpAnimation;
+  late AnimationController _nutritionController;
+  late AnimationController _sleepController;
+  late Animation<double> _nutritionAnimation;
+  late Animation<double> _sleepAnimation;
 
   @override
   void initState() {
@@ -50,14 +54,53 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
       curve: Curves.easeOut,
     ));
 
-    // Start count-up animation
+    // Circle progress animations
+    _nutritionController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+
+    _sleepController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+
+    _nutritionAnimation = Tween<double>(
+      begin: 0.0,
+      end: 0.78, // Target nutrition progress
+    ).animate(CurvedAnimation(
+      parent: _nutritionController,
+      curve: Curves.easeOut,
+    ));
+
+    _sleepAnimation = Tween<double>(
+      begin: 0.0,
+      end: 0.94, // Target sleep progress
+    ).animate(CurvedAnimation(
+      parent: _sleepController,
+      curve: Curves.easeOut,
+    ));
+
+    // Start animations with staggered delays
     _countUpController.forward();
+
+    // Start nutrition circle after a delay
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) _nutritionController.forward();
+    });
+
+    // Start sleep circle after another delay
+    Future.delayed(const Duration(milliseconds: 700), () {
+      if (mounted) _sleepController.forward();
+    });
   }
 
   @override
   void dispose() {
     _waveController.dispose();
     _countUpController.dispose();
+    _nutritionController.dispose();
+    _sleepController.dispose();
     super.dispose();
   }
 
@@ -129,11 +172,16 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  _buildBottomCircularMetric(
-                    progress: 0.78,
-                    icon: Icons.restaurant,
-                    color: AppColors.continueGreen,
-                    label: 'nutrition',
+                  AnimatedBuilder(
+                    animation: _nutritionAnimation,
+                    builder: (context, child) {
+                      return _buildBottomCircularMetric(
+                        progress: _nutritionAnimation.value,
+                        icon: Icons.restaurant,
+                        color: AppColors.continueGreen,
+                        label: 'nutrition',
+                      );
+                    },
                   ),
                   Column(
                     children: [
@@ -167,11 +215,16 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
                       ),
                     ],
                   ),
-                  _buildBottomCircularMetric(
-                    progress: 0.94, // Mock 7.5/8 hours
-                    icon: Icons.bedtime,
-                    color: AppColors.basePurple,
-                    label: 'sleep',
+                  AnimatedBuilder(
+                    animation: _sleepAnimation,
+                    builder: (context, child) {
+                      return _buildBottomCircularMetric(
+                        progress: _sleepAnimation.value,
+                        icon: Icons.bedtime,
+                        color: AppColors.basePurple,
+                        label: 'sleep',
+                      );
+                    },
                   ),
                 ],
               ),
