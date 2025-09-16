@@ -28,7 +28,7 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
 
     // Wave animation - continuous (respects accessibility settings)
     _waveController = AnimationController(
-      duration: const Duration(seconds: 8), // Slow, hypnotic waves
+      duration: const Duration(seconds: 14), // Even slower, more hypnotic waves
       vsync: this,
     );
 
@@ -312,7 +312,7 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Style Allocation (Next 4 Weeks)',
+          'Next 4 weeks',
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
@@ -439,7 +439,7 @@ class MomentumWavesPainter extends CustomPainter {
       cyclesPerAnimation: 1,
       amplitude: size.height * 0.18, // Much larger for dramatic overlap
       phaseOffset: 0.0,
-      opacity: 0.025, // A bit more transparent
+      opacity: 0.02, // More transparent
       color: primaryColor,
       yOffset: centerY * 0.3, // Higher to cover more area
     );
@@ -451,7 +451,7 @@ class MomentumWavesPainter extends CustomPainter {
       cyclesPerAnimation: 1,
       amplitude: size.height * 0.15, // Large amplitude
       phaseOffset: 0.33, // Different phase
-      opacity: 0.04, // A bit more transparent
+      opacity: 0.035, // More transparent
       color: primaryColor,
       yOffset: centerY * 0.5, // Higher to cover more area
     );
@@ -463,7 +463,7 @@ class MomentumWavesPainter extends CustomPainter {
       cyclesPerAnimation: 2,
       amplitude: size.height * 0.12, // Good overlap potential
       phaseOffset: 0.5, // 180 degree phase shift
-      opacity: 0.06, // A bit more transparent
+      opacity: 0.05, // More transparent
       color: primaryColor,
       yOffset: centerY * 0.7, // Higher to cover more area
     );
@@ -475,7 +475,7 @@ class MomentumWavesPainter extends CustomPainter {
       cyclesPerAnimation: 2,
       amplitude: size.height * 0.09, // Smaller but still overlapping
       phaseOffset: 0.75, // Different phase
-      opacity: 0.055, // A bit more transparent
+      opacity: 0.045, // More transparent
       color: primaryColor,
       yOffset: centerY * 0.9, // Higher to cover more area
     );
@@ -487,7 +487,7 @@ class MomentumWavesPainter extends CustomPainter {
       cyclesPerAnimation: 3,
       amplitude: size.height * 0.08, // Large enough for good overlap
       phaseOffset: 0.25, // 90 degree phase shift
-      opacity: 0.09, // A bit more transparent
+      opacity: 0.075, // More transparent
       color: primaryColor,
       yOffset: centerY * 1.1, // Higher to cover more area
     );
