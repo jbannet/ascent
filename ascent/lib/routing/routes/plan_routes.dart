@@ -15,14 +15,21 @@ class PlanRoutes {
       path: RouteNames.plan,
       name: 'plan',
       builder: (context, state) {
-        final plan = state.extra as Plan?;
-        
+        Plan? plan;
+
+        if (state.extra is Plan) {
+          plan = state.extra as Plan;
+        } else if (state.extra is Map<String, dynamic>) {
+          // Handle case where extra gets serialized (happens with inspector)
+          plan = Plan.fromJson(state.extra as Map<String, dynamic>);
+        }
+
         if (plan == null) {
           // For development, create a mock plan
           // In production, would load from storage/API
           return const Center(child: Text('No plan available'));
         }
-        
+
         return PlanView(plan: plan);
       },
       routes: [

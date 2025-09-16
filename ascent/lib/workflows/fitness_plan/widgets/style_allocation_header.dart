@@ -19,7 +19,7 @@ class StyleAllocationHeader extends StatelessWidget {
     }
 
     return Card(
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

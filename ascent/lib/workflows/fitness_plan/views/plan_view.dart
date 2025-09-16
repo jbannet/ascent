@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../models/plan_concepts/plan.dart';
 import '../widgets/completion_stats_header.dart';
-import '../widgets/style_allocation_header.dart';
 import '../widgets/week_card.dart';
 
 class PlanView extends StatelessWidget {
@@ -11,7 +10,6 @@ class PlanView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final next4Weeks = plan.getNext4Weeks();
-    final styleAllocation = plan.getStyleAllocation();
     final currentWeekIndex = plan.currentWeekIndex;
 
     // Debug: Print actual plan data
@@ -31,29 +29,30 @@ class PlanView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Plan'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        actions: [
+          TextButton(
+            onPressed: () {
+              // TODO: Navigate to success tracker
+            },
+            child: const Text('View my successes'),
+          ),
+        ],
       ),
       body: next4Weeks.isNotEmpty
           ? ListView.separated(
               padding: const EdgeInsets.only(bottom: 16),
-              itemCount: next4Weeks.length + 2, // +2 for CompletionStatsHeader and StyleAllocationHeader
+              itemCount: next4Weeks.length + 1, // +1 for CompletionStatsHeader
               separatorBuilder: (_, index) {
-                if (index == 0) return const SizedBox(height: 0); // No space after completion stats
-                if (index == 1) return const SizedBox(height: 8); // Space after style allocation
+                if (index == 0) return const SizedBox(height: 8); // Space after completion stats header
                 return const SizedBox(height: 4); // Normal space between week cards
               },
               itemBuilder: (_, index) {
                 if (index == 0) {
-                  // First item is the completion stats header
+                  // First item is the completion stats header (now includes style allocation)
                   return CompletionStatsHeader(plan: plan);
                 }
-                if (index == 1) {
-                  // Second item is the style allocation header
-                  return StyleAllocationHeader(styleAllocation: styleAllocation);
-                }
 
-                final weekIndex = index - 2;
+                final weekIndex = index - 1;
                 final week = next4Weeks[weekIndex];
                 final isCurrentWeek = week.weekIndex == currentWeekIndex;
 

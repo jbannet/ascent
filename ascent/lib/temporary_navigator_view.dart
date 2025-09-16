@@ -16,6 +16,8 @@ import 'workflows/fitness_plan/views/block_cards/cooldown_step_card.dart';
 import 'enums/goal.dart';
 import 'enums/day_of_week.dart';
 import 'enums/session_status.dart';
+import 'enums/session_type.dart';
+import 'enums/exercise_style.dart';
 import 'enums/block_type.dart';
 import 'enums/item_mode.dart';
 import 'routing/route_names.dart';
@@ -249,16 +251,22 @@ class TemporaryNavigatorView extends StatelessWidget {
       Session(
         id: 'session_1',
         title: 'Upper Body Strength',
+        type: SessionType.macro,
+        style: ExerciseStyle.strength,
         blocks: [_createMockBlock(), _createMockBlock2()],
       ),
       Session(
         id: 'session_2',
         title: 'Lower Body Power',
+        type: SessionType.macro,
+        style: ExerciseStyle.strength,
         blocks: [_createMockBlock(), _createMockBlock2()],
       ),
       Session(
-        id: 'session_3', 
+        id: 'session_3',
         title: 'Full Body Conditioning',
+        type: SessionType.macro,
+        style: ExerciseStyle.cardio,
         blocks: [_createMockBlock()],
       ),
     ];
