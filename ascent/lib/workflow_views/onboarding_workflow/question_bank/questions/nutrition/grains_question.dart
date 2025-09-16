@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../models/questions/enum_question_type.dart';
-import '../../../views/question_views/nutrition/nutrition_table_bars.dart';
-import '../../../views/question_views/nutrition/nutrition_state_manager.dart';
+import '../../../views/question_views/nutrition_views/nutrition_table_bars.dart';
+import '../../../views/question_views/nutrition_views/nutrition_state_manager.dart';
 import '../onboarding_question.dart';
 
 /// Grains servings question for nutrition assessment.
