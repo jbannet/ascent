@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../../../services/general_utilities/num_formatter.dart';
+import '../../../../../services_and_utilities/general_utilities/num_formatter.dart';
 
 class NumberInputWidget extends StatefulWidget {
   final String questionId;

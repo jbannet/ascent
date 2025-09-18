@@ -1,7 +1,7 @@
 import 'package:ascent/models/fitness_plan/exercise.dart';
 import 'package:ascent/models/fitness_plan/style_allocation.dart';
 import 'package:ascent/models/fitness_plan/workout.dart';
-import 'package:ascent/services/general_utilities/get_this_sunday.dart';
+import 'package:ascent/services_and_utilities/general_utilities/get_this_sunday.dart';
 import '../../constants.dart';
 
 /*

@@ -1,4 +1,4 @@
-import '../../services/local_storage/local_storage_service.dart';
+import '../../services_and_utilities/local_storage/local_storage_service.dart';
 
 // Import all fitness profile extensions
 import 'fitness_profile_extraction_extensions/age_bracket.dart';
