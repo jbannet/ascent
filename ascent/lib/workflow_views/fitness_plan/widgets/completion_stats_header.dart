@@ -355,7 +355,7 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
   }
 
   Widget _buildStyleAllocation() {
-    final styleAllocation = widget.plan.getStyleAllocation();
+    final styleAllocation = widget.plan.getStyleAllocation().toPercentages();
 
     if (styleAllocation.isEmpty) {
       return const SizedBox.shrink();

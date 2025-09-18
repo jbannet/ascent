@@ -11,6 +11,7 @@ class StyleAllocation {
   };
 
   StyleAllocation();
+  get isEmpty => minutes.isEmpty || minutes.values.every((mins) => mins == 0);
 
   void addWorkout(Workout workout) {
     // Assuming each workout is 30 minutes for simplicity
@@ -26,7 +27,7 @@ class StyleAllocation {
     });
     return styleAllocation;
   }
-  
+
   Map<ExerciseStyle, double> toPercentages() {
     final totalMinutes = minutes.values.fold<int>(0, (sum, mins) => sum + mins);
     if (totalMinutes == 0) return {};

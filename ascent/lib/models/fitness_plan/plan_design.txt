@@ -19,29 +19,4 @@
   StyleAllocation
   └── minutes: Map<ExerciseStyle, int>
 
-  Class Fields Summary:
-
-  Plan
-  - schedule: FourWeeks
-  - planProgress: PlanProgress
-
-  FourWeeks
-  - currentWeek: WeekOfWorkouts
-  - nextWeeks: List<WeekOfWorkouts>
-
-  PlanProgress
-  - completedWeeks: List<WeekOfWorkouts>
-
-  WeekOfWorkouts
-  - weekIndex: int
-  - startDate: DateTime
-  - workouts: List<Workout>
-
-  Workout
-  - date: DateTime?
-  - type: SessionType
-  - style: ExerciseStyle
-  - _isCompleted: bool
-
-  StyleAllocation
-  - minutes: Map<ExerciseStyle, int>
+completionStats ONLY applies to the current week since no other week is started. Completion is 0 by definition.

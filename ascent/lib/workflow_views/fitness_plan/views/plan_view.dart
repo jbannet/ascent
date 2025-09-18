@@ -14,7 +14,6 @@ class PlanView extends StatelessWidget {
 
     // Debug: Print actual plan data
     debugPrint('🔍 PLAN DEBUG:');
-    debugPrint('Total weeks in plan: ${plan.schedule.totalWeeks}');
     debugPrint('Next 4 weeks found: ${next4Weeks.length}');
 
     return Scaffold(

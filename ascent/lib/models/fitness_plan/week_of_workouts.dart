@@ -3,12 +3,25 @@ import 'package:ascent/models/fitness_plan/workout.dart';
 import 'package:ascent/services/general_utilities/get_this_sunday.dart';
 import '../../constants.dart';
 
+class WeekCompletionStats {
+  final int completed;
+  final int total;
+
+  const WeekCompletionStats({required this.completed, required this.total});
+}
+
 class WeekOfWorkouts {
   final int weekIndex;
   final DateTime startDate; // Sunday date of the week
   List<Workout> workouts;
 
-  get completedWeek => startDate.isBefore(getThisSunday()) || startDate.isAtSameMomentAs(getThisSunday());
+  get isThisWeekCompleted => startDate.isBefore(getThisSunday()) || startDate.isAtSameMomentAs(getThisSunday());
+  get completionStats => WeekCompletionStats(
+    completed: workouts.where((workout) => workout.isCompleted).length,
+    total: workouts.length,
+  );
+  get completedPercentage => completionStats.completed / completionStats.total;
+
 
   get styleAllocation {
     StyleAllocation styleAllocation = StyleAllocation();

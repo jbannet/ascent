@@ -1,3 +1,5 @@
+import 'package:ascent/models/fitness_plan/style_allocation.dart';
+
 import '../../enums/exercise_style.dart';
 import '../../services/general_utilities/get_this_sunday.dart';
 import '../../constants.dart';
@@ -33,7 +35,7 @@ class Plan {
   };
 
   // Delegate to schedule for style allocation
-  Map<ExerciseStyle, double> getStyleAllocation() => schedule.styleAllocationInPercentages;
+  StyleAllocation getStyleAllocation() => schedule.styleAllocationInPercentages;
 
   // Get current week index based on start date
   int get currentWeekIndex => planProgress.currentWeekIndex;
@@ -42,10 +44,12 @@ class Plan {
   DateTime getThisSunday() => getThisSunday();
 
   // Delegate to schedule for week completion stats
-  Map<String, int> getCurrentWeekCompletionStats(int weekIndex) => schedule.getWeekCompletionStats(weekIndex);
+  Map<String, int> getCurrentWeekCompletionStats(int weekIndex) => schedule.completionStats;
 
   // Delegate to schedule for getting next 4 weeks
-  List<WeekOfWorkouts> getNext4Weeks() => schedule.getNext4Weeks(currentWeekIndex);
+  List<WeekOfWorkouts> getNext4Weeks() => schedule.next4Weeks;
+
+  
 
 
 }
