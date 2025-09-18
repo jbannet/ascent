@@ -1,13 +1,13 @@
 ONBOARDING PERSONA TEST RESULTS
 ==================================================
-Generated: 2025-09-16 10:14:46.338379
+Generated: 2025-09-18 15:37:17.048763
 Total Personas: 40
 
 personaId: elderly_fall_history
 description: 75-year-old with fall history and poor balance
 answers: {age:76; gender:"female"; height_cm:162.0; weight_kg:65.0; primary_motivation:"better_health"; progress_tracking:"weekly_check_ins"; fitness_goals:"better_health,live_longer"; Q4:0.3; Q4A:"yes"; Q4B:"fear_falling,balance"; Q5:0.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:7.0; sugary_treats:"rarely"; sodas:"never"; grains:"sometimes"; alcohol:"never"; session_commitment:"low"; Q1:"none"; Q2:"avoid"; Q10:"none"; Q11:"home"; birth_year:1949.0}
 
-Output: {cardio: 26%, strength: 26%, balance: 15%, functional: 22%, flexibility: 11%}
+Output: {cardio: 23%, strength: 27%, balance: 16%, functional: 23%, flexibility: 11%}
 Calculated: Age=76, BMI=24.8, Cooper=0.3mi (5th %ile), Pushups=0 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ personaId: cannot_stand_chair
 description: 68-year-old with severe deconditioning, cannot stand from chair
 answers: {age:69; gender:"male"; height_cm:175.0; weight_kg:85.0; primary_motivation:"better_health"; progress_tracking:"monthly_check_ins"; fitness_goals:"better_health"; Q4:0.1; Q4A:"no"; Q4B:""; Q5:0.0; Q6A:"no"; glp1_medications:"no"; sleep_hours:8.0; sugary_treats:"sometimes"; sodas:"rarely"; grains:"often"; alcohol:"rarely"; session_commitment:"very_low"; Q1:"knee"; Q2:"avoid"; Q10:"none"; Q11:"home"; birth_year:1956.0}
 
-Output: {cardio: 24%, strength: 22%, balance: 13%, functional: 27%, flexibility: 13%}
+Output: {cardio: 21%, strength: 23%, balance: 14%, functional: 28%, flexibility: 14%}
 Calculated: Age=69, BMI=27.8, Cooper=0.1mi (1th %ile), Pushups=0 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ personaId: glp1_obesity
 description: 45-year-old on GLP-1 medication with obesity
 answers: {age:46; gender:"female"; height_cm:165.0; weight_kg:95.0; primary_motivation:"lose_weight"; progress_tracking:"weekly_check_ins"; fitness_goals:"lose_weight,better_health"; Q4:0.6; Q4A:"no"; Q4B:""; Q5:2.0; Q6A:"yes"; glp1_medications:"yes"; sleep_hours:6.5; sugary_treats:"rarely"; sodas:"never"; grains:"sometimes"; alcohol:"rarely"; session_commitment:"moderate"; Q1:"none"; Q2:"caution"; Q10:"basic"; Q11:"gym"; birth_year:1979.0}
 
-Output: {cardio: 37%, strength: 41%, balance: 8%, functional: 0%, flexibility: 15%}
+Output: {cardio: 30%, strength: 49%, balance: 7%, functional: 0%, flexibility: 14%}
 Calculated: Age=46, BMI=34.9, Cooper=0.6mi (8th %ile), Pushups=2 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ personaId: extreme_obesity
 description: 38-year-old with extreme obesity, limited mobility
 answers: {age:38; gender:"male"; height_cm:178.0; weight_kg:130.0; primary_motivation:"lose_weight"; progress_tracking:"weekly_check_ins"; fitness_goals:"lose_weight,better_health"; Q4:0.2; Q4A:"no"; Q4B:""; Q5:0.0; Q6A:"no"; glp1_medications:"no"; sleep_hours:5.5; sugary_treats:"often"; sodas:"often"; grains:"often"; alcohol:"sometimes"; session_commitment:"low"; Q1:"knee"; Q2:"avoid"; Q10:"none"; Q11:"home"; birth_year:1986.0}
 
-Output: {cardio: 42%, strength: 24%, balance: 3%, functional: 15%, flexibility: 16%}
+Output: {cardio: 38%, strength: 26%, balance: 3%, functional: 16%, flexibility: 17%}
 Calculated: Age=38, BMI=41.0, Cooper=0.2mi (2th %ile), Pushups=0 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ personaId: multiple_conditions
 description: 70-year-old with fall history AND obesity
 answers: {age:71; gender:"female"; height_cm:160.0; weight_kg:85.0; primary_motivation:"better_health"; progress_tracking:"monthly_check_ins"; fitness_goals:"better_health,live_longer"; Q4:0.4; Q4A:"yes"; Q4B:"balance,mobility_aids"; Q5:0.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:7.5; sugary_treats:"sometimes"; sodas:"rarely"; grains:"often"; alcohol:"never"; session_commitment:"low"; Q1:"hip"; Q2:"avoid"; Q10:"none"; Q11:"home"; birth_year:1954.0}
 
-Output: {cardio: 26%, strength: 26%, balance: 15%, functional: 22%, flexibility: 11%}
+Output: {cardio: 23%, strength: 27%, balance: 16%, functional: 23%, flexibility: 11%}
 Calculated: Age=71, BMI=33.2, Cooper=0.4mi (6th %ile), Pushups=0 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -55,7 +55,7 @@ personaId: middle_aged_beginner
 description: 42-year-old sedentary starting fitness journey
 answers: {age:42; gender:"female"; height_cm:168.0; weight_kg:72.0; primary_motivation:"better_health"; progress_tracking:"weekly_check_ins"; fitness_goals:"better_health,lose_weight"; Q4:0.7; Q4A:"no"; Q4B:""; Q5:3.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:6.5; sugary_treats:"sometimes"; sodas:"sometimes"; grains:"often"; alcohol:"sometimes"; session_commitment:"moderate"; Q1:"none"; Q2:"neutral"; Q10:"basic"; Q11:"gym"; birth_year:1982.0}
 
-Output: {cardio: 45%, strength: 31%, balance: 6%, functional: 0%, flexibility: 18%}
+Output: {cardio: 41%, strength: 33%, balance: 7%, functional: 0%, flexibility: 19%}
 Calculated: Age=42, BMI=25.5, Cooper=0.7mi (9th %ile), Pushups=3 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ personaId: frail_elderly
 description: 82-year-old with minimal activity, needs assistance
 answers: {age:83; gender:"female"; height_cm:158.0; weight_kg:55.0; primary_motivation:"maintain_independence"; progress_tracking:"family_support"; fitness_goals:"better_health,live_longer"; Q4:0.2; Q4A:"no"; Q4B:"balance,fear_falling"; Q5:0.0; Q6A:"no"; glp1_medications:"no"; sleep_hours:9.0; sugary_treats:"rarely"; sodas:"never"; grains:"sometimes"; alcohol:"never"; session_commitment:"very_low"; Q1:"multiple"; Q2:"avoid"; Q10:"none"; Q11:"home"; birth_year:1942.0}
 
-Output: {cardio: 23%, strength: 24%, balance: 19%, functional: 24%, flexibility: 10%}
+Output: {cardio: 21%, strength: 24%, balance: 19%, functional: 25%, flexibility: 10%}
 Calculated: Age=83, BMI=22.0, Cooper=0.2mi (3th %ile), Pushups=0 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -79,7 +79,7 @@ personaId: teen_starter
 description: 16-year-old with no fitness background
 answers: {age:17; gender:"female"; height_cm:165.0; weight_kg:58.0; primary_motivation:"look_better"; progress_tracking:"social_sharing"; fitness_goals:"build_muscle,better_health"; Q4:1.0; Q4A:"no"; Q4B:""; Q5:8.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:7.0; sugary_treats:"often"; sodas:"sometimes"; grains:"often"; alcohol:"never"; session_commitment:"moderate"; Q1:"none"; Q2:"prefer"; Q10:"basic"; Q11:"gym"; birth_year:2008.0}
 
-Output: {cardio: 34%, strength: 45%, balance: 4%, functional: 0%, flexibility: 18%}
+Output: {cardio: 30%, strength: 47%, balance: 4%, functional: 0%, flexibility: 19%}
 Calculated: Age=17, BMI=21.3, Cooper=1.0mi (17th %ile), Pushups=8 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -87,7 +87,7 @@ personaId: deconditioned_adult
 description: 35-year-old severely deconditioned
 answers: {age:35; gender:"male"; height_cm:180.0; weight_kg:90.0; primary_motivation:"better_health"; progress_tracking:"weekly_check_ins"; fitness_goals:"lose_weight,better_health"; Q4:0.4; Q4A:"no"; Q4B:""; Q5:0.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:5.5; sugary_treats:"often"; sodas:"often"; grains:"often"; alcohol:"often"; session_commitment:"low"; Q1:"none"; Q2:"neutral"; Q10:"none"; Q11:"home"; birth_year:1989.0}
 
-Output: {cardio: 50%, strength: 28%, balance: 4%, functional: 0%, flexibility: 18%}
+Output: {cardio: 46%, strength: 30%, balance: 4%, functional: 0%, flexibility: 20%}
 Calculated: Age=35, BMI=27.8, Cooper=0.4mi (4th %ile), Pushups=0 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -103,7 +103,7 @@ personaId: former_athlete
 description: 55-year-old former athlete, good strength but poor cardio
 answers: {age:56; gender:"male"; height_cm:185.0; weight_kg:95.0; primary_motivation:"better_health"; progress_tracking:"monthly_check_ins"; fitness_goals:"improve_endurance,better_health"; Q4:0.8; Q4A:"no"; Q4B:""; Q5:25.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:7.0; sugary_treats:"sometimes"; sodas:"rarely"; grains:"often"; alcohol:"sometimes"; session_commitment:"high"; Q1:"knee"; Q2:"caution"; Q10:"full_gym"; Q11:"gym"; birth_year:1969.0}
 
-Output: {cardio: 41%, strength: 26%, balance: 10%, functional: 6%, flexibility: 16%}
+Output: {cardio: 38%, strength: 27%, balance: 11%, functional: 7%, flexibility: 17%}
 Calculated: Age=56, BMI=27.8, Cooper=0.8mi (10th %ile), Pushups=25 (75th %ile)
 --------------------------------------------------------------------------------
 
@@ -111,7 +111,7 @@ personaId: yoga_practitioner
 description: 40-year-old yoga practitioner, flexible but weak strength
 answers: {age:40; gender:"female"; height_cm:170.0; weight_kg:62.0; primary_motivation:"better_health"; progress_tracking:"mindful_practice"; fitness_goals:"build_muscle,increase_flexibility"; Q4:1.0; Q4A:"no"; Q4B:""; Q5:5.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:8.0; sugary_treats:"rarely"; sodas:"never"; grains:"sometimes"; alcohol:"rarely"; session_commitment:"high"; Q1:"none"; Q2:"neutral"; Q10:"basic"; Q11:"home"; birth_year:1984.0}
 
-Output: {cardio: 20%, strength: 45%, balance: 7%, functional: 0%, flexibility: 28%}
+Output: {cardio: 19%, strength: 45%, balance: 8%, functional: 0%, flexibility: 28%}
 Calculated: Age=40, BMI=21.5, Cooper=1.0mi (36th %ile), Pushups=5 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -127,7 +127,7 @@ personaId: post_surgery
 description: 52-year-old recovering from knee replacement
 answers: {age:53; gender:"female"; height_cm:167.0; weight_kg:78.0; primary_motivation:"recover_function"; progress_tracking:"medical_guidance"; fitness_goals:"better_health"; Q4:0.5; Q4A:"no"; Q4B:""; Q5:8.0; Q6A:"no"; glp1_medications:"no"; sleep_hours:7.5; sugary_treats:"sometimes"; sodas:"rarely"; grains:"often"; alcohol:"rarely"; session_commitment:"moderate"; Q1:"knee"; Q2:"avoid"; Q10:"basic"; Q11:"physical_therapy"; birth_year:1972.0}
 
-Output: {cardio: 27%, strength: 28%, balance: 11%, functional: 20%, flexibility: 14%}
+Output: {cardio: 24%, strength: 29%, balance: 12%, functional: 21%, flexibility: 14%}
 Calculated: Age=53, BMI=28.0, Cooper=0.5mi (7th %ile), Pushups=8 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -135,7 +135,7 @@ personaId: chronic_back_pain
 description: 46-year-old with chronic back pain, limited high-impact
 answers: {age:47; gender:"male"; height_cm:175.0; weight_kg:85.0; primary_motivation:"pain_management"; progress_tracking:"symptom_tracking"; fitness_goals:"better_health,increase_flexibility"; Q4:0.9; Q4A:"no"; Q4B:""; Q5:12.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:6.0; sugary_treats:"sometimes"; sodas:"sometimes"; grains:"often"; alcohol:"sometimes"; session_commitment:"moderate"; Q1:"back"; Q2:"avoid"; Q10:"basic"; Q11:"home"; birth_year:1978.0}
 
-Output: {cardio: 33%, strength: 29%, balance: 6%, functional: 0%, flexibility: 32%}
+Output: {cardio: 29%, strength: 31%, balance: 7%, functional: 0%, flexibility: 33%}
 Calculated: Age=47, BMI=27.8, Cooper=0.9mi (13th %ile), Pushups=12 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -143,7 +143,7 @@ personaId: diabetes_type2
 description: 58-year-old with Type 2 diabetes, insulin resistant
 answers: {age:58; gender:"male"; height_cm:172.0; weight_kg:88.0; primary_motivation:"health_management"; progress_tracking:"medical_guidance"; fitness_goals:"lose_weight,better_health"; Q4:0.7; Q4A:"no"; Q4B:""; Q5:6.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:6.5; sugary_treats:"rarely"; sodas:"never"; grains:"sometimes"; alcohol:"rarely"; session_commitment:"high"; Q1:"none"; Q2:"neutral"; Q10:"basic"; Q11:"gym"; birth_year:1966.0}
 
-Output: {cardio: 40%, strength: 27%, balance: 10%, functional: 6%, flexibility: 17%}
+Output: {cardio: 37%, strength: 28%, balance: 11%, functional: 7%, flexibility: 17%}
 Calculated: Age=58, BMI=29.7, Cooper=0.7mi (9th %ile), Pushups=6 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -151,7 +151,7 @@ personaId: underweight
 description: 28-year-old underweight, needs muscle building
 answers: {age:29; gender:"male"; height_cm:180.0; weight_kg:58.0; primary_motivation:"build_muscle"; progress_tracking:"weight_gain"; fitness_goals:"build_muscle,better_health"; Q4:1.3; Q4A:"no"; Q4B:""; Q5:8.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:7.0; sugary_treats:"often"; sodas:"sometimes"; grains:"often"; alcohol:"sometimes"; session_commitment:"high"; Q1:"none"; Q2:"prefer"; Q10:"full_gym"; Q11:"gym"; birth_year:1996.0}
 
-Output: {cardio: 32%, strength: 46%, balance: 4%, functional: 0%, flexibility: 18%}
+Output: {cardio: 30%, strength: 47%, balance: 4%, functional: 0%, flexibility: 19%}
 Calculated: Age=29, BMI=17.9, Cooper=1.3mi (26th %ile), Pushups=8 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -159,7 +159,7 @@ personaId: postpartum
 description: 32-year-old 6 months post-birth, core weakness
 answers: {age:33; gender:"female"; height_cm:168.0; weight_kg:75.0; primary_motivation:"get_back_in_shape"; progress_tracking:"body_changes"; fitness_goals:"lose_weight,build_muscle"; Q4:0.8; Q4A:"no"; Q4B:""; Q5:3.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:5.0; sugary_treats:"often"; sodas:"sometimes"; grains:"often"; alcohol:"never"; session_commitment:"low"; Q1:"core"; Q2:"caution"; Q10:"basic"; Q11:"home"; birth_year:1992.0}
 
-Output: {cardio: 43%, strength: 41%, balance: 4%, functional: 0%, flexibility: 12%}
+Output: {cardio: 38%, strength: 44%, balance: 4%, functional: 0%, flexibility: 13%}
 Calculated: Age=33, BMI=26.6, Cooper=0.8mi (9th %ile), Pushups=3 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -167,7 +167,7 @@ personaId: busy_executive
 description: 44-year-old executive, maximum 2 sessions per week
 answers: {age:45; gender:"male"; height_cm:178.0; weight_kg:85.0; primary_motivation:"stress_management"; progress_tracking:"efficiency_focus"; fitness_goals:"better_health,build_muscle"; Q4:0.9; Q4A:"no"; Q4B:""; Q5:12.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:5.5; sugary_treats:"often"; sodas:"often"; grains:"often"; alcohol:"often"; session_commitment:"low"; Q1:"none"; Q2:"prefer"; Q10:"full_gym"; Q11:"gym"; birth_year:1980.0}
 
-Output: {cardio: 32%, strength: 44%, balance: 6%, functional: 0%, flexibility: 18%}
+Output: {cardio: 28%, strength: 46%, balance: 7%, functional: 0%, flexibility: 19%}
 Calculated: Age=45, BMI=26.8, Cooper=0.9mi (13th %ile), Pushups=12 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -175,7 +175,7 @@ personaId: night_shift_worker
 description: 36-year-old night shift worker, poor sleep and irregular schedule
 answers: {age:37; gender:"female"; height_cm:165.0; weight_kg:70.0; primary_motivation:"energy_levels"; progress_tracking:"energy_tracking"; fitness_goals:"better_health,improve_endurance"; Q4:0.8; Q4A:"no"; Q4B:""; Q5:5.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:4.5; sugary_treats:"often"; sodas:"often"; grains:"often"; alcohol:"rarely"; session_commitment:"low"; Q1:"none"; Q2:"neutral"; Q10:"basic"; Q11:"home"; birth_year:1988.0}
 
-Output: {cardio: 49%, strength: 30%, balance: 3%, functional: 0%, flexibility: 18%}
+Output: {cardio: 46%, strength: 32%, balance: 4%, functional: 0%, flexibility: 19%}
 Calculated: Age=37, BMI=25.7, Cooper=0.8mi (9th %ile), Pushups=5 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -191,7 +191,7 @@ personaId: retiree
 description: 65-year-old retiree with lots of time and social motivation
 answers: {age:66; gender:"male"; height_cm:175.0; weight_kg:80.0; primary_motivation:"social_activity"; progress_tracking:"social_sharing"; fitness_goals:"better_health,live_longer"; Q4:0.9; Q4A:"no"; Q4B:""; Q5:10.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:8.0; sugary_treats:"sometimes"; sodas:"rarely"; grains:"often"; alcohol:"sometimes"; session_commitment:"high"; Q1:"none"; Q2:"caution"; Q10:"basic"; Q11:"gym"; birth_year:1959.0}
 
-Output: {cardio: 30%, strength: 29%, balance: 15%, functional: 13%, flexibility: 14%}
+Output: {cardio: 28%, strength: 29%, balance: 15%, functional: 13%, flexibility: 15%}
 Calculated: Age=66, BMI=26.1, Cooper=0.9mi (23th %ile), Pushups=10 (25th %ile)
 --------------------------------------------------------------------------------
 
@@ -199,7 +199,7 @@ personaId: college_student
 description: 20-year-old college student, irregular schedule but gym access
 answers: {age:20; gender:"male"; height_cm:175.0; weight_kg:68.0; primary_motivation:"look_better"; progress_tracking:"social_media"; fitness_goals:"build_muscle,improve_endurance"; Q4:1.2; Q4A:"no"; Q4B:""; Q5:12.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:6.0; sugary_treats:"often"; sodas:"often"; grains:"often"; alcohol:"often"; session_commitment:"high"; Q1:"none"; Q2:"prefer"; Q10:"full_gym"; Q11:"gym"; birth_year:2004.0}
 
-Output: {cardio: 44%, strength: 40%, balance: 4%, functional: 0%, flexibility: 12%}
+Output: {cardio: 42%, strength: 42%, balance: 4%, functional: 0%, flexibility: 13%}
 Calculated: Age=20, BMI=22.2, Cooper=1.2mi (21th %ile), Pushups=12 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -207,7 +207,7 @@ personaId: elderly_fear_falling
 description: 72-year-old with fear of falling but no actual falls
 answers: {age:73; gender:"female"; height_cm:160.0; weight_kg:68.0; primary_motivation:"better_health"; progress_tracking:"weekly_check_ins"; fitness_goals:"better_health,live_longer"; Q4:0.5; Q4A:"no"; Q4B:"fear_falling"; Q5:3.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:7.5; sugary_treats:"rarely"; sodas:"never"; grains:"sometimes"; alcohol:"never"; session_commitment:"moderate"; Q1:"none"; Q2:"caution"; Q10:"basic"; Q11:"home"; birth_year:1952.0}
 
-Output: {cardio: 28%, strength: 28%, balance: 17%, functional: 14%, flexibility: 12%}
+Output: {cardio: 26%, strength: 29%, balance: 18%, functional: 15%, flexibility: 13%}
 Calculated: Age=73, BMI=26.6, Cooper=0.5mi (8th %ile), Pushups=3 (25th %ile)
 --------------------------------------------------------------------------------
 
@@ -215,7 +215,7 @@ personaId: mobility_aids_user
 description: 78-year-old using walker, moderate fitness
 answers: {age:78; gender:"male"; height_cm:172.0; weight_kg:75.0; primary_motivation:"maintain_independence"; progress_tracking:"family_support"; fitness_goals:"better_health,live_longer"; Q4:0.4; Q4A:"no"; Q4B:"mobility_aids"; Q5:2.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:8.0; sugary_treats:"sometimes"; sodas:"rarely"; grains:"often"; alcohol:"rarely"; session_commitment:"low"; Q1:"hip"; Q2:"avoid"; Q10:"basic"; Q11:"physical_therapy"; birth_year:1946.0}
 
-Output: {cardio: 29%, strength: 27%, balance: 18%, functional: 13%, flexibility: 13%}
+Output: {cardio: 26%, strength: 28%, balance: 19%, functional: 14%, flexibility: 14%}
 Calculated: Age=78, BMI=25.4, Cooper=0.4mi (6th %ile), Pushups=2 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -223,7 +223,7 @@ personaId: balance_problems_young
 description: 45-year-old with vestibular issues
 answers: {age:46; gender:"female"; height_cm:168.0; weight_kg:70.0; primary_motivation:"health_management"; progress_tracking:"medical_guidance"; fitness_goals:"better_health"; Q4:0.8; Q4A:"no"; Q4B:"balance"; Q5:8.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:7.0; sugary_treats:"rarely"; sodas:"never"; grains:"sometimes"; alcohol:"never"; session_commitment:"moderate"; Q1:"none"; Q2:"caution"; Q10:"basic"; Q11:"physical_therapy"; birth_year:1979.0}
 
-Output: {cardio: 30%, strength: 31%, balance: 21%, functional: 0%, flexibility: 18%}
+Output: {cardio: 27%, strength: 32%, balance: 22%, functional: 0%, flexibility: 18%}
 Calculated: Age=46, BMI=24.8, Cooper=0.8mi (16th %ile), Pushups=8 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -231,7 +231,7 @@ personaId: multiple_risk_factors
 description: 80-year-old with fear + mobility aids + balance issues
 answers: {age:81; gender:"female"; height_cm:155.0; weight_kg:58.0; primary_motivation:"maintain_independence"; progress_tracking:"family_support"; fitness_goals:"better_health,live_longer"; Q4:0.2; Q4A:"yes"; Q4B:"fear_falling,mobility_aids,balance"; Q5:0.0; Q6A:"no"; glp1_medications:"no"; sleep_hours:9.0; sugary_treats:"rarely"; sodas:"never"; grains:"sometimes"; alcohol:"never"; session_commitment:"very_low"; Q1:"multiple"; Q2:"avoid"; Q10:"none"; Q11:"home"; birth_year:1944.0}
 
-Output: {cardio: 24%, strength: 24%, balance: 14%, functional: 28%, flexibility: 10%}
+Output: {cardio: 22%, strength: 25%, balance: 14%, functional: 28%, flexibility: 11%}
 Calculated: Age=81, BMI=24.1, Cooper=0.2mi (3th %ile), Pushups=0 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -239,7 +239,7 @@ personaId: near_fall_risk
 description: 67-year-old with balance problems but no falls yet
 answers: {age:67; gender:"male"; height_cm:178.0; weight_kg:82.0; primary_motivation:"prevent_decline"; progress_tracking:"monthly_check_ins"; fitness_goals:"better_health,live_longer"; Q4:0.7; Q4A:"no"; Q4B:"balance"; Q5:5.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:7.0; sugary_treats:"sometimes"; sodas:"rarely"; grains:"often"; alcohol:"sometimes"; session_commitment:"moderate"; Q1:"none"; Q2:"caution"; Q10:"basic"; Q11:"gym"; birth_year:1957.0}
 
-Output: {cardio: 29%, strength: 26%, balance: 21%, functional: 11%, flexibility: 13%}
+Output: {cardio: 26%, strength: 27%, balance: 22%, functional: 12%, flexibility: 14%}
 Calculated: Age=67, BMI=25.9, Cooper=0.7mi (9th %ile), Pushups=5 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -255,7 +255,7 @@ personaId: age_50_sedentary
 description: 50-year-old just over functional threshold, sedentary
 answers: {age:51; gender:"female"; height_cm:165.0; weight_kg:75.0; primary_motivation:"better_health"; progress_tracking:"weekly_check_ins"; fitness_goals:"better_health,lose_weight"; Q4:0.6; Q4A:"no"; Q4B:""; Q5:2.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:6.5; sugary_treats:"often"; sodas:"sometimes"; grains:"often"; alcohol:"sometimes"; session_commitment:"low"; Q1:"none"; Q2:"neutral"; Q10:"basic"; Q11:"home"; birth_year:1974.0}
 
-Output: {cardio: 39%, strength: 30%, balance: 13%, functional: 3%, flexibility: 15%}
+Output: {cardio: 36%, strength: 32%, balance: 13%, functional: 3%, flexibility: 16%}
 Calculated: Age=51, BMI=27.5, Cooper=0.6mi (9th %ile), Pushups=2 (10th %ile)
 --------------------------------------------------------------------------------
 
@@ -263,7 +263,7 @@ personaId: age_64_pre_senior
 description: 64-year-old just under fall risk auto-show
 answers: {age:64; gender:"male"; height_cm:175.0; weight_kg:85.0; primary_motivation:"maintain_fitness"; progress_tracking:"monthly_check_ins"; fitness_goals:"better_health,maintain_fitness"; Q4:1.0; Q4A:"no"; Q4B:""; Q5:12.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:7.0; sugary_treats:"sometimes"; sodas:"rarely"; grains:"often"; alcohol:"sometimes"; session_commitment:"moderate"; Q1:"none"; Q2:"neutral"; Q10:"basic"; Q11:"gym"; birth_year:1960.0}
 
-Output: {cardio: 28%, strength: 29%, balance: 11%, functional: 13%, flexibility: 18%}
+Output: {cardio: 27%, strength: 30%, balance: 11%, functional: 14%, flexibility: 18%}
 Calculated: Age=64, BMI=27.8, Cooper=1.0mi (31th %ile), Pushups=12 (25th %ile)
 --------------------------------------------------------------------------------
 
@@ -279,7 +279,7 @@ personaId: obesity_young
 description: 22-year-old BMI 32, early intervention needed
 answers: {age:23; gender:"female"; height_cm:160.0; weight_kg:82.0; primary_motivation:"lose_weight"; progress_tracking:"social_sharing"; fitness_goals:"lose_weight,better_health"; Q4:0.5; Q4A:"no"; Q4B:""; Q5:1.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:6.0; sugary_treats:"often"; sodas:"often"; grains:"often"; alcohol:"sometimes"; session_commitment:"moderate"; Q1:"none"; Q2:"neutral"; Q10:"basic"; Q11:"gym"; birth_year:2002.0}
 
-Output: {cardio: 51%, strength: 27%, balance: 4%, functional: 0%, flexibility: 18%}
+Output: {cardio: 47%, strength: 29%, balance: 4%, functional: 0%, flexibility: 20%}
 Calculated: Age=23, BMI=32.0, Cooper=0.5mi (5th %ile), Pushups=1 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -287,7 +287,7 @@ personaId: obesity_senior
 description: 72-year-old BMI 31, combined age+weight risks
 answers: {age:73; gender:"male"; height_cm:168.0; weight_kg:88.0; primary_motivation:"health_management"; progress_tracking:"medical_guidance"; fitness_goals:"lose_weight,better_health"; Q4:0.3; Q4A:"no"; Q4B:"fear_falling"; Q5:1.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:7.5; sugary_treats:"often"; sodas:"sometimes"; grains:"often"; alcohol:"rarely"; session_commitment:"low"; Q1:"knee"; Q2:"avoid"; Q10:"none"; Q11:"home"; birth_year:1952.0}
 
-Output: {cardio: 32%, strength: 23%, balance: 17%, functional: 14%, flexibility: 14%}
+Output: {cardio: 29%, strength: 24%, balance: 18%, functional: 15%, flexibility: 14%}
 Calculated: Age=73, BMI=31.2, Cooper=0.3mi (4th %ile), Pushups=1 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -303,7 +303,7 @@ personaId: vision_impaired
 description: 55-year-old legally blind, safety concerns
 answers: {age:56; gender:"male"; height_cm:175.0; weight_kg:78.0; primary_motivation:"maintain_independence"; progress_tracking:"audio_guided"; fitness_goals:"better_health,maintain_fitness"; Q4:0.8; Q4A:"no"; Q4B:"balance"; Q5:10.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:8.0; sugary_treats:"rarely"; sodas:"never"; grains:"sometimes"; alcohol:"rarely"; session_commitment:"moderate"; Q1:"vision"; Q2:"caution"; Q10:"adaptive"; Q11:"adaptive_facility"; birth_year:1969.0}
 
-Output: {cardio: 29%, strength: 27%, balance: 21%, functional: 7%, flexibility: 17%}
+Output: {cardio: 26%, strength: 28%, balance: 22%, functional: 7%, flexibility: 17%}
 Calculated: Age=56, BMI=25.5, Cooper=0.8mi (10th %ile), Pushups=10 (25th %ile)
 --------------------------------------------------------------------------------
 
@@ -311,7 +311,7 @@ personaId: pregnancy_second_trimester
 description: 30-year-old pregnant, modified exercise
 answers: {age:31; gender:"female"; height_cm:168.0; weight_kg:72.0; primary_motivation:"healthy_pregnancy"; progress_tracking:"prenatal_guidance"; fitness_goals:"better_health,prepare_for_birth"; Q4:0.9; Q4A:"no"; Q4B:""; Q5:5.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:8.0; sugary_treats:"sometimes"; sodas:"rarely"; grains:"often"; alcohol:"never"; session_commitment:"moderate"; Q1:"pregnancy"; Q2:"prenatal_safe"; Q10:"prenatal"; Q11:"prenatal_class"; birth_year:1994.0}
 
-Output: {cardio: 41%, strength: 33%, balance: 4%, functional: 0%, flexibility: 22%}
+Output: {cardio: 37%, strength: 35%, balance: 5%, functional: 0%, flexibility: 23%}
 Calculated: Age=31, BMI=25.5, Cooper=0.9mi (13th %ile), Pushups=5 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -319,7 +319,7 @@ personaId: stroke_recovery
 description: 60-year-old post-stroke, hemiparesis
 answers: {age:60; gender:"male"; height_cm:170.0; weight_kg:75.0; primary_motivation:"recover_function"; progress_tracking:"medical_guidance"; fitness_goals:"recover_function,prevent_decline"; Q4:0.4; Q4A:"yes"; Q4B:"balance,fear_falling"; Q5:3.0; Q6A:"yes"; glp1_medications:"no"; sleep_hours:8.0; sugary_treats:"rarely"; sodas:"never"; grains:"sometimes"; alcohol:"never"; session_commitment:"moderate"; Q1:"neurological"; Q2:"medical_clearance"; Q10:"medical_supervised"; Q11:"physical_therapy"; birth_year:1964.0}
 
-Output: {cardio: 21%, strength: 20%, balance: 25%, functional: 23%, flexibility: 11%}
+Output: {cardio: 17%, strength: 21%, balance: 26%, functional: 25%, flexibility: 12%}
 Calculated: Age=60, BMI=26.0, Cooper=0.4mi (5th %ile), Pushups=3 (0th %ile)
 --------------------------------------------------------------------------------
 
@@ -330,8 +330,8 @@ Protocol Frequency:
   none: 40 personas
 
 Allocation Ranges:
-  cardio: 20% - 51%
-  strength: 20% - 48%
-  balance: 3% - 25%
+  cardio: 17% - 48%
+  strength: 21% - 49%
+  balance: 3% - 26%
   functional: 0% - 28%
-  flexibility: 10% - 32%
+  flexibility: 10% - 33%

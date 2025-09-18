@@ -1,10 +1,10 @@
 {
-  "generated_at": "2025-09-16T10:14:46.242252",
+  "generated_at": "2025-09-18T15:37:17.039610",
   "total_personas": 40,
   "results": [
     {
       "persona_id": "elderly_fall_history",
-      "timestamp": "2025-09-16T10:14:46.229865",
+      "timestamp": "2025-09-18T15:37:17.025618",
       "calculated_values": {
         "age": 76,
         "bmi": 24.76756591982929,
@@ -14,11 +14,11 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 26,
-        "strength": 26,
-        "balance": 15,
+        "cardio": 23,
+        "strength": 27,
+        "balance": 16,
         "flexibility": 11,
-        "functional": 22
+        "functional": 23
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -27,7 +27,7 @@
         "primary_motivation": "better_health",
         "progress_tracking": "weekly_check_ins",
         "fitness_goals": "better_health,live_longer",
-        "Q4": "0.3",
+        "Q4": "{\"distanceMiles\":0.3,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "yes",
         "Q4B": "fear_falling,balance",
         "Q5": "0.0",
@@ -46,7 +46,7 @@
     },
     {
       "persona_id": "cannot_stand_chair",
-      "timestamp": "2025-09-16T10:14:46.230349",
+      "timestamp": "2025-09-18T15:37:17.026191",
       "calculated_values": {
         "age": 69,
         "bmi": 27.755102040816325,
@@ -56,11 +56,11 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 24,
-        "strength": 22,
-        "balance": 13,
-        "flexibility": 13,
-        "functional": 27
+        "cardio": 21,
+        "strength": 23,
+        "balance": 14,
+        "flexibility": 14,
+        "functional": 28
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -69,7 +69,7 @@
         "primary_motivation": "better_health",
         "progress_tracking": "monthly_check_ins",
         "fitness_goals": "better_health",
-        "Q4": "0.1",
+        "Q4": "{\"distanceMiles\":0.1,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "0.0",
@@ -88,7 +88,7 @@
     },
     {
       "persona_id": "glp1_obesity",
-      "timestamp": "2025-09-16T10:14:46.230668",
+      "timestamp": "2025-09-18T15:37:17.026761",
       "calculated_values": {
         "age": 46,
         "bmi": 34.894398530762174,
@@ -98,10 +98,10 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 37,
-        "strength": 41,
-        "balance": 8,
-        "flexibility": 15,
+        "cardio": 30,
+        "strength": 49,
+        "balance": 7,
+        "flexibility": 14,
         "functional": 0
       },
       "triggered_protocol": null,
@@ -111,7 +111,7 @@
         "primary_motivation": "lose_weight",
         "progress_tracking": "weekly_check_ins",
         "fitness_goals": "lose_weight,better_health",
-        "Q4": "0.6",
+        "Q4": "{\"distanceMiles\":0.6,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "2.0",
@@ -130,7 +130,7 @@
     },
     {
       "persona_id": "extreme_obesity",
-      "timestamp": "2025-09-16T10:14:46.230937",
+      "timestamp": "2025-09-18T15:37:17.027462",
       "calculated_values": {
         "age": 38,
         "bmi": 41.03017295795985,
@@ -140,11 +140,11 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 42,
-        "strength": 24,
+        "cardio": 38,
+        "strength": 26,
         "balance": 3,
-        "flexibility": 16,
-        "functional": 15
+        "flexibility": 17,
+        "functional": 16
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -153,7 +153,7 @@
         "primary_motivation": "lose_weight",
         "progress_tracking": "weekly_check_ins",
         "fitness_goals": "lose_weight,better_health",
-        "Q4": "0.2",
+        "Q4": "{\"distanceMiles\":0.2,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "0.0",
@@ -172,7 +172,7 @@
     },
     {
       "persona_id": "multiple_conditions",
-      "timestamp": "2025-09-16T10:14:46.231220",
+      "timestamp": "2025-09-18T15:37:17.027767",
       "calculated_values": {
         "age": 71,
         "bmi": 33.20312499999999,
@@ -182,11 +182,11 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 26,
-        "strength": 26,
-        "balance": 15,
+        "cardio": 23,
+        "strength": 27,
+        "balance": 16,
         "flexibility": 11,
-        "functional": 22
+        "functional": 23
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -195,7 +195,7 @@
         "primary_motivation": "better_health",
         "progress_tracking": "monthly_check_ins",
         "fitness_goals": "better_health,live_longer",
-        "Q4": "0.4",
+        "Q4": "{\"distanceMiles\":0.4,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "yes",
         "Q4B": "balance,mobility_aids",
         "Q5": "0.0",
@@ -214,7 +214,7 @@
     },
     {
       "persona_id": "young_athlete",
-      "timestamp": "2025-09-16T10:14:46.231560",
+      "timestamp": "2025-09-18T15:37:17.028165",
       "calculated_values": {
         "age": 26,
         "bmi": 23.54788069073783,
@@ -237,7 +237,7 @@
         "primary_motivation": "improve_performance",
         "progress_tracking": "daily_tracking",
         "fitness_goals": "build_muscle,improve_endurance",
-        "Q4": "2.1",
+        "Q4": "{\"distanceMiles\":2.1,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "45.0",
@@ -256,7 +256,7 @@
     },
     {
       "persona_id": "middle_aged_beginner",
-      "timestamp": "2025-09-16T10:14:46.231805",
+      "timestamp": "2025-09-18T15:37:17.028460",
       "calculated_values": {
         "age": 42,
         "bmi": 25.510204081632658,
@@ -266,10 +266,10 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 45,
-        "strength": 31,
-        "balance": 6,
-        "flexibility": 18,
+        "cardio": 41,
+        "strength": 33,
+        "balance": 7,
+        "flexibility": 19,
         "functional": 0
       },
       "triggered_protocol": null,
@@ -279,7 +279,7 @@
         "primary_motivation": "better_health",
         "progress_tracking": "weekly_check_ins",
         "fitness_goals": "better_health,lose_weight",
-        "Q4": "0.7",
+        "Q4": "{\"distanceMiles\":0.7,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "3.0",
@@ -298,7 +298,7 @@
     },
     {
       "persona_id": "active_senior",
-      "timestamp": "2025-09-16T10:14:46.232872",
+      "timestamp": "2025-09-18T15:37:17.029499",
       "calculated_values": {
         "age": 69,
         "bmi": 24.489795918367346,
@@ -321,7 +321,7 @@
         "primary_motivation": "maintain_fitness",
         "progress_tracking": "monthly_check_ins",
         "fitness_goals": "better_health,live_longer",
-        "Q4": "1.1",
+        "Q4": "{\"distanceMiles\":1.1,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "8.0",
@@ -340,7 +340,7 @@
     },
     {
       "persona_id": "frail_elderly",
-      "timestamp": "2025-09-16T10:14:46.233180",
+      "timestamp": "2025-09-18T15:37:17.029812",
       "calculated_values": {
         "age": 83,
         "bmi": 22.031725684986377,
@@ -350,11 +350,11 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 23,
+        "cardio": 21,
         "strength": 24,
         "balance": 19,
         "flexibility": 10,
-        "functional": 24
+        "functional": 25
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -363,7 +363,7 @@
         "primary_motivation": "maintain_independence",
         "progress_tracking": "family_support",
         "fitness_goals": "better_health,live_longer",
-        "Q4": "0.2",
+        "Q4": "{\"distanceMiles\":0.2,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": "balance,fear_falling",
         "Q5": "0.0",
@@ -382,7 +382,7 @@
     },
     {
       "persona_id": "teen_starter",
-      "timestamp": "2025-09-16T10:14:46.233439",
+      "timestamp": "2025-09-18T15:37:17.030091",
       "calculated_values": {
         "age": 17,
         "bmi": 21.30394857667585,
@@ -392,10 +392,10 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 34,
-        "strength": 45,
+        "cardio": 30,
+        "strength": 47,
         "balance": 4,
-        "flexibility": 18,
+        "flexibility": 19,
         "functional": 0
       },
       "triggered_protocol": null,
@@ -405,7 +405,7 @@
         "primary_motivation": "look_better",
         "progress_tracking": "social_sharing",
         "fitness_goals": "build_muscle,better_health",
-        "Q4": "1.0",
+        "Q4": "{\"distanceMiles\":1.0,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "8.0",
@@ -424,7 +424,7 @@
     },
     {
       "persona_id": "deconditioned_adult",
-      "timestamp": "2025-09-16T10:14:46.233689",
+      "timestamp": "2025-09-18T15:37:17.030393",
       "calculated_values": {
         "age": 35,
         "bmi": 27.777777777777775,
@@ -434,10 +434,10 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 50,
-        "strength": 28,
+        "cardio": 46,
+        "strength": 30,
         "balance": 4,
-        "flexibility": 18,
+        "flexibility": 20,
         "functional": 0
       },
       "triggered_protocol": null,
@@ -447,7 +447,7 @@
         "primary_motivation": "better_health",
         "progress_tracking": "weekly_check_ins",
         "fitness_goals": "lose_weight,better_health",
-        "Q4": "0.4",
+        "Q4": "{\"distanceMiles\":0.4,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "0.0",
@@ -466,7 +466,7 @@
     },
     {
       "persona_id": "weekend_warrior",
-      "timestamp": "2025-09-16T10:14:46.233982",
+      "timestamp": "2025-09-18T15:37:17.030676",
       "calculated_values": {
         "age": 49,
         "bmi": 25.88057063502083,
@@ -489,7 +489,7 @@
         "primary_motivation": "maintain_fitness",
         "progress_tracking": "weekly_check_ins",
         "fitness_goals": "better_health,build_muscle",
-        "Q4": "1.2",
+        "Q4": "{\"distanceMiles\":1.2,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "15.0",
@@ -508,7 +508,7 @@
     },
     {
       "persona_id": "former_athlete",
-      "timestamp": "2025-09-16T10:14:46.234297",
+      "timestamp": "2025-09-18T15:37:17.030924",
       "calculated_values": {
         "age": 56,
         "bmi": 27.757487216946675,
@@ -518,11 +518,11 @@
         "pushup_percentile": 0.75
       },
       "allocations": {
-        "cardio": 41,
-        "strength": 26,
-        "balance": 10,
-        "flexibility": 16,
-        "functional": 6
+        "cardio": 38,
+        "strength": 27,
+        "balance": 11,
+        "flexibility": 17,
+        "functional": 7
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -531,7 +531,7 @@
         "primary_motivation": "better_health",
         "progress_tracking": "monthly_check_ins",
         "fitness_goals": "improve_endurance,better_health",
-        "Q4": "0.8",
+        "Q4": "{\"distanceMiles\":0.8,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "25.0",
@@ -550,7 +550,7 @@
     },
     {
       "persona_id": "yoga_practitioner",
-      "timestamp": "2025-09-16T10:14:46.234556",
+      "timestamp": "2025-09-18T15:37:17.031171",
       "calculated_values": {
         "age": 40,
         "bmi": 21.453287197231838,
@@ -560,9 +560,9 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 20,
+        "cardio": 19,
         "strength": 45,
-        "balance": 7,
+        "balance": 8,
         "flexibility": 28,
         "functional": 0
       },
@@ -573,7 +573,7 @@
         "primary_motivation": "better_health",
         "progress_tracking": "mindful_practice",
         "fitness_goals": "build_muscle,increase_flexibility",
-        "Q4": "1.0",
+        "Q4": "{\"distanceMiles\":1.0,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "5.0",
@@ -592,7 +592,7 @@
     },
     {
       "persona_id": "marathon_runner",
-      "timestamp": "2025-09-16T10:14:46.234826",
+      "timestamp": "2025-09-18T15:37:17.031439",
       "calculated_values": {
         "age": 34,
         "bmi": 20.202020202020204,
@@ -615,7 +615,7 @@
         "primary_motivation": "improve_performance",
         "progress_tracking": "data_driven",
         "fitness_goals": "build_muscle,improve_endurance",
-        "Q4": "2.3",
+        "Q4": "{\"distanceMiles\":2.3,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "2.0",
@@ -634,7 +634,7 @@
     },
     {
       "persona_id": "post_surgery",
-      "timestamp": "2025-09-16T10:14:46.235086",
+      "timestamp": "2025-09-18T15:37:17.031780",
       "calculated_values": {
         "age": 53,
         "bmi": 27.968016063681024,
@@ -644,11 +644,11 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 27,
-        "strength": 28,
-        "balance": 11,
+        "cardio": 24,
+        "strength": 29,
+        "balance": 12,
         "flexibility": 14,
-        "functional": 20
+        "functional": 21
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -657,7 +657,7 @@
         "primary_motivation": "recover_function",
         "progress_tracking": "medical_guidance",
         "fitness_goals": "better_health",
-        "Q4": "0.5",
+        "Q4": "{\"distanceMiles\":0.5,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "8.0",
@@ -676,7 +676,7 @@
     },
     {
       "persona_id": "chronic_back_pain",
-      "timestamp": "2025-09-16T10:14:46.235334",
+      "timestamp": "2025-09-18T15:37:17.032081",
       "calculated_values": {
         "age": 47,
         "bmi": 27.755102040816325,
@@ -686,10 +686,10 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 33,
-        "strength": 29,
-        "balance": 6,
-        "flexibility": 32,
+        "cardio": 29,
+        "strength": 31,
+        "balance": 7,
+        "flexibility": 33,
         "functional": 0
       },
       "triggered_protocol": null,
@@ -699,7 +699,7 @@
         "primary_motivation": "pain_management",
         "progress_tracking": "symptom_tracking",
         "fitness_goals": "better_health,increase_flexibility",
-        "Q4": "0.9",
+        "Q4": "{\"distanceMiles\":0.9,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "12.0",
@@ -718,7 +718,7 @@
     },
     {
       "persona_id": "diabetes_type2",
-      "timestamp": "2025-09-16T10:14:46.235570",
+      "timestamp": "2025-09-18T15:37:17.032341",
       "calculated_values": {
         "age": 58,
         "bmi": 29.745808545159548,
@@ -728,11 +728,11 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 40,
-        "strength": 27,
-        "balance": 10,
+        "cardio": 37,
+        "strength": 28,
+        "balance": 11,
         "flexibility": 17,
-        "functional": 6
+        "functional": 7
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -741,7 +741,7 @@
         "primary_motivation": "health_management",
         "progress_tracking": "medical_guidance",
         "fitness_goals": "lose_weight,better_health",
-        "Q4": "0.7",
+        "Q4": "{\"distanceMiles\":0.7,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "6.0",
@@ -760,7 +760,7 @@
     },
     {
       "persona_id": "underweight",
-      "timestamp": "2025-09-16T10:14:46.235822",
+      "timestamp": "2025-09-18T15:37:17.032596",
       "calculated_values": {
         "age": 29,
         "bmi": 17.901234567901234,
@@ -770,10 +770,10 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 32,
-        "strength": 46,
+        "cardio": 30,
+        "strength": 47,
         "balance": 4,
-        "flexibility": 18,
+        "flexibility": 19,
         "functional": 0
       },
       "triggered_protocol": null,
@@ -783,7 +783,7 @@
         "primary_motivation": "build_muscle",
         "progress_tracking": "weight_gain",
         "fitness_goals": "build_muscle,better_health",
-        "Q4": "1.3",
+        "Q4": "{\"distanceMiles\":1.3,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "8.0",
@@ -802,7 +802,7 @@
     },
     {
       "persona_id": "postpartum",
-      "timestamp": "2025-09-16T10:14:46.236066",
+      "timestamp": "2025-09-18T15:37:17.032888",
       "calculated_values": {
         "age": 33,
         "bmi": 26.573129251700685,
@@ -812,10 +812,10 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 43,
-        "strength": 41,
+        "cardio": 38,
+        "strength": 44,
         "balance": 4,
-        "flexibility": 12,
+        "flexibility": 13,
         "functional": 0
       },
       "triggered_protocol": null,
@@ -825,7 +825,7 @@
         "primary_motivation": "get_back_in_shape",
         "progress_tracking": "body_changes",
         "fitness_goals": "lose_weight,build_muscle",
-        "Q4": "0.8",
+        "Q4": "{\"distanceMiles\":0.8,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "3.0",
@@ -844,7 +844,7 @@
     },
     {
       "persona_id": "busy_executive",
-      "timestamp": "2025-09-16T10:14:46.236334",
+      "timestamp": "2025-09-18T15:37:17.033225",
       "calculated_values": {
         "age": 45,
         "bmi": 26.82742078020452,
@@ -854,10 +854,10 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 32,
-        "strength": 44,
-        "balance": 6,
-        "flexibility": 18,
+        "cardio": 28,
+        "strength": 46,
+        "balance": 7,
+        "flexibility": 19,
         "functional": 0
       },
       "triggered_protocol": null,
@@ -867,7 +867,7 @@
         "primary_motivation": "stress_management",
         "progress_tracking": "efficiency_focus",
         "fitness_goals": "better_health,build_muscle",
-        "Q4": "0.9",
+        "Q4": "{\"distanceMiles\":0.9,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "12.0",
@@ -886,7 +886,7 @@
     },
     {
       "persona_id": "night_shift_worker",
-      "timestamp": "2025-09-16T10:14:46.236563",
+      "timestamp": "2025-09-18T15:37:17.033652",
       "calculated_values": {
         "age": 37,
         "bmi": 25.71166207529844,
@@ -896,10 +896,10 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 49,
-        "strength": 30,
-        "balance": 3,
-        "flexibility": 18,
+        "cardio": 46,
+        "strength": 32,
+        "balance": 4,
+        "flexibility": 19,
         "functional": 0
       },
       "triggered_protocol": null,
@@ -909,7 +909,7 @@
         "primary_motivation": "energy_levels",
         "progress_tracking": "energy_tracking",
         "fitness_goals": "better_health,improve_endurance",
-        "Q4": "0.8",
+        "Q4": "{\"distanceMiles\":0.8,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "5.0",
@@ -928,7 +928,7 @@
     },
     {
       "persona_id": "homebound_parent",
-      "timestamp": "2025-09-16T10:14:46.237259",
+      "timestamp": "2025-09-18T15:37:17.034408",
       "calculated_values": {
         "age": 40,
         "bmi": 23.529411764705884,
@@ -951,7 +951,7 @@
         "primary_motivation": "be_good_example",
         "progress_tracking": "family_accountability",
         "fitness_goals": "better_health,build_muscle",
-        "Q4": "1.0",
+        "Q4": "{\"distanceMiles\":1.0,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "8.0",
@@ -970,7 +970,7 @@
     },
     {
       "persona_id": "retiree",
-      "timestamp": "2025-09-16T10:14:46.237637",
+      "timestamp": "2025-09-18T15:37:17.034724",
       "calculated_values": {
         "age": 66,
         "bmi": 26.122448979591837,
@@ -980,10 +980,10 @@
         "pushup_percentile": 0.25
       },
       "allocations": {
-        "cardio": 30,
+        "cardio": 28,
         "strength": 29,
         "balance": 15,
-        "flexibility": 14,
+        "flexibility": 15,
         "functional": 13
       },
       "triggered_protocol": null,
@@ -993,7 +993,7 @@
         "primary_motivation": "social_activity",
         "progress_tracking": "social_sharing",
         "fitness_goals": "better_health,live_longer",
-        "Q4": "0.9",
+        "Q4": "{\"distanceMiles\":0.9,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "10.0",
@@ -1012,7 +1012,7 @@
     },
     {
       "persona_id": "college_student",
-      "timestamp": "2025-09-16T10:14:46.237908",
+      "timestamp": "2025-09-18T15:37:17.034996",
       "calculated_values": {
         "age": 20,
         "bmi": 22.20408163265306,
@@ -1022,10 +1022,10 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 44,
-        "strength": 40,
+        "cardio": 42,
+        "strength": 42,
         "balance": 4,
-        "flexibility": 12,
+        "flexibility": 13,
         "functional": 0
       },
       "triggered_protocol": null,
@@ -1035,7 +1035,7 @@
         "primary_motivation": "look_better",
         "progress_tracking": "social_media",
         "fitness_goals": "build_muscle,improve_endurance",
-        "Q4": "1.2",
+        "Q4": "{\"distanceMiles\":1.2,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "12.0",
@@ -1054,7 +1054,7 @@
     },
     {
       "persona_id": "elderly_fear_falling",
-      "timestamp": "2025-09-16T10:14:46.238152",
+      "timestamp": "2025-09-18T15:37:17.035253",
       "calculated_values": {
         "age": 73,
         "bmi": 26.562499999999996,
@@ -1064,11 +1064,11 @@
         "pushup_percentile": 0.25
       },
       "allocations": {
-        "cardio": 28,
-        "strength": 28,
-        "balance": 17,
-        "flexibility": 12,
-        "functional": 14
+        "cardio": 26,
+        "strength": 29,
+        "balance": 18,
+        "flexibility": 13,
+        "functional": 15
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -1077,7 +1077,7 @@
         "primary_motivation": "better_health",
         "progress_tracking": "weekly_check_ins",
         "fitness_goals": "better_health,live_longer",
-        "Q4": "0.5",
+        "Q4": "{\"distanceMiles\":0.5,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": "fear_falling",
         "Q5": "3.0",
@@ -1096,7 +1096,7 @@
     },
     {
       "persona_id": "mobility_aids_user",
-      "timestamp": "2025-09-16T10:14:46.238391",
+      "timestamp": "2025-09-18T15:37:17.035519",
       "calculated_values": {
         "age": 78,
         "bmi": 25.351541373715524,
@@ -1106,11 +1106,11 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 29,
-        "strength": 27,
-        "balance": 18,
-        "flexibility": 13,
-        "functional": 13
+        "cardio": 26,
+        "strength": 28,
+        "balance": 19,
+        "flexibility": 14,
+        "functional": 14
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -1119,7 +1119,7 @@
         "primary_motivation": "maintain_independence",
         "progress_tracking": "family_support",
         "fitness_goals": "better_health,live_longer",
-        "Q4": "0.4",
+        "Q4": "{\"distanceMiles\":0.4,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": "mobility_aids",
         "Q5": "2.0",
@@ -1138,7 +1138,7 @@
     },
     {
       "persona_id": "balance_problems_young",
-      "timestamp": "2025-09-16T10:14:46.238656",
+      "timestamp": "2025-09-18T15:37:17.035845",
       "calculated_values": {
         "age": 46,
         "bmi": 24.801587301587304,
@@ -1148,9 +1148,9 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 30,
-        "strength": 31,
-        "balance": 21,
+        "cardio": 27,
+        "strength": 32,
+        "balance": 22,
         "flexibility": 18,
         "functional": 0
       },
@@ -1161,7 +1161,7 @@
         "primary_motivation": "health_management",
         "progress_tracking": "medical_guidance",
         "fitness_goals": "better_health",
-        "Q4": "0.8",
+        "Q4": "{\"distanceMiles\":0.8,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": "balance",
         "Q5": "8.0",
@@ -1180,7 +1180,7 @@
     },
     {
       "persona_id": "multiple_risk_factors",
-      "timestamp": "2025-09-16T10:14:46.238886",
+      "timestamp": "2025-09-18T15:37:17.036114",
       "calculated_values": {
         "age": 81,
         "bmi": 24.141519250780433,
@@ -1190,10 +1190,10 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 24,
-        "strength": 24,
+        "cardio": 22,
+        "strength": 25,
         "balance": 14,
-        "flexibility": 10,
+        "flexibility": 11,
         "functional": 28
       },
       "triggered_protocol": null,
@@ -1203,7 +1203,7 @@
         "primary_motivation": "maintain_independence",
         "progress_tracking": "family_support",
         "fitness_goals": "better_health,live_longer",
-        "Q4": "0.2",
+        "Q4": "{\"distanceMiles\":0.2,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "yes",
         "Q4B": "fear_falling,mobility_aids,balance",
         "Q5": "0.0",
@@ -1222,7 +1222,7 @@
     },
     {
       "persona_id": "near_fall_risk",
-      "timestamp": "2025-09-16T10:14:46.239109",
+      "timestamp": "2025-09-18T15:37:17.036358",
       "calculated_values": {
         "age": 67,
         "bmi": 25.88057063502083,
@@ -1232,11 +1232,11 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 29,
-        "strength": 26,
-        "balance": 21,
-        "flexibility": 13,
-        "functional": 11
+        "cardio": 26,
+        "strength": 27,
+        "balance": 22,
+        "flexibility": 14,
+        "functional": 12
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -1245,7 +1245,7 @@
         "primary_motivation": "prevent_decline",
         "progress_tracking": "monthly_check_ins",
         "fitness_goals": "better_health,live_longer",
-        "Q4": "0.7",
+        "Q4": "{\"distanceMiles\":0.7,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": "balance",
         "Q5": "5.0",
@@ -1264,7 +1264,7 @@
     },
     {
       "persona_id": "age_49_active",
-      "timestamp": "2025-09-16T10:14:46.239339",
+      "timestamp": "2025-09-18T15:37:17.036599",
       "calculated_values": {
         "age": 50,
         "bmi": 24.691358024691358,
@@ -1287,7 +1287,7 @@
         "primary_motivation": "maintain_fitness",
         "progress_tracking": "data_driven",
         "fitness_goals": "maintain_fitness,improve_endurance",
-        "Q4": "1.4",
+        "Q4": "{\"distanceMiles\":1.4,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "20.0",
@@ -1306,7 +1306,7 @@
     },
     {
       "persona_id": "age_50_sedentary",
-      "timestamp": "2025-09-16T10:14:46.239560",
+      "timestamp": "2025-09-18T15:37:17.036935",
       "calculated_values": {
         "age": 51,
         "bmi": 27.548209366391188,
@@ -1316,10 +1316,10 @@
         "pushup_percentile": 0.1
       },
       "allocations": {
-        "cardio": 39,
-        "strength": 30,
+        "cardio": 36,
+        "strength": 32,
         "balance": 13,
-        "flexibility": 15,
+        "flexibility": 16,
         "functional": 3
       },
       "triggered_protocol": null,
@@ -1329,7 +1329,7 @@
         "primary_motivation": "better_health",
         "progress_tracking": "weekly_check_ins",
         "fitness_goals": "better_health,lose_weight",
-        "Q4": "0.6",
+        "Q4": "{\"distanceMiles\":0.6,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "2.0",
@@ -1348,7 +1348,7 @@
     },
     {
       "persona_id": "age_64_pre_senior",
-      "timestamp": "2025-09-16T10:14:46.239790",
+      "timestamp": "2025-09-18T15:37:17.037196",
       "calculated_values": {
         "age": 64,
         "bmi": 27.755102040816325,
@@ -1358,11 +1358,11 @@
         "pushup_percentile": 0.25
       },
       "allocations": {
-        "cardio": 28,
-        "strength": 29,
+        "cardio": 27,
+        "strength": 30,
         "balance": 11,
         "flexibility": 18,
-        "functional": 13
+        "functional": 14
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -1371,7 +1371,7 @@
         "primary_motivation": "maintain_fitness",
         "progress_tracking": "monthly_check_ins",
         "fitness_goals": "better_health,maintain_fitness",
-        "Q4": "1.0",
+        "Q4": "{\"distanceMiles\":1.0,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "12.0",
@@ -1390,7 +1390,7 @@
     },
     {
       "persona_id": "overweight_athlete",
-      "timestamp": "2025-09-16T10:14:46.240046",
+      "timestamp": "2025-09-18T15:37:17.037431",
       "calculated_values": {
         "age": 36,
         "bmi": 28.04967129291453,
@@ -1413,7 +1413,7 @@
         "primary_motivation": "lose_weight",
         "progress_tracking": "data_driven",
         "fitness_goals": "lose_weight,maintain_fitness",
-        "Q4": "1.3",
+        "Q4": "{\"distanceMiles\":1.3,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "35.0",
@@ -1432,7 +1432,7 @@
     },
     {
       "persona_id": "obesity_young",
-      "timestamp": "2025-09-16T10:14:46.240265",
+      "timestamp": "2025-09-18T15:37:17.037667",
       "calculated_values": {
         "age": 23,
         "bmi": 32.03124999999999,
@@ -1442,10 +1442,10 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 51,
-        "strength": 27,
+        "cardio": 47,
+        "strength": 29,
         "balance": 4,
-        "flexibility": 18,
+        "flexibility": 20,
         "functional": 0
       },
       "triggered_protocol": null,
@@ -1455,7 +1455,7 @@
         "primary_motivation": "lose_weight",
         "progress_tracking": "social_sharing",
         "fitness_goals": "lose_weight,better_health",
-        "Q4": "0.5",
+        "Q4": "{\"distanceMiles\":0.5,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "1.0",
@@ -1474,7 +1474,7 @@
     },
     {
       "persona_id": "obesity_senior",
-      "timestamp": "2025-09-16T10:14:46.240477",
+      "timestamp": "2025-09-18T15:37:17.037924",
       "calculated_values": {
         "age": 73,
         "bmi": 31.17913832199547,
@@ -1484,11 +1484,11 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 32,
-        "strength": 23,
-        "balance": 17,
+        "cardio": 29,
+        "strength": 24,
+        "balance": 18,
         "flexibility": 14,
-        "functional": 14
+        "functional": 15
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -1497,7 +1497,7 @@
         "primary_motivation": "health_management",
         "progress_tracking": "medical_guidance",
         "fitness_goals": "lose_weight,better_health",
-        "Q4": "0.3",
+        "Q4": "{\"distanceMiles\":0.3,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": "fear_falling",
         "Q5": "1.0",
@@ -1516,7 +1516,7 @@
     },
     {
       "persona_id": "wheelchair_user",
-      "timestamp": "2025-09-16T10:14:46.240691",
+      "timestamp": "2025-09-18T15:37:17.038154",
       "calculated_values": {
         "age": 40,
         "bmi": 23.875114784205696,
@@ -1539,7 +1539,7 @@
         "primary_motivation": "maintain_fitness",
         "progress_tracking": "adaptive_tracking",
         "fitness_goals": "build_muscle,improve_endurance",
-        "Q4": "0.0",
+        "Q4": "{\"distanceMiles\":0.0,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "15.0",
@@ -1558,7 +1558,7 @@
     },
     {
       "persona_id": "vision_impaired",
-      "timestamp": "2025-09-16T10:14:46.240908",
+      "timestamp": "2025-09-18T15:37:17.038384",
       "calculated_values": {
         "age": 56,
         "bmi": 25.46938775510204,
@@ -1568,9 +1568,9 @@
         "pushup_percentile": 0.25
       },
       "allocations": {
-        "cardio": 29,
-        "strength": 27,
-        "balance": 21,
+        "cardio": 26,
+        "strength": 28,
+        "balance": 22,
         "flexibility": 17,
         "functional": 7
       },
@@ -1581,7 +1581,7 @@
         "primary_motivation": "maintain_independence",
         "progress_tracking": "audio_guided",
         "fitness_goals": "better_health,maintain_fitness",
-        "Q4": "0.8",
+        "Q4": "{\"distanceMiles\":0.8,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": "balance",
         "Q5": "10.0",
@@ -1600,7 +1600,7 @@
     },
     {
       "persona_id": "pregnancy_second_trimester",
-      "timestamp": "2025-09-16T10:14:46.241154",
+      "timestamp": "2025-09-18T15:37:17.038625",
       "calculated_values": {
         "age": 31,
         "bmi": 25.510204081632658,
@@ -1610,10 +1610,10 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 41,
-        "strength": 33,
-        "balance": 4,
-        "flexibility": 22,
+        "cardio": 37,
+        "strength": 35,
+        "balance": 5,
+        "flexibility": 23,
         "functional": 0
       },
       "triggered_protocol": null,
@@ -1623,7 +1623,7 @@
         "primary_motivation": "healthy_pregnancy",
         "progress_tracking": "prenatal_guidance",
         "fitness_goals": "better_health,prepare_for_birth",
-        "Q4": "0.9",
+        "Q4": "{\"distanceMiles\":0.9,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "no",
         "Q4B": null,
         "Q5": "5.0",
@@ -1642,7 +1642,7 @@
     },
     {
       "persona_id": "stroke_recovery",
-      "timestamp": "2025-09-16T10:14:46.241377",
+      "timestamp": "2025-09-18T15:37:17.038865",
       "calculated_values": {
         "age": 60,
         "bmi": 25.95155709342561,
@@ -1652,11 +1652,11 @@
         "pushup_percentile": 0.0
       },
       "allocations": {
-        "cardio": 21,
-        "strength": 20,
-        "balance": 25,
-        "flexibility": 11,
-        "functional": 23
+        "cardio": 17,
+        "strength": 21,
+        "balance": 26,
+        "flexibility": 12,
+        "functional": 25
       },
       "triggered_protocol": null,
       "raw_answers": {
@@ -1665,7 +1665,7 @@
         "primary_motivation": "recover_function",
         "progress_tracking": "medical_guidance",
         "fitness_goals": "recover_function,prevent_decline",
-        "Q4": "0.4",
+        "Q4": "{\"distanceMiles\":0.4,\"timeMinutes\":12,\"selectedUnit\":\"miles\"}",
         "Q4A": "yes",
         "Q4B": "balance,fear_falling",
         "Q5": "3.0",

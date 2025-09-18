@@ -1,25 +1,118 @@
-fitness_profile_model overview
-
-fitness_profile.dart — central orchestrator
-- Accepts onboarding answers, seeds feature map, and triggers every extraction extension.
-- Loads/saves feature weights via `LocalStorageService` so scores persist between sessions.
-- Exposes the ordered numeric vector (`features`) consumed by downstream plan builders.
-
-fitness_profile_extraction_extensions/
-- age_bracket.dart — assigns baseline intensity multipliers from age buckets.
-- strength.dart — converts push-up/squat answers into strength feature weights.
-- balance.dart — boosts balance & stability dimensions using assessment questions.
-- low_impact.dart — raises low-impact preference when injuries or constraints are flagged.
-- flexibility.dart — maps stretching/mobility responses into flexibility weightings.
-- cardio.dart — scores aerobic capacity and cardio preference from endurance questions.
-- weight_management.dart — emphasises calorie burn goals and metabolic focus.
-- relative_objective_importance.dart — normalises modality weights into a priority distribution.
-- injuries.dart — applies penalties or safety flags based on reported injuries/limitations.
+fitness_profile_model/ // Onboarding answers → weighted feature vector
+├── fitness_profile.dart // Seeds feature map, reloads persisted values, triggers extractors
+└── fitness_profile_extraction_extensions/
+    ├── age_bracket.dart
+    │   ├── feature: FeatureConstants.ageBracketUnder20
+    │   ├── feature: FeatureConstants.ageBracket20To29
+    │   ├── feature: FeatureConstants.ageBracket30To39
+    │   ├── feature: FeatureConstants.ageBracket40To49
+    │   ├── feature: FeatureConstants.ageBracket50To59
+    │   ├── feature: FeatureConstants.ageBracket60To69
+    │   └── feature: FeatureConstants.ageBracket70Plus
+    ├── cardio.dart
+    │   ├── feature: cardio_pace
+    │   ├── feature: vo2max
+    │   ├── feature: mets_capacity
+    │   ├── feature: cardio_fitness_percentile
+    │   ├── feature: max_heart_rate
+    │   ├── feature: hr_zone1
+    │   ├── feature: hr_zone2
+    │   ├── feature: hr_zone3
+    │   ├── feature: hr_zone4
+    │   ├── feature: hr_zone5
+    │   ├── feature: met_zone1
+    │   ├── feature: met_zone2
+    │   ├── feature: met_zone3
+    │   ├── feature: met_zone4
+    │   ├── feature: met_zone5
+    │   └── feature: cardio_recovery_days
+    ├── strength.dart
+    │   ├── feature: upper_body_strength_percentile
+    │   ├── feature: lower_body_strength_percentile
+    │   ├── feature: strength_fitness_percentile
+    │   ├── feature: upper_body_equivalent_age
+    │   ├── feature: lower_body_equivalent_age
+    │   ├── feature: strength_equivalent_age
+    │   ├── feature: pushup_count
+    │   ├── feature: squat_count
+    │   ├── feature: upper_body_endurance_capacity
+    │   ├── feature: lower_body_endurance_capacity
+    │   ├── feature: muscle_endurance_capacity
+    │   ├── feature: functional_strength_level
+    │   ├── feature: strength_age_factor
+    │   ├── feature: needs_basic_strength
+    │   ├── feature: needs_functional_training
+    │   ├── feature: needs_seated_exercises
+    │   ├── feature: can_do_chair_stand
+    │   ├── feature: fall_risk_modifier
+    │   ├── feature: strength_optimal_rep_range_min
+    │   ├── feature: strength_optimal_rep_range_max
+    │   ├── feature: strength_recovery_hours
+    │   ├── feature: strength_volume_factor
+    │   └── feature: strength_gender_factor
+    ├── balance.dart
+    │   ├── feature: fall_risk_score
+    │   ├── feature: balance_capacity
+    │   └── feature: mobility_index
+    ├── flexibility.dart
+    │   ├── feature: flexibility_baseline
+    │   ├── feature: shoulder_flexibility
+    │   ├── feature: spine_flexibility
+    │   ├── feature: hip_flexibility
+    │   ├── feature: stretch_hold_time_sec
+    │   ├── feature: stretch_frequency_per_week
+    │   └── feature: stretch_recovery_hours
+    ├── low_impact.dart
+    │   ├── feature: joint_health_score
+    │   ├── feature: impact_tolerance
+    │   ├── feature: joint_loading_capacity
+    │   └── feature: joint_recovery_hours
+    ├── weight_management.dart
+    │   ├── feature: has_weight_data
+    │   ├── feature: weight_pounds
+    │   ├── feature: height_inches
+    │   ├── feature: bmi
+    │   ├── feature: weight_status
+    │   ├── feature: weight_status_category
+    │   ├── feature: weight_objective
+    │   ├── feature: weight_deviation_percent
+    │   ├── feature: weekly_weight_goal
+    │   ├── feature: daily_calorie_adjustment
+    │   ├── feature: preferred_training_intensity
+    │   ├── feature: max_training_intensity
+    │   ├── feature: session_duration_min
+    │   ├── feature: session_duration_max
+    │   ├── feature: weekly_cardio_minutes_target
+    │   ├── feature: cardio_priority_weight
+    │   ├── feature: resistance_priority_weight
+    │   ├── feature: weight_loss_priority
+    │   ├── feature: weight_gain_priority
+    │   ├── feature: weight_maintenance_priority
+    │   ├── feature: muscle_preservation_priority
+    │   ├── feature: progression_rate_modifier
+    │   ├── feature: recovery_time_multiplier
+    │   ├── feature: joint_stress_modifier
+    │   ├── feature: needs_weight_loss
+    │   ├── feature: needs_weight_gain
+    │   ├── feature: ideal_weight_min
+    │   ├── feature: ideal_weight_max
+    │   ├── feature: water_exercise_preference
+    │   ├── feature: high_impact_cardio_preference
+    │   ├── feature: low_impact_cardio_preference
+    │   └── feature: health_risk_bmi
+    ├── relative_objective_importance.dart
+    │   ├── feature: FeatureConstants.categoryCardio
+    │   ├── feature: FeatureConstants.categoryStrength
+    │   ├── feature: FeatureConstants.categoryBalance
+    │   ├── feature: FeatureConstants.categoryStretching
+    │   └── feature: FeatureConstants.categoryFunctional
+    └── injuries.dart
+        └── feature: (none yet)
 
 reference_data/
-- acsm_cardio_norms.dart — cardio benchmark tables (vo2, run times) used by cardio scorer.
-- acsm_pushup_norms.dart — push-up percentile lookup powering strength computations.
-- acsm_squat_norms.dart — bodyweight squat benchmarks referenced by strength scorer.
-- age_group_utility.dart — helper utilities for age-based lookups across extensions.
+├── acsm_cardio_norms.dart
+├── acsm_pushup_norms.dart
+├── acsm_squat_norms.dart
+└── age_group_utility.dart
 
-Together these files transform raw onboarding responses into the weighted feature vector that the plan generation pipeline consumes.
+Result: `featuresMap` holds modality priorities, risk modifiers, and training parameters for plan generation.

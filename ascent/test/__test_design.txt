@@ -1,0 +1,11 @@
+test/ // QA harness for onboarding-derived profile metrics
+└── onboarding_personas_test.dart
+    ├── loads persona_definitions.dart fixtures into QuestionBank
+    ├── executes FitnessProfile to capture real feature map outputs
+    └── session_commitment verification
+        ├── feature: full_sessions_per_week  // expects SessionCommitmentQuestion full-session count
+        ├── feature: micro_sessions_per_week // expects micro-session count coverage
+        ├── feature: total_training_days     // ensures overlap handling renders correct day totals
+        └── feature: weekly_training_minutes // validates duration-based commitment math
+
+Command: `flutter test test/onboarding_personas_test.dart`
