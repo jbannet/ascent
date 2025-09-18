@@ -14,8 +14,8 @@ class Plan {
 
   Plan({
     required this.planProgress,
-    required schedule,
-  }) : schedule = schedule;
+    required this.schedule,
+  });
 
   factory Plan.fromJson(Map<String, dynamic> json) {
     if (json[PlanFields.scheduleField] == null) {
@@ -49,10 +49,4 @@ class Plan {
   // Delegate to schedule for getting next 4 weeks
   List<WeekOfWorkouts> getNext4Weeks() => schedule.next4Weeks;
 
-  
-
-
 }
-
-DateTime _dateFromJson(String value) => DateTime.parse(value);
-String _dateToJson(DateTime value) => value.toIso8601String().split('T').first;

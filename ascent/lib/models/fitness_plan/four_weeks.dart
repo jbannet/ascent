@@ -33,12 +33,10 @@ class FourWeeks {
     return filledWeeks;
   })();
 
-
+  //MARK: Computed
   /// Get all weeks (current + next)
   List<WeekOfWorkouts> get allWeeks => [currentWeek, ...nextWeeks];
 
-  //*************************************************************************
-  //MARK: Computed
   /// Get style allocation calculations for all workouts
   StyleAllocation get styleAllocationInPercentages {
     StyleAllocation allocation = currentWeek.styleAllocation;
@@ -51,24 +49,8 @@ class FourWeeks {
   /// Get completion status for currentweek
   Map<String, int> get completionStats => currentWeek.completionStats;
   
-
   /// Get all 4 weeks (current + next)
   List<WeekOfWorkouts> get next4Weeks => [currentWeek, ...nextWeeks];
-
-
-
-  ///MARK: JUNK 
-
-  /// Find a specific week by index
-  WeekOfWorkouts? getWeekByIndex(int weekIndex) {
-    if (currentWeek.weekIndex == weekIndex) return currentWeek;
-    return nextWeeks.where((w) => w.weekIndex == weekIndex).firstOrNull;
-  }
-
-  /// Add a new week to the next weeks
-  void addNextWeek(WeekOfWorkouts week) {
-    nextWeeks.add(week);
-  }
 
   /// Get overall completion percentage
   double get completionPercentage {    
