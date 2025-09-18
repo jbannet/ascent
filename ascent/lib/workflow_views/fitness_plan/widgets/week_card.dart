@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../models/fitness_plan/plan.dart';
-import '../../../models/fitness_plan/planned_week.dart';
+import '../../../models/fitness_plan/week_of_workouts.dart';
 import '../../../enums/session_type.dart';
 import '../../../theme/app_colors.dart';
 import '../../../routing/route_names.dart';
@@ -9,7 +9,7 @@ import 'session_icon.dart';
 
 class WeekCard extends StatelessWidget {
   final Plan plan;
-  final PlannedWeek week;
+  final WeekOfWorkouts week;
   final bool isCurrentWeek;
 
   const WeekCard({
@@ -21,7 +21,7 @@ class WeekCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final completionStats = plan.getWeekCompletionStats(week.weekIndex);
+    final completionStats = plan.getCurrentWeekCompletionStats(week.weekIndex);
     final completedCount = completionStats['completed'] ?? 0;
     final totalCount = completionStats['total'] ?? 0;
 
@@ -127,7 +127,7 @@ class WeekCard extends StatelessWidget {
       return 'This Week';
     }
 
-    final sundayDate = plan.getSundayDateForWeek(week.weekIndex);
+    final sundayDate = week.startDate;
     final months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     return '${months[sundayDate.month - 1]} ${sundayDate.day}';

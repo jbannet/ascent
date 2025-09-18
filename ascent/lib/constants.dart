@@ -148,3 +148,28 @@ class AnswerConstants {
   static const double cooperAtRiskMiles = 0.36; // 576m = at-risk for mobility limitation (Shirley Ryan AbilityLab)
   static const int fallRiskAge = 65; // Age threshold for fall risk assessment
 }
+
+/// Fitness Plan JSON field names
+class PlanFields {
+  // Plan fields
+  static const String scheduleField = 'schedule';
+  static const String planProgressField = 'plan_progress';
+
+  // FourWeeks fields
+  static const String currentWeekField = 'current_week';
+  static const String nextWeeksField = 'next_weeks';
+
+  // WeekOfWorkouts fields
+  static const String weekIndexField = 'week_index';
+  static const String startDateField = 'start_date';
+  static const String workoutsField = 'workouts';
+
+  // PlanProgress fields
+  static const String completedWeeksField = 'completed_weeks';
+
+  // Workout fields
+  static const String dateField = 'date';
+  static const String typeField = 'type';
+  static const String styleField = 'style';
+  static const String isCompletedField = 'is_completed';
+}

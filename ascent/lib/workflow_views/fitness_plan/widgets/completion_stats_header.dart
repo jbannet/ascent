@@ -45,7 +45,7 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
       vsync: this,
     );
 
-    final allTimeMinutes = widget.plan.planProgress.getCompletedMinutes();
+    final allTimeMinutes = widget.plan.planProgress.completedMinutes();
     _countUpAnimation = Tween<double>(
       begin: 0,
       end: allTimeMinutes.toDouble(),
@@ -106,9 +106,9 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
 
   @override
   Widget build(BuildContext context) {
-    final allTimeMinutes = widget.plan.planProgress.getCompletedMinutes();
-    final trailing4WeeksMinutes = widget.plan.planProgress.getCompletedMinutes();
-    final thisWeekMinutes = widget.plan.planProgress.getCompletedMinutes();
+    final allTimeMinutes = widget.plan.planProgress.completedMinutes();
+    final trailing4WeeksMinutes = widget.plan.planProgress.completedMinutes();
+    final thisWeekMinutes = widget.plan.planProgress.completedMinutes();
 
     return Stack(
       children: [

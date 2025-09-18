@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'models/fitness_plan/plan.dart';
 import 'models/fitness_plan/plan_progress.dart';
-import 'models/rewrite_or_delete_plan_concepts/session.dart';
-import 'models/fitness_plan/planned_week.dart';
-import 'models/rewrite_or_delete_plan_concepts/planned_day.dart';
-import 'models/blocks/block.dart';
+import 'models/fitness_plan/four_weeks.dart';
+import 'models/fitness_plan/week_of_workouts.dart';
 import 'models/blocks/exercise_prescription_step.dart';
 import 'models/blocks/rest_step.dart';
 import 'models/blocks/warmup_step.dart';
@@ -15,11 +13,8 @@ import 'workflow_views/fitness_plan/views/block_cards/exercise_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/rest_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/warmup_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/cooldown_step_card.dart';
-import 'enums/day_of_week.dart';
-import 'enums/session_status.dart';
 import 'enums/session_type.dart';
 import 'enums/exercise_style.dart';
-import 'enums/block_type.dart';
 import 'enums/item_mode.dart';
 import 'routing/route_names.dart';
 import 'temporary_mapping_tool.dart';
@@ -253,8 +248,9 @@ class TemporaryNavigatorView extends StatelessWidget {
 
     final mockWeeks = [
       // Week 1 - This week
-      PlannedWeek(
+      WeekOfWorkouts(
         weekIndex: 1,
+        startDate: DateTime.now(),
         workouts: [
           Workout(type: SessionType.macro, style: ExerciseStyle.strength, isCompleted: true),
           Workout(type: SessionType.micro, style: ExerciseStyle.cardio, isCompleted: true),
@@ -262,8 +258,9 @@ class TemporaryNavigatorView extends StatelessWidget {
         ],
       ),
       // Week 2 - Next week
-      PlannedWeek(
+      WeekOfWorkouts(
         weekIndex: 2,
+        startDate: DateTime.now(),
         workouts: [
           Workout(type: SessionType.macro, style: ExerciseStyle.strength, isCompleted: false),
           Workout(type: SessionType.micro, style: ExerciseStyle.balance, isCompleted: false),
@@ -271,16 +268,18 @@ class TemporaryNavigatorView extends StatelessWidget {
         ],
       ),
       // Week 3
-      PlannedWeek(
+      WeekOfWorkouts(
         weekIndex: 3,
+        startDate: DateTime.now(),
         workouts: [
           Workout(type: SessionType.macro, style: ExerciseStyle.functional, isCompleted: false),
           Workout(type: SessionType.micro, style: ExerciseStyle.flexibility, isCompleted: false),
         ],
       ),
       // Week 4
-      PlannedWeek(
+      WeekOfWorkouts(
         weekIndex: 4,
+        startDate: DateTime.now(),
         workouts: [
           Workout(type: SessionType.micro, style: ExerciseStyle.balance, isCompleted: false),
           Workout(type: SessionType.macro, style: ExerciseStyle.strength, isCompleted: false),
@@ -289,9 +288,11 @@ class TemporaryNavigatorView extends StatelessWidget {
     ];
 
     return Plan(
-      startDate: startOfWeek,
       planProgress: PlanProgress(),
-      weeks: mockWeeks,
+      schedule: FourWeeks(
+        currentWeek: mockWeeks[0],
+        nextWeeks: mockWeeks.sublist(1),
+      ),
     );
   }
 
@@ -300,33 +301,6 @@ class TemporaryNavigatorView extends StatelessWidget {
     final daysSinceLastSunday = date.weekday % 7;
     return DateTime(date.year, date.month, date.day)
         .subtract(Duration(days: daysSinceLastSunday));
-  }
-
-  /// Create mock Block data for testing
-  Block _createMockBlock() {
-    return Block(
-      type: BlockType.superset,
-      rounds: 3,
-      restSecBetweenRounds: 120,
-      items: [
-        _createMockRepExercise('Push-ups', 12),
-        _createMockRepExercise('Squats', 15),
-        _createMockTimeExercise('Plank', 60),
-      ],
-    );
-  }
-
-  Block _createMockBlock2() {
-    return Block(
-      type: BlockType.main,
-      rounds: 1,
-      restSecBetweenRounds: 0,
-      items: [
-        _createMockRepExercise('Bench Press', 8),
-        _createMockRepExercise('Row', 10),
-        _createMockRepExercise('Overhead Press', 6),
-      ],
-    );
   }
 
   /// Create mock ExercisePrescriptionStep for reps-based exercises
@@ -342,18 +316,6 @@ class TemporaryNavigatorView extends StatelessWidget {
     );
   }
 
-  /// Create mock ExercisePrescriptionStep for time-based exercises
-  ExercisePrescriptionStep _createMockTimeExercise(String name, int timeSeconds) {
-    return ExercisePrescriptionStep(
-      exerciseId: 'mock_${name.toLowerCase().replaceAll(' ', '_')}',
-      displayName: name,
-      mode: ItemMode.time,
-      sets: 3,
-      timeSecPerSet: timeSeconds,
-      restSecBetweenSets: 60,
-      cues: ['Maintain position', 'Breathe steadily'],
-    );
-  }
 }
 
 class _SwipableCardDemo extends StatefulWidget {

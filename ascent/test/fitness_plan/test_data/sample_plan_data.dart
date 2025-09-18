@@ -1,6 +1,7 @@
 import 'package:ascent/models/fitness_plan/plan.dart';
 import 'package:ascent/models/fitness_plan/plan_progress.dart';
-import 'package:ascent/models/fitness_plan/planned_week.dart';
+import 'package:ascent/models/fitness_plan/week_of_workouts.dart';
+import 'package:ascent/models/fitness_plan/four_weeks.dart';
 import 'package:ascent/models/fitness_plan/workout.dart';
 import 'package:ascent/enums/exercise_style.dart';
 import 'package:ascent/enums/session_type.dart';
@@ -120,16 +121,18 @@ class SamplePlanData {
     ];
 
     // Create sample weeks
-    final week1 = PlannedWeek(weekIndex: 1, workouts: week1Workouts);
-    final week2 = PlannedWeek(weekIndex: 2, workouts: week2Workouts);
-    final week3 = PlannedWeek(weekIndex: 3, workouts: week3Workouts);
-    final week4 = PlannedWeek(weekIndex: 4, workouts: week4Workouts);
+    final week1 = WeekOfWorkouts(weekIndex: 1, startDate: DateTime.now(), workouts: week1Workouts);
+    final week2 = WeekOfWorkouts(weekIndex: 2, startDate: DateTime.now(), workouts: week2Workouts);
+    final week3 = WeekOfWorkouts(weekIndex: 3, startDate: DateTime.now(), workouts: week3Workouts);
+    final week4 = WeekOfWorkouts(weekIndex: 4, startDate: DateTime.now(), workouts: week4Workouts);
 
     // Create sample plan starting from this week
     return Plan(
-      startDate: startOfWeek,
       planProgress: PlanProgress(),
-      weeks: [week1, week2, week3, week4],
+      schedule: FourWeeks(
+        currentWeek: week1,
+        nextWeeks: [week2, week3, week4],
+      ),
     );
   }
 

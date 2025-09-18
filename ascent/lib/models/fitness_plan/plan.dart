@@ -1,103 +1,52 @@
 import '../../enums/exercise_style.dart';
-import '../../enums/session_status.dart';
-import 'planned_week.dart';
+import '../../services/general_utilities/get_this_sunday.dart';
+import '../../constants.dart';
 import 'plan_progress.dart';
+import 'four_weeks.dart';
+import 'week_of_workouts.dart';
 
 class Plan {
-  final DateTime startDate;
-  final List<PlannedWeek> weeks;          // calendar
-  final PlanProgress planProgress; // New field for tracking progress
+  final FourWeeks schedule;       // Next four weeks schedule
+  final PlanProgress planProgress;  // all history: progress tracking
 
 
   Plan({
-    required this.startDate,
     required this.planProgress,
-    List<PlannedWeek>? weeks,
-  })  :
-        weeks = weeks ?? <PlannedWeek>[];
+    required schedule,
+  }) : schedule = schedule;
 
   factory Plan.fromJson(Map<String, dynamic> json) {
+    if (json[PlanFields.scheduleField] == null) {
+      throw ArgumentError('${PlanFields.scheduleField} is required in JSON');
+    }
     return Plan(
-      startDate: _dateFromJson(json['start_date'] as String),
-      planProgress: PlanProgress(),
-      weeks: (json['weeks'] as List<dynamic>? )?.map((e)=> PlannedWeek.fromJson(Map<String, dynamic>.from(e))).toList() ?? <PlannedWeek>[],
+      planProgress: json[PlanFields.planProgressField] != null
+          ? PlanProgress.fromJson(json[PlanFields.planProgressField] as Map<String, dynamic>)
+          : PlanProgress(),
+      schedule: FourWeeks.fromJson(json[PlanFields.scheduleField] as Map<String, dynamic>)
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'start_date': _dateToJson(startDate),
-    'weeks': weeks.map((e)=> e.toJson()).toList(),
+    PlanFields.scheduleField: schedule.toJson(),
+    PlanFields.planProgressField: planProgress.toJson(),
   };
 
-  // Style allocation calculations for the 4-week view
-  Map<ExerciseStyle, double> getStyleAllocation() {
-    final allWorkouts = weeks.expand((week) => week.workouts).toList();
-    if (allWorkouts.isEmpty) return {};
-
-    final styleCounts = <ExerciseStyle, int>{};
-    for (final workout in allWorkouts) {
-      styleCounts[workout.style] = (styleCounts[workout.style] ?? 0) + 1;
-    }
-
-    final total = allWorkouts.length;
-    return styleCounts.map((style, count) =>
-      MapEntry(style, count / total * 100));
-  }
+  // Delegate to schedule for style allocation
+  Map<ExerciseStyle, double> getStyleAllocation() => schedule.styleAllocationInPercentages;
 
   // Get current week index based on start date
-  int get currentWeekIndex {
-    final now = DateTime.now();
-    final daysSinceStart = now.difference(startDate).inDays;
-    return (daysSinceStart / 7).floor() + 1;
-  }
+  int get currentWeekIndex => planProgress.currentWeekIndex;
 
-  // Get the Sunday date for a specific week index
-  DateTime getSundayDateForWeek(int weekIndex) {
-    // Calculate days since start for this week (weeks are 1-indexed)
-    final daysSinceStart = (weekIndex - 1) * 7;
-    final weekStartDate = startDate.add(Duration(days: daysSinceStart));
+  // Get the Sunday of the current week
+  DateTime getThisSunday() => getThisSunday();
 
-    // Find the Sunday of that week
-    // DateTime.weekday: Monday = 1, Sunday = 7
-    // We want Sunday = 0, so: (weekday % 7)
-    int daysSinceLastSunday = weekStartDate.weekday % 7;
-    return weekStartDate.subtract(Duration(days: daysSinceLastSunday));
-  }
+  // Delegate to schedule for week completion stats
+  Map<String, int> getCurrentWeekCompletionStats(int weekIndex) => schedule.getWeekCompletionStats(weekIndex);
 
-  // Get completion status for a specific week
-  Map<String, int> getWeekCompletionStats(int weekIndex) {
-    final week = weeks.where((w) => w.weekIndex == weekIndex).firstOrNull;
-    if (week == null) return {'completed': 0, 'total': 0};
+  // Delegate to schedule for getting next 4 weeks
+  List<WeekOfWorkouts> getNext4Weeks() => schedule.getNext4Weeks(currentWeekIndex);
 
-    final completedCount = week.workouts.where((w) => w.isCompleted).length;
-    return {'completed': completedCount, 'total': week.workouts.length};
-  }
-
-  // Get next 4 weeks starting from current week (with placeholders for missing weeks)
-  List<PlannedWeek> getNext4Weeks() {
-    final current = currentWeekIndex;
-    final result = <PlannedWeek>[];
-
-    // Generate 4 weeks starting from current week
-    for (int i = 0; i < 4; i++) {
-      final weekIndex = current + i;
-
-      // Try to find existing week
-      final existingWeek = weeks.firstWhere(
-        (w) => w.weekIndex == weekIndex,
-        orElse: () => _generatePlaceholderWeek(weekIndex),
-      );
-
-      result.add(existingWeek);
-    }
-
-    return result;
-  }
-
-  // Generate a placeholder week with sample workouts
-  PlannedWeek _generatePlaceholderWeek(int weekIndex) {
-    return PlannedWeek(weekIndex: weekIndex, workouts: []);
-  }
 
 }
 

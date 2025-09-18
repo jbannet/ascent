@@ -1,0 +1,47 @@
+  Plan
+  ├── schedule: FourWeeks
+  │   ├── currentWeek: WeekOfWorkouts
+  │   └── nextWeeks: List<WeekOfWorkouts>
+  └── planProgress: PlanProgress
+      └── completedWeeks: List<WeekOfWorkouts>
+
+  WeekOfWorkouts
+  ├── weekIndex: int
+  ├── startDate: DateTime
+  └── workouts: List<Workout>
+
+  Workout
+  ├── date: DateTime?
+  ├── type: SessionType (enum: micro, macro)
+  ├── style: ExerciseStyle (enum: cardio, strength, flexibility, balance, functional)
+  └── _isCompleted: bool
+
+  StyleAllocation
+  └── minutes: Map<ExerciseStyle, int>
+
+  Class Fields Summary:
+
+  Plan
+  - schedule: FourWeeks
+  - planProgress: PlanProgress
+
+  FourWeeks
+  - currentWeek: WeekOfWorkouts
+  - nextWeeks: List<WeekOfWorkouts>
+
+  PlanProgress
+  - completedWeeks: List<WeekOfWorkouts>
+
+  WeekOfWorkouts
+  - weekIndex: int
+  - startDate: DateTime
+  - workouts: List<Workout>
+
+  Workout
+  - date: DateTime?
+  - type: SessionType
+  - style: ExerciseStyle
+  - _isCompleted: bool
+
+  StyleAllocation
+  - minutes: Map<ExerciseStyle, int>
