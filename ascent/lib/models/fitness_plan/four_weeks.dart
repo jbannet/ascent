@@ -47,7 +47,7 @@ class FourWeeks {
   }
 
   /// Get completion status for currentweek
-  Map<String, int> get completionStats => currentWeek.completionStats;
+  WeekCompletionStats get completionStats => currentWeek.completionStats;
   
   /// Get all 4 weeks (current + next)
   List<WeekOfWorkouts> get next4Weeks => [currentWeek, ...nextWeeks];

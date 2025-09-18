@@ -1,22 +1,27 @@
-  Plan
-  ├── schedule: FourWeeks
-  │   ├── currentWeek: WeekOfWorkouts
-  │   └── nextWeeks: List<WeekOfWorkouts>
-  └── planProgress: PlanProgress
-      └── completedWeeks: List<WeekOfWorkouts>
+Plan (plan.dart) // Aggregates the rolling schedule with completion history
+├── schedule: FourWeeks (four_weeks.dart) // Active four-week window surfaced to the UI
+│   ├── currentWeek: WeekOfWorkouts (week_of_workouts.dart) // Week anchored to current Sunday
+│   │   ├── workouts: List<Workout> (workout.dart) // Individual planned sessions
+│   │   ├── styleAllocation: StyleAllocation (style_allocation.dart) // Minutes accumulated per style
+│   │   └── completionStats: WeekCompletionStats (week_of_workouts.dart) // Completed vs total workouts
+│   ├── nextWeeks: List<WeekOfWorkouts> (week_of_workouts.dart) // Maintained at three future placeholders
+│   ├── styleAllocationInPercentages → StyleAllocation (style_allocation.dart) // Combined style mix for all weeks
+│   └── completionStats → WeekCompletionStats (week_of_workouts.dart) // Snapshot forwarded to Plan
+└── planProgress: PlanProgress (plan_progress.dart) // Persisted completion history
+    └── completedWeeks: List<WeekOfWorkouts> (week_of_workouts.dart) // Archive of past weeks
 
-  WeekOfWorkouts
-  ├── weekIndex: int
-  ├── startDate: DateTime
-  └── workouts: List<Workout>
+Supporting types
+├── Workout (workout.dart) // Session metadata with completion toggle
+├── StyleAllocation (style_allocation.dart) // Aggregates minutes by ExerciseStyle
+├── WeekCompletionStats (week_of_workouts.dart) // Value object for completed/total counts
+└── Enums & utilities
+    ├── ExerciseStyle (enums/exercise_style.dart) // Labels for primary modality
+    ├── SessionType (enums/session_type.dart) // Micro vs macro classification
+    └── getThisSunday() (services/general_utilities/get_this_sunday.dart) // Shared week boundary helper
 
-  Workout
-  ├── date: DateTime?
-  ├── type: SessionType (enum: micro, macro)
-  ├── style: ExerciseStyle (enum: cardio, strength, flexibility, balance, functional)
-  └── _isCompleted: bool
+matrix_models/ (matrix_models/*) // Recommender helpers (not yet wired into Plan flow)
+├── ExerciseMatrix (matrix_models/ml_engine.dart) // Dense storage of exercise feature vectors
+├── PatternVector (matrix_models/pattern_vector.dart) // Feature emphasis blueprint for plan templates
+└── PersonVector (matrix_models/person_vector.dart) // User preference vector aligned to ExerciseMatrix
 
-  StyleAllocation
-  └── minutes: Map<ExerciseStyle, int>
-
-completionStats ONLY applies to the current week since no other week is started. Completion is 0 by definition.
+NOTE: Only the current `WeekOfWorkouts` reports meaningful completion stats; future placeholder weeks return zero until workouts are scheduled.

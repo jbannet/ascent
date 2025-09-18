@@ -22,8 +22,8 @@ class WeekCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final completionStats = plan.getCurrentWeekCompletionStats(week.weekIndex);
-    final completedCount = completionStats['completed'] ?? 0;
-    final totalCount = completionStats['total'] ?? 0;
+    final completedCount = completionStats.completed;
+    final totalCount = completionStats.total;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

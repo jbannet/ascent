@@ -12,9 +12,6 @@ class PlanView extends StatelessWidget {
     final next4Weeks = plan.getNext4Weeks();
     final currentWeekIndex = plan.currentWeekIndex;
 
-    // Debug: Print actual plan data
-    debugPrint('🔍 PLAN DEBUG:');
-    debugPrint('Next 4 weeks found: ${next4Weeks.length}');
 
     return Scaffold(
       appBar: AppBar(
