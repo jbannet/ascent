@@ -97,6 +97,11 @@ class AnswerConstants {
   static const String loseWeight = 'lose_weight';
   static const String buildMuscle = 'build_muscle';
   static const String improveEndurance = 'improve_endurance';
+
+  // Run performance data JSON keys (q4_twelve_minute_run_question)
+  static const String runDistanceMiles = 'distanceMiles';
+  static const String runTimeMinutes = 'timeMinutes';
+  static const String runSelectedUnit = 'selectedUnit';
   static const String increaseFlexibility = 'increase_flexibility';
   static const String betterHealth = 'better_health';
   static const String liveLonger = 'live_longer';

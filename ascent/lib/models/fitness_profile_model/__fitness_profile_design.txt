@@ -1,0 +1,25 @@
+fitness_profile_model overview
+
+fitness_profile.dart — central orchestrator
+- Accepts onboarding answers, seeds feature map, and triggers every extraction extension.
+- Loads/saves feature weights via `LocalStorageService` so scores persist between sessions.
+- Exposes the ordered numeric vector (`features`) consumed by downstream plan builders.
+
+fitness_profile_extraction_extensions/
+- age_bracket.dart — assigns baseline intensity multipliers from age buckets.
+- strength.dart — converts push-up/squat answers into strength feature weights.
+- balance.dart — boosts balance & stability dimensions using assessment questions.
+- low_impact.dart — raises low-impact preference when injuries or constraints are flagged.
+- flexibility.dart — maps stretching/mobility responses into flexibility weightings.
+- cardio.dart — scores aerobic capacity and cardio preference from endurance questions.
+- weight_management.dart — emphasises calorie burn goals and metabolic focus.
+- relative_objective_importance.dart — normalises modality weights into a priority distribution.
+- injuries.dart — applies penalties or safety flags based on reported injuries/limitations.
+
+reference_data/
+- acsm_cardio_norms.dart — cardio benchmark tables (vo2, run times) used by cardio scorer.
+- acsm_pushup_norms.dart — push-up percentile lookup powering strength computations.
+- acsm_squat_norms.dart — bodyweight squat benchmarks referenced by strength scorer.
+- age_group_utility.dart — helper utilities for age-based lookups across extensions.
+
+Together these files transform raw onboarding responses into the weighted feature vector that the plan generation pipeline consumes.

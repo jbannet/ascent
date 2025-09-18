@@ -1,8 +1,7 @@
-import 'package:ascent/models/fitness_profile_model/reference_data/acsm_cardio_norms.dart';
 import '../fitness_profile.dart';
 import '../../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/age_question.dart';
 import '../../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/gender_question.dart';
-import '../../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q4_twelve_minute_run_question.dart';
+import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q4_run_vo2_question.dart';
 
 /// Extension to calculate cardiovascular fitness metrics and training parameters.
 /// 
@@ -37,23 +36,77 @@ extension Cardio on FitnessProfile {
     _calculateCardioWorkoutParameters(age, gender);
   }
   
-  /// Calculate baseline cardiovascular fitness metrics from Cooper test
+  /// Calculate baseline cardiovascular fitness metrics from run data
   void _calculateCardiovascularBaseline(int age, String gender) {
-    // Primary: Use Cooper test if available
-    final cooperDistanceMiles = Q4TwelveMinuteRunQuestion.instance.getTwelveMinuteRunDistance(answers);
-    if (cooperDistanceMiles != null && cooperDistanceMiles > 0) {
-      // Calculate VO2max using updated ACSM reference (now uses miles)
-      double vo2max = ACSMCardioNorms.estimateVO2Max(cooperDistanceMiles);
+    // Get distance and time from the question
+    final runDistanceMiles = Q4TwelveMinuteRunQuestion.instance.getRunDistanceMiles(answers);
+    final runTimeMinutes = Q4TwelveMinuteRunQuestion.instance.getRunTimeMinutes(answers);
+
+    if (runDistanceMiles != null && runDistanceMiles > 0 && runTimeMinutes != null && runTimeMinutes > 0) {
+      // Calculate pace in minutes per mile
+      final paceMinutesPerMile = runTimeMinutes / runDistanceMiles;
+
+      // TODO: Convert pace to VO2max using formula from user
+      // For now, use a placeholder estimation based on pace
+      double vo2max = _estimateVO2MaxFromPace(paceMinutesPerMile);
       featuresMap['vo2max'] = vo2max;
-      
+
       // Convert to METs capacity (VO2max / 3.5)
       featuresMap['mets_capacity'] = vo2max / 3.5;
-      
-      // Get fitness percentile using updated ACSM data (now uses miles)
-      featuresMap['cardio_fitness_percentile'] = ACSMCardioNorms.getPercentile(
-        cooperDistanceMiles, age, gender
-      );
+
+      // TODO: Update percentile calculation when user provides conversion formula
+      // For now, use a simple pace-based percentile
+      featuresMap['cardio_fitness_percentile'] = _estimatePercentileFromPace(paceMinutesPerMile, age, gender);
     }
+  }
+
+  /// Placeholder function to estimate VO2max from pace
+  /// This will be replaced with the user's provided formula
+  double _estimateVO2MaxFromPace(double paceMinutesPerMile) {
+    // Rough estimation: faster pace = higher VO2max
+    // A 6-minute mile pace ≈ 70 VO2max, 10-minute mile ≈ 40 VO2max
+    if (paceMinutesPerMile <= 5.0) return 75.0;
+    if (paceMinutesPerMile <= 6.0) return 65.0;
+    if (paceMinutesPerMile <= 7.0) return 55.0;
+    if (paceMinutesPerMile <= 8.0) return 50.0;
+    if (paceMinutesPerMile <= 9.0) return 45.0;
+    if (paceMinutesPerMile <= 10.0) return 40.0;
+    if (paceMinutesPerMile <= 12.0) return 35.0;
+    return 30.0;
+  }
+
+  /// Placeholder function to estimate fitness percentile from pace
+  /// This will be refined when the user provides the conversion formula
+  double _estimatePercentileFromPace(double paceMinutesPerMile, int age, String gender) {
+    // Simple age and gender adjustments for percentile
+    double basePercentile = 50.0;
+
+    // Adjust based on pace (faster = higher percentile)
+    if (paceMinutesPerMile <= 6.0) {
+      basePercentile = 90.0;
+    } else if (paceMinutesPerMile <= 7.0) {
+      basePercentile = 80.0;
+    } else if (paceMinutesPerMile <= 8.0) {
+      basePercentile = 70.0;
+    } else if (paceMinutesPerMile <= 9.0) {
+      basePercentile = 60.0;
+    } else if (paceMinutesPerMile <= 10.0) {
+      basePercentile = 50.0;
+    } else if (paceMinutesPerMile <= 12.0) {
+      basePercentile = 40.0;
+    } else {
+      basePercentile = 30.0;
+    }
+
+    // Simple age adjustment (younger = slight bonus)
+    if (age < 30) {
+      basePercentile += 5.0;
+    } else if (age > 50) {
+      basePercentile -= 5.0;
+    }
+
+    // Keep within bounds
+    return basePercentile.clamp(5.0, 95.0);
   }
   
   

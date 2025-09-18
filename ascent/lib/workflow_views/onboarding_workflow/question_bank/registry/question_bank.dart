@@ -8,7 +8,7 @@ import '../questions/motivation/progress_tracking_question.dart';
 // Goals
 import '../questions/goals/fitness_goals_question.dart';
 // Fitness Assessment
-import '../questions/fitness_assessment/q4_twelve_minute_run_question.dart';
+import '../questions/fitness_assessment/q4_run_vo2_question.dart';
 import '../questions/fitness_assessment/q4a_fall_history_question.dart';
 import '../questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
 import '../questions/fitness_assessment/q5_pushups_question.dart';
