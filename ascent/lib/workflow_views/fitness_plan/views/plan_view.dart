@@ -36,7 +36,15 @@ class PlanView extends StatelessWidget {
               itemBuilder: (_, index) {
                 if (index == 0) {
                   // First item is the completion stats header (now includes style allocation)
-                  return CompletionStatsHeader(plan: plan);
+                  if (plan.fitnessProfile != null) {
+                    return CompletionStatsHeader(
+                      plan: plan,
+                      fitnessProfile: plan.fitnessProfile!
+                    );
+                  } else {
+                    // Skip header if no profile available (shouldn't happen in normal flow)
+                    return const SizedBox.shrink();
+                  }
                 }
 
                 final weekIndex = index - 1;

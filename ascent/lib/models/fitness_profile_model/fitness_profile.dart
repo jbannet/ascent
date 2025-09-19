@@ -1,3 +1,6 @@
+import 'package:ascent/constants_and_enums/constants_features.dart';
+import 'package:ascent/constants_and_enums/category_enum.dart';
+
 import '../../services_and_utilities/local_storage/local_storage_service.dart';
 
 // Import all fitness profile extensions
@@ -89,11 +92,22 @@ class FitnessProfile {
   }
 
 
+  /// Get category allocations as percentages for display
+  Map<Category, double> getCategoryAllocationsAsPercentages() {
+    return {
+      Category.cardio: (featuresMap[FeatureConstants.categoryCardio] ?? 0.0) * 100,
+      Category.strength: (featuresMap[FeatureConstants.categoryStrength] ?? 0.0) * 100,
+      Category.balance: (featuresMap[FeatureConstants.categoryBalance] ?? 0.0) * 100,
+      Category.flexibility: (featuresMap[FeatureConstants.categoryStretching] ?? 0.0) * 100,
+      Category.functional: (featuresMap[FeatureConstants.categoryFunctional] ?? 0.0) * 100,
+    };
+  }
+
   /// Calculate all features using extension methods
   void calculateAllFeatures() {
     // Age bracket features
     calculateAgeBracket();
-    
+
     // Core metrics for each exercise modality (NOT importance)
     calculateStrength();
     calculateBalance();

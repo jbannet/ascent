@@ -1,15 +1,18 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../../models/fitness_plan/plan.dart';
+import '../../../models/fitness_profile_model/fitness_profile.dart';
+import '../../../constants_and_enums/category_enum.dart';
 import '../../../theme/app_colors.dart';
-import '../../../constants_and_enums/exercise_style.dart';
 
 class CompletionStatsHeader extends StatefulWidget {
   final Plan plan;
+  final FitnessProfile fitnessProfile;
 
   const CompletionStatsHeader({
     super.key,
     required this.plan,
+    required this.fitnessProfile,
   });
 
   @override
@@ -355,9 +358,9 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
   }
 
   Widget _buildStyleAllocation() {
-    final styleAllocation = widget.plan.styleAllocation.toPercentages();
+    final categoryAllocations = widget.fitnessProfile.getCategoryAllocationsAsPercentages();
 
-    if (styleAllocation.isEmpty) {
+    if (categoryAllocations.isEmpty || categoryAllocations.values.every((v) => v == 0)) {
       return const SizedBox.shrink();
     }
 
@@ -373,14 +376,14 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
           ),
         ),
         const SizedBox(height: 12),
-        _buildAllocationChart(styleAllocation),
+        _buildAllocationChart(categoryAllocations),
         const SizedBox(height: 12),
-        _buildStyleLegend(styleAllocation),
+        _buildStyleLegend(categoryAllocations),
       ],
     );
   }
 
-  Widget _buildAllocationChart(Map<ExerciseStyle, double> styleAllocation) {
+  Widget _buildAllocationChart(Map<Category, double> categoryAllocations) {
     return Container(
       height: 8,
       decoration: BoxDecoration(
@@ -390,24 +393,24 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4),
         child: Row(
-          children: _buildAllocationSegments(styleAllocation),
+          children: _buildAllocationSegments(categoryAllocations),
         ),
       ),
     );
   }
 
-  List<Widget> _buildAllocationSegments(Map<ExerciseStyle, double> styleAllocation) {
+  List<Widget> _buildAllocationSegments(Map<Category, double> categoryAllocations) {
     final segments = <Widget>[];
-    final total = styleAllocation.values.fold(0.0, (sum, value) => sum + value);
+    final total = categoryAllocations.values.fold(0.0, (sum, value) => sum + value);
 
-    for (final entry in styleAllocation.entries) {
+    for (final entry in categoryAllocations.entries) {
       final percentage = entry.value / total;
       if (percentage > 0) {
         segments.add(
           Expanded(
             flex: (percentage * 100).round(),
             child: Container(
-              color: _getStyleColor(entry.key),
+              color: entry.key.color,
             ),
           ),
         );
@@ -417,11 +420,11 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
     return segments;
   }
 
-  Widget _buildStyleLegend(Map<ExerciseStyle, double> styleAllocation) {
+  Widget _buildStyleLegend(Map<Category, double> categoryAllocations) {
     return Wrap(
       spacing: 16,
       runSpacing: 8,
-      children: styleAllocation.entries.map((entry) {
+      children: categoryAllocations.entries.map((entry) {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -429,7 +432,7 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
               width: 12,
               height: 12,
               decoration: BoxDecoration(
-                color: _getStyleColor(entry.key),
+                color: entry.key.color,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -448,20 +451,6 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
     );
   }
 
-  Color _getStyleColor(ExerciseStyle style) {
-    switch (style) {
-      case ExerciseStyle.cardio:
-        return Colors.red.shade400;
-      case ExerciseStyle.strength:
-        return AppColors.basePurple;
-      case ExerciseStyle.flexibility:
-        return AppColors.continueGreen;
-      case ExerciseStyle.balance:
-        return Colors.blue.shade400;
-      case ExerciseStyle.functional:
-        return Colors.brown.shade400;
-    }
-  }
 }
 
 class MomentumWavesPainter extends CustomPainter {

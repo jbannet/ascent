@@ -8,11 +8,13 @@ import 'week_of_workouts.dart';
 class Plan {
   final FourWeeks nextFourWeeks;       // Next four weeks schedule
   final PlanProgress planProgress;  // all history: progress tracking
+  final FitnessProfile? fitnessProfile;  // Profile used to generate this plan
 
 
   Plan({
     required this.planProgress,
     required this.nextFourWeeks,
+    this.fitnessProfile,
   });
 
   // Get current week index based on start date
@@ -30,6 +32,7 @@ class Plan {
     return Plan(
       nextFourWeeks: fourWeeks,
       planProgress: planProgress,
+      fitnessProfile: profile,
     );
   }
       
