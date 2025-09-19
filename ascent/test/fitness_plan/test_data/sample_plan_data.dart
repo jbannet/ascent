@@ -3,7 +3,7 @@ import 'package:ascent/models/fitness_plan/plan_progress.dart';
 import 'package:ascent/models/fitness_plan/week_of_workouts.dart';
 import 'package:ascent/models/fitness_plan/four_weeks.dart';
 import 'package:ascent/models/fitness_plan/workout.dart';
-import 'package:ascent/enums/exercise_style.dart';
+import 'package:ascent/constants_and_enums/workout_style_enum.dart';
 import 'package:ascent/enums/session_type.dart';
 
 class SamplePlanData {
@@ -16,31 +16,31 @@ class SamplePlanData {
       Workout(
         date: startOfWeek.add(const Duration(days: 1)), // Monday
         type: SessionType.macro,
-        style: ExerciseStyle.strength,
+        style: WorkoutStyle.upperLowerSplit,
         isCompleted: true,
       ),
       Workout(
         date: startOfWeek.add(const Duration(days: 2)), // Tuesday
         type: SessionType.micro,
-        style: ExerciseStyle.cardio,
+        style: WorkoutStyle.enduranceDominant,
         isCompleted: true,
       ),
       Workout(
         date: startOfWeek.add(const Duration(days: 3)), // Wednesday
         type: SessionType.macro,
-        style: ExerciseStyle.strength,
+        style: WorkoutStyle.pushPullLegs,
         isCompleted: true,
       ),
       Workout(
         date: startOfWeek.add(const Duration(days: 5)), // Friday
         type: SessionType.micro,
-        style: ExerciseStyle.flexibility,
+        style: WorkoutStyle.yogaFocused,
         isCompleted: false,
       ),
       Workout(
         date: startOfWeek.add(const Duration(days: 6)), // Saturday
         type: SessionType.macro,
-        style: ExerciseStyle.cardio,
+        style: WorkoutStyle.circuitMetabolic,
         isCompleted: false,
       ),
     ];
@@ -51,25 +51,25 @@ class SamplePlanData {
       Workout(
         date: week2Start.add(const Duration(days: 1)), // Monday
         type: SessionType.macro,
-        style: ExerciseStyle.strength,
+        style: WorkoutStyle.fullBody,
         isCompleted: false,
       ),
       Workout(
         date: week2Start.add(const Duration(days: 2)), // Tuesday
         type: SessionType.micro,
-        style: ExerciseStyle.balance,
+        style: WorkoutStyle.seniorSpecific,
         isCompleted: false,
       ),
       Workout(
         date: week2Start.add(const Duration(days: 4)), // Thursday
         type: SessionType.macro,
-        style: ExerciseStyle.functional,
+        style: WorkoutStyle.functionalMovement,
         isCompleted: false,
       ),
       Workout(
         date: week2Start.add(const Duration(days: 6)), // Saturday
         type: SessionType.micro,
-        style: ExerciseStyle.flexibility,
+        style: WorkoutStyle.pilatesStyle,
         isCompleted: false,
       ),
     ];
@@ -80,19 +80,19 @@ class SamplePlanData {
       Workout(
         date: week3Start.add(const Duration(days: 1)), // Monday
         type: SessionType.macro,
-        style: ExerciseStyle.cardio,
+        style: WorkoutStyle.athleticConditioning,
         isCompleted: false,
       ),
       Workout(
         date: week3Start.add(const Duration(days: 3)), // Wednesday
         type: SessionType.macro,
-        style: ExerciseStyle.strength,
+        style: WorkoutStyle.strongmanFunctional,
         isCompleted: false,
       ),
       Workout(
         date: week3Start.add(const Duration(days: 5)), // Friday
         type: SessionType.micro,
-        style: ExerciseStyle.functional,
+        style: WorkoutStyle.crossfitMixed,
         isCompleted: false,
       ),
     ];
@@ -103,19 +103,19 @@ class SamplePlanData {
       Workout(
         date: week4Start.add(const Duration(days: 2)), // Tuesday
         type: SessionType.micro,
-        style: ExerciseStyle.flexibility,
+        style: WorkoutStyle.yogaFocused,
         isCompleted: false,
       ),
       Workout(
         date: week4Start.add(const Duration(days: 4)), // Thursday
         type: SessionType.micro,
-        style: ExerciseStyle.balance,
+        style: WorkoutStyle.seniorSpecific,
         isCompleted: false,
       ),
       Workout(
         date: week4Start.add(const Duration(days: 6)), // Saturday
         type: SessionType.macro,
-        style: ExerciseStyle.strength,
+        style: WorkoutStyle.concurrentHybrid,
         isCompleted: false,
       ),
     ];
@@ -129,7 +129,7 @@ class SamplePlanData {
     // Create sample plan starting from this week
     return Plan(
       planProgress: PlanProgress(),
-      schedule: FourWeeks(
+      nextFourWeeks: FourWeeks(
         currentWeek: week1,
         nextWeeks: [week2, week3, week4],
       ),

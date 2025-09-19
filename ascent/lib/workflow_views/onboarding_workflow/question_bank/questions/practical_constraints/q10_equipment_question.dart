@@ -3,7 +3,7 @@ import '../../../models/questions/enum_question_type.dart';
 import '../../../models/questions/question_option.dart';
 import '../../../views/question_views/question_types/multiple_choice_view.dart';
 import '../onboarding_question.dart';
-import '../../../../../constants.dart';
+import '../../../../../constants_and_enums/constants.dart';
 
 /// Q10: What equipment do you have access to?
 /// 

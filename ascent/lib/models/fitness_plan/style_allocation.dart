@@ -1,5 +1,4 @@
-import 'package:ascent/enums/exercise_style.dart';
-import 'package:ascent/models/fitness_plan/workout.dart';
+import 'package:ascent/constants_and_enums/exercise_style.dart';
 
 class StyleAllocation {
   Map<ExerciseStyle, int> minutes = {
@@ -12,12 +11,6 @@ class StyleAllocation {
 
   StyleAllocation();
   get isEmpty => minutes.isEmpty || minutes.values.every((mins) => mins == 0);
-
-  void addWorkout(Workout workout) {
-    // Assuming each workout is 30 minutes for simplicity
-    const int workoutDuration = 30;
-    minutes[workout.style] = (minutes[workout.style] ?? 0) + workoutDuration;
-  }
 
   StyleAllocation merge(StyleAllocation other) {
     final styleAllocation = StyleAllocation();

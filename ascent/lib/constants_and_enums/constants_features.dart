@@ -16,6 +16,12 @@ class FeatureConstants {
   static const String categoryCardio = 'cardio';
   static const String categoryFunctional = 'functional';
   static const String categoryBodyweight = 'bodyweight';
+
+  // Session commitment feature constants
+  static const String fullSessionsPerWeek = 'full_sessions_per_week';
+  static const String microSessionsPerWeek = 'micro_sessions_per_week';
+  static const String totalTrainingDays = 'total_training_days';
+  static const String weeklyTrainingMinutes = 'weekly_training_minutes';
 }
 
 /// Profile constants for fitness assessment

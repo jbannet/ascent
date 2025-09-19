@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../models/fitness_plan/plan.dart';
 import '../../../models/fitness_plan/week_of_workouts.dart';
-import '../../../enums/session_type.dart';
+import '../../../constants_and_enums/session_type.dart';
 import '../../../theme/app_colors.dart';
 import '../../../routing/route_names.dart';
 import 'session_icon.dart';

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../models/questions/enum_question_type.dart';
 import '../onboarding_question.dart';
-import '../../../../../constants.dart';
+import '../../../../../constants_and_enums/constants.dart';
 
 /// Data class for storing run performance data
 class RunPerformanceData {

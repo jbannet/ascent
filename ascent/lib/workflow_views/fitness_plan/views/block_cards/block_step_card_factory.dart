@@ -4,7 +4,7 @@ import '../../../../models/blocks/exercise_prescription_step.dart';
 import '../../../../models/blocks/rest_step.dart';
 import '../../../../models/blocks/warmup_step.dart';
 import '../../../../models/blocks/cooldown_step.dart';
-import '../../../../enums/block_step_kind.dart';
+import '../../../../constants_and_enums/block_step_kind.dart';
 import 'exercise_step_card.dart';
 import 'rest_step_card.dart';
 import 'warmup_step_card.dart';

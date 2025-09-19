@@ -1,4 +1,4 @@
-import '../../enums/progression_mode.dart';
+import '../../constants_and_enums/progression_mode.dart';
 
 class Progression {
   final ProgressionMode mode;

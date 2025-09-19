@@ -5,7 +5,7 @@ import '../../../views/question_views/question_types/multiple_choice_view.dart';
 import '../onboarding_question.dart';
 import '../demographics/age_question.dart';
 import 'q4a_fall_history_question.dart';
-import '../../../../../constants.dart';
+import '../../../../../constants_and_enums/constants.dart';
 
 /// Q4B: Do you experience any of the following?
 /// 

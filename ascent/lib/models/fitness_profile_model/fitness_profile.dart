@@ -19,24 +19,55 @@ import 'fitness_profile_extraction_extensions/relative_objective_importance.dart
 class FitnessProfile {
   final Map<String, double> _features = {};
   final Map<String, dynamic> _answers;
+
+  get microWorkoutsPerWeek => _features['microSessionsPerWeek']?.toInt() ?? 0;
+  get fullWorkoutsPerWeek => _features['fullSessionsPerWeek']?.toInt() ?? 0;
   
+  Map<String, dynamic> get answers => _answers;
+  Map<String, double> get featuresMap => _features;
+  get features => Map<String, double>.unmodifiable(_features);     
+
+  
+  //MARK: Factories
   FitnessProfile(List<String> featureOrder, Map<String, dynamic> answers) : _answers = answers {
     //build features in correct order
     for (final feature in featureOrder) {
       _features[feature] = 0.0;
     }
-    
-    loadFeaturesFromStorage();
-    
+
     // Calculate features from provided answers
-    _calculateAllFeatures();
+    calculateAllFeatures();
   }
 
-  get features => Map<String, double>.unmodifiable(_features);
-  
-  // Getters for extensions to access private members
-  Map<String, dynamic> get answers => _answers;
-  Map<String, double> get featuresMap => _features;
+  /// Factory method to create a FitnessProfile from survey answers
+  /// Calculates all features from the provided answers
+  factory FitnessProfile.createFitnessProfileFromSurvey(
+    List<String> featureOrder,
+    Map<String, dynamic> answers
+  ) {
+    final profile = FitnessProfile._internal(featureOrder, answers);
+    profile.calculateAllFeatures();
+    return profile;
+  }
+
+  /// Factory method to create a FitnessProfile from storage
+  /// Loads features from storage instead of calculating them
+  factory FitnessProfile.createFitnessProfileFromStorage(
+    List<String> featureOrder,
+    Map<String, dynamic> answers
+  ) {
+    final profile = FitnessProfile._internal(featureOrder, answers);
+    // Features will be loaded from storage when loadFeaturesFromStorage() is called
+    return profile;
+  }
+
+  /// Internal constructor for factory methods
+  FitnessProfile._internal(List<String> featureOrder, Map<String, dynamic> answers) : _answers = answers {
+    //build features in correct order
+    for (final feature in featureOrder) {
+      _features[feature] = 0.0;
+    }
+  }
 
   //Load features from local storage (Hive) into the features Map<String, double>
   Future<void> loadFeaturesFromStorage() async {    
@@ -59,7 +90,7 @@ class FitnessProfile {
 
 
   /// Calculate all features using extension methods
-  void _calculateAllFeatures() {
+  void calculateAllFeatures() {
     // Age bracket features
     calculateAgeBracket();
     

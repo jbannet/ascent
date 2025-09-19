@@ -1,12 +1,12 @@
-import '../../enums/exercise_style.dart';
-import '../../enums/session_type.dart';
-import '../../constants.dart';
+import '../../constants_and_enums/session_type.dart';
+import '../../constants_and_enums/constants.dart';
+import '../../constants_and_enums/workout_style_enum.dart';
 
 class Workout{
 
   DateTime? date; //Sunday date of the week
   SessionType type; // Micro or macro workout
-  ExerciseStyle style; // Primary style (cardio, strength, etc)
+  WorkoutStyle style; // Training style using enum for type safety
   bool _isCompleted = false;
 
   Workout({
@@ -26,7 +26,7 @@ class Workout{
     return Workout(
       date: json[PlanFields.dateField] != null ? DateTime.parse(json[PlanFields.dateField] as String) : null,
       type: sessionTypeFromString(json[PlanFields.typeField] as String),
-      style: exerciseStyleFromString(json[PlanFields.styleField] as String),
+      style: WorkoutStyle.fromJson(json[PlanFields.styleField] as String),
       isCompleted: json[PlanFields.isCompletedField] as bool? ?? false,
     );
   }
@@ -34,7 +34,7 @@ class Workout{
   Map<String, dynamic> toJson() => {
     PlanFields.dateField: date?.toIso8601String(),
     PlanFields.typeField: sessionTypeToString(type),
-    PlanFields.styleField: exerciseStyleToString(style),
+    PlanFields.styleField: style.toJson(),
     PlanFields.isCompletedField: _isCompleted,
   };
 }

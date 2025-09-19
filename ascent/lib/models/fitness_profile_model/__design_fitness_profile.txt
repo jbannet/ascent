@@ -100,6 +100,11 @@ fitness_profile_model/ // Onboarding answers → weighted feature vector
     │   ├── feature: high_impact_cardio_preference
     │   ├── feature: low_impact_cardio_preference
     │   └── feature: health_risk_bmi
+    ├── session_commitment.dart
+    │   ├── feature: full_sessions_per_week
+    │   ├── feature: micro_sessions_per_week
+    │   ├── feature: total_training_days
+    │   └── feature: weekly_training_minutes
     ├── relative_objective_importance.dart
     │   ├── feature: FeatureConstants.categoryCardio
     │   ├── feature: FeatureConstants.categoryStrength

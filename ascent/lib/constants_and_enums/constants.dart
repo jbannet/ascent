@@ -154,6 +154,78 @@ class AnswerConstants {
   static const int fallRiskAge = 65; // Age threshold for fall risk assessment
 }
 
+/// Workout icon constants
+class WorkoutIcons {
+  // Icon constants
+  static const String heart = '❤️';
+  static const String muscle = '💪';
+  static const String yoga = '🧘';
+  static const String timer = '⏱️';
+  static const String fire = '🔥';
+  static const String mountain = '⛰️';
+  static const String star = '⭐';
+  static const String diamond = '💎';
+  static const String lightning = '⚡';
+
+  // Training style constants
+  static const String fullBody = 'full_body';
+  static const String upperLowerSplit = 'upper_lower_split';
+  static const String pushPullLegs = 'push_pull_legs';
+  static const String concurrentHybrid = 'concurrent_hybrid';
+  static const String circuitMetabolic = 'circuit_metabolic';
+  static const String enduranceDominant = 'endurance_dominant';
+  static const String strongmanFunctional = 'strongman_functional';
+  static const String crossfitMixed = 'crossfit_mixed';
+  static const String functionalMovement = 'functional_movement';
+  static const String yogaFocused = 'yoga_focused';
+  static const String seniorSpecific = 'senior_specific';
+  static const String pilatesStyle = 'pilates_style';
+  static const String athleticConditioning = 'athletic_conditioning';
+
+  // Training style to icon mapping (style is the key)
+  static const Map<String, String> styleIcons = {
+    fullBody: timer,                    // ⏱️
+    upperLowerSplit: muscle,           // 💪
+    pushPullLegs: muscle,               // 💪
+    concurrentHybrid: timer,             // ⏱️
+    circuitMetabolic: fire,              // 🔥
+    enduranceDominant: heart,            // ❤️
+    strongmanFunctional: mountain,       // ⛰️
+    crossfitMixed: timer,                // ⏱️
+    functionalMovement: diamond,         // 💎
+    yogaFocused: yoga,                   // 🧘
+    seniorSpecific: star,                // ⭐
+    pilatesStyle: diamond,               // 💎
+    athleticConditioning: lightning,     // ⚡
+  };
+
+  // Training style display names
+  static const Map<String, String> styleDisplayNames = {
+    fullBody: 'Full-Body (FB)',
+    upperLowerSplit: 'Upper/Lower Split (UL)',
+    pushPullLegs: 'Push/Pull/Legs (PPL)',
+    concurrentHybrid: 'Concurrent / Hybrid',
+    circuitMetabolic: 'Circuit / Metabolic Conditioning',
+    enduranceDominant: 'Endurance-Dominant',
+    strongmanFunctional: 'Strongman / Functional Strength',
+    crossfitMixed: 'CrossFit / Mixed Modal',
+    functionalMovement: 'Functional Fitness / Movement Quality',
+    yogaFocused: 'Yoga-Focused',
+    seniorSpecific: 'Senior-Specific',
+    pilatesStyle: 'Pilates Style',
+    athleticConditioning: 'Athletic Conditioning',
+  };
+
+  // Category to training styles mapping
+  static const Map<String, List<String>> categoryToStyles = {
+    'cardio': [enduranceDominant, circuitMetabolic, athleticConditioning, fullBody, concurrentHybrid, pilatesStyle],
+    'strength': [upperLowerSplit, pushPullLegs, concurrentHybrid, fullBody, athleticConditioning, yogaFocused, pilatesStyle],
+    'balance': [seniorSpecific, functionalMovement, yogaFocused],
+    'flexibility': [yogaFocused, pilatesStyle],
+    'functional': [functionalMovement, seniorSpecific],
+  };
+}
+
 /// Fitness Plan JSON field names
 class PlanFields {
   // Plan fields

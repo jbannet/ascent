@@ -1,4 +1,4 @@
-import '../../enums/block_type.dart';
+import '../../constants_and_enums/block_type.dart';
 import 'block_step.dart';
 
 class Block {

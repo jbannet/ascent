@@ -1,5 +1,5 @@
 import 'readiness_adjustment.dart';
-import '../../enums/missed_session_policy.dart';
+import '../../constants_and_enums/missed_session_policy.dart';
 
 class Ruleset {
   final ReadinessAdjustment readinessAdjustment;

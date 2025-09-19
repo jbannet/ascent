@@ -1,6 +1,6 @@
 import '../blocks/block.dart';
-import '../../enums/session_type.dart';
-import '../../enums/exercise_style.dart';
+import '../../constants_and_enums/session_type.dart';
+import '../../constants_and_enums/exercise_style.dart';
 
 class Session {
   final String id;

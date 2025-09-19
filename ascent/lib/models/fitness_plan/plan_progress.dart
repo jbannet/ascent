@@ -1,5 +1,5 @@
 import 'package:ascent/models/fitness_plan/week_of_workouts.dart';
-import '../../constants.dart';
+import '../../constants_and_enums/constants.dart';
 
 class PlanProgress {
   final List<WeekOfWorkouts> completedWeeks;

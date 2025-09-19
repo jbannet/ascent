@@ -4,7 +4,7 @@ import '../../../workflow_views/onboarding_workflow/question_bank/questions/demo
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/weight_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/height_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/goals/fitness_goals_question.dart';
-import '../../../constants.dart';
+import '../../../constants_and_enums/constants.dart';
 
 /// Extension to calculate weight management metrics and training parameters.
 /// 

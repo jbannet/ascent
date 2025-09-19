@@ -1,4 +1,4 @@
-import '../../enums/rep_kind.dart';
+import '../../constants_and_enums/rep_kind.dart';
 
 class RepSpec {
   final RepKind kind;

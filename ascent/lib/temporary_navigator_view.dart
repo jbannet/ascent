@@ -13,9 +13,9 @@ import 'workflow_views/fitness_plan/views/block_cards/exercise_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/rest_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/warmup_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/cooldown_step_card.dart';
-import 'enums/session_type.dart';
-import 'enums/exercise_style.dart';
-import 'enums/item_mode.dart';
+import 'constants_and_enums/session_type.dart';
+import 'constants_and_enums/exercise_style.dart';
+import 'constants_and_enums/item_mode.dart';
 import 'routing/route_names.dart';
 import 'temporary_mapping_tool.dart';
 
@@ -289,7 +289,7 @@ class TemporaryNavigatorView extends StatelessWidget {
 
     return Plan(
       planProgress: PlanProgress(),
-      schedule: FourWeeks(
+      nextFourWeeks: FourWeeks(
         currentWeek: mockWeeks[0],
         nextWeeks: mockWeeks.sublist(1),
       ),

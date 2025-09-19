@@ -1,7 +1,9 @@
 import 'package:ascent/models/fitness_plan/style_allocation.dart';
+import 'package:ascent/models/fitness_profile_model/fitness_profile.dart';
+import 'package:ascent/services_and_utilities/general_utilities/get_this_sunday.dart';
 
-import '../../enums/exercise_style.dart';
-import '../../constants.dart';
+import '../../constants_and_enums/exercise_style.dart';
+import '../../constants_and_enums/constants.dart';
 import 'week_of_workouts.dart';
 
 /// Manages a 4-week fitness plan schedule
@@ -76,4 +78,20 @@ class FourWeeks {
     PlanFields.nextWeeksField: nextWeeks.map((e) => e.toJson()).toList(),
   };
 
+  factory FourWeeks.generateFromFitnessProfile(FitnessProfile profile) {
+    DateTime sundayDate = getThisSunday();
+    final currentWeek = WeekOfWorkouts.generateFromFitnessProfile(profile, sundayDate);
+
+    // Create the next 3 weeks
+    final List<WeekOfWorkouts> nextWeeksList = [];
+    for (int i = 0; i < 3; i++) {
+      sundayDate = sundayDate.add(Duration(days: 7));
+      nextWeeksList.add(WeekOfWorkouts.generateFromFitnessProfile(profile, sundayDate));
+    }
+
+    return FourWeeks(
+      currentWeek: currentWeek,
+      nextWeeks: nextWeeksList,
+    );
+  }
 }

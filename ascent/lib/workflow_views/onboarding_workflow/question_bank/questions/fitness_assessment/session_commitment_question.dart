@@ -45,9 +45,9 @@ class SessionCommitmentQuestion extends OnboardingQuestion {
       'minValue': 0,
     },
     'rightColumn': {
-      'label': 'Micro Sessions', 
+      'label': 'Micro Sessions',
       'description': '7-15 minutes',
-      'maxValue': 7,
+      'maxValue': 14,
       'minValue': 0,
     },
   };
@@ -66,7 +66,7 @@ class SessionCommitmentQuestion extends OnboardingQuestion {
     
     // Valid range check
     if (fullSessions < 0 || fullSessions > 7) return false;
-    if (microSessions < 0 || microSessions > 7) return false;
+    if (microSessions < 0 || microSessions > 14) return false;
     
     // User should commit to at least some exercise
     return (fullSessions + microSessions) > 0;

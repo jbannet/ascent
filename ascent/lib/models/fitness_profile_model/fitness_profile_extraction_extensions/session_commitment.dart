@@ -1,4 +1,5 @@
 import '../fitness_profile.dart';
+import 'package:ascent/constants_and_enums/constants_features.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/session_commitment_question.dart';
 
 /// Extension to extract session commitment metrics from user preferences.
@@ -15,18 +16,18 @@ extension SessionCommitment on FitnessProfile {
   void calculateSessionCommitment() {
     // Get the number of full sessions (30-60 minutes) per week
     final fullSessionsPerWeek = SessionCommitmentQuestion.instance.getFullSessionDays(answers);
-    featuresMap['full_sessions_per_week'] = fullSessionsPerWeek.toDouble();
+    featuresMap[FeatureConstants.fullSessionsPerWeek] = fullSessionsPerWeek.toDouble();
 
     // Get the number of micro sessions (7-15 minutes) per week
     final microSessionsPerWeek = SessionCommitmentQuestion.instance.getMicroSessionDays(answers);
-    featuresMap['micro_sessions_per_week'] = microSessionsPerWeek.toDouble();
+    featuresMap[FeatureConstants.microSessionsPerWeek] = microSessionsPerWeek.toDouble();
 
     // Calculate total training days (accounts for potential overlap)
     final totalTrainingDays = SessionCommitmentQuestion.instance.getTotalTrainingDays(answers);
-    featuresMap['total_training_days'] = totalTrainingDays.toDouble();
+    featuresMap[FeatureConstants.totalTrainingDays] = totalTrainingDays.toDouble();
 
     // Calculate total weekly training time in minutes
     final weeklyTrainingMinutes = SessionCommitmentQuestion.instance.getWeeklyTrainingMinutes(answers);
-    featuresMap['weekly_training_minutes'] = weeklyTrainingMinutes.toDouble();
+    featuresMap[FeatureConstants.weeklyTrainingMinutes] = weeklyTrainingMinutes.toDouble();
   }
 }

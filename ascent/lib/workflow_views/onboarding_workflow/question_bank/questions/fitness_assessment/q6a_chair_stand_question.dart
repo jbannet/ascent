@@ -4,7 +4,7 @@ import '../../../models/questions/question_option.dart';
 import '../../../models/questions/question_condition.dart';
 import '../../../views/question_views/question_types/single_choice_view.dart';
 import '../onboarding_question.dart';
-import '../../../../../constants.dart';
+import '../../../../../constants_and_enums/constants.dart';
 
 /// Q6A: Are you able to get up from a chair without using your hands for support?
 /// 

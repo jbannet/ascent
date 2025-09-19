@@ -6,7 +6,7 @@ import '../../../workflow_views/onboarding_workflow/question_bank/questions/demo
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q5_pushups_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q6_bodyweight_squats_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q6a_chair_stand_question.dart';
-import '../../../constants.dart';
+import '../../../constants_and_enums/constants.dart';
 
 /// Extension to calculate strength fitness metrics and training parameters.
 /// 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../enums/session_type.dart';
-import '../../../enums/exercise_style.dart';
+import '../../../constants_and_enums/session_type.dart';
+import '../../../constants_and_enums/workout_style_enum.dart';
 
 class SessionIcon extends StatelessWidget {
   final SessionType type;
-  final ExerciseStyle style;
+  final WorkoutStyle style;
   final double size;
   final bool showBadge;
 
@@ -54,7 +54,7 @@ class SessionIcon extends StatelessWidget {
               width: iconSize * 0.4,
               height: iconSize * 0.4,
               decoration: BoxDecoration(
-                color: _getStyleColor(),
+                color: style.color,
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 1),
               ),

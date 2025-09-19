@@ -1,4 +1,4 @@
-import '../../enums/intensity_mode.dart';
+import '../../constants_and_enums/intensity_mode.dart';
 
 class Intensity {
   final IntensityMode mode;

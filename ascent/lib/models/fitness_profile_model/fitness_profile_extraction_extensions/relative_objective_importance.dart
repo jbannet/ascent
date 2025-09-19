@@ -1,5 +1,5 @@
 import '../fitness_profile.dart';
-import 'package:ascent/constants_features.dart';
+import 'package:ascent/constants_and_enums/constants_features.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/age_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/gender_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/goals/fitness_goals_question.dart';
@@ -10,7 +10,7 @@ import '../../../workflow_views/onboarding_workflow/question_bank/questions/prac
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/glp1_medications_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/weight_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/height_question.dart';
-import '../../../constants.dart';
+import '../../../constants_and_enums/constants.dart';
 
 /// Extension to calculate relative importance across all exercise modalities.
 /// 

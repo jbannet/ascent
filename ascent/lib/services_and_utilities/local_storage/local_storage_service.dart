@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../constants.dart';
+import '../../constants_and_enums/constants.dart';
 
 /// Service for managing local storage of onboarding data using Hive database
 class LocalStorageService {

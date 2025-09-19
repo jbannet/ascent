@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../enums/exercise_style.dart';
+import '../../../constants_and_enums/exercise_style.dart';
 import '../../../theme/app_colors.dart';
 
 class StyleAllocationHeader extends StatelessWidget {

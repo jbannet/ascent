@@ -1,4 +1,4 @@
-import 'package:ascent/constants_features.dart';
+import 'package:ascent/constants_and_enums/constants_features.dart';
 import '../fitness_profile.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/age_question.dart';
 

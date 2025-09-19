@@ -1,5 +1,5 @@
-import '../../enums/day_of_week.dart';
-import '../../enums/session_status.dart';
+import '../../constants_and_enums/day_of_week.dart';
+import '../../constants_and_enums/session_status.dart';
 
 class PlannedDay {
   final DayOfWeek dow;

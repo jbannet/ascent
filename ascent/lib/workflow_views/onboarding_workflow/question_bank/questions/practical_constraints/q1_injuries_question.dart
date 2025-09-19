@@ -3,7 +3,7 @@ import '../../../models/questions/enum_question_type.dart';
 import '../../../models/questions/question_option.dart';
 import '../../../widgets/onboarding/question_input/body_map_widget.dart';
 import '../onboarding_question.dart';
-import '../../../../../constants.dart';
+import '../../../../../constants_and_enums/constants.dart';
 
 /// Q1: Do you have any current injuries or physical limitations?
 /// 

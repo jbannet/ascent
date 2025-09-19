@@ -1,7 +1,7 @@
 import '../fitness_profile.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/age_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/gender_question.dart';
-import '../../../constants.dart';
+import '../../../constants_and_enums/constants.dart';
 
 /// Extension to calculate joint health and low impact exercise metrics.
 /// 

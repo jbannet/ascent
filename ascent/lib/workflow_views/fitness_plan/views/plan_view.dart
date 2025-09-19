@@ -9,7 +9,7 @@ class PlanView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final next4Weeks = plan.getNext4Weeks();
+    final next4Weeks = plan.next4Weeks;
     final currentWeekIndex = plan.currentWeekIndex;
 
 

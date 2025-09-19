@@ -1,5 +1,5 @@
 import 'block_step.dart';
-import '../../enums/block_step_kind.dart';
+import '../../constants_and_enums/block_step_kind.dart';
 
 class WarmupStep implements BlockStep {
   @override

@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../../models/fitness_plan/plan.dart';
 import '../../../theme/app_colors.dart';
-import '../../../enums/exercise_style.dart';
+import '../../../constants_and_enums/exercise_style.dart';
 
 class CompletionStatsHeader extends StatefulWidget {
   final Plan plan;
@@ -355,7 +355,7 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
   }
 
   Widget _buildStyleAllocation() {
-    final styleAllocation = widget.plan.getStyleAllocation().toPercentages();
+    final styleAllocation = widget.plan.styleAllocation.toPercentages();
 
     if (styleAllocation.isEmpty) {
       return const SizedBox.shrink();
