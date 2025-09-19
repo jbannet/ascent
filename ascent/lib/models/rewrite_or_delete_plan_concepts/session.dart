@@ -13,7 +13,7 @@ class Session {
     required this.id,
     required this.title,
     List<Block>? blocks,
-    this.type = SessionType.macro,
+    this.type = SessionType.full,
     this.style = ExerciseStyle.strength,
   }) : blocks = blocks ?? <Block>[];
 
@@ -26,7 +26,7 @@ class Session {
     id: json['id'] as String,
     title: json['title'] as String,
     blocks: (json['blocks'] as List<dynamic>? )?.map((e)=> Block.fromJson(Map<String, dynamic>.from(e))).toList() ?? <Block>[],
-    type: json['type'] != null ? sessionTypeFromString(json['type'] as String) : SessionType.macro,
+    type: json['type'] != null ? sessionTypeFromString(json['type'] as String) : SessionType.full,
     style: json['style'] != null ? exerciseStyleFromString(json['style'] as String) : ExerciseStyle.strength,
   );
 

@@ -19,8 +19,8 @@ class SessionIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMicro = type == SessionType.micro;
-    final iconSize = isMicro ? size * 0.65 : size; // Micro is 65% size, Macro is 100% = better visibility
-    final borderRadius = isMicro ? iconSize / 2 : iconSize * 0.2; // Micro is circular, macro is rounded square
+    final iconSize = isMicro ? size * 0.65 : size; // Micro is 65% size, Full is 100% = better visibility
+    final borderRadius = isMicro ? iconSize / 2 : iconSize * 0.2; // Micro is circular, full is rounded square
 
     return Stack(
       children: [
@@ -32,7 +32,7 @@ class SessionIcon extends StatelessWidget {
             borderRadius: BorderRadius.circular(borderRadius),
             border: isMicro
               ? Border.all(color: Colors.grey.shade300, width: 2) // Micro has subtle outline
-              : null, // Macro is filled
+              : null, // Full is filled
           ),
           child: isMicro
               ? _buildClockFaceBackground(iconSize)
@@ -119,7 +119,7 @@ class SessionIcon extends StatelessWidget {
     switch (type) {
       case SessionType.micro:
         return Colors.white; // Clean white for clock face
-      case SessionType.macro:
+      case SessionType.full:
         return Colors.purple.shade100;
     }
   }

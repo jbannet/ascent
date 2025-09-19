@@ -358,7 +358,7 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
   }
 
   Widget _buildStyleAllocation() {
-    final categoryAllocations = widget.fitnessProfile.getCategoryAllocationsAsPercentages();
+    final categoryAllocations = widget.fitnessProfile.categoryAllocationsAsPercentages;
 
     if (categoryAllocations.isEmpty || categoryAllocations.values.every((v) => v == 0)) {
       return const SizedBox.shrink();

@@ -213,9 +213,9 @@ class TemporaryNavigatorView extends StatelessWidget {
         weekIndex: 1,
         startDate: DateTime.now(),
         workouts: [
-          Workout(type: SessionType.macro, style: WorkoutStyle.upperLowerSplit, isCompleted: true),
+          Workout(type: SessionType.full, style: WorkoutStyle.upperLowerSplit, isCompleted: true),
           Workout(type: SessionType.micro, style: WorkoutStyle.enduranceDominant, isCompleted: true),
-          Workout(type: SessionType.macro, style: WorkoutStyle.yogaFocused, isCompleted: false),
+          Workout(type: SessionType.full, style: WorkoutStyle.yogaFocused, isCompleted: false),
         ],
       ),
       // Week 2 - Next week
@@ -223,9 +223,9 @@ class TemporaryNavigatorView extends StatelessWidget {
         weekIndex: 2,
         startDate: DateTime.now(),
         workouts: [
-          Workout(type: SessionType.macro, style: WorkoutStyle.pushPullLegs, isCompleted: false),
+          Workout(type: SessionType.full, style: WorkoutStyle.pushPullLegs, isCompleted: false),
           Workout(type: SessionType.micro, style: WorkoutStyle.seniorSpecific, isCompleted: false),
-          Workout(type: SessionType.macro, style: WorkoutStyle.circuitMetabolic, isCompleted: false),
+          Workout(type: SessionType.full, style: WorkoutStyle.circuitMetabolic, isCompleted: false),
         ],
       ),
       // Week 3
@@ -233,7 +233,7 @@ class TemporaryNavigatorView extends StatelessWidget {
         weekIndex: 3,
         startDate: DateTime.now(),
         workouts: [
-          Workout(type: SessionType.macro, style: WorkoutStyle.functionalMovement, isCompleted: false),
+          Workout(type: SessionType.full, style: WorkoutStyle.functionalMovement, isCompleted: false),
           Workout(type: SessionType.micro, style: WorkoutStyle.pilatesStyle, isCompleted: false),
         ],
       ),
@@ -243,7 +243,7 @@ class TemporaryNavigatorView extends StatelessWidget {
         startDate: DateTime.now(),
         workouts: [
           Workout(type: SessionType.micro, style: WorkoutStyle.seniorSpecific, isCompleted: false),
-          Workout(type: SessionType.macro, style: WorkoutStyle.strongmanFunctional, isCompleted: false),
+          Workout(type: SessionType.full, style: WorkoutStyle.strongmanFunctional, isCompleted: false),
         ],
       ),
     ];

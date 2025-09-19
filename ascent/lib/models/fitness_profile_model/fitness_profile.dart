@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ascent/constants_and_enums/constants_features.dart';
 import 'package:ascent/constants_and_enums/category_enum.dart';
 
@@ -91,9 +93,9 @@ class FitnessProfile {
     await LocalStorageService.saveFitnessProfileFeatures(_features);
   }
 
-
+  //MARK: get functions
   /// Get category allocations as percentages for display
-  Map<Category, double> getCategoryAllocationsAsPercentages() {
+  Map<Category, double> get categoryAllocationsAsPercentages {
     return {
       Category.cardio: (featuresMap[FeatureConstants.categoryCardio] ?? 0.0) * 100,
       Category.strength: (featuresMap[FeatureConstants.categoryStrength] ?? 0.0) * 100,
@@ -103,7 +105,32 @@ class FitnessProfile {
     };
   }
 
+  Category selectRandomCategory(Map<Category, double> weights) {
+    if (weights.isEmpty) {
+      throw ArgumentError('weights cannot be empty');
+    }
 
+    final double totalWeight = weights.values.reduce((a, b) => a + b);
+    if (totalWeight <= 0) {
+      throw ArgumentError('weights must sum to more than zero');
+    }
+
+    final random = Random();
+    double randomValue = random.nextDouble() * totalWeight;
+
+    double cumulativeWeight = 0.0;
+    for (final entry in weights.entries) {
+      cumulativeWeight += entry.value;
+      if (randomValue <= cumulativeWeight) {
+        return entry.key;
+      }
+    }
+
+    return weights.keys.first;
+  }
+
+
+  //MARK: FUNCTIONS
   /// Calculate all features using extension methods
   void calculateAllFeatures() {
     // Age bracket features

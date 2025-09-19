@@ -17,7 +17,7 @@ class SamplePlanData {
     final week1Workouts = [
       Workout(
         date: startOfWeek.add(const Duration(days: 1)), // Monday
-        type: SessionType.macro,
+        type: SessionType.full,
         style: WorkoutStyle.upperLowerSplit,
         isCompleted: true,
       ),
@@ -29,7 +29,7 @@ class SamplePlanData {
       ),
       Workout(
         date: startOfWeek.add(const Duration(days: 3)), // Wednesday
-        type: SessionType.macro,
+        type: SessionType.full,
         style: WorkoutStyle.pushPullLegs,
         isCompleted: true,
       ),
@@ -41,7 +41,7 @@ class SamplePlanData {
       ),
       Workout(
         date: startOfWeek.add(const Duration(days: 6)), // Saturday
-        type: SessionType.macro,
+        type: SessionType.full,
         style: WorkoutStyle.circuitMetabolic,
         isCompleted: false,
       ),
@@ -52,7 +52,7 @@ class SamplePlanData {
     final week2Workouts = [
       Workout(
         date: week2Start.add(const Duration(days: 1)), // Monday
-        type: SessionType.macro,
+        type: SessionType.full,
         style: WorkoutStyle.fullBody,
         isCompleted: false,
       ),
@@ -64,7 +64,7 @@ class SamplePlanData {
       ),
       Workout(
         date: week2Start.add(const Duration(days: 4)), // Thursday
-        type: SessionType.macro,
+        type: SessionType.full,
         style: WorkoutStyle.functionalMovement,
         isCompleted: false,
       ),
@@ -81,13 +81,13 @@ class SamplePlanData {
     final week3Workouts = [
       Workout(
         date: week3Start.add(const Duration(days: 1)), // Monday
-        type: SessionType.macro,
+        type: SessionType.full,
         style: WorkoutStyle.athleticConditioning,
         isCompleted: false,
       ),
       Workout(
         date: week3Start.add(const Duration(days: 3)), // Wednesday
-        type: SessionType.macro,
+        type: SessionType.full,
         style: WorkoutStyle.strongmanFunctional,
         isCompleted: false,
       ),
@@ -116,7 +116,7 @@ class SamplePlanData {
       ),
       Workout(
         date: week4Start.add(const Duration(days: 6)), // Saturday
-        type: SessionType.macro,
+        type: SessionType.full,
         style: WorkoutStyle.concurrentHybrid,
         isCompleted: false,
       ),

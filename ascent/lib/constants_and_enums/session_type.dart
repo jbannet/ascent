@@ -1,37 +1,28 @@
 enum SessionType {
-  micro,
-  macro;
+  micro('Micro', '🏃‍♂️'),
+  full('Full', '💪');
 
-  String get displayName {
-    switch (this) {
-      case SessionType.micro:
-        return 'Micro';
-      case SessionType.macro:
-        return 'Macro';
+  const SessionType(this.displayName, this.icon);
+
+  final String displayName;
+  final String icon;
+
+  String toJson() => name;
+
+  static SessionType fromJson(String value) {
+    final normalized = value.toLowerCase();
+    switch (normalized) {
+      case 'micro':
+        return SessionType.micro;
+      case 'full':
+      case 'macro':
+        return SessionType.full;
+      default:
+        throw ArgumentError('Invalid session type: $value');
     }
   }
-
-  String get icon {
-    switch (this) {
-      case SessionType.micro:
-        return '🏃‍♂️';
-      case SessionType.macro:
-        return '💪';
-    }
-  }
 }
 
-SessionType sessionTypeFromString(String value) {
-  switch (value.toLowerCase()) {
-    case 'micro':
-      return SessionType.micro;
-    case 'macro':
-      return SessionType.macro;
-    default:
-      throw ArgumentError('Invalid session type: $value');
-  }
-}
+SessionType sessionTypeFromString(String value) => SessionType.fromJson(value);
 
-String sessionTypeToString(SessionType type) {
-  return type.name;
-}
+String sessionTypeToString(SessionType type) => type.toJson();
