@@ -39,15 +39,6 @@ class FourWeeks {
   /// Get all weeks (current + next)
   List<WeekOfWorkouts> get allWeeks => [currentWeek, ...nextWeeks];
 
-  /// Get style allocation calculations for all workouts
-  StyleAllocation get styleAllocationInPercentages {
-    StyleAllocation allocation = currentWeek.styleAllocation;
-    for (final week in nextWeeks) {
-      allocation = allocation.merge(week.styleAllocation);
-    }
-    return allocation;
-  }
-
   /// Get completion status for currentweek
   WeekCompletionStats get completionStats => currentWeek.completionStats;
   

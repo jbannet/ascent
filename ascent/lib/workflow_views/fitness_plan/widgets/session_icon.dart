@@ -124,27 +124,4 @@ class SessionIcon extends StatelessWidget {
     }
   }
 
-  Color _getTypeColor() {
-    switch (type) {
-      case SessionType.micro:
-        return Colors.blue.shade400;
-      case SessionType.macro:
-        return Colors.purple.shade400;
-    }
-  }
-
-  Color _getStyleColor() {
-    switch (style) {
-      case ExerciseStyle.cardio:
-        return Colors.red.shade400;
-      case ExerciseStyle.strength:
-        return Colors.orange.shade400;
-      case ExerciseStyle.flexibility:
-        return Colors.green.shade400;
-      case ExerciseStyle.balance:
-        return Colors.blue.shade400;
-      case ExerciseStyle.functional:
-        return Colors.brown.shade400;
-    }
-  }
 }

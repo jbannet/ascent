@@ -15,8 +15,6 @@ class Plan {
     required this.nextFourWeeks,
   });
 
-  // Delegate to schedule for style allocation
-  StyleAllocation get styleAllocation => nextFourWeeks.styleAllocationInPercentages;
   // Get current week index based on start date
   int get currentWeekIndex => planProgress.currentWeekIndex;
   // Delegate to schedule for week completion stats

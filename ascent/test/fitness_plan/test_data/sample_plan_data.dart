@@ -4,7 +4,7 @@ import 'package:ascent/models/fitness_plan/week_of_workouts.dart';
 import 'package:ascent/models/fitness_plan/four_weeks.dart';
 import 'package:ascent/models/fitness_plan/workout.dart';
 import 'package:ascent/constants_and_enums/workout_style_enum.dart';
-import 'package:ascent/enums/session_type.dart';
+import 'package:ascent/constants_and_enums/session_type.dart';
 
 class SamplePlanData {
   static Plan createSamplePlan() {

@@ -14,7 +14,7 @@ import 'workflow_views/fitness_plan/views/block_cards/rest_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/warmup_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/cooldown_step_card.dart';
 import 'constants_and_enums/session_type.dart';
-import 'constants_and_enums/exercise_style.dart';
+import 'constants_and_enums/workout_style_enum.dart';
 import 'constants_and_enums/item_mode.dart';
 import 'routing/route_names.dart';
 import 'temporary_mapping_tool.dart';
@@ -252,9 +252,9 @@ class TemporaryNavigatorView extends StatelessWidget {
         weekIndex: 1,
         startDate: DateTime.now(),
         workouts: [
-          Workout(type: SessionType.macro, style: ExerciseStyle.strength, isCompleted: true),
-          Workout(type: SessionType.micro, style: ExerciseStyle.cardio, isCompleted: true),
-          Workout(type: SessionType.macro, style: ExerciseStyle.flexibility, isCompleted: false),
+          Workout(type: SessionType.macro, style: WorkoutStyle.upperLowerSplit, isCompleted: true),
+          Workout(type: SessionType.micro, style: WorkoutStyle.enduranceDominant, isCompleted: true),
+          Workout(type: SessionType.macro, style: WorkoutStyle.yogaFocused, isCompleted: false),
         ],
       ),
       // Week 2 - Next week
@@ -262,9 +262,9 @@ class TemporaryNavigatorView extends StatelessWidget {
         weekIndex: 2,
         startDate: DateTime.now(),
         workouts: [
-          Workout(type: SessionType.macro, style: ExerciseStyle.strength, isCompleted: false),
-          Workout(type: SessionType.micro, style: ExerciseStyle.balance, isCompleted: false),
-          Workout(type: SessionType.macro, style: ExerciseStyle.cardio, isCompleted: false),
+          Workout(type: SessionType.macro, style: WorkoutStyle.pushPullLegs, isCompleted: false),
+          Workout(type: SessionType.micro, style: WorkoutStyle.seniorSpecific, isCompleted: false),
+          Workout(type: SessionType.macro, style: WorkoutStyle.circuitMetabolic, isCompleted: false),
         ],
       ),
       // Week 3
@@ -272,8 +272,8 @@ class TemporaryNavigatorView extends StatelessWidget {
         weekIndex: 3,
         startDate: DateTime.now(),
         workouts: [
-          Workout(type: SessionType.macro, style: ExerciseStyle.functional, isCompleted: false),
-          Workout(type: SessionType.micro, style: ExerciseStyle.flexibility, isCompleted: false),
+          Workout(type: SessionType.macro, style: WorkoutStyle.functionalMovement, isCompleted: false),
+          Workout(type: SessionType.micro, style: WorkoutStyle.pilatesStyle, isCompleted: false),
         ],
       ),
       // Week 4
@@ -281,8 +281,8 @@ class TemporaryNavigatorView extends StatelessWidget {
         weekIndex: 4,
         startDate: DateTime.now(),
         workouts: [
-          Workout(type: SessionType.micro, style: ExerciseStyle.balance, isCompleted: false),
-          Workout(type: SessionType.macro, style: ExerciseStyle.strength, isCompleted: false),
+          Workout(type: SessionType.micro, style: WorkoutStyle.seniorSpecific, isCompleted: false),
+          Workout(type: SessionType.macro, style: WorkoutStyle.strongmanFunctional, isCompleted: false),
         ],
       ),
     ];

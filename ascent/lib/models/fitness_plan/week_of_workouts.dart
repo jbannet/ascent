@@ -6,6 +6,7 @@ import 'package:ascent/services_and_utilities/general_utilities/get_this_sunday.
 import 'package:ascent/constants_and_enums/constants_features.dart';
 import '../../constants_and_enums/constants.dart';
 import '../../constants_and_enums/session_type.dart';
+import '../../constants_and_enums/workout_style_enum.dart';
 import 'dart:math';
 
 /*
@@ -35,13 +36,6 @@ class WeekOfWorkouts {
   );
   get completedPercentage => completionStats.completed / completionStats.total;
 
-  get styleAllocation {
-    StyleAllocation styleAllocation = StyleAllocation();
-    for (var workout in workouts) {
-      styleAllocation.addWorkout(workout);
-    }
-    return styleAllocation;
-  }
 
   WeekOfWorkouts({
     required this.weekIndex,
@@ -88,15 +82,15 @@ class WeekOfWorkouts {
     }
 
     List<Workout> workouts = [];
-    List<String> recentStyles = []; // Track recent styles for variety
+    List<WorkoutStyle> recentStyles = []; // Track recent styles for variety
 
     for (int i = 0; i < totalWorkouts; i++) {
       // Step 1: Pick category based on weights
       String category = _weightedRandomSelect(categoryWeights);
 
       // Step 2: Pick style from category (with variety bias)
-      List<String> availableStyles = WorkoutIcons.categoryToStyles[category]!;
-      String style = _selectStyleWithVariety(availableStyles, recentStyles);
+      List<WorkoutStyle> availableStyles = _getWorkoutStylesForCategory(category);
+      WorkoutStyle style = _selectStyleWithVariety(availableStyles, recentStyles);
       recentStyles.add(style);
       if (recentStyles.length > 3) recentStyles.removeAt(0); // Keep last 3
 
@@ -137,12 +131,25 @@ class WeekOfWorkouts {
     return weights.keys.first;
   }
 
+  /// Get WorkoutStyle enum values for a given category
+  static List<WorkoutStyle> _getWorkoutStylesForCategory(String category) {
+    final Map<String, List<WorkoutStyle>> categoryToStyles = {
+      'cardio': [WorkoutStyle.enduranceDominant, WorkoutStyle.circuitMetabolic, WorkoutStyle.athleticConditioning, WorkoutStyle.fullBody, WorkoutStyle.concurrentHybrid, WorkoutStyle.pilatesStyle],
+      'strength': [WorkoutStyle.upperLowerSplit, WorkoutStyle.pushPullLegs, WorkoutStyle.concurrentHybrid, WorkoutStyle.fullBody, WorkoutStyle.athleticConditioning, WorkoutStyle.yogaFocused, WorkoutStyle.pilatesStyle],
+      'balance': [WorkoutStyle.functionalMovement, WorkoutStyle.yogaFocused, WorkoutStyle.seniorSpecific, WorkoutStyle.pilatesStyle],
+      'flexibility': [WorkoutStyle.yogaFocused, WorkoutStyle.pilatesStyle, WorkoutStyle.seniorSpecific],
+      'functional': [WorkoutStyle.functionalMovement, WorkoutStyle.strongmanFunctional, WorkoutStyle.crossfitMixed, WorkoutStyle.seniorSpecific],
+    };
+
+    return categoryToStyles[category] ?? [WorkoutStyle.fullBody];
+  }
+
   /// Select style from available styles, avoiding recent repetitions
-  static String _selectStyleWithVariety(List<String> availableStyles, List<String> recentStyles) {
+  static WorkoutStyle _selectStyleWithVariety(List<WorkoutStyle> availableStyles, List<WorkoutStyle> recentStyles) {
     final random = Random();
 
     // Try to avoid styles used in last 3 workouts
-    List<String> freshStyles = availableStyles.where((style) => !recentStyles.contains(style)).toList();
+    List<WorkoutStyle> freshStyles = availableStyles.where((style) => !recentStyles.contains(style)).toList();
 
     if (freshStyles.isNotEmpty) {
       return freshStyles[random.nextInt(freshStyles.length)];
