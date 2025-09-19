@@ -5,6 +5,7 @@ import 'models/fitness_plan/plan.dart';
 import 'models/fitness_plan/plan_progress.dart';
 import 'models/fitness_plan/four_weeks.dart';
 import 'models/fitness_plan/week_of_workouts.dart';
+import 'models/fitness_profile_model/fitness_profile.dart';
 import 'models/blocks/exercise_prescription_step.dart';
 import 'models/blocks/rest_step.dart';
 import 'models/blocks/warmup_step.dart';
@@ -16,6 +17,7 @@ import 'workflow_views/fitness_plan/views/block_cards/cooldown_step_card.dart';
 import 'constants_and_enums/session_type.dart';
 import 'constants_and_enums/workout_style_enum.dart';
 import 'constants_and_enums/item_mode.dart';
+import 'constants_and_enums/constants_features.dart';
 import 'routing/route_names.dart';
 import 'temporary_mapping_tool.dart';
 
@@ -59,47 +61,8 @@ class TemporaryNavigatorView extends StatelessWidget {
             ),
           ),
           
-          _buildNavigationTile(
-            context,
-            title: 'Week View',
-            subtitle: 'View a weekly training schedule',
-            icon: Icons.calendar_view_week,
-            onTap: () {
-              final plan = _createMockPlan();
-              context.push(
-                RouteNames.weekPath(1),
-                extra: plan,
-              );
-            },
-          ),
           
-          _buildNavigationTile(
-            context,
-            title: 'Day View',
-            subtitle: 'View a daily training session',
-            icon: Icons.today,
-            onTap: () {
-              final plan = _createMockPlan();
-              context.push(
-                RouteNames.dayPath(1, 'mon'),
-                extra: plan,
-              );
-            },
-          ),
           
-          _buildNavigationTile(
-            context,
-            title: 'Block View',
-            subtitle: 'View a training block/circuit',
-            icon: Icons.view_module,
-            onTap: () {
-              final plan = _createMockPlan();
-              context.push(
-                RouteNames.blockPath(1, 'mon', 0),
-                extra: plan,
-              );
-            },
-          ),
 
           const Divider(),
           const Text(
@@ -243,8 +206,6 @@ class TemporaryNavigatorView extends StatelessWidget {
 
   /// Create mock Plan data for testing fitness views
   Plan _createMockPlan() {
-    final now = DateTime.now();
-    final startOfWeek = _getStartOfWeek(now);
 
     final mockWeeks = [
       // Week 1 - This week
@@ -293,14 +254,41 @@ class TemporaryNavigatorView extends StatelessWidget {
         currentWeek: mockWeeks[0],
         nextWeeks: mockWeeks.sublist(1),
       ),
+      fitnessProfile: _createMockFitnessProfile(),
     );
   }
 
-  /// Get the start of the week (Sunday) for a given date
-  DateTime _getStartOfWeek(DateTime date) {
-    final daysSinceLastSunday = date.weekday % 7;
-    return DateTime(date.year, date.month, date.day)
-        .subtract(Duration(days: daysSinceLastSunday));
+  /// Create mock FitnessProfile data for testing the plan view
+  FitnessProfile _createMockFitnessProfile() {
+    final featureOrder = [
+      FeatureConstants.categoryCardio,
+      FeatureConstants.categoryStrength,
+      FeatureConstants.categoryBalance,
+      FeatureConstants.categoryStretching,
+      FeatureConstants.categoryFunctional,
+      FeatureConstants.categoryBodyweight,
+      FeatureConstants.fullSessionsPerWeek,
+      FeatureConstants.microSessionsPerWeek,
+    ];
+
+    final mockAnswers = <String, dynamic>{
+      'age': 35,
+      'experience_level': 'intermediate',
+      'goals': ['strength', 'cardio'],
+    };
+
+    // Use internal constructor to avoid calculateAllFeatures() call
+    final profile = FitnessProfile.createFitnessProfileFromStorage(featureOrder, mockAnswers);
+
+    // Manually set some feature values to show meaningful category allocations
+    profile.featuresMap[FeatureConstants.categoryCardio] = 0.35;     // 35%
+    profile.featuresMap[FeatureConstants.categoryStrength] = 0.40;   // 40%
+    profile.featuresMap[FeatureConstants.categoryBalance] = 0.15;    // 15%
+    profile.featuresMap[FeatureConstants.categoryStretching] = 0.10; // 10%
+    profile.featuresMap[FeatureConstants.fullSessionsPerWeek] = 3.0;
+    profile.featuresMap[FeatureConstants.microSessionsPerWeek] = 2.0;
+
+    return profile;
   }
 
   /// Create mock ExercisePrescriptionStep for reps-based exercises

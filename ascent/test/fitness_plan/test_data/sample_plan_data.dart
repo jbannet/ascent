@@ -3,8 +3,10 @@ import 'package:ascent/models/fitness_plan/plan_progress.dart';
 import 'package:ascent/models/fitness_plan/week_of_workouts.dart';
 import 'package:ascent/models/fitness_plan/four_weeks.dart';
 import 'package:ascent/models/fitness_plan/workout.dart';
+import 'package:ascent/models/fitness_profile_model/fitness_profile.dart';
 import 'package:ascent/constants_and_enums/workout_style_enum.dart';
 import 'package:ascent/constants_and_enums/session_type.dart';
+import 'package:ascent/constants_and_enums/constants_features.dart';
 
 class SamplePlanData {
   static Plan createSamplePlan() {
@@ -133,6 +135,7 @@ class SamplePlanData {
         currentWeek: week1,
         nextWeeks: [week2, week3, week4],
       ),
+      fitnessProfile: _createSampleFitnessProfile(),
     );
   }
 
@@ -141,5 +144,39 @@ class SamplePlanData {
     final daysSinceLastSunday = date.weekday % 7;
     return DateTime(date.year, date.month, date.day)
         .subtract(Duration(days: daysSinceLastSunday));
+  }
+
+  /// Create sample FitnessProfile data for testing
+  static FitnessProfile _createSampleFitnessProfile() {
+    final featureOrder = [
+      FeatureConstants.categoryCardio,
+      FeatureConstants.categoryStrength,
+      FeatureConstants.categoryBalance,
+      FeatureConstants.categoryStretching,
+      FeatureConstants.categoryFunctional,
+      FeatureConstants.categoryBodyweight,
+      FeatureConstants.fullSessionsPerWeek,
+      FeatureConstants.microSessionsPerWeek,
+    ];
+
+    final sampleAnswers = <String, dynamic>{
+      'age': 32,
+      'experience_level': 'beginner',
+      'goals': ['strength', 'balance', 'flexibility'],
+    };
+
+    // Use storage constructor to avoid calculateAllFeatures() call
+    final profile = FitnessProfile.createFitnessProfileFromStorage(featureOrder, sampleAnswers);
+
+    // Set realistic feature values to display meaningful category allocations
+    profile.featuresMap[FeatureConstants.categoryCardio] = 0.25;     // 25%
+    profile.featuresMap[FeatureConstants.categoryStrength] = 0.35;   // 35%
+    profile.featuresMap[FeatureConstants.categoryBalance] = 0.20;    // 20%
+    profile.featuresMap[FeatureConstants.categoryStretching] = 0.15; // 15%
+    profile.featuresMap[FeatureConstants.categoryFunctional] = 0.05; // 5%
+    profile.featuresMap[FeatureConstants.fullSessionsPerWeek] = 2.0;
+    profile.featuresMap[FeatureConstants.microSessionsPerWeek] = 3.0;
+
+    return profile;
   }
 }

@@ -52,10 +52,10 @@ class WeekCard extends StatelessWidget {
               )
             : null,
         child: InkWell(
-          onTap: () => context.push(
-            RouteNames.weekPath(week.weekIndex),
-            extra: plan,
-          ),
+          onTap: () {
+            // Week view has been removed - could navigate to plan view instead
+            // or implement week-specific action
+          },
           borderRadius: BorderRadius.circular(12),
           child: Padding(
             padding: const EdgeInsets.all(16),

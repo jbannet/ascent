@@ -103,6 +103,7 @@ class FitnessProfile {
     };
   }
 
+
   /// Calculate all features using extension methods
   void calculateAllFeatures() {
     // Age bracket features

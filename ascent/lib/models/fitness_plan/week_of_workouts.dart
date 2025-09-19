@@ -1,12 +1,14 @@
 import 'package:ascent/models/fitness_plan/exercise.dart';
+import 'package:ascent/constants_and_enums/constants_features.dart';
 import 'package:ascent/models/fitness_plan/style_allocation.dart';
 import 'package:ascent/models/fitness_plan/workout.dart';
 import 'package:ascent/models/fitness_profile_model/fitness_profile.dart';
 import 'package:ascent/services_and_utilities/general_utilities/get_this_sunday.dart';
-import 'package:ascent/constants_and_enums/constants_features.dart';
+import 'package:flutter/foundation.dart';
 import '../../constants_and_enums/constants.dart';
 import '../../constants_and_enums/session_type.dart';
 import '../../constants_and_enums/workout_style_enum.dart';
+import '../../constants_and_enums/category_enum.dart' as ascent_category;
 import 'dart:math';
 
 /*
@@ -68,13 +70,7 @@ class WeekOfWorkouts {
     int totalWorkouts = microWorkouts + macroWorkouts;
 
     // Extract category percentages using proper constants
-    Map<String, double> categoryWeights = {
-      'cardio': profile.featuresMap[FeatureConstants.categoryCardio] ?? 0.0,
-      'strength': profile.featuresMap[FeatureConstants.categoryStrength] ?? 0.0,
-      'balance': profile.featuresMap[FeatureConstants.categoryBalance] ?? 0.0,
-      'flexibility': profile.featuresMap[FeatureConstants.categoryStretching] ?? 0.0,
-      'functional': profile.featuresMap[FeatureConstants.categoryFunctional] ?? 0.0,
-    };
+    Map<ascent_category.Category, double> categoryWeights = profile.getCategoryAllocationsAsPercentages();
 
     // Check if all weights are 0 (shouldn't happen but handle gracefully)
     if (categoryWeights.values.every((w) => w == 0.0)) {
@@ -82,17 +78,15 @@ class WeekOfWorkouts {
     }
 
     List<Workout> workouts = [];
-    List<WorkoutStyle> recentStyles = []; // Track recent styles for variety
+    final random = Random();
 
     for (int i = 0; i < totalWorkouts; i++) {
       // Step 1: Pick category based on weights
-      String category = _weightedRandomSelect(categoryWeights);
+      ascent_category.Category category = _weightedRandomSelect(categoryWeights);
 
       // Step 2: Pick style from category (with variety bias)
       List<WorkoutStyle> availableStyles = _getWorkoutStylesForCategory(category);
-      WorkoutStyle style = _selectStyleWithVariety(availableStyles, recentStyles);
-      recentStyles.add(style);
-      if (recentStyles.length > 3) recentStyles.removeAt(0); // Keep last 3
+      WorkoutStyle style = availableStyles[random.nextInt(availableStyles.length)];
 
       // Step 3: Assign session type
       SessionType type = i < microWorkouts ? SessionType.micro : SessionType.macro;
@@ -114,7 +108,7 @@ class WeekOfWorkouts {
   }
 
   /// Weighted random selection based on category percentages
-  static String _weightedRandomSelect(Map<String, double> weights) {
+  static ascent_category.Category _weightedRandomSelect(Map<ascent_category.Category, double> weights) {
     final random = Random();
     double totalWeight = weights.values.reduce((a, b) => a + b);
     double randomValue = random.nextDouble() * totalWeight;
@@ -132,30 +126,15 @@ class WeekOfWorkouts {
   }
 
   /// Get WorkoutStyle enum values for a given category
-  static List<WorkoutStyle> _getWorkoutStylesForCategory(String category) {
-    final Map<String, List<WorkoutStyle>> categoryToStyles = {
-      'cardio': [WorkoutStyle.enduranceDominant, WorkoutStyle.circuitMetabolic, WorkoutStyle.athleticConditioning, WorkoutStyle.fullBody, WorkoutStyle.concurrentHybrid, WorkoutStyle.pilatesStyle],
-      'strength': [WorkoutStyle.upperLowerSplit, WorkoutStyle.pushPullLegs, WorkoutStyle.concurrentHybrid, WorkoutStyle.fullBody, WorkoutStyle.athleticConditioning, WorkoutStyle.yogaFocused, WorkoutStyle.pilatesStyle],
-      'balance': [WorkoutStyle.functionalMovement, WorkoutStyle.yogaFocused, WorkoutStyle.seniorSpecific, WorkoutStyle.pilatesStyle],
-      'flexibility': [WorkoutStyle.yogaFocused, WorkoutStyle.pilatesStyle, WorkoutStyle.seniorSpecific],
-      'functional': [WorkoutStyle.functionalMovement, WorkoutStyle.strongmanFunctional, WorkoutStyle.crossfitMixed, WorkoutStyle.seniorSpecific],
+  static List<WorkoutStyle> _getWorkoutStylesForCategory(ascent_category.Category category) {
+    final Map<ascent_category.Category, List<WorkoutStyle>> categoryToStyles = {
+      ascent_category.Category.cardio: [WorkoutStyle.enduranceDominant, WorkoutStyle.circuitMetabolic, WorkoutStyle.athleticConditioning, WorkoutStyle.fullBody, WorkoutStyle.concurrentHybrid, WorkoutStyle.pilatesStyle],
+      ascent_category.Category.strength: [WorkoutStyle.upperLowerSplit, WorkoutStyle.pushPullLegs, WorkoutStyle.concurrentHybrid, WorkoutStyle.fullBody, WorkoutStyle.athleticConditioning, WorkoutStyle.yogaFocused, WorkoutStyle.pilatesStyle],
+      ascent_category.Category.balance: [WorkoutStyle.functionalMovement, WorkoutStyle.yogaFocused, WorkoutStyle.seniorSpecific, WorkoutStyle.pilatesStyle],
+      ascent_category.Category.flexibility: [WorkoutStyle.yogaFocused, WorkoutStyle.pilatesStyle, WorkoutStyle.seniorSpecific],
+      ascent_category.Category.functional: [WorkoutStyle.functionalMovement, WorkoutStyle.strongmanFunctional, WorkoutStyle.crossfitMixed, WorkoutStyle.seniorSpecific],
     };
 
     return categoryToStyles[category] ?? [WorkoutStyle.fullBody];
-  }
-
-  /// Select style from available styles, avoiding recent repetitions
-  static WorkoutStyle _selectStyleWithVariety(List<WorkoutStyle> availableStyles, List<WorkoutStyle> recentStyles) {
-    final random = Random();
-
-    // Try to avoid styles used in last 3 workouts
-    List<WorkoutStyle> freshStyles = availableStyles.where((style) => !recentStyles.contains(style)).toList();
-
-    if (freshStyles.isNotEmpty) {
-      return freshStyles[random.nextInt(freshStyles.length)];
-    } else {
-      // If all styles were recent, just pick randomly
-      return availableStyles[random.nextInt(availableStyles.length)];
-    }
   }
 }
