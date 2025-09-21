@@ -5,6 +5,12 @@ import '../../../models/fitness_profile_model/fitness_profile.dart';
 import '../../../constants_and_enums/category_enum.dart';
 import '../../../theme/app_colors.dart';
 
+// UI Constants for allocation bars
+class AllocationBarConstants {
+  static const double barHeight = 40.0;
+  static const double barBorderRadius = 8.0;
+}
+
 class CompletionStatsHeader extends StatefulWidget {
   final Plan plan;
   final FitnessProfile fitnessProfile;
@@ -369,8 +375,7 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
       children: [
         Text(
           'Next 4 weeks',
-          style: TextStyle(
-            fontSize: 14,
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
             fontWeight: FontWeight.w600,
             color: AppColors.basePurple.withValues(alpha: 0.8),
           ),
@@ -385,13 +390,13 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
 
   Widget _buildAllocationChart(Map<Category, double> categoryAllocations) {
     return Container(
-      height: 8,
+      height: AllocationBarConstants.barHeight,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(AllocationBarConstants.barBorderRadius),
         color: Colors.grey.shade200,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(AllocationBarConstants.barBorderRadius),
         child: Row(
           children: _buildAllocationSegments(categoryAllocations),
         ),
@@ -439,8 +444,7 @@ class _CompletionStatsHeaderState extends State<CompletionStatsHeader>
             const SizedBox(width: 6),
             Text(
               '${entry.key.displayName} ${entry.value.toStringAsFixed(0)}%',
-              style: const TextStyle(
-                fontSize: 12,
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.w500,
                 color: AppColors.neutralDark,
               ),

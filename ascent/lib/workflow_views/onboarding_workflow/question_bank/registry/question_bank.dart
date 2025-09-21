@@ -16,6 +16,8 @@ import '../questions/fitness_assessment/glp1_medications_question.dart';
 import '../questions/fitness_assessment/session_commitment_question.dart';
 // Lifestyle
 import '../questions/lifestyle/sleep_hours_question.dart';
+import '../questions/lifestyle/current_exercise_days_question.dart';
+import '../questions/lifestyle/sedentary_job_question.dart';
 // Nutrition
 import '../questions/nutrition/sugary_treats_question.dart';
 import '../questions/nutrition/sodas_question.dart';
@@ -56,6 +58,8 @@ class QuestionBank {
     // 5. Lifestyle
     Glp1MedicationsQuestion.instance,    // GLP-1 medications
     SleepHoursQuestion.instance,         // sleep_hours
+    CurrentExerciseDaysQuestion.instance, // current_exercise_days
+    SedentaryJobQuestion.instance,       // sedentary_job
     
     // 5.5 Nutrition Profile
     SugaryTreatsQuestion.instance,       // sugary_treats

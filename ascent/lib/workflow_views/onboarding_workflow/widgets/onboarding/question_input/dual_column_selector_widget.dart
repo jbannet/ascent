@@ -119,7 +119,9 @@ class _DualColumnSelectorWidgetState extends State<DualColumnSelectorWidget> {
     return Column(
       children: List.generate(maxValue + 1, (index) {
         final buttonValue = maxValue - index; // maxValue, maxValue-1, ..., 1, 0
-        final isSelected = buttonValue <= currentValue && buttonValue > 0;
+        final isSelected = buttonValue == 0
+          ? currentValue == 0
+          : (buttonValue <= currentValue && buttonValue > 0);
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -172,7 +174,7 @@ class _DualColumnSelectorWidgetState extends State<DualColumnSelectorWidget> {
           final rightValue = topRowIndex * 2 + 2;
 
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2.0),
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: Row(
               children: [
                 // Left button in this row
@@ -228,7 +230,7 @@ class _DualColumnSelectorWidgetState extends State<DualColumnSelectorWidget> {
     final isSelected = buttonValue <= currentValue && buttonValue > 0;
 
     return SizedBox(
-      height: 36,
+      height: 44,
       child: ElevatedButton(
         onPressed: () => _updateValues(leftValue, buttonValue),
         style: ElevatedButton.styleFrom(
@@ -248,7 +250,7 @@ class _DualColumnSelectorWidgetState extends State<DualColumnSelectorWidget> {
           '$buttonValue',
           style: TextStyle(
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            fontSize: 14,
+            fontSize: 16,
           ),
         ),
       ),

@@ -7,6 +7,7 @@ import '../../../theme/general_widgets/buttons/universal_elevated_button.dart';
 import '../../../theme/general_widgets/buttons/universal_outlined_button.dart';
 import '../../../constants_and_enums/category_enum.dart';
 import '../../../theme/app_colors.dart';
+import '../../fitness_plan/widgets/completion_stats_header.dart';
 
 class OnboardingSummaryView extends StatelessWidget {
   final FitnessProfile fitnessProfile;
@@ -36,7 +37,7 @@ class OnboardingSummaryView extends StatelessWidget {
                     _buildMetricsGrid(context),
                     const SizedBox(height: 24),
                     // Category Allocation
-                    _buildCategoryAllocation(),
+                    _buildCategoryAllocation(context),
                     const SizedBox(height: 24),
                     // Risk Factors & Priorities
                     _buildRiskFactorsAndPriorities(),
@@ -325,35 +326,34 @@ class OnboardingSummaryView extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryAllocation() {
+  Widget _buildCategoryAllocation(BuildContext context) {
     final allocations = fitnessProfile.categoryAllocationsAsPercentages;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Recommended plan',
-          style: TextStyle(
-            fontSize: 18,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(height: 12),
         Container(
-          height: 40,
+          height: AllocationBarConstants.barHeight,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AllocationBarConstants.barBorderRadius),
             color: Colors.grey.shade200,
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AllocationBarConstants.barBorderRadius),
             child: Row(
               children: _buildAllocationSegments(allocations),
             ),
           ),
         ),
         const SizedBox(height: 12),
-        _buildAllocationLegend(allocations),
+        _buildAllocationLegend(context, allocations),
       ],
     );
   }
@@ -381,7 +381,7 @@ class OnboardingSummaryView extends StatelessWidget {
     return segments;
   }
 
-  Widget _buildAllocationLegend(Map<Category, double> allocations) {
+  Widget _buildAllocationLegend(BuildContext context, Map<Category, double> allocations) {
     return Wrap(
       spacing: 16,
       runSpacing: 8,
@@ -400,8 +400,7 @@ class OnboardingSummaryView extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               '${entry.key.displayName} ${entry.value.toStringAsFixed(0)}%',
-              style: const TextStyle(
-                fontSize: 13,
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.w500,
               ),
             ),
