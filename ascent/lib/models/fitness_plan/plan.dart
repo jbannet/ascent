@@ -1,4 +1,3 @@
-import 'package:ascent/models/fitness_plan/style_allocation.dart';
 import 'package:ascent/models/fitness_profile_model/fitness_profile.dart';
 import '../../constants_and_enums/constants.dart';
 import '../../services_and_utilities/local_storage/local_storage_service.dart';

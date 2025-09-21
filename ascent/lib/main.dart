@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'theme/app_theme.dart';
+import 'package:provider/provider.dart';
+
 import 'routing/app_router.dart';
+import 'services_and_utilities/app_state/app_state.dart';
+import 'services_and_utilities/exercises/exercise_service.dart';
+import 'theme/app_theme.dart';
 //import 'services/firebase/firebase_client.dart';
 
 //TODO: needs to handle both meters and feet depending on region
@@ -11,8 +15,17 @@ void main() async {
   //await FirebaseClient.initialize();
   await Hive.initFlutter();
   debugPrint("✅ Hive initialized");
-  
-  runApp(const MyApp());
+
+  final appState = AppState();
+  appState.setFeatureOrder(await ExerciseService.loadFeatureOrder());
+  await appState.initialize();
+
+  runApp(
+    ChangeNotifierProvider.value(
+      value: appState,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -30,5 +43,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 

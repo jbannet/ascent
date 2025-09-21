@@ -294,57 +294,7 @@ class _DietQualityChartState extends State<DietQualityChart>
     );
   }
 
-  Widget _buildMascotSection(ThemeData theme) {
-    return Row(
-      children: [
-        // Sleeping kettlebell mascot
-        Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withValues(alpha: 0.1),
-            shape: BoxShape.circle,
-          ),
-          child: const Center(
-            child: Text(
-              '🏋️‍♀️',
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.05),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              widget.encouragementMessage ?? _getEncouragementMessage(),
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 
-  String _getEncouragementMessage() {
-    final completedMetrics = widget.activeMetrics.length;
-    final totalMetrics = metrics.length;
-    
-    if (completedMetrics == 0) {
-      return "Let's build your nutrition profile together! 💪";
-    } else if (completedMetrics < totalMetrics) {
-      return "Great progress! Keep going to complete your profile. 🌟";
-    } else {
-      return "Amazing! Your nutrition profile is complete. Ready to optimize! 🎉";
-    }
-  }
 }
 
 /// Configuration data for each diet metric

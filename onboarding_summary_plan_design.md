@@ -134,9 +134,8 @@
 - [x] Add JSON serialization to FitnessProfile (fromJson/toJson)
 - [x] Add persistence methods to FitnessProfile (loadFromStorage/saveToStorage)
 - [x] Add persistence methods to Plan (loadFromStorage/saveToStorage)
-- [ ] Create simplified AppDataService (orchestrator only)
-- [ ] Create AppStateProvider wrapper for UI reactivity
-- [ ] Update main.dart with GetIt setup and initial loading
+- [x] Create AppStateProvider wrapper for UI reactivity
+- [x] Update main.dart with GetIt setup and initial loading
 - [ ] Update TemporaryNavigatorView to use AppStateProvider
 - [ ] Update routing to load from AppDataService
 - [ ] Connect onboarding completion to AppDataService

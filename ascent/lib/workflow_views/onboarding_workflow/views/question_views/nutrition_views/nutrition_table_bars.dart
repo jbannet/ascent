@@ -235,7 +235,7 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
       excludeSemantics: true, // Hide individual scale labels from screen readers
       child: SizedBox(
         width: 40,
-        child: Container(
+        child: SizedBox(
           height: 250, // Match chartHeight exactly
           child: Stack(
           alignment: Alignment.centerRight,

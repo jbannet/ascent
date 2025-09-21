@@ -84,7 +84,6 @@ class SessionIcon extends StatelessWidget {
         ),
         // Clock markings (12, 3, 6, 9 positions)
         ...List.generate(4, (index) {
-          final angle = index * (3.14159 / 2); // 90 degrees apart
           final markSize = iconSize * 0.08;
           final distance = iconSize * 0.35;
 

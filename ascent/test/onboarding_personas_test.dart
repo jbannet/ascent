@@ -4,11 +4,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../lib/workflow_views/onboarding_workflow/question_bank/registry/question_bank.dart';
-import '../lib/models/fitness_profile_model/fitness_profile.dart';
-import '../lib/constants_and_enums/constants_features.dart';
-import '../lib/models/fitness_profile_model/reference_data/acsm_cardio_norms.dart';
-import '../lib/models/fitness_profile_model/reference_data/acsm_pushup_norms.dart';
+import 'package:ascent/workflow_views/onboarding_workflow/question_bank/registry/question_bank.dart';
+import 'package:ascent/models/fitness_profile_model/fitness_profile.dart';
+import 'package:ascent/constants_and_enums/constants_features.dart';
+import 'package:ascent/models/fitness_profile_model/reference_data/acsm_cardio_norms.dart';
+import 'package:ascent/models/fitness_profile_model/reference_data/acsm_pushup_norms.dart';
 import 'persona_definitions.dart';
 
 /// Test case representing a user persona with predefined answers
@@ -141,7 +141,7 @@ class PersonaTestHarness {
   /// Run a single persona through the onboarding flow
   static PersonaTestResult runPersona(PersonaTestCase persona) {
     // Initialize question bank
-    final questions = QuestionBank.initialize();
+    QuestionBank.initialize();
 
     // Populate answers
     QuestionBank.fromJson(persona.answers);
@@ -338,9 +338,9 @@ class PersonaTestHarness {
     }
 
     lines.add('Protocol Frequency:');
-    protocolCounts.entries.forEach((entry) {
+    for (final entry in protocolCounts.entries) {
       lines.add('  ${entry.key}: ${entry.value} personas');
-    });
+    }
 
     // Allocation ranges
     lines.add('');

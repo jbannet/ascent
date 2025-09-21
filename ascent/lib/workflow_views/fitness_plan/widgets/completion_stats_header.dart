@@ -562,7 +562,7 @@ class MomentumWavesPainter extends CustomPainter {
     required double yOffset,
   }) {
     final paint = Paint()
-      ..color = color.withOpacity(opacity)
+      ..color = color.withValues(alpha: opacity)
       ..style = PaintingStyle.fill;
 
     final path = Path();
@@ -633,13 +633,13 @@ class MomentumWavesPainter extends CustomPainter {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        color.withOpacity(opacity),
-        color.withOpacity(opacity * 0.8),
-        color.withOpacity(opacity * 0.5),
-        color.withOpacity(opacity * 0.25),
-        color.withOpacity(opacity * 0.1),
-        color.withOpacity(opacity * 0.03),
-        Colors.white.withOpacity(0.0), // Fade to transparent white
+        color.withValues(alpha: opacity),
+        color.withValues(alpha: opacity * 0.8),
+        color.withValues(alpha: opacity * 0.5),
+        color.withValues(alpha: opacity * 0.25),
+        color.withValues(alpha: opacity * 0.1),
+        color.withValues(alpha: opacity * 0.03),
+        Colors.white.withValues(alpha: 0.0), // Fade to transparent white
       ],
       stops: const [0.0, 0.15, 0.35, 0.55, 0.75, 0.90, 1.0], // More gradual stops
     );
