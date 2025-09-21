@@ -58,8 +58,8 @@ class WeekOfWorkouts {
   factory WeekOfWorkouts.generateFromFitnessProfile(FitnessProfile profile, DateTime sundayDate) {
     // Extract workout counts
     int microWorkouts = profile.microWorkoutsPerWeek;
-    int macroWorkouts = profile.fullWorkoutsPerWeek;
-    int totalWorkouts = microWorkouts + macroWorkouts;
+    int fullWorkouts = profile.fullWorkoutsPerWeek;
+    int totalWorkouts = microWorkouts + fullWorkouts;
 
     // Extract category percentages using proper constants
     Map<Category, double> categoryWeights = profile.categoryAllocationsAsPercentages;
@@ -80,7 +80,7 @@ class WeekOfWorkouts {
       WorkoutStyle style = category.pickRandomStyle(random);
 
       // Step 3: Assign session type
-      SessionType type = i < macroWorkouts ? SessionType.full : SessionType.micro;
+      SessionType type = i < fullWorkouts ? SessionType.full : SessionType.micro;
 
       workouts.add(Workout(
         type: type,
@@ -88,7 +88,7 @@ class WeekOfWorkouts {
       ));
     }
 
-    // Shuffle to mix micro/macro throughout week
+    // Shuffle to mix micro/full throughout week
     workouts.shuffle();
 
     return WeekOfWorkouts(

@@ -5,7 +5,7 @@ import '../../constants_and_enums/workout_style_enum.dart';
 class Workout{
 
   DateTime? date; //Sunday date of the week
-  SessionType type; // Micro or macro workout
+  SessionType type; // Micro or full workout
   WorkoutStyle style; // Training style using enum for type safety
   bool _isCompleted = false;
 
