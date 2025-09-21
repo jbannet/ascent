@@ -69,35 +69,39 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
     return Column(
       children: [
         // Table
-        Container(
-          key: _tableKey,
-          height: 300, // Fixed height for vertical bars
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: theme.colorScheme.outline.withValues(alpha: 0.2),
-            ),
-          ),
-          child: Row(
-            children: [
-              // Left scale (numbers)
-              _buildLeftScale(theme),
-              
-              // Nutrition bars (vertical)
-              Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: NutritionBarConfig.configs.entries.map((entry) {
-                    final config = entry.value;
-                    final value = widget.allValues[config.type] ?? 0;
-                    final isActive = config.type == widget.currentType;
-                    
-                    return _buildVerticalNutritionBar(config, value, isActive, theme);
-                  }).toList(),
-                ),
+        GestureDetector(
+          onTapDown: (details) => _handleGraphTap(details),
+          onPanUpdate: (details) => _handleGraphDrag(details),
+          child: Container(
+            key: _tableKey,
+            height: 300, // Fixed height for vertical bars
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: theme.colorScheme.outline.withValues(alpha: 0.2),
               ),
-            ],
+            ),
+            child: Row(
+              children: [
+                // Left scale (numbers)
+                _buildLeftScale(theme),
+
+                // Nutrition bars (vertical)
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: NutritionBarConfig.configs.entries.map((entry) {
+                      final config = entry.value;
+                      final value = widget.allValues[config.type] ?? 0;
+                      final isActive = config.type == widget.currentType;
+
+                      return _buildVerticalNutritionBar(config, value, isActive, theme);
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         
@@ -111,47 +115,43 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
 
   Widget _buildVerticalNutritionBar(NutritionBarConfig config, int value, bool isActive, ThemeData theme) {
     const chartHeight = 250.0; // Leave space for padding in 300px container
-    
+
     return Expanded(
-      child: GestureDetector(
-        onTapDown: isActive ? (details) => _handleVerticalTap(details, config, chartHeight) : null,
-        onPanUpdate: isActive ? (details) => _handleVerticalDrag(details, config, chartHeight) : null,
-        child: Container(
-          height: chartHeight,
-          margin: const EdgeInsets.symmetric(horizontal: 1), // Minimal margin so bars almost touch
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              // Background bar (empty state) - full width
-              Container(
+      child: Container(
+        height: chartHeight,
+        margin: const EdgeInsets.symmetric(horizontal: 1), // Minimal margin so bars almost touch
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            // Background bar (empty state) - full width
+            Container(
+              width: double.infinity,
+              height: chartHeight,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.outline.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+
+            // Filled bar (grows upward from bottom) - full width
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
                 width: double.infinity,
-                height: chartHeight,
+                height: _getBarHeight(value, config.maxValue, chartHeight),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.outline.withValues(alpha: 0.1),
+                  color: isActive
+                    ? config.color
+                    : config.color.withValues(alpha: 0.6),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              
-              // Filled bar (grows upward from bottom) - full width
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  width: double.infinity,
-                  height: _getBarHeight(value, config.maxValue, chartHeight),
-                  decoration: BoxDecoration(
-                    color: isActive 
-                      ? config.color
-                      : config.color.withValues(alpha: 0.6),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-              
-              // Value text (positioned above bar)
-              if (value > 0) _buildVerticalValueText(value, config, theme, isActive, chartHeight),
-            ],
-          ),
+            ),
+
+            // Value text (positioned above bar)
+            if (value > 0) _buildVerticalValueText(value, config, theme, isActive, chartHeight),
+          ],
         ),
       ),
     );
@@ -307,19 +307,31 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
     return height;
   }
 
-  void _handleVerticalTap(TapDownDetails details, NutritionBarConfig config, double chartHeight) {
-    _updateValueFromVerticalPosition(details.localPosition.dy, config, chartHeight);
+  void _handleGraphTap(TapDownDetails details) {
+    _updateValueFromGraphPosition(details.localPosition);
   }
 
-  void _handleVerticalDrag(DragUpdateDetails details, NutritionBarConfig config, double chartHeight) {
-    _updateValueFromVerticalPosition(details.localPosition.dy, config, chartHeight);
+  void _handleGraphDrag(DragUpdateDetails details) {
+    _updateValueFromGraphPosition(details.localPosition);
   }
 
-  void _updateValueFromVerticalPosition(double y, NutritionBarConfig config, double chartHeight) {
+  void _updateValueFromGraphPosition(Offset position) {
+    // Get the current active config
+    final activeConfig = NutritionBarConfig.configs[widget.currentType];
+    if (activeConfig == null) return;
+
+    // Calculate Y position within the chart area
+    const chartHeight = 250.0;
+    const chartTopPadding = 25.0; // Space at top of 300px container before chart starts
+
+    // Calculate Y position relative to the chart area (not the entire container)
+    final chartY = position.dy - chartTopPadding;
+    if (chartY < 0 || chartY > chartHeight) return; // Click outside chart area
+
     // Flip Y coordinate since we want higher values at the top
-    final relativeY = (1.0 - (y / chartHeight)).clamp(0.0, 1.0);
-    final newValue = (relativeY * config.maxValue).round().clamp(0, config.maxValue);
-    
-    widget.onValueChanged(config.type, newValue);
+    final relativeY = (1.0 - (chartY / chartHeight)).clamp(0.0, 1.0);
+    final newValue = (relativeY * activeConfig.maxValue).round().clamp(0, activeConfig.maxValue);
+
+    widget.onValueChanged(activeConfig.type, newValue);
   }
 }
