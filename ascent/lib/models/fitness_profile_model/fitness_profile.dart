@@ -62,7 +62,7 @@ class FitnessProfile {
     Map<String, dynamic> answers
   ) {
     final profile = FitnessProfile._internal(featureOrder, answers);
-    // Features will be loaded from storage when loadFeaturesFromStorage() is called
+    // Use FitnessProfile.loadFromStorage(featureOrder) to retrieve persisted data
     return profile;
   }
 
@@ -75,22 +75,39 @@ class FitnessProfile {
   }
 
   //Load features from local storage (Hive) into the features Map<String, double>
-  Future<void> loadFeaturesFromStorage() async {    
-    final Map<String, double>? loadedFeatures = await LocalStorageService.loadFitnessProfileFeatures();
-    
-    if (loadedFeatures != null && loadedFeatures.isNotEmpty) {
-      //Load features from storage into the _features map, keeping the same key order
-      for (final entry in loadedFeatures.entries) {
-        if (_features.containsKey(entry.key)) { //only load known features
-          _features[entry.key] = entry.value;
+  Map<String, dynamic> toJson() => {
+    'answers': _answers,
+    'features': _features,
+  };
+
+  factory FitnessProfile.fromJson(List<String> featureOrder, Map<String, dynamic> json) {
+    final answers = Map<String, dynamic>.from(json['answers'] as Map? ?? {});
+    final profile = FitnessProfile._internal(featureOrder, answers);
+
+    final featuresJson = json['features'];
+    if (featuresJson is Map) {
+      for (final entry in featuresJson.entries) {
+        final value = (entry.value as num?)?.toDouble();
+        if (value != null && profile._features.containsKey(entry.key)) {
+          profile._features[entry.key] = value;
         }
       }
     }
+
+    return profile;
   }
 
-  //Use local_storage (Hive) to save the features Map<String, double>
-  Future<void> saveFeaturesToStorage() async {
-    await LocalStorageService.saveFitnessProfileFeatures(_features);
+  Future<void> saveToStorage() async {
+    await LocalStorageService.saveFitnessProfile(toJson());
+  }
+
+  static Future<FitnessProfile?> loadFromStorage(List<String> featureOrder) async {
+    final Map<String, dynamic>? json = await LocalStorageService.loadFitnessProfile();
+    if (json == null) {
+      return null;
+    }
+
+    return FitnessProfile.fromJson(featureOrder, json);
   }
 
   //MARK: get functions

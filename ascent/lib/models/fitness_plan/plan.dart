@@ -1,6 +1,7 @@
 import 'package:ascent/models/fitness_plan/style_allocation.dart';
 import 'package:ascent/models/fitness_profile_model/fitness_profile.dart';
 import '../../constants_and_enums/constants.dart';
+import '../../services_and_utilities/local_storage/local_storage_service.dart';
 import 'plan_progress.dart';
 import 'four_weeks.dart';
 import 'week_of_workouts.dart';
@@ -55,4 +56,15 @@ class Plan {
     PlanFields.planProgressField: planProgress.toJson(),
   };
 
+  Future<void> saveToStorage() async {
+    await LocalStorageService.savePlan(toJson());
+  }
+
+  static Future<Plan?> loadFromStorage() async {
+    final Map<String, dynamic>? json = await LocalStorageService.loadPlan();
+    if (json == null) {
+      return null;
+    }
+    return Plan.fromJson(json);
+  }
 }

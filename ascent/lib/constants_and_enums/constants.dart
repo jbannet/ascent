@@ -4,12 +4,15 @@ class AppConstants {
   static const String questionBoxName = 'questionBox';
   static const String answerBoxName = 'answerBox';
   static const String fitnessProfileBoxName = 'fitnessProfileBox';
+  static const String planBoxName = 'planBox';
   
   /// Hive storage keys
   static const String questionsStorageKey = 'questions';
   static const String answersStorageKey = 'answers';
+  static const String fitnessProfileJsonKey = 'fitnessProfile';
   static const String fitnessProfileFeaturesKey = 'fitnessProfileFeatures';
   static const String fitnessProfileDemographicsKey = 'fitnessProfileDemographics';
+  static const String planJsonKey = 'plan';
   
   /// Firebase collection names
   static const String onboardingCollectionName = 'onboarding';

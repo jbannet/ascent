@@ -131,9 +131,9 @@
 - [x] Implement staggered grid layout for responsive cards with variable heights
 - [x] Design app state management strategy (Model Self-Persistence + GetIt)
 - [x] Add GetIt dependency to pubspec.yaml
-- [ ] Add JSON serialization to FitnessProfile (fromJson/toJson)
-- [ ] Add persistence methods to FitnessProfile (loadFromStorage/saveToStorage)
-- [ ] Add persistence methods to Plan (loadFromStorage/saveToStorage)
+- [x] Add JSON serialization to FitnessProfile (fromJson/toJson)
+- [x] Add persistence methods to FitnessProfile (loadFromStorage/saveToStorage)
+- [x] Add persistence methods to Plan (loadFromStorage/saveToStorage)
 - [ ] Create simplified AppDataService (orchestrator only)
 - [ ] Create AppStateProvider wrapper for UI reactivity
 - [ ] Update main.dart with GetIt setup and initial loading
@@ -198,6 +198,7 @@
 
 ### Phase 4: UI Updates
 9. Update TemporaryNavigatorView with Consumer<AppStateProvider>
+10. Wire onboarding completion handler to push `/onboarding-summary`, and ensure the summary buttons navigate to `/onboarding` (Edit) and `/plan` (Generate)
 10. Update route builders to check AppDataService first
 
 ### Phase 5: Connect Flow

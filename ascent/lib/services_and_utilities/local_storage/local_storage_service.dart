@@ -42,6 +42,42 @@ class LocalStorageService {
     await answerBox.put(AppConstants.answersStorageKey, answersJson);
   }
 
+  /// Load plan payload from storage
+  static Future<Map<String, dynamic>?> loadPlan() async {
+    final Box planBox = await Hive.openBox(AppConstants.planBoxName);
+    final dynamic rawData = planBox.get(AppConstants.planJsonKey);
+
+    if (rawData == null) {
+      return null;
+    }
+
+    return _castToStringValueMap(rawData) as Map<String, dynamic>;
+  }
+
+  /// Save plan payload to storage
+  static Future<void> savePlan(Map<String, dynamic> planJson) async {
+    final Box planBox = await Hive.openBox(AppConstants.planBoxName);
+    await planBox.put(AppConstants.planJsonKey, planJson);
+  }
+
+  /// Load fitness profile features from fitnessProfileBox
+  static Future<Map<String, dynamic>?> loadFitnessProfile() async {
+    final Box fitnessProfileBox = await Hive.openBox(AppConstants.fitnessProfileBoxName);
+    final dynamic rawData = fitnessProfileBox.get(AppConstants.fitnessProfileJsonKey);
+
+    if (rawData == null) {
+      return null;
+    }
+
+    return _castToStringValueMap(rawData) as Map<String, dynamic>;
+  }
+
+  /// Save fitness profile payload to fitnessProfileBox
+  static Future<void> saveFitnessProfile(Map<String, dynamic> profileJson) async {
+    final Box fitnessProfileBox = await Hive.openBox(AppConstants.fitnessProfileBoxName);
+    await fitnessProfileBox.put(AppConstants.fitnessProfileJsonKey, profileJson);
+  }
+
   /// Load fitness profile features from fitnessProfileBox
   static Future<Map<String, double>?> loadFitnessProfileFeatures() async {
     final Box fitnessProfileBox = await Hive.openBox(AppConstants.fitnessProfileBoxName);
