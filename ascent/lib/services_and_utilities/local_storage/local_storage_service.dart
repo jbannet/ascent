@@ -60,6 +60,12 @@ class LocalStorageService {
     await planBox.put(AppConstants.planJsonKey, planJson);
   }
 
+  /// Remove persisted plan data.
+  static Future<void> deletePlan() async {
+    final Box planBox = await Hive.openBox(AppConstants.planBoxName);
+    await planBox.delete(AppConstants.planJsonKey);
+  }
+
   /// Load fitness profile features from fitnessProfileBox
   static Future<Map<String, dynamic>?> loadFitnessProfile() async {
     final Box fitnessProfileBox = await Hive.openBox(AppConstants.fitnessProfileBoxName);
@@ -76,6 +82,12 @@ class LocalStorageService {
   static Future<void> saveFitnessProfile(Map<String, dynamic> profileJson) async {
     final Box fitnessProfileBox = await Hive.openBox(AppConstants.fitnessProfileBoxName);
     await fitnessProfileBox.put(AppConstants.fitnessProfileJsonKey, profileJson);
+  }
+
+  /// Remove persisted fitness profile payload.
+  static Future<void> deleteFitnessProfile() async {
+    final Box fitnessProfileBox = await Hive.openBox(AppConstants.fitnessProfileBoxName);
+    await fitnessProfileBox.delete(AppConstants.fitnessProfileJsonKey);
   }
 
   /// Load fitness profile features from fitnessProfileBox

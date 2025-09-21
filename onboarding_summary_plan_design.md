@@ -185,16 +185,15 @@
 3. Add persistence methods to FitnessProfile (`loadFromStorage`, `saveToStorage`)
 4. Add persistence methods to Plan (`loadFromStorage`, `saveToStorage`)
 
-### Phase 2: AppDataService (Orchestrator)
-5. Create simplified `/lib/services_and_utilities/app_state/app_data_service.dart`
-   - Loads all models at startup
-   - Simple setters that persist
-   - Provides app state (hasProfile, hasPlan)
+### Phase 2: AppState (Service + Provider)
+5. Create `/lib/services_and_utilities/app_state/app_state.dart`
+   - `ChangeNotifier` that loads/saves FitnessProfile & Plan
+   - Provides getters like `profile`, `plan`, `hasProfile`, `hasPlan`
+   - Offers setters that persist and notify listeners
 
-### Phase 3: Provider Integration
-6. Create `/lib/providers/app_state_provider.dart` (wrapper for UI reactivity)
-7. Update main.dart with GetIt setup and initial loading
-8. Wrap MyApp with MultiProvider
+### Phase 3: Integration
+6. Update main.dart with GetIt setup and initial loading
+7. Wrap MyApp with Provider for AppState
 
 ### Phase 4: UI Updates
 9. Update TemporaryNavigatorView with Consumer<AppStateProvider>
