@@ -5,10 +5,13 @@ This file contains instructions for Claude Code when working on the fitness app 
 ## Large Changes Protocol
 
 **ALWAYS create a dedicated file in the root directory for large changes** such as:
-- Feature implementations (e.g., `workout_tracking_feature.md`)
-- Major refactoring (e.g., `model_restructure.md`)
-- Bug fix sessions (e.g., `performance_issues.md`)
-- Architecture changes (e.g., `state_management_migration.md`)
+- Feature implementations (e.g., `workout_tracking_feature_design.md`)
+- Major refactoring (e.g., `model_restructure_design.md`)
+- Bug fix sessions (e.g., `performance_issues_design.md`)
+- Architecture changes (e.g., `state_management_migration_design.md`)
+The filename should end in "_design.md"
+
+  **Active design files**: `/Users/jonathanbannet/MyProjects/fitness_app/onboarding_summary_plan_connection.md` If more than one find the one relavent to your task or ask. 
 
 ## Tracking Requirements
 

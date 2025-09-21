@@ -14,6 +14,7 @@ import 'workflow_views/fitness_plan/views/block_cards/exercise_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/rest_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/warmup_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/cooldown_step_card.dart';
+import 'workflow_views/onboarding_workflow/views/onboarding_summary_view.dart';
 import 'constants_and_enums/session_type.dart';
 import 'constants_and_enums/workout_style_enum.dart';
 import 'constants_and_enums/item_mode.dart';
@@ -49,7 +50,15 @@ class TemporaryNavigatorView extends StatelessWidget {
             icon: Icons.assignment,
             onTap: () => context.push('/onboarding'),
           ),
-          
+
+          _buildNavigationTile(
+            context,
+            title: 'Onboarding Summary',
+            subtitle: 'View fitness profile summary after onboarding',
+            icon: Icons.analytics,
+            onTap: () => _showSummaryView(context),
+          ),
+
           _buildNavigationTile(
             context,
             title: 'Plan View',
@@ -204,6 +213,16 @@ class TemporaryNavigatorView extends StatelessWidget {
     );
   }
 
+  void _showSummaryView(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => OnboardingSummaryView(
+          fitnessProfile: _createMockFitnessProfileWithMetrics(),
+        ),
+      ),
+    );
+  }
+
   /// Create mock Plan data for testing fitness views
   Plan _createMockPlan() {
 
@@ -287,6 +306,91 @@ class TemporaryNavigatorView extends StatelessWidget {
     profile.featuresMap[FeatureConstants.categoryStretching] = 0.10; // 10%
     profile.featuresMap[FeatureConstants.fullSessionsPerWeek] = 3.0;
     profile.featuresMap[FeatureConstants.microSessionsPerWeek] = 2.0;
+
+    return profile;
+  }
+
+  /// Create mock FitnessProfile with detailed fitness metrics for summary view
+  FitnessProfile _createMockFitnessProfileWithMetrics() {
+    final featureOrder = [
+      FeatureConstants.categoryCardio,
+      FeatureConstants.categoryStrength,
+      FeatureConstants.categoryBalance,
+      FeatureConstants.categoryStretching,
+      FeatureConstants.categoryFunctional,
+      FeatureConstants.categoryBodyweight,
+      FeatureConstants.fullSessionsPerWeek,
+      FeatureConstants.microSessionsPerWeek,
+      'vo2max',
+      'mets_capacity',
+      'cardio_fitness_percentile',
+      'cardio_recovery_days',
+      'upper_body_strength_percentile',
+      'lower_body_strength_percentile',
+      'strength_optimal_rep_range_min',
+      'strength_optimal_rep_range_max',
+      'strength_recovery_hours',
+      'hr_zone1',
+      'hr_zone2',
+      'hr_zone3',
+      'hr_zone4',
+      'hr_zone5',
+      'weekly_training_minutes',
+      'total_training_days',
+      'fall_risk_score',
+      'joint_health_score',
+      'impact_tolerance',
+    ];
+
+    final mockAnswers = <String, dynamic>{
+      'age': 35,
+      'gender': 'female',
+      'weight': 140,
+      'height': 66,
+      'experience_level': 'intermediate',
+      'goals': ['strength', 'cardio'],
+    };
+
+    // Create profile with storage factory to avoid auto-calculation
+    final profile = FitnessProfile.createFitnessProfileFromStorage(featureOrder, mockAnswers);
+
+    // Set category allocations
+    profile.featuresMap[FeatureConstants.categoryCardio] = 0.35;     // 35%
+    profile.featuresMap[FeatureConstants.categoryStrength] = 0.40;   // 40%
+    profile.featuresMap[FeatureConstants.categoryBalance] = 0.15;    // 15%
+    profile.featuresMap[FeatureConstants.categoryStretching] = 0.10; // 10%
+    profile.featuresMap[FeatureConstants.categoryFunctional] = 0.0;  // 0%
+
+    // Session commitment
+    profile.featuresMap[FeatureConstants.fullSessionsPerWeek] = 3.0;
+    profile.featuresMap[FeatureConstants.microSessionsPerWeek] = 2.0;
+    profile.featuresMap['weekly_training_minutes'] = 180.0;
+    profile.featuresMap['total_training_days'] = 5.0;
+
+    // Cardio metrics
+    profile.featuresMap['vo2max'] = 42.5;
+    profile.featuresMap['mets_capacity'] = 12.1;
+    profile.featuresMap['cardio_fitness_percentile'] = 75.0;
+    profile.featuresMap['cardio_recovery_days'] = 1.0;
+
+    // Strength metrics
+    profile.featuresMap['upper_body_strength_percentile'] = 68.0;
+    profile.featuresMap['lower_body_strength_percentile'] = 72.0;
+    profile.featuresMap['strength_optimal_rep_range_min'] = 8.0;
+    profile.featuresMap['strength_optimal_rep_range_max'] = 12.0;
+    profile.featuresMap['strength_recovery_hours'] = 48.0;
+
+    // Heart rate zones (age 35, so max HR ~185)
+    profile.featuresMap['hr_zone1'] = 111.0;  // 60% max HR
+    profile.featuresMap['hr_zone2'] = 130.0;  // 70% max HR
+    profile.featuresMap['hr_zone3'] = 148.0;  // 80% max HR
+    profile.featuresMap['hr_zone4'] = 167.0;  // 90% max HR
+    profile.featuresMap['hr_zone5'] = 185.0;  // 100% max HR
+
+    // Risk factors (good health)
+    profile.featuresMap['fall_risk_score'] = 0.0;
+    profile.featuresMap['joint_health_score'] = 8.5;
+    profile.featuresMap['impact_tolerance'] = 9.0;
 
     return profile;
   }
