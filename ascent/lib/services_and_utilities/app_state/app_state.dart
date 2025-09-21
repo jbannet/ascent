@@ -3,22 +3,23 @@ import 'package:flutter/foundation.dart';
 import 'package:ascent/models/fitness_plan/plan.dart';
 import 'package:ascent/models/fitness_profile_model/fitness_profile.dart';
 import 'package:ascent/services_and_utilities/local_storage/local_storage_service.dart';
+import 'package:ascent/services_and_utilities/exercises/exercise_service.dart';
 
 /// Central application state that persists and exposes the user's
 /// FitnessProfile and Plan while providing ChangeNotifier semantics
 /// for the widget tree.
 class AppState extends ChangeNotifier {
-  AppState({
-    required List<String> featureOrder,
-  }) : _featureOrder = featureOrder;
+  AppState();
 
-  final List<String> _featureOrder;
+  List<String> _featureOrder = const [];
 
   FitnessProfile? _profile;
   Plan? _plan;
   bool _initialized = false;
   bool _isLoading = false;
 
+  List<String> get featureOrder => List<String>.unmodifiable(_featureOrder);
+  bool get hasFeatureOrder => _featureOrder.isNotEmpty;
   FitnessProfile? get profile => _profile;
   Plan? get plan => _plan;
   bool get hasProfile => _profile != null;
@@ -36,7 +37,10 @@ class AppState extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      _profile = await FitnessProfile.loadFromStorage(_featureOrder);
+      _featureOrder = await ExerciseService.loadFeatureOrder();
+      _profile = hasFeatureOrder
+          ? await FitnessProfile.loadFromStorage(_featureOrder)
+          : null;
       _plan = await Plan.loadFromStorage();
 
       if (_plan == null && _profile != null) {
@@ -58,6 +62,9 @@ class AppState extends ChangeNotifier {
     FitnessProfile profile, {
     bool regeneratePlan = true,
   }) async {
+    if (_featureOrder.isEmpty) {
+      _featureOrder = await ExerciseService.loadFeatureOrder();
+    }
     _profile = profile;
     await profile.saveToStorage();
 
@@ -100,6 +107,12 @@ class AppState extends ChangeNotifier {
     _plan = null;
     await LocalStorageService.deleteFitnessProfile();
     await LocalStorageService.deletePlan();
+    notifyListeners();
+  }
+
+  /// Override the current feature order (used when upstream layers provide it).
+  void setFeatureOrder(List<String> featureOrder) {
+    _featureOrder = List<String>.from(featureOrder);
     notifyListeners();
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// Configuration for each nutrition type in the table bars
 class NutritionBarConfig {
@@ -65,14 +66,46 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
-    return Column(
-      children: [
+    final activeConfig = NutritionBarConfig.configs[widget.currentType];
+    final currentValue = widget.allValues[widget.currentType] ?? 0;
+
+    return Focus(
+      onKeyEvent: (node, event) {
+        if (event is KeyDownEvent) {
+          if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+            if (currentValue < (activeConfig?.maxValue ?? 15)) {
+              widget.onValueChanged(widget.currentType, currentValue + 1);
+              return KeyEventResult.handled;
+            }
+          } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+            if (currentValue > 0) {
+              widget.onValueChanged(widget.currentType, currentValue - 1);
+              return KeyEventResult.handled;
+            }
+          }
+        }
+        return KeyEventResult.ignored;
+      },
+      child: Column(
+        children: [
         // Table
-        GestureDetector(
-          onTapDown: (details) => _handleGraphTap(details),
-          onPanUpdate: (details) => _handleGraphDrag(details),
-          child: Container(
+        Semantics(
+          label: 'Nutrition tracking graph. Currently editing ${widget.currentType} with $currentValue servings per day.',
+          hint: 'Tap or drag anywhere to adjust. Use arrow keys to increase or decrease.',
+          slider: true,
+          value: currentValue.toString(),
+          increasedValue: (currentValue + 1).toString(),
+          decreasedValue: (currentValue - 1).toString(),
+          onIncrease: currentValue < (activeConfig?.maxValue ?? 15) ? () {
+            widget.onValueChanged(widget.currentType, currentValue + 1);
+          } : null,
+          onDecrease: currentValue > 0 ? () {
+            widget.onValueChanged(widget.currentType, currentValue - 1);
+          } : null,
+          child: GestureDetector(
+            onTapDown: (details) => _handleGraphTap(details),
+            onPanUpdate: (details) => _handleGraphDrag(details),
+            child: Container(
             key: _tableKey,
             height: 300, // Fixed height for vertical bars
             decoration: BoxDecoration(
@@ -104,12 +137,14 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
             ),
           ),
         ),
-        
+        ),
+
         const SizedBox(height: 8),
         
         // Bottom icons
         _buildBottomIcons(theme),
-      ],
+        ],
+      ),
     );
   }
 
@@ -117,41 +152,51 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
     const chartHeight = 250.0; // Leave space for padding in 300px container
 
     return Expanded(
-      child: Container(
-        height: chartHeight,
-        margin: const EdgeInsets.symmetric(horizontal: 1), // Minimal margin so bars almost touch
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            // Background bar (empty state) - full width
-            Container(
-              width: double.infinity,
-              height: chartHeight,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.outline.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-
-            // Filled bar (grows upward from bottom) - full width
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                width: double.infinity,
-                height: _getBarHeight(value, config.maxValue, chartHeight),
-                decoration: BoxDecoration(
-                  color: isActive
-                    ? config.color
-                    : config.color.withValues(alpha: 0.6),
-                  borderRadius: BorderRadius.circular(2),
+      child: Semantics(
+        label: !isActive ? '${config.type}: $value servings per day' : null,
+        excludeSemantics: isActive, // Active bar is announced by parent Semantics
+        child: Container(
+          height: chartHeight,
+          margin: const EdgeInsets.symmetric(horizontal: 1), // Minimal margin so bars almost touch
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              // Background bar (empty state) - full width
+              Semantics(
+                excludeSemantics: true, // Decorative element
+                child: Container(
+                  width: double.infinity,
+                  height: chartHeight,
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.outline.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
-            ),
 
-            // Value text (positioned above bar)
-            if (value > 0) _buildVerticalValueText(value, config, theme, isActive, chartHeight),
-          ],
+              // Filled bar (grows upward from bottom) - full width
+              Semantics(
+                excludeSemantics: true, // Value is announced by parent
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: double.infinity,
+                    height: _getBarHeight(value, config.maxValue, chartHeight),
+                    decoration: BoxDecoration(
+                      color: isActive
+                        ? config.color
+                        : config.color.withValues(alpha: 0.6),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Value text (positioned above bar)
+              if (value > 0) _buildVerticalValueText(value, config, theme, isActive, chartHeight),
+            ],
+          ),
         ),
       ),
     );
@@ -185,11 +230,14 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
   }
 
   Widget _buildLeftScale(ThemeData theme) {
-    return SizedBox(
-      width: 40,
-      child: Container(
-        height: 250, // Match chartHeight exactly
-        child: Stack(
+    return Semantics(
+      label: 'Scale from 0 to 15 or more servings per day',
+      excludeSemantics: true, // Hide individual scale labels from screen readers
+      child: SizedBox(
+        width: 40,
+        child: Container(
+          height: 250, // Match chartHeight exactly
+          child: Stack(
           alignment: Alignment.centerRight,
           children: [
             // "0" at the bottom - aligns with bar base
@@ -235,6 +283,7 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
           ],
         ),
       ),
+      ),
     );
   }
 
@@ -252,23 +301,29 @@ class _NutritionTableBarsState extends State<NutritionTableBars> {
               
               return Expanded(
                 child: Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: isActive 
-                        ? config.color.withValues(alpha: 0.1)
-                        : Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: isActive 
-                          ? config.color.withValues(alpha: 0.3)
+                  child: Semantics(
+                    label: '${config.type}${isActive ? ", currently selected" : ""}',
+                    button: !isActive,
+                    hint: !isActive ? 'Tap to select ${config.type}' : null,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: isActive
+                          ? config.color.withValues(alpha: 0.1)
                           : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: isActive
+                            ? config.color.withValues(alpha: 0.3)
+                            : Colors.transparent,
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      config.icon,
-                      style: TextStyle(
-                        fontSize: isActive ? 32 : 28,
+                      child: Text(
+                        config.icon,
+                        style: TextStyle(
+                          fontSize: isActive ? 32 : 28,
+                        ),
+                        semanticsLabel: config.type, // Screen readers will read the type, not emoji
                       ),
                     ),
                   ),

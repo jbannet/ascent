@@ -127,4 +127,5 @@ class LocalStorageService {
     final Box fitnessProfileBox = await Hive.openBox(AppConstants.fitnessProfileBoxName);
     await fitnessProfileBox.put(AppConstants.fitnessProfileDemographicsKey, pDemographics);
   }
+
 }
