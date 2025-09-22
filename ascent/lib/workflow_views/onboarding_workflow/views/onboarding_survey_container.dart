@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../providers/onboarding_provider.dart';
-import '../widgets/onboarding/onboarding_progress_bar.dart';
+
+import '../../../models/fitness_profile_model/fitness_profile.dart';
+import '../../../services_and_utilities/app_state/app_state.dart';
 import '../../../theme/general_widgets/buttons/universal_elevated_button.dart';
 import '../../../theme/general_widgets/buttons/universal_outlined_button.dart';
+import '../providers/onboarding_provider.dart';
+import '../question_bank/registry/question_bank.dart';
+import '../widgets/onboarding/onboarding_progress_bar.dart';
 import 'onboarding_question_view.dart';
 
 class OnboardingSurveyContainer extends StatefulWidget {
@@ -22,6 +27,7 @@ class _OnboardingSurveyContainerState extends State<OnboardingSurveyContainer> {
   OnboardingProvider? _onboardingProvider;
   bool _isInitializing = true;
   String? _initializationError;
+  bool _hasHandledCompletion = false;
 
   @override
   void initState() {
@@ -41,6 +47,7 @@ class _OnboardingSurveyContainerState extends State<OnboardingSurveyContainer> {
       setState(() {
         _onboardingProvider = onboardingProvider;
         _isInitializing = false;
+        _hasHandledCompletion = false;
       });
     } catch (e) {
       debugPrint('❌ Onboarding initialization failed: $e');
@@ -117,9 +124,10 @@ class _OnboardingSurveyContainerState extends State<OnboardingSurveyContainer> {
       value: _onboardingProvider!,
       child: Consumer<OnboardingProvider>(
         builder: (context, provider, child) {
-          if (provider.isOnboardingComplete) {
+          if (provider.isOnboardingComplete && !_hasHandledCompletion) {
+            _hasHandledCompletion = true;
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              widget.onComplete?.call();
+              _handleOnboardingComplete(context);
             });
           }
           return Scaffold(
@@ -238,5 +246,26 @@ class _OnboardingSurveyContainerState extends State<OnboardingSurveyContainer> {
         ),
       );
     }
+  }
+
+  Future<void> _handleOnboardingComplete(BuildContext context) async {
+    final appState = context.read<AppState>();
+    final router = GoRouter.of(context);
+    final answers = QuestionBank.toJson();
+
+    final profile = FitnessProfile.createFitnessProfileFromSurvey(
+      appState.featureOrder,
+      answers,
+    );
+
+    // Persist the profile but defer plan generation so the summary can show it first.
+    await appState.setProfile(profile, regeneratePlan: false);
+    // Clear any existing plan so navigation flows through the summary route.
+    await appState.clearPlan();
+
+    if (!mounted) return;
+
+    widget.onComplete?.call();
+    router.go('/onboarding-summary');
   }
 }

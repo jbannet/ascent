@@ -116,10 +116,20 @@
    - Generates Plan using Plan.generateFromFitnessProfile()
    - Falls back to mock plan if no saved profile
 
+**State Scenarios & Real App Launch (TemporaryNavigatorView)**
+- Added quick-load buttons for:
+  - Empty storage (no onboarding answers/profile/plan)
+  - Profile only (answers + profile persisted, plan cleared)
+  - Profile + plan (full state persisted)
+- Added "Launch Real App" tile that navigates using current AppState:
+  - No profile → /onboarding
+  - Profile only → summary view
+  - Profile + plan → plan view
+
 **Implementation Requirements:**
-- Create profile loading utility for saved FitnessProfile
-- Update all TemporaryNavigatorView tiles to use real data when available
-- Ensure seamless fallback to mock data for testing
+- Create profile loading utility for saved FitnessProfile ✅
+- Update all TemporaryNavigatorView tiles to use real data when available ✅
+- Ensure seamless fallback to mock data for testing ✅
 
 ## Task Checklist
 - [x] Research existing onboarding flow and plan generation capabilities
@@ -137,8 +147,9 @@
 - [x] Create AppStateProvider wrapper for UI reactivity
 - [x] Update main.dart with GetIt setup and initial loading
 - [x] Update TemporaryNavigatorView to use AppStateProvider
-- [ ] Update routing to load from AppDataService
-- [ ] Connect onboarding completion to AppDataService
+- [x] Update routing to consult AppState on entry
+- [x] Connect onboarding completion to AppState (persist profile before summary)
+- [ ] Remove mock helpers in TemporaryNavigatorView and add proper empty-state messaging for summary/plan entries
 - [ ] Test complete flow end-to-end
 
 ## Technical Notes
@@ -163,16 +174,15 @@
 - Need reactive UI updates when profile/plan changes
 - Need to know app state at startup (where user is in the flow)
 
-### Solution: Model Self-Persistence + GetIt Coordination
+### Solution: Model Self-Persistence + AppState ChangeNotifier
 - **Each model handles its own persistence** (FitnessProfile, Plan)
-- **GetIt** provides global service locator for context-free access
-- **AppDataService** (thin orchestrator) loads all models at startup
-- **AppStateProvider** (ChangeNotifier) wraps service for UI reactivity
+- **AppState** (ChangeNotifier) loads/saves models and exposes app status
+- **Provider** supplies AppState to widgets for reactive updates
 
 ### Architecture Benefits
 - Clean separation: models manage their own storage
-- AppDataService knows app state at startup (profile exists? plan exists?)
-- Models can access each other via `AppDataService.instance` without parameters
+- AppState knows app state at startup (profile exists? plan exists?)
+- Models can access shared state via AppState without deep prop drilling
 - Widgets receive data through constructors (remain pure and testable)
 - Navigation simplified (no need to pass extras)
 - Single source of truth for app state
@@ -185,28 +195,28 @@
 4. Add persistence methods to Plan (`loadFromStorage`, `saveToStorage`)
 
 ### Phase 2: AppState (Service + Provider)
-5. Create `/lib/services_and_utilities/app_state/app_state.dart`
+5. Create `/lib/services_and_utilities/app_state/app_state.dart` ✅
    - `ChangeNotifier` that loads/saves FitnessProfile & Plan
    - Provides getters like `profile`, `plan`, `hasProfile`, `hasPlan`
    - Offers setters that persist and notify listeners
 
 ### Phase 3: Integration
-6. Update main.dart with GetIt setup and initial loading
-7. Wrap MyApp with Provider for AppState
+6. Update main.dart with AppState setup and initial loading ✅
+7. Wrap MyApp with Provider for AppState ✅
 
 ### Phase 4: UI Updates
-9. Update TemporaryNavigatorView with Consumer<AppStateProvider>
-10. Wire onboarding completion handler to push `/onboarding-summary`, and ensure the summary buttons navigate to `/onboarding` (Edit) and `/plan` (Generate)
-10. Update route builders to check AppDataService first
+8. Update TemporaryNavigatorView with AppState integration ✅
+9. Wire onboarding completion handler to persist via AppState and push `/onboarding-summary` ✅
+10. Update plan route builder to consult AppState ✅
 
 ### Phase 5: Connect Flow
-11. Update onboarding completion to save via AppDataService
-12. Update OnboardingSummaryView "Generate" button to use AppDataService
+11. Update initial routing to consult AppState on entry ✅ (via `/real` redirect route)
+12. Update OnboardingSummaryView "Generate" button to use AppState ✅
 13. Test full flow from onboarding → summary → plan
 
 ### Key Architecture Points
 - **FitnessProfile** manages its own Hive storage using existing LocalStorageService
 - **Plan** gets its own storage mechanism (new Hive box)
-- **AppDataService** just coordinates and caches in memory
+- **AppState** just coordinates and caches in memory
 - **OnboardingProvider** continues to work as-is (no changes needed)
 - App startup: `loadFromStorage()` tells us where user is in the flow

@@ -19,6 +19,7 @@ import 'models/fitness_plan/week_of_workouts.dart';
 import 'models/fitness_profile_model/fitness_profile.dart';
 import 'routing/route_names.dart';
 import 'services_and_utilities/app_state/app_state.dart';
+import 'services_and_utilities/local_storage/local_storage_service.dart';
 import 'temporary_mapping_tool.dart';
 import 'workflow_views/fitness_plan/views/block_cards/cooldown_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/exercise_step_card.dart';
@@ -58,10 +59,18 @@ class TemporaryNavigatorView extends StatelessWidget {
           
           _buildNavigationTile(
             context,
-            title: 'Onboarding Workflow',
+            title: 'Onboarding Survey',
             subtitle: 'Test the onboarding survey flow',
             icon: Icons.assignment,
             onTap: () => context.push('/onboarding'),
+          ),
+
+          _buildNavigationTile(
+            context,
+            title: 'Launch Real App',
+            subtitle: 'Navigate using current saved state',
+            icon: Icons.play_circle,
+            onTap: () => context.go('/real'),
           ),
 
           _buildNavigationTile(
@@ -141,8 +150,8 @@ class TemporaryNavigatorView extends StatelessWidget {
             ),
           ),
 
-          const Divider(),
-          const Text(
+         const Divider(),
+         const Text(
             'Development Tools:',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
@@ -159,6 +168,14 @@ class TemporaryNavigatorView extends StatelessWidget {
               ),
             ),
           ),
+
+         const Divider(),
+          const Text(
+            'App State Scenarios:',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          _buildScenarioCard(context, featureOrder),
 
           const Divider(),
           const Text(
@@ -222,6 +239,60 @@ class TemporaryNavigatorView extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => _SwipableCardDemo(),
+      ),
+    );
+  }
+
+  Widget _buildScenarioCard(BuildContext context, List<String> featureOrder) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Quick-load scenarios',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    final appState = context.read<AppState>();
+                    await LocalStorageService.saveAnswers({});
+                    await appState.clearAll();
+                  },
+                  child: const Text('No onboarding data'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final appState = context.read<AppState>();
+                    final profile = _createMockFitnessProfileWithMetrics(featureOrder);
+                    await LocalStorageService.saveAnswers(_mockAnswers());
+                    await appState.setProfile(
+                          profile,
+                          regeneratePlan: false,
+                        );
+                    await appState.clearPlan();
+                  },
+                  child: const Text('Profile only (no plan)'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final appState = context.read<AppState>();
+                    final profile = _createMockFitnessProfileWithMetrics(featureOrder);
+                    await LocalStorageService.saveAnswers(_mockAnswers());
+                    await appState.setProfile(profile);
+                  },
+                  child: const Text('Profile + plan'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -366,6 +437,15 @@ class TemporaryNavigatorView extends StatelessWidget {
 
     return profile;
   }
+
+  Map<String, dynamic> _mockAnswers() => {
+        'age': 35,
+        'gender': 'female',
+        'weight': 140,
+        'height': 66,
+        'experience_level': 'intermediate',
+        'goals': ['strength', 'cardio'],
+      };
 
   /// Create mock ExercisePrescriptionStep for reps-based exercises
   ExercisePrescriptionStep _createMockRepExercise(String name, int reps) {

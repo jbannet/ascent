@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
 import '../../../models/fitness_profile_model/fitness_profile.dart';
-import '../../../models/fitness_plan/plan.dart';
+import '../../../services_and_utilities/app_state/app_state.dart';
 import '../../../theme/general_widgets/buttons/universal_elevated_button.dart';
 import '../../../theme/general_widgets/buttons/universal_outlined_button.dart';
 import '../../../constants_and_enums/category_enum.dart';
@@ -492,10 +494,11 @@ class OnboardingSummaryView extends StatelessWidget {
           const SizedBox(width: 16),
           Expanded(
             child: UniversalElevatedButton(
-              onPressed: () {
-                // Generate plan and navigate
-                final plan = Plan.generateFromFitnessProfile(fitnessProfile);
-                context.go('/plan', extra: plan);
+              onPressed: () async {
+                final appState = context.read<AppState>();
+                await appState.generatePlan();
+                if (!context.mounted) return;
+                context.go('/plan');
               },
               child: const Text('Generate my plan'),
             ),
