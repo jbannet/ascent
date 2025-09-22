@@ -47,17 +47,19 @@ Each week already has a unique Sunday `startDate` that naturally identifies it. 
 - [x] Ensure all tests pass with new logic
 - [x] Confirm plan serialization/deserialization still works without `weekIndex`
 
-### Phase 5: Deprecate weekIndex
-- [ ] Make weekIndex optional in constructor
-- [ ] Add deprecation notice
-- [ ] Update JSON serialization to handle missing weekIndex
-- [ ] Add migration note for existing stored plans (if any)
+### Phase 5: Remove weekIndex Completely ✅
+- [x] Remove weekIndex field from WeekOfWorkouts class
+- [x] Remove from constructor and JSON serialization
+- [x] Remove weekIndexField constant
+- [x] Clean up any remaining references in FourWeeks and TemporaryNavigatorView
+- [x] Update all test files to not use weekIndex
+- [x] Fix import issues (getThisSunday in TemporaryNavigatorView)
+- [x] Remove unused currentWeekIndex variable in plan_view.dart
+- [x] Verify all tests pass and flutter analyze shows no issues
 
-### Phase 6: Final Removal (Future)
-- [ ] Remove weekIndex field completely
-- [ ] Remove from JSON serialization
-- [ ] Remove weekIndexField constant
-- [ ] Clean up any remaining references
+## ✅ **COMPLETE: weekIndex Successfully Removed**
+
+The weekIndex field has been completely eliminated from the codebase. The system now uses **pure date-based week identification** where each week's Sunday date serves as its natural unique identifier. All functionality has been preserved while making the system more reliable and intuitive.
 
 ## Technical Details
 

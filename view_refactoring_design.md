@@ -61,6 +61,43 @@ plan_header/
 - Individual widgets: 40-120 lines each (focused components)
 - Constants: 15 lines (extracted constants)
 
+**Implementation Considerations:**
+
+1. **Directory Placement:**
+   - New directory: `workflow_views/fitness_plan/widgets/plan_header/`
+   - Maintains consistent import paths and relative imports
+   - Follows existing project structure
+
+2. **Animation Controller Dependencies:**
+   - Main `CompletionStatsHeader` retains `TickerProviderStateMixin`
+   - Pass `this` as TickerProvider to `StatsAnimationManager` constructor
+   - Main widget disposes animation manager in `dispose()`
+   - Animation manager exposes animations via getters for widgets to consume
+
+3. **State Sharing Patterns:**
+   - Pass required data as constructor parameters to child widgets
+   - Use `AnimatedBuilder` widgets to rebuild on animation changes
+   - Consider `InheritedWidget` if many components need same animations
+   - Wave painter receives animation values through constructor
+
+4. **Import Strategy:**
+   - Use standard imports (not `part`/`part of`) for better testability
+   - Each widget file imports only what it needs
+   - Maintain lowercase_with_underscores naming convention
+
+5. **Testing Updates:**
+   - Update existing tests that import `completion_stats_header.dart`
+   - Add widget tests for each new component
+   - Mock animation controllers in tests for deterministic behavior
+
+6. **State Management Flow:**
+   ```
+   CompletionStatsHeader (StatefulWidget)
+   ├── StatsAnimationManager (manages all controllers)
+   ├── MomentumWavesPainter (receives animation values)
+   └── Child widgets (receive animations via AnimatedBuilder)
+   ```
+
 #### 2. onboarding_summary_view.dart (517 lines)
 - [ ] Extract `FitnessProfileHeader` widget
 - [ ] Create individual metric card widgets:
