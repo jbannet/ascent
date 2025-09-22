@@ -9,7 +9,7 @@ import '../../../theme/general_widgets/buttons/universal_elevated_button.dart';
 import '../../../theme/general_widgets/buttons/universal_outlined_button.dart';
 import '../../../constants_and_enums/category_enum.dart';
 import '../../../theme/app_colors.dart';
-import '../../fitness_plan/widgets/completion_stats_header.dart';
+import '../../fitness_plan/widgets/plan_header/models/allocation_bar_constants.dart';
 
 class OnboardingSummaryView extends StatelessWidget {
   final FitnessProfile fitnessProfile;

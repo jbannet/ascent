@@ -41,18 +41,27 @@ plan_header/
 ```
 
 **Refactoring Tasks:**
-- [ ] Create `plan_header/` directory structure
-- [ ] Extract `AllocationBarConstants` to `models/allocation_bar_constants.dart`
-- [ ] Extract `MomentumWavesPainter` to `painters/momentum_waves_painter.dart`
-- [ ] Create `StatsAnimationManager` to handle all animation controllers
-- [ ] Extract `_buildMainContent` to `StatsMainContent` widget
-- [ ] Extract `_buildTopMetric` to `TopMetricsRow` widget
-- [ ] Extract center metrics section to `CenterMetricsRow` widget
-- [ ] Extract `_buildStreakCounter` to `StreakCounterWidget`
-- [ ] Extract `_buildBottomCircularMetric` to `CircularProgressMetric` widget
-- [ ] Extract `_buildStyleAllocation` to `CategoryAllocationSection` widget
-- [ ] Extract allocation chart logic to `AllocationBarChart` widget
-- [ ] Refactor main widget to compose smaller components
+- [x] Create `plan_header/` directory structure
+- [x] Extract `AllocationBarConstants` to `models/allocation_bar_constants.dart`
+- [x] Extract `MomentumWavesPainter` to `painters/momentum_waves_painter.dart`
+- [x] Create `StatsAnimationManager` to handle all animation controllers
+- [x] Extract `_buildMainContent` to `StatsMainContent` widget
+- [x] Extract `_buildTopMetric` to `TopMetricsRow` widget
+- [x] Extract center metrics section to `CenterMetricsRow` widget
+- [x] Extract `_buildStreakCounter` to `StreakCounterWidget`
+- [x] Extract `_buildBottomCircularMetric` to `CircularProgressMetric` widget
+- [x] Extract `_buildStyleAllocation` to `CategoryAllocationSection` widget
+- [x] Extract allocation chart logic to `AllocationBarChart` widget
+- [x] Refactor main widget to compose smaller components
+- [x] Fix import issues in other files using AllocationBarConstants
+
+**COMPLETED - Results:**
+- Original file: 697 lines → Refactored main file: 93 lines (86% reduction!)
+- Created 11 focused, reusable components
+- All components follow single responsibility principle
+- Animation management centralized in dedicated manager
+- No compilation errors or warnings
+- Import paths properly maintained
 
 **File Size Estimates:**
 - Main widget: 80 lines (composition + state management)
