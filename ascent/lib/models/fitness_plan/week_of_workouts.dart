@@ -23,7 +23,6 @@ class WeekCompletionStats {
 *
 */
 class WeekOfWorkouts {
-  final int weekIndex;
   final DateTime startDate; // Sunday date of the week
   List<Workout> workouts;
 
@@ -34,9 +33,33 @@ class WeekOfWorkouts {
   );
   get completedPercentage => completionStats.completed / completionStats.total;
 
+  /// Check if this week is the same as another week (same Sunday)
+  bool isSameWeek(WeekOfWorkouts other) {
+    return startDate.year == other.startDate.year &&
+           startDate.month == other.startDate.month &&
+           startDate.day == other.startDate.day;
+  }
+
+  /// Get the Sunday date for any given date
+  DateTime _getSundayForDate(DateTime date) {
+    // DateTime.weekday: Monday = 1, Sunday = 7
+    int daysSinceLastSunday = date.weekday % 7;
+    return date.subtract(Duration(days: daysSinceLastSunday));
+  }
+
+  /// Check if this week contains the given date
+  bool containsDate(DateTime date) {
+    final sundayOfDate = _getSundayForDate(date);
+    return startDate.year == sundayOfDate.year &&
+           startDate.month == sundayOfDate.month &&
+           startDate.day == sundayOfDate.day;
+  }
+
+  /// Check if this is the current week
+  bool get isCurrentWeek => containsDate(DateTime.now());
+
 
   WeekOfWorkouts({
-    required this.weekIndex,
     required this.startDate,
     List<Workout>? workouts,
   }) : workouts = workouts ?? <Workout>[];
@@ -44,22 +67,19 @@ class WeekOfWorkouts {
 
 //MARK: JSON
   factory WeekOfWorkouts.fromJson(Map<String, dynamic> json) => WeekOfWorkouts(
-     weekIndex: json[PlanFields.weekIndexField] as int,
      startDate: DateTime.parse(json[PlanFields.startDateField] as String),
      workouts: (json[PlanFields.workoutsField] as List<dynamic>? )?.map((e)=> Workout.fromJson(Map<String, dynamic>.from(e))).toList() ?? <Workout>[],
   );
 
   Map<String, dynamic> toJson() => {
-     PlanFields.weekIndexField: weekIndex,
      PlanFields.startDateField: startDate.toIso8601String(),
      PlanFields.workoutsField: workouts.map((e)=> e.toJson()).toList(),
   };
 
   factory WeekOfWorkouts.generateFromFitnessProfile(
     FitnessProfile profile,
-    DateTime sundayDate, {
-    int weekIndex = 1,
-  }) {
+    DateTime sundayDate,
+  ) {
     // Extract workout counts
     int microWorkouts = profile.microWorkoutsPerWeek;
     int fullWorkouts = profile.fullWorkoutsPerWeek;
@@ -96,7 +116,6 @@ class WeekOfWorkouts {
     workouts.shuffle();
 
     return WeekOfWorkouts(
-      weekIndex: weekIndex,
       startDate: sundayDate,
       workouts: workouts,
     );

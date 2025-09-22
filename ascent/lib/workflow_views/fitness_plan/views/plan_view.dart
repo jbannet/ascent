@@ -10,7 +10,6 @@ class PlanView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final next4Weeks = plan.next4Weeks;
-    final currentWeekIndex = plan.currentWeekIndex;
 
 
     return Scaffold(
@@ -49,7 +48,7 @@ class PlanView extends StatelessWidget {
 
                 final weekIndex = index - 1;
                 final week = next4Weeks[weekIndex];
-                final isCurrentWeek = week.weekIndex == currentWeekIndex;
+                final isCurrentWeek = week.isCurrentWeek;
 
                 return Transform.translate(
                   offset: const Offset(0, -30), // Move week cards up by 30px to overlap waves

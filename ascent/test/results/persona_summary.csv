@@ -2,7 +2,7 @@ Persona ID,Age,BMI,Cooper Miles,Cardio %ile,Pushups,Pushup %ile,Triggered Protoc
 elderly_fall_history,76,24.8,0.3,5,0,10,none,23,27,16,23,11
 cannot_stand_chair,69,27.8,0.1,1,0,0,none,21,23,14,28,14
 glp1_obesity,46,34.9,0.6,8,2,10,none,30,49,7,0,14
-extreme_obesity,38,41.0,0.2,2,0,0,none,38,26,3,16,17
+extreme_obesity,39,41.0,0.2,2,0,0,none,38,26,3,16,17
 multiple_conditions,71,33.2,0.4,6,0,10,none,23,27,16,23,11
 young_athlete,26,23.5,2.1,91,45,75,none,42,42,4,0,13
 middle_aged_beginner,42,25.5,0.7,9,3,10,none,41,33,7,0,19

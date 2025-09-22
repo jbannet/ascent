@@ -1,6 +1,6 @@
 ONBOARDING PERSONA TEST RESULTS
 ==================================================
-Generated: 2025-09-19 13:38:39.561367
+Generated: 2025-09-22 08:30:34.574328
 Total Personas: 40
 
 personaId: elderly_fall_history
@@ -29,10 +29,10 @@ Calculated: Age=46, BMI=34.9, Cooper=0.6mi (8th %ile), Pushups=2 (10th %ile)
 
 personaId: extreme_obesity
 description: 38-year-old with extreme obesity, limited mobility
-answers: {age:38; gender:"male"; height_cm:178.0; weight_kg:130.0; primary_motivation:"lose_weight"; progress_tracking:"weekly_check_ins"; fitness_goals:"lose_weight,better_health"; Q4:0.2; Q4A:"no"; Q4B:""; Q5:0.0; Q6A:"no"; glp1_medications:"no"; sleep_hours:5.5; sugary_treats:"often"; sodas:"often"; grains:"often"; alcohol:"sometimes"; session_commitment:"low"; Q1:"knee"; Q2:"avoid"; Q10:"none"; Q11:"home"; birth_year:1986.0}
+answers: {age:39; gender:"male"; height_cm:178.0; weight_kg:130.0; primary_motivation:"lose_weight"; progress_tracking:"weekly_check_ins"; fitness_goals:"lose_weight,better_health"; Q4:0.2; Q4A:"no"; Q4B:""; Q5:0.0; Q6A:"no"; glp1_medications:"no"; sleep_hours:5.5; sugary_treats:"often"; sodas:"often"; grains:"often"; alcohol:"sometimes"; session_commitment:"low"; Q1:"knee"; Q2:"avoid"; Q10:"none"; Q11:"home"; birth_year:1986.0}
 
 Output: {cardio: 38%, strength: 26%, balance: 3%, functional: 16%, flexibility: 17%}
-Calculated: Age=38, BMI=41.0, Cooper=0.2mi (2th %ile), Pushups=0 (0th %ile)
+Calculated: Age=39, BMI=41.0, Cooper=0.2mi (2th %ile), Pushups=0 (0th %ile)
 --------------------------------------------------------------------------------
 
 personaId: multiple_conditions

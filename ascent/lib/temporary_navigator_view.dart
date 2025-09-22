@@ -19,6 +19,7 @@ import 'models/fitness_plan/week_of_workouts.dart';
 import 'models/fitness_profile_model/fitness_profile.dart';
 import 'routing/route_names.dart';
 import 'services_and_utilities/app_state/app_state.dart';
+import 'services_and_utilities/general_utilities/get_this_sunday.dart';
 import 'services_and_utilities/local_storage/local_storage_service.dart';
 import 'temporary_mapping_tool.dart';
 import 'workflow_views/fitness_plan/views/block_cards/cooldown_step_card.dart';
@@ -309,12 +310,16 @@ class TemporaryNavigatorView extends StatelessWidget {
 
   /// Create mock Plan data for testing fitness views
   Plan _createMockPlan(FitnessProfile profile) {
+    // Get proper Sunday dates for each week
+    final thisSunday = getThisSunday();
+    final nextSunday = thisSunday.add(Duration(days: 7));
+    final week3Sunday = thisSunday.add(Duration(days: 14));
+    final week4Sunday = thisSunday.add(Duration(days: 21));
 
     final mockWeeks = [
       // Week 1 - This week
       WeekOfWorkouts(
-        weekIndex: 1,
-        startDate: DateTime.now(),
+        startDate: thisSunday,
         workouts: [
           Workout(type: SessionType.full, style: WorkoutStyle.upperLowerSplit, isCompleted: true),
           Workout(type: SessionType.micro, style: WorkoutStyle.enduranceDominant, isCompleted: true),
@@ -323,8 +328,7 @@ class TemporaryNavigatorView extends StatelessWidget {
       ),
       // Week 2 - Next week
       WeekOfWorkouts(
-        weekIndex: 2,
-        startDate: DateTime.now(),
+        startDate: nextSunday,
         workouts: [
           Workout(type: SessionType.full, style: WorkoutStyle.pushPullLegs, isCompleted: false),
           Workout(type: SessionType.micro, style: WorkoutStyle.seniorSpecific, isCompleted: false),
@@ -333,8 +337,7 @@ class TemporaryNavigatorView extends StatelessWidget {
       ),
       // Week 3
       WeekOfWorkouts(
-        weekIndex: 3,
-        startDate: DateTime.now(),
+        startDate: week3Sunday,
         workouts: [
           Workout(type: SessionType.full, style: WorkoutStyle.functionalMovement, isCompleted: false),
           Workout(type: SessionType.micro, style: WorkoutStyle.pilatesStyle, isCompleted: false),
@@ -342,8 +345,7 @@ class TemporaryNavigatorView extends StatelessWidget {
       ),
       // Week 4
       WeekOfWorkouts(
-        weekIndex: 4,
-        startDate: DateTime.now(),
+        startDate: week4Sunday,
         workouts: [
           Workout(type: SessionType.micro, style: WorkoutStyle.seniorSpecific, isCompleted: false),
           Workout(type: SessionType.full, style: WorkoutStyle.strongmanFunctional, isCompleted: false),

@@ -240,7 +240,6 @@ class PlanFields {
   static const String nextWeeksField = 'next_weeks';
 
   // WeekOfWorkouts fields
-  static const String weekIndexField = 'week_index';
   static const String startDateField = 'start_date';
   static const String workoutsField = 'workouts';
 

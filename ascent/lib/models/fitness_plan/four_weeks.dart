@@ -23,10 +23,11 @@ class FourWeeks {
     final filledWeeks = List<WeekOfWorkouts>.from(weeks);
     //Ensure we always have 3 next weeks
     for (int i = weeks.length; i < 3; i++) {
-      // Use weekIndex = currentWeek.weekIndex + i + 1 for unique indices
+      // Calculate proper future Sunday dates
+      final weeksAhead = i + 1;
+      final futureSunday = currentWeek.startDate.add(Duration(days: 7 * weeksAhead));
       filledWeeks.add(WeekOfWorkouts(
-        weekIndex: currentWeek.weekIndex + i + 1,
-        startDate: DateTime.now(),
+        startDate: futureSunday,
         workouts: [],
       ));
     }

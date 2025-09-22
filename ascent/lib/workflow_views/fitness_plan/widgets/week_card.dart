@@ -18,7 +18,7 @@ class WeekCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final completionStats = plan.getCurrentWeekCompletionStats(week.weekIndex);
+    final completionStats = week.completionStats;
     final completedCount = completionStats.completed;
     final totalCount = completionStats.total;
 

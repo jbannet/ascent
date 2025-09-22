@@ -19,8 +19,6 @@ class Plan {
 
   // Get current week index based on start date
   int get currentWeekIndex => planProgress.currentWeekIndex;
-  // Delegate to schedule for week completion stats
-  WeekCompletionStats getCurrentWeekCompletionStats(int weekIndex) => nextFourWeeks.completionStats;
   // Delegate to schedule for getting next 4 weeks
   List<WeekOfWorkouts> get next4Weeks => nextFourWeeks.next4Weeks;
 

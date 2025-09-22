@@ -122,11 +122,11 @@ class SamplePlanData {
       ),
     ];
 
-    // Create sample weeks
-    final week1 = WeekOfWorkouts(weekIndex: 1, startDate: DateTime.now(), workouts: week1Workouts);
-    final week2 = WeekOfWorkouts(weekIndex: 2, startDate: DateTime.now(), workouts: week2Workouts);
-    final week3 = WeekOfWorkouts(weekIndex: 3, startDate: DateTime.now(), workouts: week3Workouts);
-    final week4 = WeekOfWorkouts(weekIndex: 4, startDate: DateTime.now(), workouts: week4Workouts);
+    // Create sample weeks with proper Sunday dates
+    final week1 = WeekOfWorkouts(startDate: startOfWeek, workouts: week1Workouts);
+    final week2 = WeekOfWorkouts(startDate: week2Start, workouts: week2Workouts);
+    final week3 = WeekOfWorkouts(startDate: week3Start, workouts: week3Workouts);
+    final week4 = WeekOfWorkouts(startDate: week4Start, workouts: week4Workouts);
 
     // Create sample plan starting from this week
     return Plan(
