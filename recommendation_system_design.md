@@ -53,7 +53,14 @@ These take absolute priority - if present, must be addressed in recommendations
 **RECOMMENDATION:** "Multimodal training essential: combine strength, balance, cardio, and flexibility."
 **SOURCE:** WHO Guidelines (2020)
 
-#### 1.4 Sedentary Lifestyle Risks (Priority 1d)
+#### 1.4 Bone Health Risk (Priority 1d)
+
+**INPUT:** [CALCULATED - osteoporosis_risk] = 1.0
+**PRIORITY:** 2 (High)
+**RECOMMENDATION:** "Weight-bearing and resistance exercises essential for bone density. Consider discussing bone density testing with your doctor."
+**SOURCE:** OSTA validated risk assessment tool + Beck et al. (2017)
+
+#### 1.5 Sedentary Lifestyle Risks (Priority 1e)
 
 **INPUT:** [sedentary_job] "Yes" AND [current_exercise_days] < 3
 **PRIORITY:** 3 (Medium)
@@ -259,12 +266,13 @@ Add a recommendations section after the category allocation:
 
 ## Missing Questions to Add (Priority Order)
 1. **Single-leg balance test** - Critical for fall risk assessment
-2. **Training history/experience** - Needed for beginner/intermediate/advanced classification
-3. **Medical conditions checklist** - For condition-specific recommendations
-4. **Flexibility assessment** - For mobility recommendations
-5. **Heart rate recovery test** - For cardiovascular recovery assessment
-6. **Mental health screen** - For exercise as therapy recommendations
-7. **Weight history** - For detecting concerning weight loss
+2. **HRT/Estrogen use question** - For women, affects osteoporosis risk calculation
+3. **Training history/experience** - Needed for beginner/intermediate/advanced classification
+4. **Medical conditions checklist** - For condition-specific recommendations
+5. **Flexibility assessment** - For mobility recommendations
+6. **Heart rate recovery test** - For cardiovascular recovery assessment
+7. **Mental health screen** - For exercise as therapy recommendations
+8. **Weight history** - For detecting concerning weight loss
 
 ## Technical Notes
 - Recommendations should be constructive and motivating

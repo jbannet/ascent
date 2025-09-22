@@ -107,16 +107,68 @@ plan_header/
    └── Child widgets (receive animations via AnimatedBuilder)
    ```
 
-#### 2. onboarding_summary_view.dart (517 lines)
-- [ ] Extract `FitnessProfileHeader` widget
-- [ ] Create individual metric card widgets:
-  - [ ] `CardioMetricCard`
-  - [ ] `StrengthMetricCard`
-  - [ ] `HeartRateZonesCard`
-  - [ ] `SessionCommitmentCard`
-- [ ] Extract `CategoryAllocationSection` widget
-- [ ] Create `RiskFactorsPrioritiesSection` widget
-- [ ] Move calculation logic to helper classes
+#### 2. onboarding_summary_view.dart (517 lines) - DETAILED BREAKDOWN
+
+**Current Structure Analysis:**
+- Main StatelessWidget with 14 private methods
+- `_MetricRow` helper class (5 lines)
+- Complex metrics grid with 4 specialized cards
+- Category allocation visualization (duplicates logic from plan_header)
+- Risk factors and priorities section
+- Action buttons section
+
+**New Directory Structure:**
+```
+onboarding_summary/
+├── onboarding_summary_view.dart (~80 lines) - Main composition widget
+├── models/
+│   └── metric_row.dart (~10 lines) - Data model for metric display
+├── widgets/
+│   ├── summary_header.dart (~45 lines) - Header with title styling
+│   ├── metrics_grid/
+│   │   ├── metrics_grid_view.dart (~60 lines) - StaggeredGrid container
+│   │   ├── cardio_metric_card.dart (~55 lines) - VO2, METs, percentile display
+│   │   ├── strength_metric_card.dart (~55 lines) - Upper/lower body strength
+│   │   ├── heart_rate_zones_card.dart (~80 lines) - HR zones visualization
+│   │   ├── session_commitment_card.dart (~100 lines) - Weekly commitment display
+│   │   └── base_metric_card.dart (~90 lines) - Reusable card container with styling
+│   ├── category_allocation/
+│   │   ├── category_allocation_view.dart (~60 lines) - Section title and container
+│   │   └── allocation_visualization.dart (~85 lines) - Bar chart and legend (can reuse from plan_header)
+│   ├── risk_factors_section.dart (~90 lines) - Risk factors & priorities with icons
+│   └── summary_action_buttons.dart (~50 lines) - Bottom navigation buttons
+```
+
+**Refactoring Tasks:**
+- [x] Create `onboarding_summary/` directory structure
+- [x] Extract `_MetricRow` to `models/metric_row.dart`
+- [x] Extract `_buildHeader` to `SummaryHeader` widget
+- [x] Create `BaseMetricCard` for shared card styling and structure
+- [x] Extract `_buildCardioCard` to `CardioMetricCard`
+- [x] Extract `_buildStrengthCard` to `StrengthMetricCard`
+- [x] Extract `_buildHeartRateZonesCard` to `HeartRateZonesCard`
+- [x] Extract `_buildSessionCommitmentCard` to `SessionCommitmentCard`
+- [x] Extract `_buildMetricsGrid` to `MetricsGridView`
+- [x] Extract `_buildCategoryAllocation` to `CategoryAllocationView`
+- [x] Extract allocation chart to reuse components from plan_header
+- [x] Extract `_buildRiskFactorsAndPriorities` to `RiskFactorsSection`
+- [x] Extract `_buildActionButtons` to `SummaryActionButtons`
+- [x] Refactor main widget to compose smaller components
+
+**COMPLETED - Results:**
+- Original file: 517 lines → Refactored main file: 51 lines (90% reduction!)
+- Created 13 focused, reusable components following established patterns
+- Successfully reused AllocationBarChart component from plan_header
+- All components follow single responsibility principle
+- No compilation errors or warnings
+- All Flutter analysis checks pass
+
+**Benefits:**
+- Each metric card testable individually
+- Reusable base card reduces duplication
+- Category allocation can share components with plan_header
+- Clear separation between data extraction and UI
+- Easy to add/remove metric cards
 
 #### 3. persistent_bucket_widget.dart (559 lines)
 - [ ] Extract `BucketItem` model to models/nutrition/

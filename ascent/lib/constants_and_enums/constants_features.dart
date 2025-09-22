@@ -22,6 +22,9 @@ class FeatureConstants {
   static const String microSessionsPerWeek = 'micro_sessions_per_week';
   static const String totalTrainingDays = 'total_training_days';
   static const String weeklyTrainingMinutes = 'weekly_training_minutes';
+
+  // Health risk feature constants
+  static const String osteoporosisRisk = 'osteoporosis_risk';
 }
 
 /// Profile constants for fitness assessment

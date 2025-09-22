@@ -1,10 +1,10 @@
 {
-  "generated_at": "2025-09-22T08:30:34.565634",
+  "generated_at": "2025-09-22T12:42:17.466306",
   "total_personas": 40,
   "results": [
     {
       "persona_id": "elderly_fall_history",
-      "timestamp": "2025-09-22T08:30:34.552988",
+      "timestamp": "2025-09-22T12:42:17.454061",
       "calculated_values": {
         "age": 76,
         "bmi": 24.76756591982929,
@@ -48,7 +48,7 @@
     },
     {
       "persona_id": "cannot_stand_chair",
-      "timestamp": "2025-09-22T08:30:34.553478",
+      "timestamp": "2025-09-22T12:42:17.454589",
       "calculated_values": {
         "age": 69,
         "bmi": 27.755102040816325,
@@ -92,7 +92,7 @@
     },
     {
       "persona_id": "glp1_obesity",
-      "timestamp": "2025-09-22T08:30:34.553800",
+      "timestamp": "2025-09-22T12:42:17.454900",
       "calculated_values": {
         "age": 46,
         "bmi": 34.894398530762174,
@@ -136,7 +136,7 @@
     },
     {
       "persona_id": "extreme_obesity",
-      "timestamp": "2025-09-22T08:30:34.554038",
+      "timestamp": "2025-09-22T12:42:17.455163",
       "calculated_values": {
         "age": 39,
         "bmi": 41.03017295795985,
@@ -180,7 +180,7 @@
     },
     {
       "persona_id": "multiple_conditions",
-      "timestamp": "2025-09-22T08:30:34.554302",
+      "timestamp": "2025-09-22T12:42:17.455388",
       "calculated_values": {
         "age": 71,
         "bmi": 33.20312499999999,
@@ -224,7 +224,7 @@
     },
     {
       "persona_id": "young_athlete",
-      "timestamp": "2025-09-22T08:30:34.554645",
+      "timestamp": "2025-09-22T12:42:17.455672",
       "calculated_values": {
         "age": 26,
         "bmi": 23.54788069073783,
@@ -268,7 +268,7 @@
     },
     {
       "persona_id": "middle_aged_beginner",
-      "timestamp": "2025-09-22T08:30:34.554890",
+      "timestamp": "2025-09-22T12:42:17.455891",
       "calculated_values": {
         "age": 42,
         "bmi": 25.510204081632658,
@@ -312,7 +312,7 @@
     },
     {
       "persona_id": "active_senior",
-      "timestamp": "2025-09-22T08:30:34.555809",
+      "timestamp": "2025-09-22T12:42:17.456867",
       "calculated_values": {
         "age": 69,
         "bmi": 24.489795918367346,
@@ -356,7 +356,7 @@
     },
     {
       "persona_id": "frail_elderly",
-      "timestamp": "2025-09-22T08:30:34.556050",
+      "timestamp": "2025-09-22T12:42:17.457153",
       "calculated_values": {
         "age": 83,
         "bmi": 22.031725684986377,
@@ -400,7 +400,7 @@
     },
     {
       "persona_id": "teen_starter",
-      "timestamp": "2025-09-22T08:30:34.556282",
+      "timestamp": "2025-09-22T12:42:17.457401",
       "calculated_values": {
         "age": 17,
         "bmi": 21.30394857667585,
@@ -444,7 +444,7 @@
     },
     {
       "persona_id": "deconditioned_adult",
-      "timestamp": "2025-09-22T08:30:34.556499",
+      "timestamp": "2025-09-22T12:42:17.457635",
       "calculated_values": {
         "age": 35,
         "bmi": 27.777777777777775,
@@ -488,7 +488,7 @@
     },
     {
       "persona_id": "weekend_warrior",
-      "timestamp": "2025-09-22T08:30:34.556746",
+      "timestamp": "2025-09-22T12:42:17.457865",
       "calculated_values": {
         "age": 49,
         "bmi": 25.88057063502083,
@@ -532,7 +532,7 @@
     },
     {
       "persona_id": "former_athlete",
-      "timestamp": "2025-09-22T08:30:34.556970",
+      "timestamp": "2025-09-22T12:42:17.458098",
       "calculated_values": {
         "age": 56,
         "bmi": 27.757487216946675,
@@ -576,7 +576,7 @@
     },
     {
       "persona_id": "yoga_practitioner",
-      "timestamp": "2025-09-22T08:30:34.557190",
+      "timestamp": "2025-09-22T12:42:17.458347",
       "calculated_values": {
         "age": 40,
         "bmi": 21.453287197231838,
@@ -620,7 +620,7 @@
     },
     {
       "persona_id": "marathon_runner",
-      "timestamp": "2025-09-22T08:30:34.557399",
+      "timestamp": "2025-09-22T12:42:17.458565",
       "calculated_values": {
         "age": 34,
         "bmi": 20.202020202020204,
@@ -664,7 +664,7 @@
     },
     {
       "persona_id": "post_surgery",
-      "timestamp": "2025-09-22T08:30:34.557607",
+      "timestamp": "2025-09-22T12:42:17.458785",
       "calculated_values": {
         "age": 53,
         "bmi": 27.968016063681024,
@@ -708,7 +708,7 @@
     },
     {
       "persona_id": "chronic_back_pain",
-      "timestamp": "2025-09-22T08:30:34.557819",
+      "timestamp": "2025-09-22T12:42:17.459003",
       "calculated_values": {
         "age": 47,
         "bmi": 27.755102040816325,
@@ -752,7 +752,7 @@
     },
     {
       "persona_id": "diabetes_type2",
-      "timestamp": "2025-09-22T08:30:34.558059",
+      "timestamp": "2025-09-22T12:42:17.459218",
       "calculated_values": {
         "age": 58,
         "bmi": 29.745808545159548,
@@ -796,7 +796,7 @@
     },
     {
       "persona_id": "underweight",
-      "timestamp": "2025-09-22T08:30:34.558332",
+      "timestamp": "2025-09-22T12:42:17.459433",
       "calculated_values": {
         "age": 29,
         "bmi": 17.901234567901234,
@@ -840,7 +840,7 @@
     },
     {
       "persona_id": "postpartum",
-      "timestamp": "2025-09-22T08:30:34.558562",
+      "timestamp": "2025-09-22T12:42:17.459663",
       "calculated_values": {
         "age": 33,
         "bmi": 26.573129251700685,
@@ -884,7 +884,7 @@
     },
     {
       "persona_id": "busy_executive",
-      "timestamp": "2025-09-22T08:30:34.558782",
+      "timestamp": "2025-09-22T12:42:17.459909",
       "calculated_values": {
         "age": 45,
         "bmi": 26.82742078020452,
@@ -928,7 +928,7 @@
     },
     {
       "persona_id": "night_shift_worker",
-      "timestamp": "2025-09-22T08:30:34.559009",
+      "timestamp": "2025-09-22T12:42:17.460148",
       "calculated_values": {
         "age": 37,
         "bmi": 25.71166207529844,
@@ -972,7 +972,7 @@
     },
     {
       "persona_id": "homebound_parent",
-      "timestamp": "2025-09-22T08:30:34.559223",
+      "timestamp": "2025-09-22T12:42:17.460976",
       "calculated_values": {
         "age": 40,
         "bmi": 23.529411764705884,
@@ -1016,7 +1016,7 @@
     },
     {
       "persona_id": "retiree",
-      "timestamp": "2025-09-22T08:30:34.559494",
+      "timestamp": "2025-09-22T12:42:17.461331",
       "calculated_values": {
         "age": 66,
         "bmi": 26.122448979591837,
@@ -1060,7 +1060,7 @@
     },
     {
       "persona_id": "college_student",
-      "timestamp": "2025-09-22T08:30:34.559722",
+      "timestamp": "2025-09-22T12:42:17.461566",
       "calculated_values": {
         "age": 20,
         "bmi": 22.20408163265306,
@@ -1104,7 +1104,7 @@
     },
     {
       "persona_id": "elderly_fear_falling",
-      "timestamp": "2025-09-22T08:30:34.559938",
+      "timestamp": "2025-09-22T12:42:17.461784",
       "calculated_values": {
         "age": 73,
         "bmi": 26.562499999999996,
@@ -1148,7 +1148,7 @@
     },
     {
       "persona_id": "mobility_aids_user",
-      "timestamp": "2025-09-22T08:30:34.560152",
+      "timestamp": "2025-09-22T12:42:17.462001",
       "calculated_values": {
         "age": 78,
         "bmi": 25.351541373715524,
@@ -1192,7 +1192,7 @@
     },
     {
       "persona_id": "balance_problems_young",
-      "timestamp": "2025-09-22T08:30:34.560366",
+      "timestamp": "2025-09-22T12:42:17.462230",
       "calculated_values": {
         "age": 46,
         "bmi": 24.801587301587304,
@@ -1236,7 +1236,7 @@
     },
     {
       "persona_id": "multiple_risk_factors",
-      "timestamp": "2025-09-22T08:30:34.560621",
+      "timestamp": "2025-09-22T12:42:17.462438",
       "calculated_values": {
         "age": 81,
         "bmi": 24.141519250780433,
@@ -1280,7 +1280,7 @@
     },
     {
       "persona_id": "near_fall_risk",
-      "timestamp": "2025-09-22T08:30:34.560905",
+      "timestamp": "2025-09-22T12:42:17.462639",
       "calculated_values": {
         "age": 67,
         "bmi": 25.88057063502083,
@@ -1324,7 +1324,7 @@
     },
     {
       "persona_id": "age_49_active",
-      "timestamp": "2025-09-22T08:30:34.561153",
+      "timestamp": "2025-09-22T12:42:17.462856",
       "calculated_values": {
         "age": 50,
         "bmi": 24.691358024691358,
@@ -1368,7 +1368,7 @@
     },
     {
       "persona_id": "age_50_sedentary",
-      "timestamp": "2025-09-22T08:30:34.561380",
+      "timestamp": "2025-09-22T12:42:17.463059",
       "calculated_values": {
         "age": 51,
         "bmi": 27.548209366391188,
@@ -1412,7 +1412,7 @@
     },
     {
       "persona_id": "age_64_pre_senior",
-      "timestamp": "2025-09-22T08:30:34.561610",
+      "timestamp": "2025-09-22T12:42:17.463266",
       "calculated_values": {
         "age": 64,
         "bmi": 27.755102040816325,
@@ -1456,7 +1456,7 @@
     },
     {
       "persona_id": "overweight_athlete",
-      "timestamp": "2025-09-22T08:30:34.561854",
+      "timestamp": "2025-09-22T12:42:17.463472",
       "calculated_values": {
         "age": 36,
         "bmi": 28.04967129291453,
@@ -1500,7 +1500,7 @@
     },
     {
       "persona_id": "obesity_young",
-      "timestamp": "2025-09-22T08:30:34.562173",
+      "timestamp": "2025-09-22T12:42:17.463685",
       "calculated_values": {
         "age": 23,
         "bmi": 32.03124999999999,
@@ -1544,7 +1544,7 @@
     },
     {
       "persona_id": "obesity_senior",
-      "timestamp": "2025-09-22T08:30:34.563235",
+      "timestamp": "2025-09-22T12:42:17.463892",
       "calculated_values": {
         "age": 73,
         "bmi": 31.17913832199547,
@@ -1588,7 +1588,7 @@
     },
     {
       "persona_id": "wheelchair_user",
-      "timestamp": "2025-09-22T08:30:34.563488",
+      "timestamp": "2025-09-22T12:42:17.464093",
       "calculated_values": {
         "age": 40,
         "bmi": 23.875114784205696,
@@ -1632,7 +1632,7 @@
     },
     {
       "persona_id": "vision_impaired",
-      "timestamp": "2025-09-22T08:30:34.563712",
+      "timestamp": "2025-09-22T12:42:17.464319",
       "calculated_values": {
         "age": 56,
         "bmi": 25.46938775510204,
@@ -1676,7 +1676,7 @@
     },
     {
       "persona_id": "pregnancy_second_trimester",
-      "timestamp": "2025-09-22T08:30:34.563932",
+      "timestamp": "2025-09-22T12:42:17.464568",
       "calculated_values": {
         "age": 31,
         "bmi": 25.510204081632658,
@@ -1720,7 +1720,7 @@
     },
     {
       "persona_id": "stroke_recovery",
-      "timestamp": "2025-09-22T08:30:34.564149",
+      "timestamp": "2025-09-22T12:42:17.464797",
       "calculated_values": {
         "age": 60,
         "bmi": 25.95155709342561,
