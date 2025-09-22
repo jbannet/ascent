@@ -1,26 +1,29 @@
 import 'package:ascent/models/fitness_plan/workout.dart';
+import 'package:ascent/workflow_views/onboarding_workflow/views/onboarding_summary_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'models/fitness_plan/plan.dart';
-import 'models/fitness_plan/plan_progress.dart';
-import 'models/fitness_plan/four_weeks.dart';
-import 'models/fitness_plan/week_of_workouts.dart';
-import 'models/fitness_profile_model/fitness_profile.dart';
+import 'package:provider/provider.dart';
+
+import 'constants_and_enums/constants_features.dart';
+import 'constants_and_enums/item_mode.dart';
+import 'constants_and_enums/session_type.dart';
+import 'constants_and_enums/workout_style_enum.dart';
+import 'models/blocks/cooldown_step.dart';
 import 'models/blocks/exercise_prescription_step.dart';
 import 'models/blocks/rest_step.dart';
 import 'models/blocks/warmup_step.dart';
-import 'models/blocks/cooldown_step.dart';
+import 'models/fitness_plan/four_weeks.dart';
+import 'models/fitness_plan/plan.dart';
+import 'models/fitness_plan/plan_progress.dart';
+import 'models/fitness_plan/week_of_workouts.dart';
+import 'models/fitness_profile_model/fitness_profile.dart';
+import 'routing/route_names.dart';
+import 'services_and_utilities/app_state/app_state.dart';
+import 'temporary_mapping_tool.dart';
+import 'workflow_views/fitness_plan/views/block_cards/cooldown_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/exercise_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/rest_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/warmup_step_card.dart';
-import 'workflow_views/fitness_plan/views/block_cards/cooldown_step_card.dart';
-import 'workflow_views/onboarding_workflow/views/onboarding_summary_view.dart';
-import 'constants_and_enums/session_type.dart';
-import 'constants_and_enums/workout_style_enum.dart';
-import 'constants_and_enums/item_mode.dart';
-import 'constants_and_enums/constants_features.dart';
-import 'routing/route_names.dart';
-import 'temporary_mapping_tool.dart';
 
 /// Temporary development navigation screen to access all views during development
 class TemporaryNavigatorView extends StatelessWidget {
@@ -28,6 +31,16 @@ class TemporaryNavigatorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appState = context.watch<AppState>();
+    final featureOrder = appState.featureOrder;
+
+    final summaryProfile = appState.profile ?? _createMockFitnessProfileWithMetrics(featureOrder);
+    final planProfile = appState.profile ?? _createMockFitnessProfile(featureOrder);
+    final planForNavigation = appState.plan ??
+        (appState.hasProfile
+            ? Plan.generateFromFitnessProfile(appState.profile!)
+            : _createMockPlan(planProfile));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Development Navigator'),
@@ -56,7 +69,7 @@ class TemporaryNavigatorView extends StatelessWidget {
             title: 'Onboarding Summary',
             subtitle: 'View fitness profile summary after onboarding',
             icon: Icons.analytics,
-            onTap: () => _showSummaryView(context),
+            onTap: () => _showSummaryView(context, summaryProfile),
           ),
 
           _buildNavigationTile(
@@ -66,7 +79,7 @@ class TemporaryNavigatorView extends StatelessWidget {
             icon: Icons.fitness_center,
             onTap: () => context.push(
               RouteNames.planPath(),
-              extra: _createMockPlan(),
+              extra: planForNavigation,
             ),
           ),
           
@@ -213,18 +226,18 @@ class TemporaryNavigatorView extends StatelessWidget {
     );
   }
 
-  void _showSummaryView(BuildContext context) {
+  void _showSummaryView(BuildContext context, FitnessProfile profile) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => OnboardingSummaryView(
-          fitnessProfile: _createMockFitnessProfileWithMetrics(),
+          fitnessProfile: profile,
         ),
       ),
     );
   }
 
   /// Create mock Plan data for testing fitness views
-  Plan _createMockPlan() {
+  Plan _createMockPlan(FitnessProfile profile) {
 
     final mockWeeks = [
       // Week 1 - This week
@@ -273,23 +286,12 @@ class TemporaryNavigatorView extends StatelessWidget {
         currentWeek: mockWeeks[0],
         nextWeeks: mockWeeks.sublist(1),
       ),
-      fitnessProfile: _createMockFitnessProfile(),
+      fitnessProfile: profile,
     );
   }
 
   /// Create mock FitnessProfile data for testing the plan view
-  FitnessProfile _createMockFitnessProfile() {
-    final featureOrder = [
-      FeatureConstants.categoryCardio,
-      FeatureConstants.categoryStrength,
-      FeatureConstants.categoryBalance,
-      FeatureConstants.categoryStretching,
-      FeatureConstants.categoryFunctional,
-      FeatureConstants.categoryBodyweight,
-      FeatureConstants.fullSessionsPerWeek,
-      FeatureConstants.microSessionsPerWeek,
-    ];
-
+  FitnessProfile _createMockFitnessProfile(List<String> featureOrder) {
     final mockAnswers = <String, dynamic>{
       'age': 35,
       'experience_level': 'intermediate',
@@ -311,37 +313,7 @@ class TemporaryNavigatorView extends StatelessWidget {
   }
 
   /// Create mock FitnessProfile with detailed fitness metrics for summary view
-  FitnessProfile _createMockFitnessProfileWithMetrics() {
-    final featureOrder = [
-      FeatureConstants.categoryCardio,
-      FeatureConstants.categoryStrength,
-      FeatureConstants.categoryBalance,
-      FeatureConstants.categoryStretching,
-      FeatureConstants.categoryFunctional,
-      FeatureConstants.categoryBodyweight,
-      FeatureConstants.fullSessionsPerWeek,
-      FeatureConstants.microSessionsPerWeek,
-      'vo2max',
-      'mets_capacity',
-      'cardio_fitness_percentile',
-      'cardio_recovery_days',
-      'upper_body_strength_percentile',
-      'lower_body_strength_percentile',
-      'strength_optimal_rep_range_min',
-      'strength_optimal_rep_range_max',
-      'strength_recovery_hours',
-      'hr_zone1',
-      'hr_zone2',
-      'hr_zone3',
-      'hr_zone4',
-      'hr_zone5',
-      'weekly_training_minutes',
-      'total_training_days',
-      'fall_risk_score',
-      'joint_health_score',
-      'impact_tolerance',
-    ];
-
+  FitnessProfile _createMockFitnessProfileWithMetrics(List<String> featureOrder) {
     final mockAnswers = <String, dynamic>{
       'age': 35,
       'gender': 'female',

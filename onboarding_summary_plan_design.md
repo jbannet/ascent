@@ -136,7 +136,7 @@
 - [x] Add persistence methods to Plan (loadFromStorage/saveToStorage)
 - [x] Create AppStateProvider wrapper for UI reactivity
 - [x] Update main.dart with GetIt setup and initial loading
-- [ ] Update TemporaryNavigatorView to use AppStateProvider
+- [x] Update TemporaryNavigatorView to use AppStateProvider
 - [ ] Update routing to load from AppDataService
 - [ ] Connect onboarding completion to AppDataService
 - [ ] Test complete flow end-to-end
