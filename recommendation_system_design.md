@@ -77,12 +77,12 @@ After safety, cardiovascular fitness has the highest mortality impact
 
 #### 2.1 Poor Cardiovascular Fitness (High Priority)
 
-**INPUT:** [Q4 - 12-minute run] VO2max < 30 ml/kg/min or Cardio percentile < 20th
+**INPUT:** [Q4 - distance/time run] VO2max < 30 ml/kg/min or Cardio percentile < 20th
 **PRIORITY:** 4 (Medium-High)
 **RECOMMENDATION:** "Prioritize moderate cardio 150 min/week to reduce cardiovascular risks."
 **SOURCE:** ACSM Guidelines (2021)
 
-**INPUT:** [Q4 - 12-minute run] METs capacity < 5
+**INPUT:** [Q4 - distance/time run] METs capacity < 5
 **PRIORITY:** 4 (Medium-High)
 **RECOMMENDATION:** "Start with low-intensity walking, gradually increase duration before intensity."
 **SOURCE:** Myers et al. (2002) NEJM

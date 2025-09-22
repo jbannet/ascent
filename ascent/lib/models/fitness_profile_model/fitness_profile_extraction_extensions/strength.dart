@@ -59,16 +59,10 @@ extension Strength on FitnessProfile {
       );
       featuresMap['upper_body_strength_percentile'] = upperBodyPercentile;
       
-      // Calculate equivalent strength age based on pushups
-      featuresMap['upper_body_equivalent_age'] = ACSMPushupNorms.getEquivalentAge(
-        pushupCount, age, gender
-      ).toDouble();
       
       // Store raw push-up performance
       featuresMap['pushup_count'] = pushupCount.toDouble();
       
-      // Upper body endurance capacity
-      featuresMap['upper_body_endurance_capacity'] = upperBodyPercentile;
     }
     
     // LOWER BODY: Use squat test if available
@@ -91,8 +85,6 @@ extension Strength on FitnessProfile {
           featuresMap['needs_seated_exercises'] = 0.0;
           featuresMap['can_do_chair_stand'] = 1.0;
           
-          // Equivalent age is older but not maximum
-          featuresMap['lower_body_equivalent_age'] = (age + 15).toDouble();
         } else if (canStandFromChair == false) {
           // Cannot do chair stand - no functional strength
           lowerBodyPercentile = 0.0;
@@ -106,15 +98,12 @@ extension Strength on FitnessProfile {
           // Add fall risk modifier
           featuresMap['fall_risk_modifier'] = 0.3;
           
-          // Equivalent age is significantly older
-          featuresMap['lower_body_equivalent_age'] = (age + 25).toDouble();
         } else {
           // Chair stand question not answered (shouldn't happen with condition)
           // Use conservative estimates
           lowerBodyPercentile = 0.1;
           featuresMap['lower_body_strength_percentile'] = lowerBodyPercentile;
           featuresMap['needs_functional_training'] = 1.0;
-          featuresMap['lower_body_equivalent_age'] = (age + 20).toDouble();
         }
       } else {
         // Can do squats - use normal percentile calculation
@@ -123,10 +112,6 @@ extension Strength on FitnessProfile {
         );
         featuresMap['lower_body_strength_percentile'] = lowerBodyPercentile;
         
-        // Calculate equivalent strength age based on squats
-        featuresMap['lower_body_equivalent_age'] = ACSMSquatNorms.getEquivalentAge(
-          squatCount, age, gender
-        ).toDouble();
         
         // Check if needs functional training
         featuresMap['needs_functional_training'] = 
@@ -148,8 +133,6 @@ extension Strength on FitnessProfile {
         }
       }
       
-      // Lower body endurance capacity
-      featuresMap['lower_body_endurance_capacity'] = lowerBodyPercentile;
     }
     
     // OVERALL STRENGTH: Combine upper and lower body if both available
@@ -158,24 +141,13 @@ extension Strength on FitnessProfile {
       featuresMap['strength_fitness_percentile'] = 
         (upperBodyPercentile * 0.4 + lowerBodyPercentile * 0.6);
       
-      // Overall muscle endurance capacity
-      featuresMap['muscle_endurance_capacity'] = 
-        featuresMap['strength_fitness_percentile'] as double;
       
-      // Combined equivalent age
-      final upperAge = featuresMap['upper_body_equivalent_age'] as double;
-      final lowerAge = featuresMap['lower_body_equivalent_age'] as double;
-      featuresMap['strength_equivalent_age'] = (upperAge * 0.4 + lowerAge * 0.6);
     } else if (upperBodyPercentile != null) {
       // Only upper body data available
       featuresMap['strength_fitness_percentile'] = upperBodyPercentile;
-      featuresMap['muscle_endurance_capacity'] = upperBodyPercentile;
-      featuresMap['strength_equivalent_age'] = featuresMap['upper_body_equivalent_age'] as double;
     } else if (lowerBodyPercentile != null) {
       // Only lower body data available
       featuresMap['strength_fitness_percentile'] = lowerBodyPercentile;
-      featuresMap['muscle_endurance_capacity'] = lowerBodyPercentile;
-      featuresMap['strength_equivalent_age'] = featuresMap['lower_body_equivalent_age'] as double;
     }
     
     // Age-based strength decline factors

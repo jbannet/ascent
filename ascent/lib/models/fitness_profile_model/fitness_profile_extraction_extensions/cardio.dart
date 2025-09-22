@@ -194,7 +194,7 @@ extension Cardio on FitnessProfile {
     featuresMap['met_zone4'] = mets * 0.85;  // VO2max
     featuresMap['met_zone5'] = mets * 0.95;  // Neuromuscular
     
-    // Recovery needs based on age
-    featuresMap['cardio_recovery_days'] = age < 40 ? 1.0 : (age < 60 ? 2.0 : 3.0);
+    // Recovery needs based on age (converted to hours for consistency with strength recovery)
+    featuresMap['cardio_recovery_hours'] = age < 40 ? 24.0 : (age < 60 ? 48.0 : 72.0);
   }
 }

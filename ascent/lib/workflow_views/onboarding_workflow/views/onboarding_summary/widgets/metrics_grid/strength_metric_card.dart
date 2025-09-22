@@ -28,7 +28,7 @@ class StrengthMetricCard extends StatelessWidget {
         MetricRow('Upper Body', '${upperPercentile.toStringAsFixed(0)}%'),
         MetricRow('Lower Body', '${lowerPercentile.toStringAsFixed(0)}%'),
         MetricRow('Rep Range', '${repMin.toInt()}-${repMax.toInt()}'),
-        MetricRow('Recovery', '${recoveryHours.toInt()}h'),
+        MetricRow('Recovery', '${recoveryHours.toInt()} hours'),
       ],
     );
   }

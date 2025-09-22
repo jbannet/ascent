@@ -17,7 +17,7 @@ class CardioMetricCard extends StatelessWidget {
     final vo2max = fitnessProfile.features['vo2max'] ?? 0.0;
     final metsCapacity = fitnessProfile.features['mets_capacity'] ?? 0.0;
     final cardioPercentile = fitnessProfile.features['cardio_fitness_percentile'] ?? 0.0;
-    final recoveryDays = fitnessProfile.features['cardio_recovery_days'] ?? 0.0;
+    final recoveryHours = fitnessProfile.features['cardio_recovery_hours'] ?? 0.0;
 
     return BaseMetricCard(
       title: 'Cardio Fitness',
@@ -27,7 +27,7 @@ class CardioMetricCard extends StatelessWidget {
         MetricRow('VO2 Max', '${vo2max.toStringAsFixed(1)} ml/kg/min'),
         MetricRow('METs', metsCapacity.toStringAsFixed(1)),
         MetricRow('Percentile', '${cardioPercentile.toStringAsFixed(0)}%'),
-        MetricRow('Recovery', '${recoveryDays.toStringAsFixed(0)} days'),
+        MetricRow('Recovery', '${recoveryHours.toInt()} hours'),
       ],
     );
   }
