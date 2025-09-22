@@ -62,7 +62,14 @@ class WeightQuestion extends OnboardingQuestion {
   double? getWeightPounds(Map<String, dynamic> answers) {
     final weight = answers[questionId];
     if (weight == null) return null;
-    return (weight as num).toDouble();
+    if (weight is num) {
+      return weight.toDouble();
+    }
+    if (weight is String) {
+      final parsed = num.tryParse(weight);
+      return parsed?.toDouble();
+    }
+    return null;
   }
   
   /// Get weight in kilograms from answers

@@ -1,31 +1,22 @@
-import 'package:ascent/models/fitness_plan/workout.dart';
-import 'package:ascent/workflow_views/onboarding_workflow/views/onboarding_summary_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import 'constants_and_enums/constants_features.dart';
 import 'constants_and_enums/item_mode.dart';
-import 'constants_and_enums/session_type.dart';
-import 'constants_and_enums/workout_style_enum.dart';
 import 'models/blocks/cooldown_step.dart';
 import 'models/blocks/exercise_prescription_step.dart';
 import 'models/blocks/rest_step.dart';
 import 'models/blocks/warmup_step.dart';
-import 'models/fitness_plan/four_weeks.dart';
-import 'models/fitness_plan/plan.dart';
-import 'models/fitness_plan/plan_progress.dart';
-import 'models/fitness_plan/week_of_workouts.dart';
 import 'models/fitness_profile_model/fitness_profile.dart';
 import 'routing/route_names.dart';
 import 'services_and_utilities/app_state/app_state.dart';
-import 'services_and_utilities/general_utilities/get_this_sunday.dart';
 import 'services_and_utilities/local_storage/local_storage_service.dart';
 import 'temporary_mapping_tool.dart';
 import 'workflow_views/fitness_plan/views/block_cards/cooldown_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/exercise_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/rest_step_card.dart';
 import 'workflow_views/fitness_plan/views/block_cards/warmup_step_card.dart';
+import 'workflow_views/onboarding_workflow/question_bank/registry/question_bank.dart';
 
 /// Temporary development navigation screen to access all views during development
 class TemporaryNavigatorView extends StatelessWidget {
@@ -36,12 +27,8 @@ class TemporaryNavigatorView extends StatelessWidget {
     final appState = context.watch<AppState>();
     final featureOrder = appState.featureOrder;
 
-    final summaryProfile = appState.profile ?? _createMockFitnessProfileWithMetrics(featureOrder);
-    final planProfile = appState.profile ?? _createMockFitnessProfile(featureOrder);
-    final planForNavigation = appState.plan ??
-        (appState.hasProfile
-            ? Plan.generateFromFitnessProfile(appState.profile!)
-            : _createMockPlan(planProfile));
+    final summaryProfile = appState.profile;
+    final planForNavigation = appState.plan;
 
     return Scaffold(
       appBar: AppBar(
@@ -79,7 +66,12 @@ class TemporaryNavigatorView extends StatelessWidget {
             title: 'Onboarding Summary',
             subtitle: 'View fitness profile summary after onboarding',
             icon: Icons.analytics,
-            onTap: () => _showSummaryView(context, summaryProfile),
+            onTap: summaryProfile != null
+                ? () => context.go('/onboarding-summary')
+                : () => _showMissingStateSnack(
+                      context,
+                      'Complete onboarding to view your summary.',
+                    ),
           ),
 
           _buildNavigationTile(
@@ -87,10 +79,12 @@ class TemporaryNavigatorView extends StatelessWidget {
             title: 'Plan View',
             subtitle: 'View the fitness plan overview',
             icon: Icons.fitness_center,
-            onTap: () => context.push(
-              RouteNames.planPath(),
-              extra: planForNavigation,
-            ),
+            onTap: planForNavigation != null
+                ? () => context.go(RouteNames.planPath())
+                : () => _showMissingStateSnack(
+                      context,
+                      'Generate a plan from the summary before opening the plan view.',
+                    ),
           ),
           
           
@@ -263,6 +257,7 @@ class TemporaryNavigatorView extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     final appState = context.read<AppState>();
+                    _resetQuestionBank();
                     await LocalStorageService.saveAnswers({});
                     await appState.clearAll();
                   },
@@ -271,12 +266,19 @@ class TemporaryNavigatorView extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     final appState = context.read<AppState>();
-                    final profile = _createMockFitnessProfileWithMetrics(featureOrder);
-                    await LocalStorageService.saveAnswers(_mockAnswers());
+                    final answers = _generateCompleteAnswers();
+                    QuestionBank.fromJson(answers);
+                    await LocalStorageService.saveAnswers(answers);
+
+                    final profile = FitnessProfile.createFitnessProfileFromSurvey(
+                      featureOrder,
+                      answers,
+                    );
+
                     await appState.setProfile(
-                          profile,
-                          regeneratePlan: false,
-                        );
+                      profile,
+                      regeneratePlan: false,
+                    );
                     await appState.clearPlan();
                   },
                   child: const Text('Profile only (no plan)'),
@@ -284,8 +286,15 @@ class TemporaryNavigatorView extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     final appState = context.read<AppState>();
-                    final profile = _createMockFitnessProfileWithMetrics(featureOrder);
-                    await LocalStorageService.saveAnswers(_mockAnswers());
+                    final answers = _generateCompleteAnswers();
+                    QuestionBank.fromJson(answers);
+                    await LocalStorageService.saveAnswers(answers);
+
+                    final profile = FitnessProfile.createFitnessProfileFromSurvey(
+                      featureOrder,
+                      answers,
+                    );
+
                     await appState.setProfile(profile);
                   },
                   child: const Text('Profile + plan'),
@@ -298,158 +307,60 @@ class TemporaryNavigatorView extends StatelessWidget {
     );
   }
 
-  void _showSummaryView(BuildContext context, FitnessProfile profile) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => OnboardingSummaryView(
-          fitnessProfile: profile,
-        ),
-      ),
-    );
-  }
 
-  /// Create mock Plan data for testing fitness views
-  Plan _createMockPlan(FitnessProfile profile) {
-    // Get proper Sunday dates for each week
-    final thisSunday = getThisSunday();
-    final nextSunday = thisSunday.add(Duration(days: 7));
-    final week3Sunday = thisSunday.add(Duration(days: 14));
-    final week4Sunday = thisSunday.add(Duration(days: 21));
-
-    final mockWeeks = [
-      // Week 1 - This week
-      WeekOfWorkouts(
-        startDate: thisSunday,
-        workouts: [
-          Workout(type: SessionType.full, style: WorkoutStyle.upperLowerSplit, isCompleted: true),
-          Workout(type: SessionType.micro, style: WorkoutStyle.enduranceDominant, isCompleted: true),
-          Workout(type: SessionType.full, style: WorkoutStyle.yogaFocused, isCompleted: false),
-        ],
-      ),
-      // Week 2 - Next week
-      WeekOfWorkouts(
-        startDate: nextSunday,
-        workouts: [
-          Workout(type: SessionType.full, style: WorkoutStyle.pushPullLegs, isCompleted: false),
-          Workout(type: SessionType.micro, style: WorkoutStyle.seniorSpecific, isCompleted: false),
-          Workout(type: SessionType.full, style: WorkoutStyle.circuitMetabolic, isCompleted: false),
-        ],
-      ),
-      // Week 3
-      WeekOfWorkouts(
-        startDate: week3Sunday,
-        workouts: [
-          Workout(type: SessionType.full, style: WorkoutStyle.functionalMovement, isCompleted: false),
-          Workout(type: SessionType.micro, style: WorkoutStyle.pilatesStyle, isCompleted: false),
-        ],
-      ),
-      // Week 4
-      WeekOfWorkouts(
-        startDate: week4Sunday,
-        workouts: [
-          Workout(type: SessionType.micro, style: WorkoutStyle.seniorSpecific, isCompleted: false),
-          Workout(type: SessionType.full, style: WorkoutStyle.strongmanFunctional, isCompleted: false),
-        ],
-      ),
-    ];
-
-    return Plan(
-      planProgress: PlanProgress(),
-      nextFourWeeks: FourWeeks(
-        currentWeek: mockWeeks[0],
-        nextWeeks: mockWeeks.sublist(1),
-      ),
-      fitnessProfile: profile,
-    );
-  }
-
-  /// Create mock FitnessProfile data for testing the plan view
-  FitnessProfile _createMockFitnessProfile(List<String> featureOrder) {
-    final mockAnswers = <String, dynamic>{
-      'age': 35,
-      'experience_level': 'intermediate',
-      'goals': ['strength', 'cardio'],
-    };
-
-    // Use internal constructor to avoid calculateAllFeatures() call
-    final profile = FitnessProfile.createFitnessProfileFromStorage(featureOrder, mockAnswers);
-
-    // Manually set some feature values to show meaningful category allocations
-    profile.featuresMap[FeatureConstants.categoryCardio] = 0.35;     // 35%
-    profile.featuresMap[FeatureConstants.categoryStrength] = 0.40;   // 40%
-    profile.featuresMap[FeatureConstants.categoryBalance] = 0.15;    // 15%
-    profile.featuresMap[FeatureConstants.categoryStretching] = 0.10; // 10%
-    profile.featuresMap[FeatureConstants.fullSessionsPerWeek] = 3.0;
-    profile.featuresMap[FeatureConstants.microSessionsPerWeek] = 2.0;
-
-    return profile;
-  }
-
-  /// Create mock FitnessProfile with detailed fitness metrics for summary view
-  FitnessProfile _createMockFitnessProfileWithMetrics(List<String> featureOrder) {
-    final mockAnswers = <String, dynamic>{
-      'age': 35,
+  Map<String, dynamic> _generateCompleteAnswers() {
+    final answers = <String, dynamic>{
+      'age': '1985-06-15',
       'gender': 'female',
-      'weight': 140,
-      'height': 66,
-      'experience_level': 'intermediate',
-      'goals': ['strength', 'cardio'],
+      'height': 65.0, // inches
+      'weight': 150.0, // pounds
+      'primary_motivation': 'better_health',
+      'progress_tracking': 'weekly_check_ins',
+      'fitness_goals': ['better_health', 'build_muscle'],
+      'Q4': {
+        'distanceMiles': 1.25,
+        'timeMinutes': 12,
+        'selectedUnit': 'miles',
+      },
+      'Q4A': 'no',
+      'Q4B': [],
+      'Q5': 8.0,
+      'Q6A': 'yes',
+      'glp1_medications': 'no',
+      'sleep_hours': 7.0,
+      'sugary_treats': 'sometimes',
+      'sodas': 'rarely',
+      'grains': 'often',
+      'alcohol': 'socially',
+      'session_commitment': {
+        'full_sessions': 3,
+        'micro_sessions': 2,
+      },
+      'current_exercise_days': 2,
+      'sedentary_job': 'yes',
+      'Q1': 'none',
+      'Q2': 'none',
+      'Q10': 'resistance_bands',
+      'Q11': 'home',
     };
 
-    // Create profile with storage factory to avoid auto-calculation
-    final profile = FitnessProfile.createFitnessProfileFromStorage(featureOrder, mockAnswers);
-
-    // Set category allocations
-    profile.featuresMap[FeatureConstants.categoryCardio] = 0.35;     // 35%
-    profile.featuresMap[FeatureConstants.categoryStrength] = 0.40;   // 40%
-    profile.featuresMap[FeatureConstants.categoryBalance] = 0.15;    // 15%
-    profile.featuresMap[FeatureConstants.categoryStretching] = 0.10; // 10%
-    profile.featuresMap[FeatureConstants.categoryFunctional] = 0.0;  // 0%
-
-    // Session commitment
-    profile.featuresMap[FeatureConstants.fullSessionsPerWeek] = 3.0;
-    profile.featuresMap[FeatureConstants.microSessionsPerWeek] = 2.0;
-    profile.featuresMap['weekly_training_minutes'] = 180.0;
-    profile.featuresMap['total_training_days'] = 5.0;
-
-    // Cardio metrics
-    profile.featuresMap['vo2max'] = 42.5;
-    profile.featuresMap['mets_capacity'] = 12.1;
-    profile.featuresMap['cardio_fitness_percentile'] = 75.0;
-    profile.featuresMap['cardio_recovery_days'] = 1.0;
-
-    // Strength metrics
-    profile.featuresMap['upper_body_strength_percentile'] = 68.0;
-    profile.featuresMap['lower_body_strength_percentile'] = 72.0;
-    profile.featuresMap['strength_optimal_rep_range_min'] = 8.0;
-    profile.featuresMap['strength_optimal_rep_range_max'] = 12.0;
-    profile.featuresMap['strength_recovery_hours'] = 48.0;
-
-    // Heart rate zones (age 35, so max HR ~185)
-    profile.featuresMap['hr_zone1'] = 111.0;  // 60% max HR
-    profile.featuresMap['hr_zone2'] = 130.0;  // 70% max HR
-    profile.featuresMap['hr_zone3'] = 148.0;  // 80% max HR
-    profile.featuresMap['hr_zone4'] = 167.0;  // 90% max HR
-    profile.featuresMap['hr_zone5'] = 185.0;  // 100% max HR
-
-    // Risk factors (good health)
-    profile.featuresMap['fall_risk_score'] = 0.0;
-    profile.featuresMap['joint_health_score'] = 8.5;
-    profile.featuresMap['impact_tolerance'] = 9.0;
-
-    return profile;
+    QuestionBank.fromJson(answers);
+    return QuestionBank.toJson();
   }
 
-  Map<String, dynamic> _mockAnswers() => {
-        'age': 35,
-        'gender': 'female',
-        'weight': 140,
-        'height': 66,
-        'experience_level': 'intermediate',
-        'goals': ['strength', 'cardio'],
-      };
+  void _resetQuestionBank() {
+    final questions = QuestionBank.getAllQuestions();
+    for (final question in questions) {
+      question.fromJson({'id': question.id, 'answer': null});
+    }
+  }
 
-  /// Create mock ExercisePrescriptionStep for reps-based exercises
+  void _showMissingStateSnack(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
   ExercisePrescriptionStep _createMockRepExercise(String name, int reps) {
     return ExercisePrescriptionStep(
       exerciseId: 'mock_${name.toLowerCase().replaceAll(' ', '_')}',
@@ -458,10 +369,9 @@ class TemporaryNavigatorView extends StatelessWidget {
       sets: 3,
       reps: reps,
       restSecBetweenSets: 90,
-      cues: ['Keep form tight', 'Controlled movement'],
+      cues: const ['Maintain good form throughout each rep'],
     );
   }
-
 }
 
 class _SwipableCardDemo extends StatefulWidget {

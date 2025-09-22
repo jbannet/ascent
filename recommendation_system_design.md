@@ -87,10 +87,47 @@ After safety, cardiovascular fitness has the highest mortality impact
 **RECOMMENDATION:** "Start with low-intensity walking, gradually increase duration before intensity."
 **SOURCE:** Myers et al. (2002) NEJM
 
-### Priority 3: STRENGTH & MUSCLE HEALTH (Functional Independence)
+### Priority 3: RECOVERY & LIFESTYLE FACTORS (Foundation for Training)
+Poor sleep and nutrition undermine all fitness efforts
+
+#### 3.1 Sleep Quality
+
+**INPUT:** [sleep_hours] < 6
+**PRIORITY:** 4 (Medium-High)
+**RECOMMENDATION:** "Critical: Poor sleep increases injury risk by 70%. Prioritize 7-9 hours nightly for safe training."
+**SOURCE:** Milewski et al. (2014) - Chronic lack of sleep and sports injuries
+
+**INPUT:** [sleep_hours] < 7
+**PRIORITY:** 6 (Medium-Low)
+**RECOMMENDATION:** "Inadequate sleep impairs recovery and performance. Aim for 7-9 hours nightly."
+**SOURCE:** Watson et al. (2015) - Sleep consensus statement for athletes
+
+#### 3.2 Nutrition Quality
+
+**INPUT:** [sugary_treats] > 3 per day
+**PRIORITY:** 7 (Medium)
+**RECOMMENDATION:** "Reduce sugary treats to improve energy stability and workout recovery."
+**SOURCE:** WHO sugar intake guidelines (25g/day recommended)
+
+**INPUT:** [sodas] > 2 per day
+**PRIORITY:** 7 (Medium)
+**RECOMMENDATION:** "Replace sugary drinks with water for better hydration and weight management."
+**SOURCE:** Malik et al. (2013) - Sugar-sweetened beverages and weight gain
+
+**INPUT:** [alcohol] > 14 drinks/week (men) OR > 7 drinks/week (women)
+**PRIORITY:** 5 (Medium)
+**RECOMMENDATION:** "Reduce alcohol intake - it impairs muscle recovery and sleep quality."
+**SOURCE:** Barnes (2014) - Alcohol and athletic performance
+
+**INPUT:** [CALCULATED - diet_quality_score] < 5/10
+**PRIORITY:** 6 (Medium-Low)
+**RECOMMENDATION:** "Focus on whole foods to fuel your workouts and improve recovery."
+**SOURCE:** Position of the Academy of Nutrition and Dietetics on sports nutrition
+
+### Priority 4: STRENGTH & MUSCLE HEALTH (Functional Independence)
 Important for daily function and aging well
 
-#### 3.1 Lower Body Weakness (Higher Priority - Fall Risk)
+#### 4.1 Lower Body Weakness (Higher Priority - Fall Risk)
 
 **INPUT:** [Q6 - Bodyweight squats OR Q6A - Chair stand] Count < 25th percentile
 **PRIORITY:** 7 (Medium)
@@ -102,17 +139,17 @@ Important for daily function and aging well
 **RECOMMENDATION:** "Combat age-related muscle loss with resistance training 2-3x weekly."
 **SOURCE:** Cruz-Jentoft et al. (2019)
 
-#### 3.2 Upper Body Weakness (Lower Priority)
+#### 4.2 Upper Body Weakness (Lower Priority)
 
 **INPUT:** [Q5 - Push-ups] Count < 25th percentile for age/gender
 **PRIORITY:** 8 (Lower)
 **RECOMMENDATION:** "Include upper body strengthening 2-3x per week for functional tasks."
 **SOURCE:** ACSM fitness assessment norms
 
-### Priority 4: PLAN CONSTRUCTION GUIDANCE (Training Parameters)
+### Priority 5: PLAN CONSTRUCTION GUIDANCE (Training Parameters)
 How to structure the actual training plan
 
-#### 4.1 Recovery & Frequency Guidelines
+#### 5.1 Recovery & Frequency Guidelines
 
 **INPUT:** [Age Question] > 50 OR [CALCULATED - recovery_days] > 2
 **PRIORITY:** 9 (Lower)
@@ -129,7 +166,7 @@ How to structure the actual training plan
 **RECOMMENDATION:** "High-intensity intervals maximize benefits in minimal time."
 **SOURCE:** Gibala et al. (2012)
 
-#### 4.2 Equipment & Environment Adaptations
+#### 5.2 Equipment & Environment Adaptations
 
 **INPUT:** [Q10 - Equipment] "No equipment" selected
 **PRIORITY:** 11 (Lower)
@@ -141,7 +178,7 @@ How to structure the actual training plan
 **RECOMMENDATION:** "Home workouts with resistance bands provide similar gains to weights."
 **SOURCE:** Lopes et al. (2019)
 
-#### 4.3 Performance Level Progressions
+#### 5.3 Performance Level Progressions
 
 **INPUT:** [current_exercise_days] = 0 AND [MISSING - Training History] "Never"
 **PRIORITY:** 12 (Lower)
@@ -153,10 +190,10 @@ How to structure the actual training plan
 **RECOMMENDATION:** "Vary training stimulus every 4-6 weeks to prevent plateau."
 **SOURCE:** Kramer et al. (1997)
 
-### Priority 5: MOTIVATION & ADHERENCE (Supporting Success)
+### Priority 6: MOTIVATION & ADHERENCE (Supporting Success)
 Help users stick to the program
 
-#### 5.1 Beginner Motivation
+#### 6.1 Beginner Motivation
 
 **INPUT:** [current_exercise_days] = 0 
 **PRIORITY:** 14 (Supportive)
@@ -168,7 +205,7 @@ Help users stick to the program
 **RECOMMENDATION:** "Find a workout buddy.... [explain app link?]."
 **SOURCE:** Behavioral activation research
 
-#### 5.2 Advanced Engagement
+#### 6.2 Advanced Engagement
 
 **INPUT:** [current_exercise_days] > 5 AND [session_commitment] high variety
 **PRIORITY:** 15 (Supportive)
@@ -267,12 +304,13 @@ Add a recommendations section after the category allocation:
 ## Missing Questions to Add (Priority Order)
 1. **Single-leg balance test** - Critical for fall risk assessment
 2. **HRT/Estrogen use question** - For women, affects osteoporosis risk calculation
-3. **Training history/experience** - Needed for beginner/intermediate/advanced classification
-4. **Medical conditions checklist** - For condition-specific recommendations
-5. **Flexibility assessment** - For mobility recommendations
-6. **Heart rate recovery test** - For cardiovascular recovery assessment
-7. **Mental health screen** - For exercise as therapy recommendations
-8. **Weight history** - For detecting concerning weight loss
+3. **Diet quality score calculation** - From existing nutrition questions (sugary_treats, sodas, alcohol, grains)
+4. **Training history/experience** - Needed for beginner/intermediate/advanced classification
+5. **Medical conditions checklist** - For condition-specific recommendations
+6. **Flexibility assessment** - For mobility recommendations
+7. **Heart rate recovery test** - For cardiovascular recovery assessment
+8. **Mental health screen** - For exercise as therapy recommendations
+9. **Weight history** - For detecting concerning weight loss
 
 ## Technical Notes
 - Recommendations should be constructive and motivating

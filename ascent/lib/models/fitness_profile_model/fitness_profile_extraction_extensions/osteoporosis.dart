@@ -1,6 +1,7 @@
 import '../fitness_profile.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/age_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/gender_question.dart';
+import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/weight_question.dart';
 import '../../../constants_and_enums/constants_features.dart';
 
 /// Extension to calculate osteoporosis risk using validated OSTA scoring.
@@ -27,7 +28,7 @@ extension Osteoporosis on FitnessProfile {
   void calculateOsteoporosisRisk() {
     final age = AgeQuestion.instance.calculatedAge;
     final gender = GenderQuestion.instance.genderAnswer;
-    final weightKg = answers['weight_kg'] as double?;
+    final weightKg = WeightQuestion.instance.getWeightKilograms(answers);
 
     if (age == null || gender == null || weightKg == null) {
       throw Exception('Missing required answers for osteoporosis calculation: age=$age, gender=$gender, weight=$weightKg');

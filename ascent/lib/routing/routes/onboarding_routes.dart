@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
-import '../../services_and_utilities/app_state/app_state.dart';
 import '../../workflow_views/onboarding_workflow/views/onboarding_summary_view.dart';
 import '../../workflow_views/onboarding_workflow/views/onboarding_survey_container.dart';
 
@@ -34,34 +31,7 @@ class OnboardingRoutes {
     GoRoute(
       path: '/onboarding-summary',
       name: 'onboarding_summary',
-
-      // This route expects a FitnessProfile to exist in AppState
-      // If accessed directly without completing the survey, shows error
-      builder: (context, state) {
-        // Watch AppState for changes (rebuilds when profile updates)
-        final appState = context.watch<AppState>();
-        final profile = appState.profile;
-
-        // Safety check: ensure user has completed the survey
-        // This can happen if user navigates directly to this route
-        if (profile == null) {
-          return Scaffold(
-            body: Center(
-              child: Text(
-                'No fitness profile available',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-          );
-        }
-
-        // Show the summary view which displays:
-        // - User's fitness profile breakdown
-        // - Calculated fitness metrics
-        // - Plan generation and preview
-        // - Navigation to main app
-        return OnboardingSummaryView(fitnessProfile: profile);
-      },
+      builder: (context, state) => const OnboardingSummaryView(),
     ),
   ];
 }

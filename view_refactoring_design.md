@@ -170,16 +170,23 @@ onboarding_summary/
 - Clear separation between data extraction and UI
 - Easy to add/remove metric cards
 
-#### 3. persistent_bucket_widget.dart (559 lines)
-- [ ] Extract `BucketItem` model to models/nutrition/
-- [ ] Extract `NutritionTypeConfig` model to models/nutrition/
-- [ ] Create `FallingItemWidget` for animation
-- [ ] Create `BucketItemWidget` for individual items
-- [ ] Extract `NutritionWheelPicker` widget
-- [ ] Separate animation logic from UI
+#### 3. persistent_bucket_widget.dart (560 lines) - DELETED
+**Status:** ❌ **DELETED** - Unused widget (no production references)
+- File was completely unused in codebase - only self-references
+- Removed experimental nutrition tracking widget
+- **Lines eliminated:** 560 lines of dead code
 
-### Additional Large Files (300+ lines):
-- ranking_widget.dart (505 lines)
+#### 4. ranking_widget.dart (505 lines) - DELETED
+**Status:** ❌ **DELETED** - Unused widget (only test references)
+- Complex ranking/prioritization UI widget for onboarding questions
+- No production usage found - only unit test references
+- Part of unused dynamic question system infrastructure
+- Also removed associated test files and helper classes
+- **Lines eliminated:** 505 lines of dead code + test cleanup
+
+**Total Dead Code Removed:** 1,065 lines
+
+### Remaining Large Files for Potential Refactoring:
 - nutrition_table_bars.dart (391 lines)
 - diet_quality_summary.dart (386 lines)
 - date_picker_widget.dart (383 lines)
@@ -206,13 +213,30 @@ onboarding_summary/
    - Move calculations to service/helper classes
    - Keep widgets focused on presentation
 
-## Benefits Expected:
+## Summary of Progress:
+
+### ✅ Completed Refactorings:
+1. **completion_stats_header.dart**: 697 → 93 lines (86% reduction)
+2. **onboarding_summary_view.dart**: 517 → 51 lines (90% reduction)
+
+### ❌ Deleted Unused Files:
+3. **persistent_bucket_widget.dart**: 560 lines removed (dead code)
+4. **ranking_widget.dart**: 505 lines removed (dead code)
+
+### 📊 Impact Summary:
+- **Total lines reduced through refactoring:** 1,163 lines → 144 lines (88% reduction)
+- **Total dead code eliminated:** 1,065 lines
+- **Components created:** 24 focused, reusable widgets
+- **Code quality improvements:** Better testability, maintainability, reusability
+
+## Benefits Achieved:
 - Better testability (can test components individually)
 - Improved reusability across the app
 - Easier maintenance and debugging
 - Better code organization
 - Reduced cognitive load when working on features
 - Cleaner git diffs for changes
+- Significant reduction in codebase size and complexity
 
 ## Notes:
 - Each refactoring should maintain existing functionality
