@@ -55,7 +55,11 @@ class WeekOfWorkouts {
      PlanFields.workoutsField: workouts.map((e)=> e.toJson()).toList(),
   };
 
-  factory WeekOfWorkouts.generateFromFitnessProfile(FitnessProfile profile, DateTime sundayDate) {
+  factory WeekOfWorkouts.generateFromFitnessProfile(
+    FitnessProfile profile,
+    DateTime sundayDate, {
+    int weekIndex = 1,
+  }) {
     // Extract workout counts
     int microWorkouts = profile.microWorkoutsPerWeek;
     int fullWorkouts = profile.fullWorkoutsPerWeek;
@@ -92,7 +96,7 @@ class WeekOfWorkouts {
     workouts.shuffle();
 
     return WeekOfWorkouts(
-      weekIndex: 1,
+      weekIndex: weekIndex,
       startDate: sundayDate,
       workouts: workouts,
     );

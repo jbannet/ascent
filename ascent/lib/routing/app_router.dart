@@ -18,7 +18,8 @@ import 'routes/plan_routes.dart';
 /// - Development vs production navigation flows
 class AppRouter {
   static final GoRouter router = GoRouter(
-    // Start users at the root path which shows the development navigator
+    // Start users at the root path ('/')
+    // The actual association to TemporaryNavigatorView happens in home_routes.dart
     initialLocation: '/',
 
     // Enable debug logging for route transitions during development

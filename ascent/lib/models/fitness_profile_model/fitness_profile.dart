@@ -25,8 +25,10 @@ class FitnessProfile {
   final Map<String, double> _features = {};
   final Map<String, dynamic> _answers;
 
-  get microWorkoutsPerWeek => _features['microSessionsPerWeek']?.toInt() ?? 0;
-  get fullWorkoutsPerWeek => _features['fullSessionsPerWeek']?.toInt() ?? 0;
+  int get microWorkoutsPerWeek =>
+      _features[FeatureConstants.microSessionsPerWeek]?.toInt() ?? 0;
+  int get fullWorkoutsPerWeek =>
+      _features[FeatureConstants.fullSessionsPerWeek]?.toInt() ?? 0;
   
   Map<String, dynamic> get answers => _answers;
   Map<String, double> get featuresMap => _features;
