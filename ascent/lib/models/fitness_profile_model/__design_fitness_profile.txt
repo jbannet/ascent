@@ -2,27 +2,24 @@ fitness_profile_model/ // Onboarding answers → weighted feature vector (PRIORI
 ├── fitness_profile.dart // Seeds feature map, reloads persisted values, triggers extractors
 └── fitness_profile_extraction_extensions/
     // PRIORITY 1: SAFETY & RISK FACTORS (Critical - Check First)
-    ├── functional.dart // NEW - Functional movement and fall risk assessment
+    ├── functional.dart (INCLUDE RECOMMENDATION)
       └── prioritize_functional = 
-          (age >= 70 ? 6.0 : 0.0) +
+          (age >= 70 ? 1.0 : 0.0) +
           (can_do_chair_stand == 0.0 ? 0.3 : 0.0) +
           (pace_mph < 2.0 ? 0.3 : 0.0)
-
-    ├── injuries.dart
-    │   └── feature: (TBD - injury accommodations)
+    ├── injuries.dart (INCLUDE RECOMMENDATION)
+    │   └── feature:  [Let's keep this in a separate array]
     ├── osteoporosis.dart
-    │   └── feature: FeatureConstants.osteoporosisRisk
+    │   └── feature: FeatureConstants.osteoporosisRisk (INCLUDE RECOMMENDATION)
     ├── sedentary_lifestyle.dart // NEW - Sedentary risk factors
-    │   ├── feature: sedentary_job
-    │   ├── feature: current_exercise_days
-    │   └── feature: sedentary_risk_score
+    │   ├── feature: sedentary_job (yes or no) --> recommendation: increases mortality; breaks recommendation (monitor?)
     //
     // PRIORITY 2: CARDIOVASCULAR FITNESS (Major Health Impact)
     ├── cardio.dart
     │   ├── feature: cardio_pace
-    │   ├── feature: vo2max
+    │   ├── feature: vo2max 
     │   ├── feature: mets_capacity
-    │   ├── feature: cardio_fitness_percentile
+    │   ├── feature: cardio_fitness_percentile (INCLUDE RECOMMENDATION)
     │   ├── feature: max_heart_rate
     │   ├── feature: hr_zone1
     │   ├── feature: hr_zone2
@@ -37,54 +34,96 @@ fitness_profile_model/ // Onboarding answers → weighted feature vector (PRIORI
     │   └── feature: cardio_recovery_hours
     //
     // PRIORITY 3: RECOVERY & LIFESTYLE FACTORS (Foundation for Training)
-    ├── sleep.dart // NEW - Sleep quality assessment
-    │   ├── feature: sleep_hours
-    │   ├── feature: sleep_quality_score
-    │   └── feature: sleep_recovery_impact
+    ├── sleep.dart // NEW 
+    │   ├── feature: sleep_hours --> (INCLUDE RECOMMENDATION)
     ├── nutrition.dart // NEW - Nutrition quality assessment
     │   ├── feature: sugary_treats_per_day
     │   ├── feature: sodas_per_day
+    │   ├── feature: grains_per_day
     │   ├── feature: alcohol_per_week
-    │   └── feature: diet_quality_score
+    │   └── calculation: diet_quality_score (INCLUDE RECOMMENDATION)
+ calculation: diet_quality_score = 100  // Start with perfect score
+
+  // Deductions:
+  - (alcohol_per_week * 4)         // -4 points per drink
+  - (sugary_treats_per_day * 2)    // -2 points per sugary treat
+  - (sodas_per_day * 2)             // -2 points per soda
+  - (grains_per_day * 1)            // -1 point per grain serving
+
+  // Floor at 0
+  diet_quality_score = MAX(0, diet_quality_score)
     //
-    // PRIORITY 4: STRENGTH & MUSCLE HEALTH (Functional Independence)
-    ├── strength.dart
+    // PRIORITY 4: STRENGTH & MUSCLE HEALTH 
+    ├── strength.dart (recommendation)
     │   ├── feature: upper_body_strength_percentile
     │   ├── feature: lower_body_strength_percentile
-    │   ├── feature: strength_fitness_percentile
+    │   ├── feature: strength_fitness_percentile 
     │   ├── feature: pushup_count
     │   ├── feature: squat_count
-    │   ├── feature: strength_age_factor
-    │   ├── feature: needs_basic_strength
+      │   ├── feature: strength_recovery_hours
     │   ├── feature: strength_optimal_rep_range_min
     │   ├── feature: strength_optimal_rep_range_max
-    │   ├── feature: strength_recovery_hours
-    │   ├── feature: strength_volume_factor
-    │   └── feature: strength_gender_factor
-    ├── balance.dart
-    │   ├── feature: balance_capacity
-    │   └── feature: mobility_index
+    │   ├── feature: strength_optimal_sets_range_min
+    │   ├── feature: strength_optimal_sets_range_max
+    │   ├── feature: strength_time_between_sets
+    │   ├── feature: strength_percent_of_1_RPM
+
+
+      strength_optimal_rep_range_min/max
+
+  if (age >= 50 OR strength_fitness_percentile < 0.25) {
+    strength_optimal_rep_range_min = 10
+    strength_optimal_rep_range_max = 15
+  } else {
+    strength_optimal_rep_range_min = 8
+    strength_optimal_rep_range_max = 12
+  }
+
+  strength_time_between_sets (seconds)
+
+  if (age >= 60) {
+    strength_time_between_sets = 45  // 30-60 sec range, use middle
+  } else if (strength_fitness_percentile > 0.75) {
+    strength_time_between_sets = 150  // 2.5 min for strength/power
+  } else {
+    strength_time_between_sets = 90   // 1.5 min for hypertrophy
+  }
+
+  strength_percent_of_1RM
+
+  if (age >= 50 AND strength_fitness_percentile < 0.5) {
+    strength_percent_of_1RM = 45  // 40-50% for older novice
+  } else if (strength_fitness_percentile < 0.25) {
+    strength_percent_of_1RM = 40  // Very weak, focus on form
+  } else if (strength_fitness_percentile > 0.75) {
+    strength_percent_of_1RM = 80  // Experienced lifters
+  } else {
+    strength_percent_of_1RM = 55  // 50-60% novice to intermediate
+  }
+
+  strength_sets_recommendation (should add this)
+
+  if (strength_fitness_percentile < 0.10) {
+    feature: strength_optimal_set_range_min = 1
+     feature: strength_optimal_set_range_max = 3  // 1-3 sets, learning form
+  } else if (strength_fitness_percentile > 0.75) {
+     feature: strength_optimal_set_range_min =3
+     feature: strength_optimal_set_range_max = 5
+  } else {
+     feature: strength_optimal_set_range_min = 2
+     feature: strength_optimal_set_range_max =4
+  }
+
+    ├── balance.dart (INCLUDE RECOMMENDATION)
     │   ├── feature: can_do_chair_stand
     │   ├── feature: fall_history
     │   ├── feature: fall_risk_factor_count
     │   ├── feature: fear_of_falling
-    │   ├── feature: needs_seated_exercises
-    │   ├── feature: needs_balance_training
-    │   └── feature: fall_risk_level
+    │   ├── feature: needs_seated_exercises // Start with unknown
     
-    ├── flexibility.dart
-    │   ├── feature: flexibility_baseline
-    │   ├── feature: shoulder_flexibility
-    │   ├── feature: spine_flexibility
-    │   ├── feature: hip_flexibility
-    │   ├── feature: stretch_hold_time_sec
-    │   ├── feature: stretch_frequency_per_week
-    │   └── feature: stretch_recovery_hours
-    ├── low_impact.dart
-    │   ├── feature: joint_health_score
-    │   ├── feature: impact_tolerance
-    │   ├── feature: joint_loading_capacity
-    │   └── feature: joint_recovery_hours
+    ├── flexibility.dart (INCLUDE RECOMMENDATION)
+    │   ├── feature: days_stretching_per_week
+
     //
     // PRIORITY 5: PLAN CONSTRUCTION GUIDANCE (Training Parameters)
     ├── session_commitment.dart
@@ -92,8 +131,8 @@ fitness_profile_model/ // Onboarding answers → weighted feature vector (PRIORI
     │   ├── feature: micro_sessions_per_week
     │   ├── feature: total_training_days
     │   └── feature: weekly_training_minutes
-    ├── relative_objective_importance.dart
-    │   ├── feature: FeatureConstants.categoryCardio
+    ├── relative_objective_importance.dart (INCLUDE RECOMMENDATION)
+    │   ├── feature: FeatureConstants.categoryCardio 
     │   ├── feature: FeatureConstants.categoryStrength
     │   ├── feature: FeatureConstants.categoryBalance
     │   ├── feature: FeatureConstants.categoryStretching
@@ -108,39 +147,12 @@ fitness_profile_model/ // Onboarding answers → weighted feature vector (PRIORI
     │   ├── feature: FeatureConstants.ageBracket50To59
     │   ├── feature: FeatureConstants.ageBracket60To69
     │   └── feature: FeatureConstants.ageBracket70Plus
-    └── weight_management.dart
-        ├── feature: has_weight_data
-        ├── feature: weight_pounds
-        ├── feature: height_inches
-        ├── feature: bmi
-        ├── feature: weight_status
-        ├── feature: weight_status_category
-        ├── feature: weight_objective
-        ├── feature: weight_deviation_percent
-        ├── feature: weekly_weight_goal
-        ├── feature: daily_calorie_adjustment
-        ├── feature: preferred_training_intensity
-        ├── feature: max_training_intensity
-        ├── feature: session_duration_min
-        ├── feature: session_duration_max
-        ├── feature: weekly_cardio_minutes_target
-        ├── feature: cardio_priority_weight
-        ├── feature: resistance_priority_weight
-        ├── feature: weight_loss_priority
-        ├── feature: weight_gain_priority
-        ├── feature: weight_maintenance_priority
-        ├── feature: muscle_preservation_priority
-        ├── feature: progression_rate_modifier
-        ├── feature: recovery_time_multiplier
-        ├── feature: joint_stress_modifier
-        ├── feature: needs_weight_loss
-        ├── feature: needs_weight_gain
-        ├── feature: ideal_weight_min
-        ├── feature: ideal_weight_max
-        ├── feature: water_exercise_preference
-        ├── feature: high_impact_cardio_preference
-        ├── feature: low_impact_cardio_preference
-        └── feature: health_risk_bmi
+    └── weight_management.dart (INCLUDE POLITE RECOMMENDATION? MORE DIET?)
+  │   ├── feature: weight_pounds
+  │   ├── feature: height_inches
+  │   ├── feature: bmi
+  │   ├── feature: weight_objective (lose/gain/maintain)
+  │   ├── feature: needs_weight_loss (BMI > 25)  
 
 reference_data/
 ├── acsm_cardio_norms.dart
@@ -148,85 +160,3 @@ reference_data/
 ├── acsm_squat_norms.dart
 └── age_group_utility.dart
 
-Result: `featuresMap` holds modality priorities, risk modifiers, and training parameters for plan generation.
-
-
-
---------
-Functional Features - Calculations & Usage
-
-  can_do_chair_stand
-
-  - Calculation: Direct from Q6A question: "Can you rise from a chair without using your arms?" (Yes=1.0, No=0.0)
-  - Usage: Primary functional mobility gate - determines if user can safely do standing exercises
-  - Impact: If 0.0 → triggers seated exercise modifications for ALL exercises
-
-  fall_history
-
-  - Calculation: Direct from Q4A question: "Have you fallen in the past 12 months?" (Yes=1.0, No=0.0)
-  - Usage: Direct fall risk indicator - highest priority safety flag
-  - Impact: If 1.0 → triggers "Multicomponent exercise reduces fall risk by 23%" recommendation
-
-  fall_risk_factor_count
-
-  - Calculation: Count of checked items from Q4B (fear of falling, vision problems, medication side effects, etc.) Range: 0-5+
-  - Usage: Cumulative risk assessment - more factors = higher risk
-  - Impact: ≥2 factors → triggers balance training recommendations
-
-  fear_of_falling
-
-  - Calculation: From Q4B checkbox: "Fear of falling" (Checked=1.0, Unchecked=0.0)
-  - Usage: Psychological barrier to movement - affects exercise confidence
-  - Impact: If 1.0 → lower intensity exercises, more stability support, tai chi recommendations
-
-  walking_endurance
-
-  - Calculation: Normalized from walking distance/time (need to identify specific question):
-    - Can walk >1 mile = 1.0
-    - Can walk 0.5-1 mile = 0.7
-    - Can walk <0.5 mile = 0.4
-    - Cannot walk meaningful distance = 0.0
-  - Usage: Determines cardiovascular exercise starting point and daily activity capacity
-  - Impact: <0.4 → start with seated cardio or very short walking intervals
-
-  functional_mobility_score
-
-  - Calculation: Weighted combination:
-  (can_do_chair_stand * 0.4) + 
-  (walking_endurance * 0.3) + 
-  (1.0 - fall_history * 0.2) +
-  (1.0 - min(fall_risk_factor_count/5, 1.0) * 0.1)
-  - Usage: Overall functional capacity rating for exercise prescription
-  - Impact: <0.5 → focus on functional movements before fitness training
-
-  needs_seated_exercises
-
-  - Calculation: Simple logic: can_do_chair_stand == 0.0 ? 1.0 : 0.0
-  - Usage: Safety override flag for exercise selection
-  - Impact: If 1.0 → ALL exercises modified to seated versions, no standing balance work
-
-  needs_balance_training
-
-  - Calculation: Complex logic:
-  IF fall_history == 1.0 OR 
-     fall_risk_factor_count >= 2 OR
-     fear_of_falling == 1.0 OR
-     functional_mobility_score < 0.5
-  THEN 1.0 ELSE 0.0
-  - Usage: Triggers inclusion of balance-specific exercises
-  - Impact: If 1.0 → adds tai chi, single-leg stands, balance progressions to plan
-
-  fall_risk_level
-
-  - Calculation: Composite score (0.0-1.0):
-  base = fall_history * 0.3
-  + (fall_risk_factor_count / 5) * 0.3
-  + fear_of_falling * 0.2
-  + (1.0 - can_do_chair_stand) * 0.2
-  - Usage: Overall fall risk classification for safety protocols
-  - Impact:
-    0.7 → High risk: seated exercises, medical clearance suggested
-    - 0.4-0.7 → Moderate: balance focus, cautious progressions
-    - <0.4 → Low: normal progressions with periodic balance work
-
-  These functional features are Priority 1 because they determine exercise safety before any performance considerations.

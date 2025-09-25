@@ -9,11 +9,16 @@ import '../../services_and_utilities/local_storage/local_storage_service.dart';
 import 'fitness_profile_extraction_extensions/age_bracket.dart';
 import 'fitness_profile_extraction_extensions/strength.dart';
 import 'fitness_profile_extraction_extensions/balance.dart';
+import 'fitness_profile_extraction_extensions/functional.dart';
+import 'fitness_profile_extraction_extensions/injuries.dart';
 import 'fitness_profile_extraction_extensions/low_impact.dart';
 import 'fitness_profile_extraction_extensions/flexibility.dart';
 import 'fitness_profile_extraction_extensions/cardio.dart';
+import 'fitness_profile_extraction_extensions/sleep.dart';
+import 'fitness_profile_extraction_extensions/nutrition.dart';
 import 'fitness_profile_extraction_extensions/weight_management.dart';
 import 'fitness_profile_extraction_extensions/session_commitment.dart';
+import 'fitness_profile_extraction_extensions/sedentary_lifestyle.dart';
 import 'fitness_profile_extraction_extensions/relative_objective_importance.dart';
 import 'fitness_profile_extraction_extensions/osteoporosis.dart';
 
@@ -25,12 +30,13 @@ import 'fitness_profile_extraction_extensions/osteoporosis.dart';
 class FitnessProfile {
   final Map<String, double> _features = {};
   final Map<String, dynamic> _answers;
+  Map<String, int>? injuriesMap;
 
   int get microWorkoutsPerWeek =>
       _features[FeatureConstants.microSessionsPerWeek]?.toInt() ?? 0;
   int get fullWorkoutsPerWeek =>
       _features[FeatureConstants.fullSessionsPerWeek]?.toInt() ?? 0;
-  
+
   Map<String, dynamic> get answers => _answers;
   Map<String, double> get featuresMap => _features;
   get features => Map<String, double>.unmodifiable(_features);     
@@ -159,12 +165,16 @@ class FitnessProfile {
     // Core metrics for each exercise modality (NOT importance)
     calculateStrength();
     calculateBalance();
-    // calculateFunctional(); // Removed - using question-based allocation instead
+    calculateFunctional();
+    calculateInjuries();
     calculateLowImpact();
     calculateStretching();
     calculateCardio();
+    calculateSleep();
+    calculateNutrition();
     calculateWeightManagement();
     calculateSessionCommitment();
+    calculateSedentaryLifestyle();
     calculateOsteoporosisRisk();
 
     // Calculate relative importance across all modalities (MUST be last)

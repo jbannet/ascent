@@ -1,5 +1,6 @@
 import '../fitness_profile.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/age_question.dart';
+import '../../../workflow_views/onboarding_workflow/question_bank/questions/lifestyle/stretching_days_question.dart';
 
 /// Extension to calculate flexibility and stretching metrics.
 /// 
@@ -62,18 +63,44 @@ extension Flexibility on FitnessProfile {
   
   /// Calculate stretching training parameters
   void _calculateStretchingParameters(int age) {
-    // Older adults need longer hold times and more frequent stretching
+    // Use actual user's current stretching frequency if available
+    final currentStretchingDays = StretchingDaysQuestion.instance.getStretchingDays(answers);
+
+    // Store actual user data
+    featuresMap['days_stretching_per_week'] = currentStretchingDays.toDouble();
+
+    // Recommend stretching frequency based on current habit + age-based needs
+    double recommendedFrequency;
+    if (currentStretchingDays >= 5) {
+      // Already stretching frequently - maintain or slightly increase
+      recommendedFrequency = currentStretchingDays.toDouble();
+    } else {
+      // Use age-based recommendations as target, but consider current habits
+      double ageBased;
+      if (age < 40) {
+        ageBased = 3.0;
+      } else if (age < 65) {
+        ageBased = 4.0;
+      } else {
+        ageBased = 5.0;
+      }
+
+      // Gradual progression: don't jump more than 2 days from current habit
+      final maxIncrease = currentStretchingDays + 2.0;
+      recommendedFrequency = ageBased > maxIncrease ? maxIncrease : ageBased;
+    }
+
+    featuresMap['stretch_frequency_per_week'] = recommendedFrequency;
+
+    // Older adults need longer hold times
     if (age < 40) {
       featuresMap['stretch_hold_time_sec'] = 30.0;
-      featuresMap['stretch_frequency_per_week'] = 3.0;
     } else if (age < 65) {
       featuresMap['stretch_hold_time_sec'] = 45.0;
-      featuresMap['stretch_frequency_per_week'] = 4.0;
     } else {
       featuresMap['stretch_hold_time_sec'] = 60.0;
-      featuresMap['stretch_frequency_per_week'] = 5.0;
     }
-    
+
     // Recovery time between stretching sessions (shorter than strength)
     featuresMap['stretch_recovery_hours'] = 24.0; // Can stretch daily
   }

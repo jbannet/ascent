@@ -101,6 +101,15 @@ class WeightQuestion extends OnboardingQuestion {
   Widget buildAnswerWidget(
     Function() onAnswerChanged,
   ) {
+    final configMap = config;
+    if (_weightValue == null) {
+      final defaultValue = (configMap['minValue'] as num?) ?? 0;
+      setWeightValue(defaultValue);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        onAnswerChanged();
+      });
+    }
+
     return WheelPickerView(
       questionId: id,
       answers: {id: _weightValue},

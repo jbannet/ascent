@@ -57,7 +57,7 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
   String get id => Q4TwelveMinuteRunQuestion.questionId;
   
   @override
-  String get questionText => 'How far and in what time can you run (or walk) before reaching exhaustion?';
+  String get questionText => 'How far can you run (or walk) before exhaustion?';
   
   @override
   String get section => 'fitness_assessment';
@@ -66,7 +66,7 @@ class Q4TwelveMinuteRunQuestion extends OnboardingQuestion {
   EnumQuestionType get questionType => EnumQuestionType.custom;
   
   @override
-  String? get subtitle => 'For example, a best race time or max time at a pace on a treadmill or the distance you walk before you need to pause.';
+  String? get subtitle => '... a best race time, max time on a treadmill, or the distance you walk before needing a break.';
   
   @override
   Map<String, dynamic> get config => {

@@ -157,6 +157,54 @@ class AnswerConstants {
   static const int fallRiskAge = 65; // Age threshold for fall risk assessment
 }
 
+/// Body part constants for injury/pain tracking
+/// These match the anatomical order used in BodyMapWidget
+class BodyPartConstants {
+  // Head and neck
+  static const String neck = 'neck';
+
+  // Upper body
+  static const String shoulders = 'shoulders';
+  static const String chest = 'chest';
+  static const String lats = 'lats';
+  static const String traps = 'traps';
+  static const String biceps = 'biceps';
+  static const String triceps = 'triceps';
+  static const String elbows = 'elbows';
+  static const String forearms = 'forearms';
+  static const String wrists = 'wrists';
+
+  // Core and back
+  static const String abdominals = 'abdominals';
+  static const String lowerBack = 'lower_back';
+
+  // Lower body
+  static const String hips = 'hips';
+  static const String glutes = 'glutes';
+  static const String quadriceps = 'quadriceps';
+  static const String hamstrings = 'hamstrings';
+  static const String knees = 'knees';
+  static const String calves = 'calves';
+  static const String shins = 'shins';
+  static const String ankles = 'ankles';
+  static const String feet = 'feet';
+
+  /// All body parts in anatomical order (head to toe)
+  static const List<String> allBodyParts = [
+    neck, shoulders, chest, lats, traps,
+    biceps, triceps, elbows, forearms, wrists,
+    abdominals, lowerBack,
+    hips, glutes, quadriceps, hamstrings,
+    knees, calves, shins, ankles, feet
+  ];
+
+  // Scoring constants for injury assessment
+  static const int noIssue = 0;
+  static const int strengthen = 50; // Positive value for pain areas to strengthen
+  static const int maxInt = 9223372036854775807; // Max int for injuries to avoid
+  static const int avoid = -maxInt; // Negative max int for injuries
+}
+
 /// Workout icon constants
 class WorkoutIcons {
   // Icon constants

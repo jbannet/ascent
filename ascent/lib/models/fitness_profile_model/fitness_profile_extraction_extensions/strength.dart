@@ -150,37 +150,6 @@ extension Strength on FitnessProfile {
       featuresMap['strength_fitness_percentile'] = lowerBodyPercentile;
     }
     
-    // Age-based strength decline factors
-    // Based on: Cruz-Jentoft et al. 2019 - European Working Group on Sarcopenia
-    // Muscle mass decreases 3-8% per decade after age 30
-    // Muscle strength decreases 10-15% per decade after age 50
-    if (age >= 30) {
-      double declineRate;
-      if (age < 50) {
-        // 3-8% muscle mass loss per decade, avg 5%
-        declineRate = 0.005; // 0.5% per year
-      } else if (age < 70) {
-        // 10-15% strength loss per decade, avg 12.5%
-        declineRate = 0.0125; // 1.25% per year
-      } else {
-        // Accelerated loss after 70
-        declineRate = 0.02; // 2% per year
-      }
-      final strengthDeclineFactor = 1.0 - ((age - 30) * declineRate);
-      featuresMap['strength_age_factor'] = strengthDeclineFactor.clamp(0.4, 1.0);
-    } else {
-      featuresMap['strength_age_factor'] = 1.0;
-    }
-    
-    // Gender-based strength differences
-    // Based on: Janssen et al. (2000) J Appl Physiol - "Skeletal muscle mass and distribution"
-    // Women have ~66% of men's muscle mass on average
-    // Upper body strength difference is greater (~50-60% of male strength)
-    if (gender == AnswerConstants.female) {
-      featuresMap['strength_gender_factor'] = 0.6; // Women ~60% of male upper body strength
-    } else {
-      featuresMap['strength_gender_factor'] = 1.0;
-    }
   }
   
   /// Calculate strength training parameters based on scientific evidence
@@ -198,28 +167,54 @@ extension Strength on FitnessProfile {
       featuresMap['strength_recovery_hours'] = 96.0;
     }
     
-    // Training volume tolerance
-    // Based on: Fragala et al. (2019) "Resistance Training for Older Adults" - NSCA Position Statement
-    // - Younger adults: Can handle higher training volumes
-    // - Middle-aged: 15-20% reduction in volume capacity
-    // - Older adults: 30-40% reduction in volume capacity
-    if (age < 40) {
-      featuresMap['strength_volume_factor'] = 1.0;
-    } else if (age < 60) {
-      featuresMap['strength_volume_factor'] = 0.8; // 20% reduction
-    } else {
-      featuresMap['strength_volume_factor'] = 0.65; // 35% reduction
-    }
     
+    // Calculate all training parameters
+    _calculateTrainingParameters(age);
+  }
+
+  /// Calculate all strength training parameters
+  void _calculateTrainingParameters(int age) {
+    final strengthPercentile = featuresMap['strength_fitness_percentile'] as double? ?? 0.5;
+
     // Optimal rep ranges based on age
-    // Based on: Grgic et al. (2018) "Effects of Rest Interval Duration" - Sports Medicine
-    // Older adults benefit from moderate rep ranges (8-12) vs heavy loads
-    if (age < 50) {
-      featuresMap['strength_optimal_rep_range_min'] = 6.0;
-      featuresMap['strength_optimal_rep_range_max'] = 12.0;
+    if (age >= 50 || strengthPercentile < 0.25) {
+      featuresMap['strength_optimal_rep_range_min'] = 10.0;
+      featuresMap['strength_optimal_rep_range_max'] = 15.0;
     } else {
       featuresMap['strength_optimal_rep_range_min'] = 8.0;
-      featuresMap['strength_optimal_rep_range_max'] = 15.0;
+      featuresMap['strength_optimal_rep_range_max'] = 12.0;
+    }
+
+    // Time between sets (seconds)
+    if (age >= 60) {
+      featuresMap['strength_time_between_sets'] = 45.0; // 30-60 sec range, use middle
+    } else if (strengthPercentile > 0.75) {
+      featuresMap['strength_time_between_sets'] = 150.0; // 2.5 min for strength/power
+    } else {
+      featuresMap['strength_time_between_sets'] = 90.0; // 1.5 min for hypertrophy
+    }
+
+    // Percent of 1RM
+    if (age >= 50 && strengthPercentile < 0.5) {
+      featuresMap['strength_percent_of_1RM'] = 45.0; // 40-50% for older novice
+    } else if (strengthPercentile < 0.25) {
+      featuresMap['strength_percent_of_1RM'] = 40.0; // Very weak, focus on form
+    } else if (strengthPercentile > 0.75) {
+      featuresMap['strength_percent_of_1RM'] = 80.0; // Experienced lifters
+    } else {
+      featuresMap['strength_percent_of_1RM'] = 55.0; // 50-60% novice to intermediate
+    }
+
+    // Optimal sets range
+    if (strengthPercentile < 0.10) {
+      featuresMap['strength_optimal_sets_range_min'] = 1.0; // 1-3 sets, learning form
+      featuresMap['strength_optimal_sets_range_max'] = 3.0;
+    } else if (strengthPercentile > 0.75) {
+      featuresMap['strength_optimal_sets_range_min'] = 3.0; // 3-5 sets for advanced
+      featuresMap['strength_optimal_sets_range_max'] = 5.0;
+    } else {
+      featuresMap['strength_optimal_sets_range_min'] = 2.0; // 2-4 sets normal
+      featuresMap['strength_optimal_sets_range_max'] = 4.0;
     }
   }
 }
