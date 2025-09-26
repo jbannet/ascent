@@ -317,8 +317,8 @@ class PersonaTestHarness {
       // Add calculated values for context
       final calc = result.calculatedValues;
       // Add calculated values for context
-      final cardioPercentile = ((calc['cardio_percentile'] as double) * 100).round();
-      final pushupPercentile = ((calc['pushup_percentile'] as double) * 100).round();
+      final cardioPercentile = (calc['cardio_percentile'] as double).round();
+      final pushupPercentile = (calc['pushup_percentile'] as double).round();
       lines.add('Calculated: Age=${calc['age']}, BMI=${(calc['bmi'] as double).toStringAsFixed(1)}, Cooper=${calc['cooper_miles']}mi (${cardioPercentile}th %ile), Pushups=${calc['pushups']} (${pushupPercentile}th %ile)');
 
       lines.add('-' * 80);
@@ -396,8 +396,8 @@ void main() {
       print('Persona: ${result.personaId}');
       print('Age: ${result.calculatedValues['age']}');
       print('BMI: ${result.calculatedValues['bmi']}');
-      print('Cooper Test: ${result.calculatedValues['cooper_miles']}mi (${((result.calculatedValues['cardio_percentile'] as double) * 100).round()}th percentile)');
-      print('Pushups: ${result.calculatedValues['pushups']} (${((result.calculatedValues['pushup_percentile'] as double) * 100).round()}th percentile)');
+      print('Cooper Test: ${result.calculatedValues['cooper_miles']}mi (${(result.calculatedValues['cardio_percentile'] as double).round()}th percentile)');
+      print('Pushups: ${result.calculatedValues['pushups']} (${(result.calculatedValues['pushup_percentile'] as double).round()}th percentile)');
       print('Triggered Protocol: ${result.triggeredProtocol}');
       print('Allocations: ${result.allocations}');
 
@@ -414,8 +414,8 @@ void main() {
       print('Persona: ${result.personaId}');
       print('Age: ${result.calculatedValues['age']}');
       print('BMI: ${result.calculatedValues['bmi']}');
-      print('Cooper Test: ${result.calculatedValues['cooper_miles']}mi (${((result.calculatedValues['cardio_percentile'] as double) * 100).round()}th percentile)');
-      print('Pushups: ${result.calculatedValues['pushups']} (${((result.calculatedValues['pushup_percentile'] as double) * 100).round()}th percentile)');
+      print('Cooper Test: ${result.calculatedValues['cooper_miles']}mi (${(result.calculatedValues['cardio_percentile'] as double).round()}th percentile)');
+      print('Pushups: ${result.calculatedValues['pushups']} (${(result.calculatedValues['pushup_percentile'] as double).round()}th percentile)');
       print('Triggered Protocol: ${result.triggeredProtocol}');
       print('Allocations: ${result.allocations}');
 
@@ -432,8 +432,8 @@ void main() {
       print('Persona: ${result.personaId}');
       print('Age: ${result.calculatedValues['age']}');
       print('BMI: ${result.calculatedValues['bmi']}');
-      print('Cooper Test: ${result.calculatedValues['cooper_miles']}mi (${((result.calculatedValues['cardio_percentile'] as double) * 100).round()}th percentile)');
-      print('Pushups: ${result.calculatedValues['pushups']} (${((result.calculatedValues['pushup_percentile'] as double) * 100).round()}th percentile)');
+      print('Cooper Test: ${result.calculatedValues['cooper_miles']}mi (${(result.calculatedValues['cardio_percentile'] as double).round()}th percentile)');
+      print('Pushups: ${result.calculatedValues['pushups']} (${(result.calculatedValues['pushup_percentile'] as double).round()}th percentile)');
       print('Triggered Protocol: ${result.triggeredProtocol}');
       print('Allocations: ${result.allocations}');
 

@@ -149,20 +149,20 @@ Help users stick to the program
 
 
   #### 7.1 Elite Cardio Performance
-  **INPUT:** [cardio_fitness_percentile] > 0.5
+  **INPUT:** [cardio_fitness_percentile] > 50.0
   **PRIORITY:** 11 (Enhancement)
   **RECOMMENDATION:** "Your cardio fitness is better than **over half of your peers**! See gains
 from polarized training: 80% easy, 20% hard."
   **SOURCE:** Seiler (2010)
 
   #### 7.2 Elite Upper Body Strength
-  **INPUT:** [upper_body_strength_percentile] > 0.5
+  **INPUT:** [upper_body_strength_percentile] > 50.0
   **PRIORITY:** 11 (Enhancement)  
   **RECOMMENDATION:** "Your push-up performance puts you in the **top half for your peers**. Use variety to avoid peaks."
   **SOURCE:** ACSM Guidelines
 
   #### 7.3 Elite Combined Fitness
-  **INPUT:** [cardio_fitness_percentile] > 0.75 AND [strength_fitness_percentile] > 0.75
+  **INPUT:** [cardio_fitness_percentile] > 75.0 AND [strength_fitness_percentile] > 75.0
   **PRIORITY:** 10 (Enhancement)
   **RECOMMENDATION:** "You're in the **top fitness quartile**! You can be proud that you're in an elite group, but excellence will make your gains more modest and harder to achieve. Find ways to stay motivated and not get discouraged."
   **SOURCE:** ACSM Fitness Assessment
@@ -225,7 +225,7 @@ extension Recommendations on FitnessProfile {
 
     // PRIORITY 4: Cardio Deficiency
     final cardioPercentile = featuresMap['cardio_fitness_percentile'] ?? 0.0;
-    if (cardioPercentile < 0.2) {
+    if (cardioPercentile < 20.0) {
       recommendations.add(
         "Prioritize moderate cardio 150 min/week to reduce cardiovascular risks."
       );
@@ -247,20 +247,20 @@ extension Recommendations on FitnessProfile {
 
     // PRIORITY 7: Strength Deficiency
     final strengthPercentile = featuresMap['strength_fitness_percentile'] ?? 0.0;
-    if (strengthPercentile < 0.25) {
+    if (strengthPercentile < 25.0) {
       recommendations.add(
         "Build foundational strength with 2-3 sessions weekly."
       );
     }
 
     // PRIORITY 11: Performance (for high achievers)
-    if (cardioPercentile > 0.75) {
+    if (cardioPercentile > 75.0) {
       final percentText = "top 25% for $age year-old ${gender}s";
       recommendations.add(
         "Your cardio fitness is in the **$percentText**! "
         "Maintain with polarized training: 80% easy, 20% hard."
       );
-    } else if (cardioPercentile > 0.5) {
+    } else if (cardioPercentile > 50.0) {
       final percent = (cardioPercentile * 100).round();
       recommendations.add(
         "Your cardio fitness is **better than $percent% of peers**! "
