@@ -27,7 +27,7 @@ class RecommendationsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Your personal AI coach says...',
+          'Your personal Kettlebell AI says...',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
