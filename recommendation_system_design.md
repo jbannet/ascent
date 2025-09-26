@@ -1,31 +1,11 @@
-# Recommendation System Design
 
-## Agreements & Decisions
-- Add recommendation extractor to create non-numerical insights from fitness profile data
-- Recommendations should appear in the onboarding summary view
-- Extract actionable, personalized recommendations based on user's answers and calculated features
-- Provide clear, motivating guidance without being prescriptive
-- Each recommendation must tie to specific questions we ask or identify missing questions
-
-## Recommendation Priority System (Decision Tree)
-
-### Priority 1: SAFETY & RISK FACTORS (Check First - Highest Priority)
-These take absolute priority - if present, must be addressed in recommendations
 
 #### 1.1 Fall Risk (Critical - Priority 1a)
 
-**INPUT:** [Q4A - Fall history] Answer = "Yes" (fallen in past 12 months)
-**PRIORITY:** 1 (Critical)
-**RECOMMENDATION:** "Multicomponent exercise reduces fall risk."
-**SOURCE:** Sherrington et al. (2019) Cochrane Review -- by 23%
-
-**INPUT:** [MISSING - Single-leg Balance Test] Stand duration < 10 seconds
+**INPUT:** Stand duration < 10 seconds
 **PRIORITY:** 1 (Critical)
 **RECOMMENDATION:** "Daily balance exercises can offset a 2.5x higher fall risk."
 **SOURCE:** Vellas et al. (1997)
-
-**INPUT:** [Age Question] > 65 AND [Q4B - Fall risk factors] Any factor selected
-**PRIORITY:** 2 (High)
 **RECOMMENDATION:** "Incorporate tai chi or structured balance program."
 **SOURCE:** Gillespie et al. (2012) Cochrane Database. - proven to reduce falls by 19-29%
 
@@ -33,25 +13,16 @@ These take absolute priority - if present, must be addressed in recommendations
 
 **INPUT:** [Q1 - Injuries] Body part marked as injury (double-tap)
 **PRIORITY:** 1 (Critical)
-**RECOMMENDATION:** "Exercises modified to avoid [body part] - strengthen surrounding muscles when cleared."
+**RECOMMENDATION:** "Modify exercises to protect [body part]. If something hurts, stop."
 **SOURCE:** ACSM exercise prescription guidelines
 
-**INPUT:** [Height/Weight Questions] BMI > 30 AND [Q1 - Injuries] Any joint marked
-**PRIORITY:** 2 (High)
-**RECOMMENDATION:** "Start with non-weight bearing exercises to protect joints during weight loss."
-**SOURCE:** Messier et al. (2013) JAMA
 
 #### 1.3 Age-Related Safety (Priority 1c)
 
-**INPUT:** [Age Question] > 70 
-**PRIORITY:** 2 (High)
+**INPUT:** prioritize_functional <=.3 
+**PRIORITY:** 1 (High)
 **RECOMMENDATION:** "Focus on functional movements that mimic daily activities for safety."
 **SOURCE:** Pahor et al. (2014) JAMA
-
-**INPUT:** [Age Question] 60-70
-**PRIORITY:** 3 (Medium)
-**RECOMMENDATION:** "Multimodal training essential: combine strength, balance, cardio, and flexibility."
-**SOURCE:** WHO Guidelines (2020)
 
 #### 1.4 Bone Health Risk (Priority 1d)
 
@@ -64,7 +35,7 @@ These take absolute priority - if present, must be addressed in recommendations
 
 **INPUT:** [sedentary_job] "Yes" AND [current_exercise_days] < 3
 **PRIORITY:** 3 (Medium)
-**RECOMMENDATION:** "Counter prolonged sitting with movement breaks every hour - sitting increases mortality risk."
+**RECOMMENDATION:** "Counter prolonged sitting with regular movement breaks - sitting increases mortality risk."
 **SOURCE:** Ekelund et al. (2016)
 
 **INPUT:** [sedentary_job] "Yes" AND [Q1 - Injuries] Back or neck marked
@@ -94,34 +65,14 @@ Poor sleep and nutrition undermine all fitness efforts
 
 **INPUT:** [sleep_hours] < 6
 **PRIORITY:** 4 (Medium-High)
-**RECOMMENDATION:** "Critical: Poor sleep increases injury risk by 70%. Prioritize 7-9 hours nightly for safe training."
+**RECOMMENDATION:** "Critical: Poor sleep increases injury risk by 70%. Prioritize 7-9 hours nightly."
 **SOURCE:** Milewski et al. (2014) - Chronic lack of sleep and sports injuries
-
-**INPUT:** [sleep_hours] < 7
-**PRIORITY:** 6 (Medium-Low)
-**RECOMMENDATION:** "Inadequate sleep impairs recovery and performance. Aim for 7-9 hours nightly."
-**SOURCE:** Watson et al. (2015) - Sleep consensus statement for athletes
 
 #### 3.2 Nutrition Quality
 
-**INPUT:** [sugary_treats] > 3 per day
-**PRIORITY:** 7 (Medium)
-**RECOMMENDATION:** "Reduce sugary treats to improve energy stability and workout recovery."
-**SOURCE:** WHO sugar intake guidelines (25g/day recommended)
-
-**INPUT:** [sodas] > 2 per day
-**PRIORITY:** 7 (Medium)
-**RECOMMENDATION:** "Replace sugary drinks with water for better hydration and weight management."
-**SOURCE:** Malik et al. (2013) - Sugar-sweetened beverages and weight gain
-
-**INPUT:** [alcohol] > 14 drinks/week (men) OR > 7 drinks/week (women)
-**PRIORITY:** 5 (Medium)
-**RECOMMENDATION:** "Reduce alcohol intake - it impairs muscle recovery and sleep quality."
-**SOURCE:** Barnes (2014) - Alcohol and athletic performance
-
-**INPUT:** [CALCULATED - diet_quality_score] < 5/10
+**INPUT:** [CALCULATED - diet_quality_score] < 70
 **PRIORITY:** 6 (Medium-Low)
-**RECOMMENDATION:** "Focus on whole foods to fuel your workouts and improve recovery."
+**RECOMMENDATION:** "Nutrition is one of the most important contributors to workout recovery and health. Avoid alcohol, sugars, and (we believe though not part of the standard guidelines) grains"
 **SOURCE:** Position of the Academy of Nutrition and Dietetics on sports nutrition
 
 ### Priority 4: STRENGTH & MUSCLE HEALTH (Functional Independence)
@@ -139,6 +90,14 @@ Important for daily function and aging well
 **RECOMMENDATION:** "Combat age-related muscle loss with resistance training 2-3x weekly."
 **SOURCE:** Cruz-Jentoft et al. (2019)
 
+**INPUT:** [GLP-1 medications] "Yes"
+**PRIORITY:** 5 (Medium)
+**RECOMMENDATION:** "GLP-1 medications can cause muscle loss during weight loss. Prioritize resistance training 3x weekly to preserve lean muscle mass."
+**SOURCE:** Wilding et al. (2021) NEJM, Wadden et al. (2021)
+
+
+
+
 #### 4.2 Upper Body Weakness (Lower Priority)
 
 **INPUT:** [Q5 - Push-ups] Count < 25th percentile for age/gender
@@ -151,32 +110,15 @@ How to structure the actual training plan
 
 #### 5.1 Recovery & Frequency Guidelines
 
-**INPUT:** [Age Question] > 50 OR [CALCULATED - recovery_days] > 2
-**PRIORITY:** 9 (Lower)
-**RECOMMENDATION:** "Allow 48-72 hours between strength sessions targeting same muscle groups."
-**SOURCE:** Schoenfeld et al. (2019)
-
-**INPUT:** [session_commitment] full_sessions < 2/week
+**INPUT:** [session_commitment] full_sessions < 3/week
 **PRIORITY:** 10 (Lower)
 **RECOMMENDATION:** "Combine cardio and strength in each session for time efficiency."
 **SOURCE:** ACSM minimum recommendations
 
 **INPUT:** [session_commitment] micro_sessions > full_sessions
 **PRIORITY:** 9 (Lower)
-**RECOMMENDATION:** "High-intensity intervals maximize benefits in minimal time."
+**RECOMMENDATION:** "Use high-intensity intervals to maximize benefits and minimize time commitments."
 **SOURCE:** Gibala et al. (2012)
-
-#### 5.2 Equipment & Environment Adaptations
-
-**INPUT:** [Q10 - Equipment] "No equipment" selected
-**PRIORITY:** 11 (Lower)
-**RECOMMENDATION:** "Bodyweight training effective for building strength in beginners."
-**SOURCE:** Kotarsky et al. (2018)
-
-**INPUT:** [Q11 - Training location] "At home only" selected
-**PRIORITY:** 11 (Lower)
-**RECOMMENDATION:** "Home workouts with resistance bands provide similar gains to weights."
-**SOURCE:** Lopes et al. (2019)
 
 #### 5.3 Performance Level Progressions
 
@@ -202,120 +144,260 @@ Help users stick to the program
 
 **INPUT:** [primary_motivation] External motivation
 **PRIORITY:** 15 (Supportive)
-**RECOMMENDATION:** "Find a workout buddy.... [explain app link?]."
+**RECOMMENDATION:** "Find a workout buddy. We can help you connect with them in the app so that you can motivate each other."
 **SOURCE:** Behavioral activation research
 
-#### 6.2 Advanced Engagement
 
-**INPUT:** [current_exercise_days] > 5 AND [session_commitment] high variety
-**PRIORITY:** 15 (Supportive)
-**RECOMMENDATION:** "Keep workouts engaging with varied formats to prevent boredom."
-**SOURCE:** Exercise adherence research
+  #### 7.1 Elite Cardio Performance
+  **INPUT:** [cardio_fitness_percentile] > 0.5
+  **PRIORITY:** 11 (Enhancement)
+  **RECOMMENDATION:** "Your cardio fitness is better than **over half of your peers**! See gains
+from polarized training: 80% easy, 20% hard."
+  **SOURCE:** Seiler (2010)
+
+  #### 7.2 Elite Upper Body Strength
+  **INPUT:** [upper_body_strength_percentile] > 0.5
+  **PRIORITY:** 11 (Enhancement)  
+  **RECOMMENDATION:** "Your push-up performance puts you in the **top half for your peers**. Use variety to avoid peaks."
+  **SOURCE:** ACSM Guidelines
+
+  #### 7.3 Elite Combined Fitness
+  **INPUT:** [cardio_fitness_percentile] > 0.75 AND [strength_fitness_percentile] > 0.75
+  **PRIORITY:** 10 (Enhancement)
+  **RECOMMENDATION:** "You're in the **top fitness quartile**! You can be proud that you're in an elite group, but excellence will make your gains more modest and harder to achieve. Find ways to stay motivated and not get discouraged."
+  **SOURCE:** ACSM Fitness Assessment
 
 
-## Notes for Implementation:
-1. Each recommendation should check multiple related inputs for context
-2. Prioritize safety recommendations (fall risk, injuries) highest
-3. Age-adjust all recommendations appropriately
-4. Consider interaction between multiple conditions
-5. Always frame positively - what TO do, not just what to avoid
+## Implementation Details
 
----
+### 1. Simplified Recommendation Approach
 
-## Implementation Plan
+No data model needed - just use `List<String>` for recommendations.
 
-### 1. Create Recommendation Model
+### 2. Recommendations Extractor Extension
+
+Create new file: `fitness_profile_extraction_extensions/recommendations.dart`
+
 ```dart
-class FitnessRecommendation {
-  final String category; // Priority, Approach, Equipment, Health, Time, Motivation
-  final String title;
-  final String description;
-  final IconData icon;
-  final Color color;
-  final int priority; // For sorting (1=highest)
-}
-```
+import '../fitness_profile.dart';
 
-### 2. Create Recommendation Extractor Extension
-```dart
-extension RecommendationExtractor on FitnessProfile {
-  List<FitnessRecommendation> extractRecommendations() {
-    final recommendations = <FitnessRecommendation>[];
+extension Recommendations on FitnessProfile {
 
-    // Check each condition from mappings above
-    _addCardioRecommendations(recommendations);
-    _addStrengthRecommendations(recommendations);
-    _addBalanceRecommendations(recommendations);
-    _addJointHealthRecommendations(recommendations);
-    _addAgeRecommendations(recommendations);
-    _addRecoveryRecommendations(recommendations);
-    _addEquipmentRecommendations(recommendations);
-    _addMotivationRecommendations(recommendations);
-    _addSedentaryRecommendations(recommendations);
+  void calculateRecommendations() {
+    final recommendations = <String>[];
+    final age = AgeQuestion.instance.calculatedAge;
+    final gender = GenderQuestion.instance.genderAnswer;
 
-    // Sort by priority and return top 3-5
-    recommendations.sort((a, b) => a.priority.compareTo(b.priority));
-    return recommendations.take(5).toList();
+    // Add recommendations in priority order (highest priority first)
+    // No need to sort since we're adding them in order
+
+    // PRIORITY 1: Critical Safety
+    if (prioritizeFunctional > 0.3) {
+      recommendations.add(
+        "Focus on functional movements that mimic daily activities for safety."
+      );
+    }
+
+    if (injuriesMap != null) {
+      for (final entry in injuriesMap!.entries) {
+        if (entry.value == BodyPartConstants.avoid) {
+          recommendations.add(
+            "Modify exercises to protect ${entry.key}. If something hurts, stop."
+          );
+          break; // Only one injury recommendation
+        }
+      }
+    }
+
+    // PRIORITY 2: High Risk
+    if (osteoporosisRisk == 1.0) {
+      recommendations.add(
+        "Weight-bearing and resistance exercises essential for bone density."
+      );
+    }
+
+    // PRIORITY 3: Medium Risk
+    if (sedentaryJob == 1.0 && currentExerciseDays < 3) {
+      recommendations.add(
+        "Counter prolonged sitting with movement breaks every hour."
+      );
+    }
+
+    // PRIORITY 4: Cardio Deficiency
+    final cardioPercentile = featuresMap['cardio_fitness_percentile'] ?? 0.0;
+    if (cardioPercentile < 0.2) {
+      recommendations.add(
+        "Prioritize moderate cardio 150 min/week to reduce cardiovascular risks."
+      );
+    }
+
+    // PRIORITY 5: GLP-1 Muscle Preservation
+    if (onGLP1Medications == 1.0) {
+      recommendations.add(
+        "GLP-1 medications can cause muscle loss. Prioritize resistance training 3x weekly."
+      );
+    }
+
+    // PRIORITY 6: Nutrition
+    if (dietQualityScore < 70) {
+      recommendations.add(
+        "Improve diet quality for better recovery. Reduce alcohol, sugars, and grains."
+      );
+    }
+
+    // PRIORITY 7: Strength Deficiency
+    final strengthPercentile = featuresMap['strength_fitness_percentile'] ?? 0.0;
+    if (strengthPercentile < 0.25) {
+      recommendations.add(
+        "Build foundational strength with 2-3 sessions weekly."
+      );
+    }
+
+    // PRIORITY 11: Performance (for high achievers)
+    if (cardioPercentile > 0.75) {
+      final percentText = "top 25% for $age year-old ${gender}s";
+      recommendations.add(
+        "Your cardio fitness is in the **$percentText**! "
+        "Maintain with polarized training: 80% easy, 20% hard."
+      );
+    } else if (cardioPercentile > 0.5) {
+      final percent = (cardioPercentile * 100).round();
+      recommendations.add(
+        "Your cardio fitness is **better than $percent% of peers**! "
+        "Add intervals for next level."
+      );
+    }
+
+    // Store the list (already in priority order, no sorting needed)
+    recommendationsList = recommendations;
   }
 }
 ```
 
-### 3. Update OnboardingSummaryView
-Add a recommendations section after the category allocation:
-- Card-based layout with icon, title, and description
-- Subtle background colors matching recommendation category
-- Maximum 3-5 most relevant recommendations shown
+### 3. Integration with FitnessProfile
 
-### 4. Visual Design
-```
-┌─────────────────────────────────┐
-│ 💡 Your Personalized Insights   │
-├─────────────────────────────────┤
-│ ┌─────────────────────────────┐ │
-│ │ 🎯 Priority Focus            │ │
-│ │ Build cardiovascular         │ │
-│ │ endurance for better health  │ │
-│ └─────────────────────────────┘ │
-│ ┌─────────────────────────────┐ │
-│ │ 🏠 Home Training             │ │
-│ │ Bodyweight exercises perfect │ │
-│ │ for your equipment setup     │ │
-│ └─────────────────────────────┘ │
-│ ┌─────────────────────────────┐ │
-│ │ ⚡ Micro Sessions            │ │
-│ │ Quick 10-minute workouts     │ │
-│ │ fit your busy schedule       │ │
-│ └─────────────────────────────┘ │
-└─────────────────────────────────┘
+Add to `fitness_profile.dart`:
+
+```dart
+class FitnessProfile {
+  // ... existing fields ...
+  List<String>? recommendationsList;  // Transient field, not persisted
+
+  // NO changes to calculateAllFeatures() - recommendations NOT called there
+  // NO changes to toJson() - recommendations NOT stored
+  // NO changes to fromJson() - recommendations NOT loaded
+
+  // Recommendations are calculated on-demand when the view needs them
+}
 ```
 
-## Task Checklist
-- [x] Map all recommendations to specific questions
-- [x] Identify missing questions needed
-- [x] Add sedentary job specific recommendations
-- [x] Add motivation and adherence recommendations
-- [ ] Create FitnessRecommendation model class
-- [ ] Create recommendation_extractor.dart extension
-- [ ] Implement extraction logic for each category
-- [ ] Add recommendations section to OnboardingSummaryView
-- [ ] Style recommendation cards with appropriate icons/colors
-- [ ] Test with various fitness profiles
+### 4. Display in OnboardingSummaryView
 
-## Missing Questions to Add (Priority Order)
-1. **Single-leg balance test** - Critical for fall risk assessment
-2. **HRT/Estrogen use question** - For women, affects osteoporosis risk calculation
-3. **Diet quality score calculation** - From existing nutrition questions (sugary_treats, sodas, alcohol, grains)
-4. **Training history/experience** - Needed for beginner/intermediate/advanced classification
-5. **Medical conditions checklist** - For condition-specific recommendations
-6. **Flexibility assessment** - For mobility recommendations
-7. **Heart rate recovery test** - For cardiovascular recovery assessment
-8. **Mental health screen** - For exercise as therapy recommendations
-9. **Weight history** - For detecting concerning weight loss
+Update `onboarding_summary_view.dart`:
 
-## Technical Notes
-- Recommendations should be constructive and motivating
-- Avoid medical advice or diagnoses
-- Focus on what the user CAN do, not limitations
-- Keep language clear and jargon-free
-- Prioritize most impactful recommendations
-- Use medical sources for credibility
+```dart
+class OnboardingSummaryView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final fitnessProfile = context.watch<AppState>().profile;
+
+    if (fitnessProfile == null) {
+      // ... null handling ...
+    }
+
+    // Calculate recommendations fresh each time the view is shown
+    // This ensures recommendations are always up-to-date with latest logic
+    fitnessProfile.calculateRecommendations();
+
+    return Scaffold(
+      // ... existing widgets ...
+
+      // Add after RiskFactorsSection
+      RecommendationsSection(fitnessProfile: fitnessProfile),
+
+      // ... rest of view ...
+    );
+  }
+}
+```
+
+
+### 5. Simplified Recommendation Display
+
+```dart
+class RecommendationsSection extends StatelessWidget {
+  final FitnessProfile fitnessProfile;
+
+  @override
+  Widget build(BuildContext context) {
+    final recommendations = fitnessProfile.recommendationsList ?? [];
+
+    // Take first 5 recommendations (already in priority order)
+    final topRecs = recommendations.take(5).toList();
+
+    if (topRecs.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Your Personalized Insights',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        const SizedBox(height: 12),
+        // Simple cards for each recommendation text
+        for (final text in topRecs)
+          Card(
+            margin: const EdgeInsets.only(bottom: 8),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                text,
+                style: const TextStyle(fontSize: 14),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+```
+
+## Implementation Summary
+
+### Key Design Decisions
+
+1. **On-Demand Calculation**: Recommendations are calculated fresh each time the summary view is shown, not stored or persisted
+   - Ensures recommendations always reflect latest logic
+   - No migration issues when updating recommendation text
+   - Keeps storage simple (only features are persisted)
+
+2. **Priority-Based List**: Simple linear check through all conditions in priority order
+   - Add all matching recommendations to a list
+   - Sort once by priority at the end
+   - UI takes top 5 (or more if desired)
+
+3. **Separation of Concerns**:
+   - **FitnessProfile**: Stores features (data layer)
+   - **Recommendations extension**: Calculates recommendations from features
+   - **View**: Triggers calculation and displays results (presentation layer)
+
+4. **No Secondary Prioritization**: Each recommendation has its priority built-in
+   - Simplifies the logic
+   - Makes it clear which recommendations are most important
+
+### Implementation Steps
+
+1. Create `recommendations.dart` extension with `calculateRecommendations()`
+2. Add `List<String>? recommendationsList` field to FitnessProfile (transient)
+3. Call `calculateRecommendations()` in OnboardingSummaryView
+4. Create simple RecommendationsSection widget to display text cards
+5. Test with various profiles to ensure proper prioritization
+
+### Simplification Benefits
+
+- **No data model** - Just strings, much simpler
+- **No sorting** - Add in priority order
+- **No complex widgets** - Simple text cards
+- **Easy to maintain** - Just update the text strings
+- **Fast implementation** - Minimal code needed
+

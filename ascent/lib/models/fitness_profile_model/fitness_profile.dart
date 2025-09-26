@@ -21,6 +21,7 @@ import 'fitness_profile_extraction_extensions/session_commitment.dart';
 import 'fitness_profile_extraction_extensions/sedentary_lifestyle.dart';
 import 'fitness_profile_extraction_extensions/relative_objective_importance.dart';
 import 'fitness_profile_extraction_extensions/osteoporosis.dart';
+import 'fitness_profile_extraction_extensions/recommendations.dart';
 
 /// Evaluates onboarding answers to create a fitness profile with ML features.
 /// 
@@ -31,6 +32,7 @@ class FitnessProfile {
   final Map<String, double> _features = {};
   final Map<String, dynamic> _answers;
   Map<String, int>? injuriesMap;
+  List<String>? recommendationsList;
 
   int get microWorkoutsPerWeek =>
       _features[FeatureConstants.microSessionsPerWeek]?.toInt() ?? 0;

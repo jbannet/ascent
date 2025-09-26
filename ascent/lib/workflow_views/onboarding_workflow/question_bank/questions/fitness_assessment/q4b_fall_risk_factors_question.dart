@@ -3,9 +3,11 @@ import '../../../models/questions/enum_question_type.dart';
 import '../../../models/questions/question_option.dart';
 import '../../../views/question_views/question_types/multiple_choice_view.dart';
 import '../onboarding_question.dart';
+import '../../../../../constants_and_enums/constants.dart';
+import '../../registry/question_bank.dart';
 import '../demographics/age_question.dart';
 import 'q4a_fall_history_question.dart';
-import '../../../../../constants_and_enums/constants.dart';
+import 'q4_run_vo2_question.dart';
 
 /// Q4B: Do you experience any of the following?
 /// 
@@ -66,14 +68,20 @@ class Q4BFallRiskFactorsQuestion extends OnboardingQuestion {
   //MARK: CONDITIONAL DISPLAY
   
   @override
-  bool shouldShow(Map<String, dynamic> answers) {
-    // Show if Q4A = 'yes' (has fallen) OR age >= 65
-    final hasFallen = Q4AFallHistoryQuestion.instance.fallHistoryAnswer == AnswerConstants.yes;
-    final age = AgeQuestion.instance.calculatedAge;
-    
+  bool shouldShow() {
+    // Show if Q4A = 'yes' (has fallen) OR age >= 65 OR poor mobility
+    final fallHistoryQuestion = QuestionBank.getQuestion(QuestionIds.fallHistory) as Q4AFallHistoryQuestion?;
+    final ageQuestion = QuestionBank.getQuestion(QuestionIds.age) as AgeQuestion?;
+    final runQuestion = QuestionBank.getQuestion(QuestionIds.runWalk) as Q4TwelveMinuteRunQuestion?;
+
+    final hasFallen = fallHistoryQuestion?.fallHistoryAnswer == AnswerConstants.yes;
+    final age = ageQuestion?.calculatedAge;
+    final runData = runQuestion?.runPerformanceData;
+
     if (hasFallen) return true;
-    if (age != null && age >= 65) return true;
-    
+    if (age != null && age >= AnswerConstants.fallRiskAge) return true;
+    if (runData != null && runData.distanceMiles < AnswerConstants.cooperAtRiskMiles) return true;
+
     return false;
   }
   

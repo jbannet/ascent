@@ -3,9 +3,10 @@ import '../../../models/questions/enum_question_type.dart';
 import '../../../models/questions/question_option.dart';
 import '../../../views/question_views/question_types/single_choice_view.dart';
 import '../onboarding_question.dart';
+import '../../../../../constants_and_enums/constants.dart';
+import '../../registry/question_bank.dart';
 import '../demographics/age_question.dart';
 import 'q4_run_vo2_question.dart';
-import '../../../../../constants_and_enums/constants.dart';
 
 /// Q4A: Have you fallen in the last 12 months?
 /// 
@@ -48,15 +49,18 @@ class Q4AFallHistoryQuestion extends OnboardingQuestion {
   //MARK: CONDITIONAL DISPLAY
   
   @override
-  bool shouldShow(Map<String, dynamic> answers) {
+  bool shouldShow() {
     // Show if age >= fall risk threshold OR Cooper test indicates mobility limitation risk
-    
-    final age = AgeQuestion.instance.calculatedAge;
-    final cooperDistance = Q4TwelveMinuteRunQuestion.instance.answerDouble;
-    
+
+    final ageQuestion = QuestionBank.getQuestion(QuestionIds.age) as AgeQuestion?;
+    final runQuestion = QuestionBank.getQuestion(QuestionIds.runWalk) as Q4TwelveMinuteRunQuestion?;
+
+    final age = ageQuestion?.calculatedAge;
+    final runData = runQuestion?.runPerformanceData;
+
     if (age != null && age >= AnswerConstants.fallRiskAge) return true;
-    if (cooperDistance != null && cooperDistance < AnswerConstants.cooperAtRiskMiles) return true;
-    
+    if (runData != null && runData.distanceMiles < AnswerConstants.cooperAtRiskMiles) return true;
+
     return false;
   }
   

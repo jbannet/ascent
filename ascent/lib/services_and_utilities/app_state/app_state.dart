@@ -4,6 +4,8 @@ import 'package:ascent/models/fitness_plan/plan.dart';
 import 'package:ascent/models/fitness_profile_model/fitness_profile.dart';
 import 'package:ascent/services_and_utilities/local_storage/local_storage_service.dart';
 import 'package:ascent/services_and_utilities/exercises/exercise_service.dart';
+import 'package:ascent/workflow_views/onboarding_workflow/question_bank/registry/question_bank.dart';
+import 'package:ascent/workflow_views/onboarding_workflow/question_bank/questions/onboarding_question.dart';
 
 /// Central application state that persists and exposes the user's
 /// FitnessProfile and Plan while providing ChangeNotifier semantics
@@ -13,8 +15,10 @@ class AppState extends ChangeNotifier {
 
   List<String> _featureOrder = const [];
 
+
   FitnessProfile? _profile;
   Plan? _plan;
+
   bool _initialized = false;
   bool _isLoading = false;
 
@@ -26,6 +30,25 @@ class AppState extends ChangeNotifier {
   bool get hasPlan => _plan != null;
   bool get isInitialized => _initialized;
   bool get isLoading => _isLoading;
+
+  // Question Bank Management - Convenience methods that delegate to QuestionBank
+  /// Get all questions from QuestionBank
+  List<OnboardingQuestion> get questionBank => QuestionBank.getAllQuestions();
+
+  /// Get specific question by ID
+  OnboardingQuestion? getQuestion(String questionId) {
+    return QuestionBank.getQuestion(questionId);
+  }
+
+  /// Get typed question by ID - no casting needed
+  T? getTypedQuestion<T extends OnboardingQuestion>(String questionId) {
+    return QuestionBank.getTypedQuestion<T>(questionId);
+  }
+
+  /// Get answer for specific question
+  String? getQuestionAnswer(String questionId) {
+    return QuestionBank.getQuestionAnswer(questionId);
+  }
 
   /// Loads persisted profile/plan. If a profile exists but no plan,
   /// a new plan is generated from that profile.

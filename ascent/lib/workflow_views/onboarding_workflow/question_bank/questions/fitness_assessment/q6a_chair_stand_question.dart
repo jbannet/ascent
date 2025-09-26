@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../models/questions/enum_question_type.dart';
 import '../../../models/questions/question_option.dart';
-import '../../../models/questions/question_condition.dart';
 import '../../../views/question_views/question_types/single_choice_view.dart';
 import '../onboarding_question.dart';
 import '../../../../../constants_and_enums/constants.dart';
+import '../../registry/question_bank.dart';
+import '../demographics/age_question.dart';
+import 'q4_run_vo2_question.dart';
+import 'q6_bodyweight_squats_question.dart';
 
 /// Q6A: Are you able to get up from a chair without using your hands for support?
 /// 
@@ -65,11 +68,26 @@ class Q6AChairStandQuestion extends OnboardingQuestion {
   };
   
   @override
-  QuestionCondition? get condition => QuestionCondition(
-    questionId: 'Q6',
-    operator: 'equals',
-    value: 0,
-  );
+  bool shouldShow() {
+    // Show if ANY of these conditions are met:
+
+    // 1. Age-based risk (65+)
+    final ageQuestion = QuestionBank.getQuestion(QuestionIds.age) as AgeQuestion?;
+    final age = ageQuestion?.calculatedAge;
+    if (age != null && age >= AnswerConstants.fallRiskAge) return true;
+
+    // 2. Poor mobility performance
+    final runQuestion = QuestionBank.getQuestion(QuestionIds.runWalk) as Q4TwelveMinuteRunQuestion?;
+    final runData = runQuestion?.runPerformanceData;
+    if (runData != null && runData.distanceMiles < AnswerConstants.cooperAtRiskMiles) return true;
+
+    // 3. Can't do squats
+    final squatQuestion = QuestionBank.getQuestion(QuestionIds.squats) as Q6BodyweightSquatsQuestion?;
+    final squatCount = squatQuestion?.getSquatsCount(QuestionBank.toJson());
+    if (squatCount != null && squatCount == 0) return true;
+
+    return false;
+  }
   
   
   //MARK: VALIDATION

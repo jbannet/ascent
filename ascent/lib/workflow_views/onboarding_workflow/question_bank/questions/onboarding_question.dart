@@ -98,7 +98,7 @@ abstract class OnboardingQuestion {
   
 
   ///
-  bool shouldShow(Map<String, dynamic> answers) => true; // Default to always show, override if needed
+  bool shouldShow() => true; // Default to always show, override if needed
 
   //MARK: RENDERING
   

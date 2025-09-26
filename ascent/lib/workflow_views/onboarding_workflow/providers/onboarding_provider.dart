@@ -88,7 +88,7 @@ class OnboardingProvider extends ChangeNotifier {
     // Find next visible question
     while (_currentQuestionNumber < _onboardingQuestions.length - 1) {
       _currentQuestionNumber++;
-      if (_onboardingQuestions[_currentQuestionNumber].shouldShow({})) {
+      if (_onboardingQuestions[_currentQuestionNumber].shouldShow()) {
         notifyListeners();
         return;
       }
@@ -108,7 +108,7 @@ class OnboardingProvider extends ChangeNotifier {
   // Navigate to next question and save answers to disk
   void nextQuestion() {
     if (_onboardingQuestions.isEmpty) return;
-    
+
     // Validate required questions before proceeding
     final currentQuestion = currentOnboardingQuestion;
     if (currentQuestion != null) {
@@ -118,14 +118,14 @@ class OnboardingProvider extends ChangeNotifier {
         return;
       }
     }
-  
+
     // Save current progress before navigating
     saveAnswersIncomplete();
-    
+
     // Find next visible question
     while (_currentQuestionNumber < _onboardingQuestions.length - 1) {
       _currentQuestionNumber++;
-      if (_onboardingQuestions[_currentQuestionNumber].shouldShow({})) {
+      if (_onboardingQuestions[_currentQuestionNumber].shouldShow()) {
         notifyListeners();
         return;
       }
@@ -141,7 +141,7 @@ class OnboardingProvider extends ChangeNotifier {
     // Find previous visible question
     while (_currentQuestionNumber > 0) {
       _currentQuestionNumber--;
-      if (_onboardingQuestions[_currentQuestionNumber].shouldShow({})) {
+      if (_onboardingQuestions[_currentQuestionNumber].shouldShow()) {
         notifyListeners();
         return;
       }

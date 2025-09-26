@@ -14,6 +14,9 @@ import '../questions/fitness_assessment/q4_run_vo2_question.dart';
 import '../questions/fitness_assessment/q4a_fall_history_question.dart';
 import '../questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
 import '../questions/fitness_assessment/q5_pushups_question.dart';
+import '../questions/fitness_assessment/q6_bodyweight_squats_question.dart';
+import '../questions/fitness_assessment/q6a_chair_stand_question.dart';
+import '../questions/fitness_assessment/q6b_balance_test_question.dart';
 import '../questions/fitness_assessment/glp1_medications_question.dart';
 import '../questions/fitness_assessment/session_commitment_question.dart';
 // Lifestyle
@@ -33,10 +36,13 @@ import '../questions/practical_constraints/q10_equipment_question.dart';
 import '../questions/practical_constraints/q11_training_location_question.dart';
 
 /// Central registry for all onboarding questions.
-/// 
+///
 /// This serves as the single source of truth for questions, replacing
 /// the JSON configuration file. Questions are registered here and can
 /// be accessed for both UI presentation and ML evaluation.
+///
+/// Provides encapsulated access to questions with type safety and
+/// centralized answer persistence management.
 class QuestionBank {
   
   // Registry of all questions in the correct order (following JSON structure)
@@ -58,7 +64,10 @@ class QuestionBank {
     Q4TwelveMinuteRunQuestion.instance,  // Q4 (12-min run)
     Q4AFallHistoryQuestion.instance,     // Q4A (fall history - conditional)
     Q4BFallRiskFactorsQuestion.instance, // Q4B (fall risk factors - conditional)
-    Q5PushupsQuestion.instance,          // pushups_count (Q5)
+    Q5PushupsQuestion.instance,          // Q5 (pushups)
+    Q6BodyweightSquatsQuestion.instance, // Q6 (squats)
+    Q6AChairStandQuestion.instance,      // Q6A (chair stand - conditional)
+    Q6BBalanceTestQuestion.instance,     // Q6B (balance test - conditional)
     
     // 5. Lifestyle
     Glp1MedicationsQuestion.instance,    // GLP-1 medications
@@ -137,5 +146,17 @@ class QuestionBank {
   /// Useful for accessing specific questions with their typed interfaces.
   static T getQuestionByType<T extends OnboardingQuestion>() {
     return _allQuestions.whereType<T>().first;
+  }
+
+  /// Get typed question by ID - no casting needed
+  static T? getTypedQuestion<T extends OnboardingQuestion>(String questionId) {
+    final question = getQuestion(questionId);
+    return question is T ? question : null;
+  }
+
+  /// Get answer for specific question
+  static String? getQuestionAnswer(String questionId) {
+    final question = getQuestion(questionId);
+    return question?.answer;
   }
 }

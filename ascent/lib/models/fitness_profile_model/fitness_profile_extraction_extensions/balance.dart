@@ -1,5 +1,6 @@
 import '../fitness_profile.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q6a_chair_stand_question.dart';
+import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q6b_balance_test_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q4a_fall_history_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
 import '../../../constants_and_enums/constants.dart';
@@ -13,6 +14,7 @@ extension Balance on FitnessProfile {
   /// Calculate balance capacity and fall risk features
   void calculateBalance() {
     _calculateChairStandCapacity();
+    _calculateBalanceTestCapacity();
     _calculateFallHistory();
     _calculateFallRiskFactors();
   }
@@ -27,6 +29,29 @@ extension Balance on FitnessProfile {
       // Treat unknown as unable for safety-first programming
       featuresMap['can_do_chair_stand'] = 0.0;
     }
+  }
+
+  /// Extract balance test results from Q6B single-leg stance
+  void _calculateBalanceTestCapacity() {
+    final balanceTime = Q6BBalanceTestQuestion.instance.balanceTime ?? 0.0;
+
+    // Balance capacity based on one-foot stand time
+    double balanceCapacity;
+    if (balanceTime >= 30) {
+      balanceCapacity = 1.0; // Excellent
+    } else if (balanceTime >= 15) {
+      balanceCapacity = 0.7; // Good
+    } else if (balanceTime >= 5) {
+      balanceCapacity = 0.4; // Fair
+    } else {
+      balanceCapacity = 0.1; // Poor
+    }
+
+    featuresMap['balance_capacity'] = balanceCapacity;
+    featuresMap['balance_test_seconds'] = balanceTime;
+
+    // High fall risk indicator (< 5 seconds)
+    featuresMap['high_balance_fall_risk'] = balanceTime < 5 ? 1.0 : 0.0;
   }
 
   /// Extract fall history from past 12 months

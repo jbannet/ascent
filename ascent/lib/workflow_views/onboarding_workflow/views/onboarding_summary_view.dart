@@ -5,7 +5,7 @@ import '../../../services_and_utilities/app_state/app_state.dart';
 import 'onboarding_summary/widgets/summary_header.dart';
 import 'onboarding_summary/widgets/metrics_grid/metrics_grid_view.dart';
 import 'onboarding_summary/widgets/category_allocation/category_allocation_view.dart';
-import 'onboarding_summary/widgets/risk_factors_section.dart';
+import 'onboarding_summary/widgets/recommendations_section.dart';
 import 'onboarding_summary/widgets/summary_action_buttons.dart';
 
 class OnboardingSummaryView extends StatelessWidget {
@@ -65,8 +65,8 @@ class OnboardingSummaryView extends StatelessWidget {
                     // Category Allocation
                     CategoryAllocationView(fitnessProfile: fitnessProfile),
                     const SizedBox(height: 24),
-                    // Risk Factors & Priorities
-                    RiskFactorsSection(fitnessProfile: fitnessProfile),
+                    // Personalized Recommendations
+                    RecommendationsSection(fitnessProfile: fitnessProfile),
                   ],
                 ),
               ),

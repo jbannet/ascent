@@ -25,6 +25,53 @@ class AppConstants {
   static const int localStorageUninitialized = -1;
 }
 
+/// Question ID Constants
+class QuestionIds {
+  // Demographics
+  static const String age = 'age';
+  static const String gender = 'gender';
+  static const String height = 'height';
+  static const String weight = 'weight';
+
+  // Motivation
+  static const String primaryMotivation = 'primary_motivation';
+  static const String progressTracking = 'progress_tracking';
+
+  // Goals
+  static const String fitnessGoals = 'fitness_goals';
+
+  // Fitness Assessment
+  static const String runWalk = 'Q4';
+  static const String fallHistory = 'Q4A';
+  static const String fallRiskFactors = 'Q4B';
+  static const String pushups = 'Q5';
+  static const String squats = 'Q6';
+  static const String chairStand = 'Q6A';
+  static const String balanceTest = 'Q6B';
+
+  // Lifestyle
+  static const String glp1Medications = 'glp1_medications';
+  static const String sleepHours = 'sleep_hours';
+  static const String currentExerciseDays = 'current_exercise_days';
+  static const String stretchingDays = 'stretching_days';
+  static const String sedentaryJob = 'sedentary_job';
+
+  // Nutrition
+  static const String sugaryTreats = 'sugary_treats';
+  static const String sodas = 'sodas';
+  static const String grains = 'grains';
+  static const String alcohol = 'alcohol';
+
+  // Schedule and Commitment
+  static const String sessionCommitment = 'session_commitment';
+
+  // Physical Constraints
+  static const String injuries = 'Q1';
+  static const String highImpact = 'Q2';
+  static const String equipment = 'Q10';
+  static const String trainingLocation = 'Q11';
+}
+
 /// Question Answer Constants
 class AnswerConstants {
   // Gender options
@@ -269,8 +316,8 @@ class WorkoutIcons {
 
   // Category to training styles mapping
   static const Map<String, List<String>> categoryToStyles = {
-    'cardio': [enduranceDominant, circuitMetabolic, athleticConditioning, fullBody, concurrentHybrid, pilatesStyle],
-    'strength': [upperLowerSplit, pushPullLegs, concurrentHybrid, fullBody, athleticConditioning, yogaFocused, pilatesStyle],
+    'cardio': [enduranceDominant, circuitMetabolic, athleticConditioning, concurrentHybrid],
+    'strength': [upperLowerSplit, pushPullLegs, concurrentHybrid, fullBody, yogaFocused, pilatesStyle],
     'balance': [seniorSpecific, functionalMovement, yogaFocused],
     'flexibility': [yogaFocused, pilatesStyle],
     'functional': [functionalMovement, seniorSpecific],

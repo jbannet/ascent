@@ -81,7 +81,11 @@ extension RelativeImportance on FitnessProfile {
     if (gender == AnswerConstants.female && age >= 50) {
       score += 0.1; // Post-menopause cardiovascular risk
     }
-    
+
+    // GLP-1 medications - decrease cardio priority to favor strength training
+    final isOnGlp1 = Glp1MedicationsQuestion.instance.isOnGlp1Medications(answers);
+    if (isOnGlp1) score -= 0.2;
+
     return score;
   }
   
