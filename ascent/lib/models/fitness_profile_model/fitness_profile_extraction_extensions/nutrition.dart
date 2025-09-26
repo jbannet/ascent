@@ -11,17 +11,15 @@ import '../../../workflow_views/onboarding_workflow/question_bank/questions/nutr
 /// Stores raw consumption metrics plus a simple diet quality score that can be
 /// used to bias coaching recommendations without shaming users.
 extension NutritionMetrics on FitnessProfile {
-
   /// Calculate nutrition-related features from the onboarding survey.
   void calculateNutrition() {
     final treatsPerDay = SugaryTreatsQuestion.instance.sugaryTreatsCount ?? 0.0;
     final sodasPerDay = SodasQuestion.instance.sodasCount ?? 0.0;
     final grainsPerDay = GrainsQuestion.instance.grainsCount ?? 0.0;
 
-    double alcoholPerWeek = 0.0;
-    if (!AlcoholQuestion.instance.isPrivateAnswer(answers)) {
-      alcoholPerWeek = (AlcoholQuestion.instance.alcoholCount ?? 0.0).toDouble();
-    }
+    final alcoholQuestion = AlcoholQuestion.instance;
+    final alcoholPerWeek =
+        alcoholQuestion.isPrivate ? 0.0 : (alcoholQuestion.alcoholCount ?? 0.0);
 
     featuresMap['sugary_treats_per_day'] = treatsPerDay;
     featuresMap['sodas_per_day'] = sodasPerDay;

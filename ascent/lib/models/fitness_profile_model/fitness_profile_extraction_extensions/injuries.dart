@@ -9,11 +9,10 @@ import '../../../constants_and_enums/constants.dart';
 /// - BodyPartConstants.avoid (-MAX_INT): Injured - NEVER use this body part in exercises
 /// - BodyPartConstants.strengthen (50): Pain area - strengthen surrounding muscles
 extension Injuries on FitnessProfile {
-
   /// Calculate injury status for all body parts
   void calculateInjuries() {
-    final injuries = Q1InjuriesQuestion.instance.getInjuries(answers);
-    final painAreas = Q1InjuriesQuestion.instance.getPainAreas(answers);
+    final injuries = Q1InjuriesQuestion.instance.injuries;
+    final painAreas = Q1InjuriesQuestion.instance.painAreas;
 
     // Initialize all body parts to no issue in injuries vector
     _initializeInjuriesVector();

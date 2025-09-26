@@ -2,59 +2,66 @@ import '../fitness_profile.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/age_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/gender_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q4_run_vo2_question.dart';
+import '../../../constants_and_enums/constants_features.dart';
 
 /// Extension to calculate cardiovascular fitness metrics and training parameters.
-/// 
+///
 /// This extension focuses on core cardio metrics:
 /// 1. CARDIOVASCULAR FITNESS BASELINE: Current fitness level metrics
 ///    - VO2max (ml/kg/min) from Cooper test or estimation
 ///    - METs capacity (metabolic equivalents)
 ///    - Fitness percentile for age/gender
-/// 
+///
 /// 2. WORKOUT CONSTRUCTION PARAMETERS: Values needed to build cardio workouts
 ///    - Maximum heart rate (age-based)
 ///    - Target heart rate zones (5 zones)
 ///    - MET levels for each training zone
 ///    - Recovery requirements
-/// 
+///
 /// Note: Cardio importance is calculated in relative_objective_importance.dart
 extension Cardio on FitnessProfile {
-  
   /// Calculate cardiovascular fitness metrics and training parameters
   void calculateCardio() {
     final age = AgeQuestion.instance.calculatedAge;
     final gender = GenderQuestion.instance.genderAnswer;
-    
+
     if (age == null || gender == null) {
-      throw Exception('Missing required answers for cardio calculation: age=$age, gender=$gender');
+      throw Exception(
+        'Missing required answers for cardio calculation: age=$age, gender=$gender',
+      );
     }
-    
+
     // 1. Calculate baseline fitness metrics
     _calculateCardiovascularBaseline(age, gender);
-    
+
     // 2. Calculate workout parameters including HR zones
     _calculateCardioWorkoutParameters(age, gender);
   }
-  
+
   /// Calculate baseline cardiovascular fitness metrics from run data
   void _calculateCardiovascularBaseline(int age, String gender) {
     // Get distance and time from the question
-    final runDistanceMiles = Q4TwelveMinuteRunQuestion.instance.getRunDistanceMiles(answers);
-    final runTimeMinutes = Q4TwelveMinuteRunQuestion.instance.getRunTimeMinutes(answers);
+    final runData = Q4TwelveMinuteRunQuestion.instance.runPerformanceData;
 
-    if (runDistanceMiles != null && runDistanceMiles > 0 && runTimeMinutes != null && runTimeMinutes > 0) {
+    if (runData != null &&
+        runData.distanceMiles > 0 &&
+        runData.timeMinutes > 0) {
       // Calculate pace in minutes per mile
-      final paceMinutesPerMile = runTimeMinutes / runDistanceMiles;
-      featuresMap['cardio_pace'] = paceMinutesPerMile;
+      final paceMinutesPerMile = runData.timeMinutes / runData.distanceMiles;
+      featuresMap[CardioConstants.cardioPace] = paceMinutesPerMile;
       // For now, use a placeholder estimation based on pace
       double vo2max = _estimateVO2MaxFromPace(paceMinutesPerMile);
-      featuresMap['vo2max'] = vo2max;
+      featuresMap[CardioConstants.vo2max] = vo2max;
 
       // Convert to METs capacity (VO2max / 3.5)
-      featuresMap['mets_capacity'] = vo2MaxToMets(vo2max);
+      featuresMap[CardioConstants.metsCapacity] = vo2MaxToMets(vo2max);
 
       // Calculate fitness percentile using VO2max and demographic data
-      featuresMap['cardio_fitness_percentile'] = _estimatePercentileFromVO2Max(vo2max, age, gender);
+      featuresMap[CardioConstants.cardioFitnessPercentile] = _estimatePercentileFromVO2Max(
+        vo2max,
+        age,
+        gender,
+      );
     }
   }
 
@@ -85,22 +92,24 @@ extension Cardio on FitnessProfile {
   /// This will be enhanced with the full formula from user
   double _estimateVO2MaxFromPace(double paceMinutesPerMile) {
     // Convert pace to speed in meters
-    double speedInMetersPerMin = 1609.34 / paceMinutesPerMile; // meters per minute
-    double vo2cost = (.2*speedInMetersPerMin) + 3.5; // vo2 cost in ml/kg/min
+    double speedInMetersPerMin =
+        1609.34 / paceMinutesPerMile; // meters per minute
+    double vo2cost = (CardioConstants.vo2WalkingSpeedMultiplier * speedInMetersPerMin) + CardioConstants.vo2RestingMetabolicRate; // vo2 cost in ml/kg/min
 
     //use the time at this vo2cost before exhaustion to estimate %VO2max used
-    double impliedPercentOfVO2Max = _getVO2MaxPercentageFromTimeRange(paceMinutesPerMile.toInt());
+    double impliedPercentOfVO2Max = _getVO2MaxPercentageFromTimeRange(
+      paceMinutesPerMile.toInt(),
+    );
 
     return vo2cost / (impliedPercentOfVO2Max / 100.0);
   }
 
-
   double vo2MaxToMets(double vo2max) {
-    return vo2max / 3.5;
+    return vo2max / CardioConstants.vo2ToMetsConversionFactor;
   }
 
   double metsToVo2Max(double mets) {
-    return mets * 3.5;
+    return mets * CardioConstants.vo2ToMetsConversionFactor;
   }
 
   /// Estimate fitness percentile from VO2max using ACSM normative data
@@ -148,7 +157,7 @@ extension Cardio on FitnessProfile {
     }
 
     // Percentiles corresponding to the values: p5, p10, p25, p50, p75, p90, p95
-    List<double> percentiles = [5.0, 10.0, 25.0, 50.0, 75.0, 90.0, 95.0];
+    List<double> percentiles = CardioConstants.percentileValues;
 
     // Find where the VO2max falls in the range
     for (int i = 0; i < values.length; i++) {
@@ -171,30 +180,30 @@ extension Cardio on FitnessProfile {
     return 95.0;
   }
 
-
   /// Calculate workout parameters including heart rate zones and MET levels
   void _calculateCardioWorkoutParameters(int age, String gender) {
     // Calculate Maximum Heart Rate using Tanaka formula
     // 208 - (0.7 × age) - more accurate than 220-age
     double maxHR = 208 - (0.7 * age);
-    featuresMap['max_heart_rate'] = maxHR;
-    
+    featuresMap[CardioConstants.maxHeartRate] = maxHR;
+
     // Simple 5-zone heart rate system using %MaxHR
-    featuresMap['hr_zone1'] = maxHR * 0.55;  // Zone 1: Recovery (50-60%)
-    featuresMap['hr_zone2'] = maxHR * 0.65;  // Zone 2: Aerobic base (60-70%)
-    featuresMap['hr_zone3'] = maxHR * 0.75;  // Zone 3: Threshold (70-80%)
-    featuresMap['hr_zone4'] = maxHR * 0.85;  // Zone 4: VO2max (80-90%)
-    featuresMap['hr_zone5'] = maxHR * 0.92;  // Zone 5: Neuromuscular (90-95%)
-    
+    featuresMap[CardioConstants.hrZone1] = maxHR * CardioConstants.hrZone1Multiplier; // Zone 1: Recovery (50-60%)
+    featuresMap[CardioConstants.hrZone2] = maxHR * CardioConstants.hrZone2Multiplier; // Zone 2: Aerobic base (60-70%)
+    featuresMap[CardioConstants.hrZone3] = maxHR * CardioConstants.hrZone3Multiplier; // Zone 3: Threshold (70-80%)
+    featuresMap[CardioConstants.hrZone4] = maxHR * CardioConstants.hrZone4Multiplier; // Zone 4: VO2max (80-90%)
+    featuresMap[CardioConstants.hrZone5] = maxHR * CardioConstants.hrZone5Multiplier; // Zone 5: Neuromuscular (90-95%)
+
     // MET-based training zones
-    final mets = featuresMap['mets_capacity'] ?? 8.0;
-    featuresMap['met_zone1'] = mets * 0.4;   // Recovery
-    featuresMap['met_zone2'] = mets * 0.6;   // Aerobic base
-    featuresMap['met_zone3'] = mets * 0.75;  // Threshold
-    featuresMap['met_zone4'] = mets * 0.85;  // VO2max
-    featuresMap['met_zone5'] = mets * 0.95;  // Neuromuscular
-    
+    final mets = featuresMap[CardioConstants.metsCapacity] ?? CardioConstants.defaultMetsCapacity;
+    featuresMap[CardioConstants.metZone1] = mets * CardioConstants.metZone1Multiplier; // Recovery
+    featuresMap[CardioConstants.metZone2] = mets * CardioConstants.metZone2Multiplier; // Aerobic base
+    featuresMap[CardioConstants.metZone3] = mets * CardioConstants.metZone3Multiplier; // Threshold
+    featuresMap[CardioConstants.metZone4] = mets * CardioConstants.metZone4Multiplier; // VO2max
+    featuresMap[CardioConstants.metZone5] = mets * CardioConstants.metZone5Multiplier; // Neuromuscular
+
     // Recovery needs based on age (converted to hours for consistency with strength recovery)
-    featuresMap['cardio_recovery_hours'] = age < 40 ? 24.0 : (age < 60 ? 48.0 : 72.0);
+    featuresMap['cardio_recovery_hours'] =
+        age < AgeThresholds.middleAged ? 24.0 : (age < AgeThresholds.older ? 48.0 : 72.0);
   }
 }

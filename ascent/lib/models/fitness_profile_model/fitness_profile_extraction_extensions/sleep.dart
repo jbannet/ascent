@@ -7,10 +7,9 @@ import '../../../workflow_views/onboarding_workflow/question_bank/questions/life
 /// readiness, recovery capacity, and injury risk. This extractor stores the
 /// reported sleep hours so downstream recommendations can reference it.
 extension SleepMetrics on FitnessProfile {
-
   /// Calculate sleep-related features from the onboarding survey.
   void calculateSleep() {
-    final sleepHours = SleepHoursQuestion.instance.getSleepHours(answers);
+    final sleepHours = SleepHoursQuestion.instance.sleepHours;
     if (sleepHours != null) {
       featuresMap['sleep_hours'] = sleepHours;
     }

@@ -11,23 +11,28 @@ import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitn
 ///
 /// These metrics are essential for workout planning and program design.
 extension SessionCommitment on FitnessProfile {
-
   /// Extract session commitment data from user answers
   void calculateSessionCommitment() {
     // Get the number of full sessions (30-60 minutes) per week
-    final fullSessionsPerWeek = SessionCommitmentQuestion.instance.getFullSessionDays(answers);
-    featuresMap[FeatureConstants.fullSessionsPerWeek] = fullSessionsPerWeek.toDouble();
+    final commitmentQuestion = SessionCommitmentQuestion.instance;
+
+    final fullSessionsPerWeek = commitmentQuestion.fullSessionsPerWeek;
+    featuresMap[FeatureConstants.fullSessionsPerWeek] =
+        fullSessionsPerWeek.toDouble();
 
     // Get the number of micro sessions (7-15 minutes) per week
-    final microSessionsPerWeek = SessionCommitmentQuestion.instance.getMicroSessionDays(answers);
-    featuresMap[FeatureConstants.microSessionsPerWeek] = microSessionsPerWeek.toDouble();
+    final microSessionsPerWeek = commitmentQuestion.microSessionsPerWeek;
+    featuresMap[FeatureConstants.microSessionsPerWeek] =
+        microSessionsPerWeek.toDouble();
 
     // Calculate total training days (accounts for potential overlap)
-    final totalTrainingDays = SessionCommitmentQuestion.instance.getTotalTrainingDays(answers);
-    featuresMap[FeatureConstants.totalTrainingDays] = totalTrainingDays.toDouble();
+    final totalTrainingDays = commitmentQuestion.totalTrainingDaysPerWeek;
+    featuresMap[FeatureConstants.totalTrainingDays] =
+        totalTrainingDays.toDouble();
 
     // Calculate total weekly training time in minutes
-    final weeklyTrainingMinutes = SessionCommitmentQuestion.instance.getWeeklyTrainingMinutes(answers);
-    featuresMap[FeatureConstants.weeklyTrainingMinutes] = weeklyTrainingMinutes.toDouble();
+    final weeklyTrainingMinutes = commitmentQuestion.weeklyTrainingMinutes;
+    featuresMap[FeatureConstants.weeklyTrainingMinutes] =
+        weeklyTrainingMinutes.toDouble();
   }
 }

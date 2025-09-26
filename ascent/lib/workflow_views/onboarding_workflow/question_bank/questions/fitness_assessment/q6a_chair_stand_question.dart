@@ -133,6 +133,14 @@ class Q6AChairStandQuestion extends OnboardingQuestion {
     return canStand == false;
   }
 
+  /// Typed accessor for chair stand ability
+  bool? get canStandFromChairValue {
+    if (_chairStandAbility == null) return null;
+    if (_chairStandAbility == AnswerConstants.yes) return true;
+    if (_chairStandAbility == AnswerConstants.no) return false;
+    return null;
+  }
+
   //MARK: ANSWER STORAGE
   
   String? _chairStandAbility;

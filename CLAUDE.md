@@ -1,6 +1,3 @@
-# Claude Code Guidelines for Fitness App
-
-This file contains instructions for Claude Code when working on the fitness app project.
 
 ## Large Changes Protocol
 
@@ -56,3 +53,7 @@ This Flutter app focuses on fitness planning and workout tracking. Key areas inc
 - Session tracking and metrics
 - User fitness profiles
 - Progress visualization
+
+IF YOU DO NOT ASK TO CREATE THE _design.md file. YOU FAIL.
+IF YOU DO NOT UPDATE THE _design.md file. YOU FAIL.
+The _design.md file is everything to you.

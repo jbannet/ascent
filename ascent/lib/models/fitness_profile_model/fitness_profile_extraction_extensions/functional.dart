@@ -11,13 +11,14 @@ import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitn
 /// The key calculation is prioritize_functional which determines what percentage
 /// of the training plan should focus on functional movements vs performance fitness.
 extension Functional on FitnessProfile {
-
   /// Calculate functional movement priorities
   void calculateFunctional() {
     final age = AgeQuestion.instance.calculatedAge;
 
     if (age == null) {
-      throw Exception('Missing required answers for functional calculation: age=$age');
+      throw Exception(
+        'Missing required answers for functional calculation: age=$age',
+      );
     }
 
     _calculatePrioritizeFunctional(age);
@@ -34,7 +35,8 @@ extension Functional on FitnessProfile {
     }
 
     // Chair stand component: Can't stand without arms = needs functional work
-    final canStandFromChair = Q6AChairStandQuestion.instance.canStandFromChair(answers);
+    final canStandFromChair =
+        Q6AChairStandQuestion.instance.canStandFromChairValue;
     if (canStandFromChair == false) {
       functionalScore += 0.3;
     }

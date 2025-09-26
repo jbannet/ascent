@@ -21,7 +21,8 @@ class SedentaryJobQuestion extends OnboardingQuestion {
   String get id => SedentaryJobQuestion.questionId;
 
   @override
-  String get questionText => 'Does your job require you to sit for long periods of time?';
+  String get questionText =>
+      'Does your job require you to sit for long periods of time?';
 
   @override
   String get section => 'lifestyle';
@@ -30,7 +31,8 @@ class SedentaryJobQuestion extends OnboardingQuestion {
   EnumQuestionType get questionType => EnumQuestionType.singleChoice;
 
   @override
-  String? get subtitle => 'This helps us recommend exercises for posture and mobility';
+  String? get subtitle =>
+      'This helps us recommend exercises for posture and mobility';
 
   @override
   List<QuestionOption> get options => [
@@ -39,9 +41,7 @@ class SedentaryJobQuestion extends OnboardingQuestion {
   ];
 
   @override
-  Map<String, dynamic> get config => {
-    'isRequired': true,
-  };
+  Map<String, dynamic> get config => {'isRequired': true};
 
   //MARK: VALIDATION
 
@@ -89,10 +89,10 @@ class SedentaryJobQuestion extends OnboardingQuestion {
   /// Get the sedentary job status as a typed String
   String? get sedentaryJobStatus => _sedentaryJob;
 
+  bool get hasSedentaryJobFlag => _sedentaryJob == AnswerConstants.yes;
+
   @override
-  Widget buildAnswerWidget(
-    Function() onAnswerChanged,
-  ) {
+  Widget buildAnswerWidget(Function() onAnswerChanged) {
     return SingleChoiceView(
       questionId: id,
       answers: {id: _sedentaryJob},

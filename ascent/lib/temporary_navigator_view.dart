@@ -324,20 +324,23 @@ class TemporaryNavigatorView extends StatelessWidget {
       },
       'Q4A': 'no',
       'Q4B': [],
-      'Q5': 8.0,
+      'Q5': 20.0, // pushups - updated to 20
+      'Q6': 20.0, // squats - added with value 20
       'Q6A': 'yes',
+      'Q6B': 'pass', // balance test result
       'glp1_medications': 'no',
       'sleep_hours': 7.0,
-      'sugary_treats': 'sometimes',
-      'sodas': 'rarely',
-      'grains': 'often',
-      'alcohol': 'socially',
+      'current_exercise_days': 2,
+      'stretching_days': 3,
+      'sedentary_job': 'yes',
+      'sugary_treats': 2.0, // treats per day (0-15)
+      'sodas': 1.0, // drinks per day (0-15)
+      'grains': 6.0, // servings per day (0-15)
+      'alcohol': 3.0, // drinks per week (0-20)
       'session_commitment': {
         'full_sessions': 3,
         'micro_sessions': 2,
       },
-      'current_exercise_days': 2,
-      'sedentary_job': 'yes',
       'Q1': 'none',
       'Q2': 'none',
       'Q10': 'resistance_bands',

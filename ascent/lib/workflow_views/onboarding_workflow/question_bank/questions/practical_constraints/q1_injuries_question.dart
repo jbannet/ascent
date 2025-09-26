@@ -6,40 +6,40 @@ import '../onboarding_question.dart';
 import '../../../../../constants_and_enums/constants.dart';
 
 /// Q1: Do you have any current injuries or physical limitations?
-/// 
+///
 /// This question differentiates between:
 /// - PAIN (tap once): Chronic or activity-related pain that needs strengthening of surrounding muscles
 ///   Examples: back pain from poor posture, knee pain during sports, shoulder discomfort
 ///   Treatment: Strengthen supporting muscles, improve mobility
-/// 
+///
 /// - INJURY (tap twice): Acute injuries that prevent normal motion and must be avoided
 ///   Examples: torn rotator cuff, herniated disc, ACL tear, fractures
 ///   Treatment: Avoid the area completely, work around it
-/// 
+///
 /// The UI should support tap-once for pain, tap-twice for injury.
 /// This distinction is critical for proper exercise prescription.
 class Q1InjuriesQuestion extends OnboardingQuestion {
   static const String questionId = 'Q1';
   static final Q1InjuriesQuestion instance = Q1InjuriesQuestion._();
   Q1InjuriesQuestion._();
-  
+
   //MARK: UI PRESENTATION DATA
-  
+
   @override
   String get id => Q1InjuriesQuestion.questionId;
-  
+
   @override
   String get questionText => 'Do you have pain or injuries?';
-  
+
   @override
   String get section => 'practical_constraints';
-  
+
   @override
   EnumQuestionType get questionType => EnumQuestionType.bodyMap;
-  
+
   @override
   String? get subtitle => null;
-  
+
   @override
   Widget? get subtitleWidget => RichText(
     text: TextSpan(
@@ -47,19 +47,22 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
       children: [
         TextSpan(
           text: 'Tap once ',
-          style: TextStyle(color: Colors.amber.shade700, fontWeight: FontWeight.w500),
+          style: TextStyle(
+            color: Colors.amber.shade700,
+            fontWeight: FontWeight.w500,
+          ),
         ),
         TextSpan(
           text: '(pain/strengthen)',
           style: TextStyle(color: Colors.amber.shade700),
         ),
-        const TextSpan(
-          text: '; ',
-          style: TextStyle(color: Colors.grey),
-        ),
+        const TextSpan(text: '; ', style: TextStyle(color: Colors.grey)),
         TextSpan(
           text: 'tap twice ',
-          style: TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.w500),
+          style: TextStyle(
+            color: Colors.red.shade700,
+            fontWeight: FontWeight.w500,
+          ),
         ),
         TextSpan(
           text: '(injury/avoid)',
@@ -68,27 +71,27 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
       ],
     ),
   );
-  
+
   @override
   List<QuestionOption>? get options => null; // Body map doesn't use options
-  
+
   @override
   Map<String, dynamic> get config => {
     'isRequired': false, // Allow user to skip if no issues
   };
-  
-  
+
   //MARK: VALIDATION
-  
+
   bool isValidAnswer(dynamic answer) {
     if (answer is List) {
       return answer.isNotEmpty && answer.every((item) => item is String);
     }
     return answer is String && answer.isNotEmpty;
   }
-  
-  dynamic getDefaultAnswer() => <String>[]; // Default to empty list - no pre-selections
-  
+
+  dynamic getDefaultAnswer() =>
+      <String>[]; // Default to empty list - no pre-selections
+
   @override
   void fromJsonValue(dynamic json) {
     if (json is List) {
@@ -99,51 +102,56 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
       _injuryPainAreas = null;
     }
   }
-  
+
   //MARK: TYPED ACCESSORS
-  
+
   /// Get all injuries (areas to avoid) as List&lt;String&gt; from answers
   /// Returns items prefixed with 'injury_' (double-tapped items)
   List<String> getInjuries(Map<String, dynamic> answers) {
     final items = answers[questionId];
     if (items == null) return [];
-    
-    final List<String> allItems = items is List ? items.cast<String>() : [items.toString()];
-    
+
+    final List<String> allItems =
+        items is List ? items.cast<String>() : [items.toString()];
+
     // Filter for injuries (prefixed with 'injury_')
     return allItems
         .where((item) => item.startsWith('injury_'))
         .map((item) => item.replaceFirst('injury_', ''))
         .toList();
   }
-  
+
   /// Get all pain areas (areas to strengthen) as List&lt;String&gt; from answers
   /// Returns items prefixed with 'pain_' (single-tapped items)
   List<String> getPainAreas(Map<String, dynamic> answers) {
     final items = answers[questionId];
     if (items == null) return [];
-    
-    final List<String> allItems = items is List ? items.cast<String>() : [items.toString()];
-    
+
+    final List<String> allItems =
+        items is List ? items.cast<String>() : [items.toString()];
+
     // Filter for pain areas (prefixed with 'pain_')
     return allItems
         .where((item) => item.startsWith('pain_'))
         .map((item) => item.replaceFirst('pain_', ''))
         .toList();
   }
-  
+
   /// Check if user has any injuries or pain
   bool hasAnyIssues(Map<String, dynamic> answers) {
     final items = answers[questionId];
     if (items == null) return false;
-    
-    final List<String> allItems = items is List ? items.cast<String>() : [items.toString()];
+
+    final List<String> allItems =
+        items is List ? items.cast<String>() : [items.toString()];
     return allItems.isNotEmpty && !allItems.contains(AnswerConstants.none);
   }
-  
+
   /// Legacy method - returns all items for backwards compatibility
   /// New code should use getInjuries() or getPainAreas() instead
-  @Deprecated('Use getInjuries() for areas to avoid, or getPainAreas() for areas to strengthen')
+  @Deprecated(
+    'Use getInjuries() for areas to avoid, or getPainAreas() for areas to strengthen',
+  )
   List<String> getAllIssues(Map<String, dynamic> answers) {
     final items = answers[questionId];
     if (items == null) return [AnswerConstants.none];
@@ -152,23 +160,37 @@ class Q1InjuriesQuestion extends OnboardingQuestion {
   }
 
   //MARK: ANSWER STORAGE
-  
+
   List<String>? _injuryPainAreas;
-  
+
   @override
-  String? get answer => 
-    (_injuryPainAreas == null || _injuryPainAreas!.isEmpty) ? null : _injuryPainAreas!.join(',');
-  
+  String? get answer =>
+      (_injuryPainAreas == null || _injuryPainAreas!.isEmpty)
+          ? null
+          : _injuryPainAreas!.join(',');
+
   /// Set the injury/pain areas with a typed `List<String>`
   void setInjuryPainAreas(List<String>? value) => _injuryPainAreas = value;
-  
+
   /// Get the injury/pain areas as a typed `List<String>`
   List<String> get injuryPainAreas => _injuryPainAreas ?? [];
 
+  /// Get all injuries (areas to avoid)
+  List<String> get injuries =>
+      injuryPainAreas
+          .where((item) => item.startsWith('injury_'))
+          .map((item) => item.replaceFirst('injury_', ''))
+          .toList();
+
+  /// Get pain areas (areas to strengthen)
+  List<String> get painAreas =>
+      injuryPainAreas
+          .where((item) => item.startsWith('pain_'))
+          .map((item) => item.replaceFirst('pain_', ''))
+          .toList();
+
   @override
-  Widget buildAnswerWidget(
-    Function() onAnswerChanged,
-  ) {
+  Widget buildAnswerWidget(Function() onAnswerChanged) {
     return BodyMapWidget(
       questionId: id,
       title: questionText,

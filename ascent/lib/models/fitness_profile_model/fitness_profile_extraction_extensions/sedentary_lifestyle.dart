@@ -7,10 +7,9 @@ import '../../../workflow_views/onboarding_workflow/question_bank/questions/life
 /// This extractor surfaces whether the user reports a sedentary job so the
 /// recommendation layer can flag movement breaks or posture guidance.
 extension SedentaryLifestyle on FitnessProfile {
-
   /// Calculate sedentary lifestyle features from onboarding answers.
   void calculateSedentaryLifestyle() {
-    final hasSedentaryJob = SedentaryJobQuestion.instance.hasSedentaryJob(answers);
+    final hasSedentaryJob = SedentaryJobQuestion.instance.hasSedentaryJobFlag;
     featuresMap['sedentary_job'] = hasSedentaryJob ? 1.0 : 0.0;
   }
 }

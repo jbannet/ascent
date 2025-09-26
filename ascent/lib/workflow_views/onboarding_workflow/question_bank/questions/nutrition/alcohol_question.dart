@@ -5,7 +5,7 @@ import '../../../views/question_views/nutrition_views/nutrition_state_manager.da
 import '../onboarding_question.dart';
 
 /// Alcohol consumption question for nutrition assessment with privacy handling.
-/// 
+///
 /// Asks about weekly alcohol consumption in a respectful, private way.
 /// This is the final question in the nutrition onboarding flow and completes
 /// the persistent chart visualization. Includes a "Prefer not to say" option
@@ -14,26 +14,28 @@ class AlcoholQuestion extends OnboardingQuestion {
   static const String questionId = 'alcohol';
   static final AlcoholQuestion instance = AlcoholQuestion._();
   AlcoholQuestion._();
-  
+
   //MARK: UI PRESENTATION DATA
-  
+
   @override
   String get id => AlcoholQuestion.questionId;
-  
+
   @override
   String get questionText => 'How many alcoholic drinks do you have per week?';
-  
+
   @override
   String get section => 'nutrition_profile';
-  
+
   @override
   EnumQuestionType get questionType => EnumQuestionType.custom; // Custom widget with privacy
-  
+
   @override
-  String? get subtitle => 'This helps us provide better hydration and recovery recommendations.';
-  
-  String? get reason => 'Alcohol affects hydration, sleep quality, and recovery. Understanding your intake helps us personalize your fitness plan and nutrition guidance.';
-  
+  String? get subtitle =>
+      'This helps us provide better hydration and recovery recommendations.';
+
+  String? get reason =>
+      'Alcohol affects hydration, sleep quality, and recovery. Understanding your intake helps us personalize your fitness plan and nutrition guidance.';
+
   @override
   Map<String, dynamic> get config => {
     'isRequired': false, // Allow skipping for privacy
@@ -44,28 +46,33 @@ class AlcoholQuestion extends OnboardingQuestion {
     'unit': 'weekly',
     'allowPrivacy': true,
   };
-  
+
   //MARK: VALIDATION
-  
+
   /// Validation is handled by the UI
-  
+
   //MARK: ANSWER STORAGE
-  
+
   double? _alcoholCount;
   bool _isPrivate = false;
-  
+
   @override
-  String? get answer => _isPrivate ? 'prefer_not_to_say' : _alcoholCount?.toString();
-  
+  String? get answer =>
+      _isPrivate ? 'prefer_not_to_say' : _alcoholCount?.toString();
+
   /// Set the alcohol count with a typed double
   void setAlcoholCount(double? value) {
     _alcoholCount = value;
     _isPrivate = false; // Clear private flag when setting a value
   }
-  
+
   /// Get the alcohol count as a typed double
   double? get alcoholCount => _alcoholCount;
-  
+
+  bool get isPrivate => _isPrivate;
+
+  int? get alcoholCountRounded => _isPrivate ? null : _alcoholCount?.round();
+
   @override
   void fromJsonValue(dynamic json) {
     if (json == 'prefer_not_to_say') {
@@ -85,29 +92,26 @@ class AlcoholQuestion extends OnboardingQuestion {
       _isPrivate = false;
     }
   }
-  
+
   //MARK: TYPED ACCESSOR
-  
+
   /// Get alcohol count as integer from answers, returns null if private
   int? getAlcoholCount(Map<String, dynamic> answers) {
     if (_isPrivate) return null;
     return _alcoholCount?.toInt();
   }
-  
+
   /// Check if user chose privacy option
   bool isPrivateAnswer(Map<String, dynamic> answers) {
     return answers[questionId] == 'prefer_not_to_say';
   }
-  
 
   @override
-  Widget buildAnswerWidget(
-    Function() onAnswerChanged,
-  ) {
+  Widget buildAnswerWidget(Function() onAnswerChanged) {
     return Builder(
       builder: (context) {
         final theme = Theme.of(context);
-        
+
         return Column(
           children: [
             // Privacy status indicator (if private answer is selected)
@@ -119,7 +123,10 @@ class AlcoholQuestion extends OnboardingQuestion {
                   onPressed: () {
                     _isPrivate = false;
                     _alcoholCount = 0.0;
-                    NutritionStateManager.instance.updateNutritionValue('alcohol', 0);
+                    NutritionStateManager.instance.updateNutritionValue(
+                      'alcohol',
+                      0,
+                    );
                     onAnswerChanged();
                   },
                   icon: Icon(
@@ -135,26 +142,32 @@ class AlcoholQuestion extends OnboardingQuestion {
                     ),
                   ),
                   style: OutlinedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.1),
+                    backgroundColor: theme.colorScheme.primary.withValues(
+                      alpha: 0.1,
+                    ),
                     side: BorderSide(color: theme.colorScheme.primary),
                   ),
                 ),
               ),
-            
+
             // Show chart only if not private
             if (!_isPrivate)
               NutritionTableBars(
-                allValues: NutritionStateManager.instance.getAllNutritionValues(),
+                allValues:
+                    NutritionStateManager.instance.getAllNutritionValues(),
                 currentType: 'alcohol',
                 onValueChanged: (type, newValue) {
                   if (type == 'alcohol') {
                     setAlcoholCount(newValue.toDouble());
-                    NutritionStateManager.instance.updateNutritionValue('alcohol', newValue);
+                    NutritionStateManager.instance.updateNutritionValue(
+                      'alcohol',
+                      newValue,
+                    );
                     onAnswerChanged();
                   }
                 },
               ),
-            
+
             // Add "Prefer not to say" option
             if (!_isPrivate) ...[
               const SizedBox(height: 16),
@@ -162,7 +175,10 @@ class AlcoholQuestion extends OnboardingQuestion {
                 onPressed: () {
                   _isPrivate = true;
                   _alcoholCount = null;
-                  NutritionStateManager.instance.updateNutritionValue('alcohol', 0);
+                  NutritionStateManager.instance.updateNutritionValue(
+                    'alcohol',
+                    0,
+                  );
                   onAnswerChanged();
                 },
                 icon: Icon(
@@ -172,9 +188,7 @@ class AlcoholQuestion extends OnboardingQuestion {
                 ),
                 label: Text(
                   'Prefer not to say',
-                  style: TextStyle(
-                    color: theme.colorScheme.outline,
-                  ),
+                  style: TextStyle(color: theme.colorScheme.outline),
                 ),
               ),
             ],

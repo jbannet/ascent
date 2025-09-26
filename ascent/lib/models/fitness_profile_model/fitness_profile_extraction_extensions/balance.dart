@@ -1,81 +1,70 @@
 import '../fitness_profile.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q6a_chair_stand_question.dart';
-import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q6b_balance_test_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q4a_fall_history_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q4b_fall_risk_factors_question.dart';
 import '../../../constants_and_enums/constants.dart';
+import '../../../constants_and_enums/constants_features.dart';
 
 /// Extension to assess balance capacity and fall risk factors.
 ///
-/// Balance assessment is separate from functional assessment - it focuses
-/// specifically on fall risk and balance-related exercise needs.
+/// This extension extracts ONLY the 5 authorized balance features:
+/// 1. can_do_chair_stand - Boolean flag for chair stand ability
+/// 2. fall_history - Boolean flag for fall history in past 12 months
+/// 3. fall_risk_factor_count - Count of total risk factors
+/// 4. fear_of_falling - Boolean flag for fear of falling
+/// 5. needs_seated_exercises - Boolean flag derived from chair stand ability
+///
+/// All other calculations are for internal use and NOT stored in featuresMap.
+/// Source of truth: __design_fitness_profile.txt
 extension Balance on FitnessProfile {
-
-  /// Calculate balance capacity and fall risk features
+  /// Calculate balance and fall risk features
   void calculateBalance() {
     _calculateChairStandCapacity();
-    _calculateBalanceTestCapacity();
     _calculateFallHistory();
     _calculateFallRiskFactors();
   }
 
   /// Extract chair stand ability for balance assessment
   void _calculateChairStandCapacity() {
-    final canStandFromChair = Q6AChairStandQuestion.instance.canStandFromChair(answers);
+    final canStandFromChair =
+        Q6AChairStandQuestion.instance.canStandFromChairValue;
 
     if (canStandFromChair == true) {
-      featuresMap['can_do_chair_stand'] = 1.0;
+      featuresMap[BalanceConstants.canDoChairStand] = BalanceConstants.flagTrue;
     } else {
       // Treat unknown as unable for safety-first programming
-      featuresMap['can_do_chair_stand'] = 0.0;
+      featuresMap[BalanceConstants.canDoChairStand] = BalanceConstants.flagFalse;
     }
   }
 
-  /// Extract balance test results from Q6B single-leg stance
-  void _calculateBalanceTestCapacity() {
-    final balanceTime = Q6BBalanceTestQuestion.instance.balanceTime ?? 0.0;
-
-    // Balance capacity based on one-foot stand time
-    double balanceCapacity;
-    if (balanceTime >= 30) {
-      balanceCapacity = 1.0; // Excellent
-    } else if (balanceTime >= 15) {
-      balanceCapacity = 0.7; // Good
-    } else if (balanceTime >= 5) {
-      balanceCapacity = 0.4; // Fair
-    } else {
-      balanceCapacity = 0.1; // Poor
-    }
-
-    featuresMap['balance_capacity'] = balanceCapacity;
-    featuresMap['balance_test_seconds'] = balanceTime;
-
-    // High fall risk indicator (< 5 seconds)
-    featuresMap['high_balance_fall_risk'] = balanceTime < 5 ? 1.0 : 0.0;
-  }
 
   /// Extract fall history from past 12 months
   void _calculateFallHistory() {
-    final hasFallen = Q4AFallHistoryQuestion.instance.fallHistoryAnswer == AnswerConstants.yes;
+    final hasFallen =
+        Q4AFallHistoryQuestion.instance.fallHistoryAnswer ==
+        AnswerConstants.yes;
 
-    featuresMap['fall_history'] = hasFallen ? 1.0 : 0.0;
+    featuresMap[BalanceConstants.fallHistory] = hasFallen ? BalanceConstants.flagTrue : BalanceConstants.flagFalse;
   }
 
   /// Calculate fall risk factors and fear of falling
   void _calculateFallRiskFactors() {
-    final fallRiskFactors = Q4BFallRiskFactorsQuestion.instance.riskFactors
-        .where((factor) => factor != AnswerConstants.none)
-        .toList();
+    final fallRiskFactors =
+        Q4BFallRiskFactorsQuestion.instance.riskFactors
+            .where((factor) => factor != AnswerConstants.none)
+            .toList();
 
     // Count total risk factors
-    featuresMap['fall_risk_factor_count'] = fallRiskFactors.length.toDouble();
+    featuresMap[BalanceConstants.fallRiskFactorCount] = fallRiskFactors.length.toDouble();
 
     // Check for specific fear of falling
     final fearOfFalling = fallRiskFactors.contains(AnswerConstants.fearFalling);
-    featuresMap['fear_of_falling'] = fearOfFalling ? 1.0 : 0.0;
+    featuresMap[BalanceConstants.fearOfFalling] = fearOfFalling ? BalanceConstants.flagTrue : BalanceConstants.flagFalse;
 
     // Simple seated exercise flag derived from chair stand ability
-    final canStand = featuresMap['can_do_chair_stand'] ?? 0.0;
-    featuresMap['needs_seated_exercises'] = canStand == 0.0 ? 1.0 : 0.0;
+    final canStand =
+        Q6AChairStandQuestion.instance.canStandFromChairValue ??
+        (featuresMap[BalanceConstants.canDoChairStand] == BalanceConstants.flagTrue);
+    featuresMap[BalanceConstants.needsSeatedExercises] = canStand == false ? BalanceConstants.flagTrue : BalanceConstants.flagFalse;
   }
 }

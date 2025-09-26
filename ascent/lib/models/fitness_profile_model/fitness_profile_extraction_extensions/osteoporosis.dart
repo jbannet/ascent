@@ -23,15 +23,16 @@ import '../../../constants_and_enums/constants_features.dart';
 /// - National Osteoporosis Foundation guidelines
 /// - WHO fracture risk assessment recommendations
 extension Osteoporosis on FitnessProfile {
-
   /// Calculate osteoporosis risk using validated OSTA scoring
   void calculateOsteoporosisRisk() {
     final age = AgeQuestion.instance.calculatedAge;
     final gender = GenderQuestion.instance.genderAnswer;
-    final weightKg = WeightQuestion.instance.getWeightKilograms(answers);
+    final weightKg = WeightQuestion.instance.weightKilograms;
 
     if (age == null || gender == null || weightKg == null) {
-      throw Exception('Missing required answers for osteoporosis calculation: age=$age, gender=$gender, weight=$weightKg');
+      throw Exception(
+        'Missing required answers for osteoporosis calculation: age=$age, gender=$gender, weight=$weightKg',
+      );
     }
 
     int riskScore = _calculateOsteoporosisScore(age, gender, weightKg);

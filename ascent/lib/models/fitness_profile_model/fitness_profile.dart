@@ -24,7 +24,7 @@ import 'fitness_profile_extraction_extensions/osteoporosis.dart';
 import 'fitness_profile_extraction_extensions/recommendations.dart';
 
 /// Evaluates onboarding answers to create a fitness profile with ML features.
-/// 
+///
 /// This class takes raw answers from the onboarding flow, stores them,
 /// and uses the FitnessFeatureCalculator to transform them into ML features.
 /// The result is a feature vector that can be used with the ML system.
@@ -39,13 +39,12 @@ class FitnessProfile {
   int get fullWorkoutsPerWeek =>
       _features[FeatureConstants.fullSessionsPerWeek]?.toInt() ?? 0;
 
-  Map<String, dynamic> get answers => _answers;
   Map<String, double> get featuresMap => _features;
-  get features => Map<String, double>.unmodifiable(_features);     
+  get features => Map<String, double>.unmodifiable(_features);
 
-  
   //MARK: Factories
-  FitnessProfile(List<String> featureOrder, Map<String, dynamic> answers) : _answers = answers {
+  FitnessProfile(List<String> featureOrder, Map<String, dynamic> answers)
+    : _answers = answers {
     //build features in correct order
     for (final feature in featureOrder) {
       _features[feature] = 0.0;
@@ -59,7 +58,7 @@ class FitnessProfile {
   /// Calculates all features from the provided answers
   factory FitnessProfile.createFitnessProfileFromSurvey(
     List<String> featureOrder,
-    Map<String, dynamic> answers
+    Map<String, dynamic> answers,
   ) {
     final profile = FitnessProfile._internal(featureOrder, answers);
     profile.calculateAllFeatures();
@@ -70,7 +69,7 @@ class FitnessProfile {
   /// Loads features from storage instead of calculating them
   factory FitnessProfile.createFitnessProfileFromStorage(
     List<String> featureOrder,
-    Map<String, dynamic> answers
+    Map<String, dynamic> answers,
   ) {
     final profile = FitnessProfile._internal(featureOrder, answers);
     // Use FitnessProfile.loadFromStorage(featureOrder) to retrieve persisted data
@@ -78,7 +77,10 @@ class FitnessProfile {
   }
 
   /// Internal constructor for factory methods
-  FitnessProfile._internal(List<String> featureOrder, Map<String, dynamic> answers) : _answers = answers {
+  FitnessProfile._internal(
+    List<String> featureOrder,
+    Map<String, dynamic> answers,
+  ) : _answers = answers {
     //build features in correct order
     for (final feature in featureOrder) {
       _features[feature] = 0.0;
@@ -86,12 +88,12 @@ class FitnessProfile {
   }
 
   //Load features from local storage (Hive) into the features Map<String, double>
-  Map<String, dynamic> toJson() => {
-    'answers': _answers,
-    'features': _features,
-  };
+  Map<String, dynamic> toJson() => {'answers': _answers, 'features': _features};
 
-  factory FitnessProfile.fromJson(List<String> featureOrder, Map<String, dynamic> json) {
+  factory FitnessProfile.fromJson(
+    List<String> featureOrder,
+    Map<String, dynamic> json,
+  ) {
     final answers = Map<String, dynamic>.from(json['answers'] as Map? ?? {});
     final profile = FitnessProfile._internal(featureOrder, answers);
 
@@ -112,8 +114,11 @@ class FitnessProfile {
     await LocalStorageService.saveFitnessProfile(toJson());
   }
 
-  static Future<FitnessProfile?> loadFromStorage(List<String> featureOrder) async {
-    final Map<String, dynamic>? json = await LocalStorageService.loadFitnessProfile();
+  static Future<FitnessProfile?> loadFromStorage(
+    List<String> featureOrder,
+  ) async {
+    final Map<String, dynamic>? json =
+        await LocalStorageService.loadFitnessProfile();
     if (json == null) {
       return null;
     }
@@ -125,11 +130,16 @@ class FitnessProfile {
   /// Get category allocations as percentages for display
   Map<Category, double> get categoryAllocationsAsPercentages {
     return {
-      Category.cardio: (featuresMap[FeatureConstants.categoryCardio] ?? 0.0) * 100,
-      Category.strength: (featuresMap[FeatureConstants.categoryStrength] ?? 0.0) * 100,
-      Category.balance: (featuresMap[FeatureConstants.categoryBalance] ?? 0.0) * 100,
-      Category.flexibility: (featuresMap[FeatureConstants.categoryStretching] ?? 0.0) * 100,
-      Category.functional: (featuresMap[FeatureConstants.categoryFunctional] ?? 0.0) * 100,
+      Category.cardio:
+          (featuresMap[FeatureConstants.categoryCardio] ?? 0.0) * 100,
+      Category.strength:
+          (featuresMap[FeatureConstants.categoryStrength] ?? 0.0) * 100,
+      Category.balance:
+          (featuresMap[FeatureConstants.categoryBalance] ?? 0.0) * 100,
+      Category.flexibility:
+          (featuresMap[FeatureConstants.categoryStretching] ?? 0.0) * 100,
+      Category.functional:
+          (featuresMap[FeatureConstants.categoryFunctional] ?? 0.0) * 100,
     };
   }
 
@@ -156,7 +166,6 @@ class FitnessProfile {
 
     return weights.keys.first;
   }
-
 
   //MARK: FUNCTIONS
   /// Calculate all features using extension methods
