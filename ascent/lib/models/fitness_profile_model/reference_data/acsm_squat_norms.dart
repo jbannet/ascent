@@ -12,8 +12,8 @@ import 'age_group_utility.dart';
 class ACSMSquatNorms {
   /// Get the percentile rank for a squat count based on age and gender.
   ///
-  /// Returns a value between 0.0 and 1.0 representing the percentile.
-  /// Example: 0.5 = 50th percentile, 0.9 = 90th percentile
+  /// Returns a value between 0 and 100 representing the percentile.
+  /// Example: 50 = 50th percentile, 90 = 90th percentile
   static double getPercentile(int squatCount, int age, String gender) {
     final ageGroup = _getAgeGroup(age);
     final genderLower = gender.toLowerCase();
@@ -33,9 +33,8 @@ class ACSMSquatNorms {
 
     if (value <= lowest.value) {
       if (lowest.value <= 0) return 0.0;
-      final minPercentile = lowest.key / 100.0;
       final ratio = (value / lowest.value).clamp(0.0, 1.0);
-      return (ratio * minPercentile * 100).clamp(0.0, lowest.key.toDouble());
+      return (ratio * lowest.key).clamp(0.0, lowest.key.toDouble());
     }
 
     for (var i = 0; i < entries.length - 1; i++) {
@@ -44,12 +43,12 @@ class ACSMSquatNorms {
       if (value <= upper.value) {
         final span = upper.value - lower.value;
         if (span <= 0) {
-          return upper.key / 100.0;
+          return upper.key.toDouble();
         }
         final progress = (value - lower.value) / span;
-        final percentileSpan = (upper.key - lower.key) / 100.0;
-        final percentile = (lower.key / 100.0) + progress * percentileSpan;
-        return (percentile * 100).clamp(
+        final percentileSpan = (upper.key - lower.key).toDouble();
+        final percentile = lower.key + progress * percentileSpan;
+        return percentile.clamp(
           lower.key.toDouble(),
           upper.key.toDouble(),
         );
@@ -59,12 +58,12 @@ class ACSMSquatNorms {
     final prev = entries[entries.length - 2];
     final span = highest.value - prev.value;
     if (span <= 0) {
-      return (highest.key / 100.0).clamp(0.0, 1.0);
+      return highest.key.toDouble().clamp(0.0, 100.0);
     }
-    final percentileSpan = (highest.key - prev.key) / 100.0;
+    final percentileSpan = (highest.key - prev.key).toDouble();
     final progress = (value - highest.value) / span;
-    final estimated = (highest.key / 100.0) + progress * percentileSpan;
-    return (estimated * 100).clamp(highest.key.toDouble(), 100.0);
+    final estimated = highest.key + progress * percentileSpan;
+    return estimated.clamp(highest.key.toDouble(), 100.0);
   }
 
   /// Get the equivalent fitness age based on squat performance

@@ -39,7 +39,7 @@ extension Osteoporosis on FitnessProfile {
 
     // Store as binary feature: 1.0 = at risk (score ≥ 7), 0.0 = no risk
     // This threshold aligns with clinical guidelines for bone density screening
-    featuresMap[FeatureConstants.osteoporosisRisk] = riskScore >= 7 ? 1.0 : 0.0;
+    featuresMap[FeatureConstants.osteoporosisRisk] = riskScore >= OsteoporosisConstants.riskThreshold ? OsteoporosisConstants.highRisk : OsteoporosisConstants.lowRisk;
   }
 
   /// Calculate OSTA risk score based on age, gender, and weight
@@ -47,20 +47,20 @@ extension Osteoporosis on FitnessProfile {
     int riskScore = 0;
 
     // Age scoring (primary risk factor)
-    if (age >= 75) {
-      riskScore += 15;
-    } else if (age >= 65) {
-      riskScore += 9;
-    } else if (age >= 55) {
-      riskScore += 5;
+    if (age >= OsteoporosisConstants.age75Threshold) {
+      riskScore += OsteoporosisConstants.age75PlusPoints;
+    } else if (age >= OsteoporosisConstants.age65Threshold) {
+      riskScore += OsteoporosisConstants.age65To74Points;
+    } else if (age >= OsteoporosisConstants.age55Threshold) {
+      riskScore += OsteoporosisConstants.age55To64Points;
     }
     // Under 55: 0 points
 
     // Weight scoring (low weight increases fracture risk)
-    if (weightKg < 60) {
-      riskScore += 9;
-    } else if (weightKg <= 69) {
-      riskScore += 3;
+    if (weightKg < OsteoporosisConstants.lowWeightThreshold) {
+      riskScore += OsteoporosisConstants.lowWeightPoints;
+    } else if (weightKg <= OsteoporosisConstants.moderateWeightThreshold) {
+      riskScore += OsteoporosisConstants.moderateWeightPoints;
     }
     // ≥70kg: 0 points
 
@@ -71,7 +71,7 @@ extension Osteoporosis on FitnessProfile {
       // This adds 2 points for most postmenopausal women
       final onHRT = false; // Default assumption
       if (!onHRT) {
-        riskScore += 2;
+        riskScore += OsteoporosisConstants.noHRTPoints;
       }
     }
 

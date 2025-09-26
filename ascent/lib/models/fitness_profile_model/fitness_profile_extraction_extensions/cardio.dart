@@ -203,7 +203,7 @@ extension Cardio on FitnessProfile {
     featuresMap[CardioConstants.metZone5] = mets * CardioConstants.metZone5Multiplier; // Neuromuscular
 
     // Recovery needs based on age (converted to hours for consistency with strength recovery)
-    featuresMap['cardio_recovery_hours'] =
+    featuresMap[CardioConstants.cardioRecoveryHours] =
         age < AgeThresholds.middleAged ? 24.0 : (age < AgeThresholds.older ? 48.0 : 72.0);
   }
 }

@@ -1,5 +1,6 @@
 import '../fitness_profile.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/lifestyle/sleep_hours_question.dart';
+import '../../../constants_and_enums/constants_features.dart';
 
 /// Extension to capture sleep habits and recovery-related modifiers.
 ///
@@ -11,7 +12,7 @@ extension SleepMetrics on FitnessProfile {
   void calculateSleep() {
     final sleepHours = SleepHoursQuestion.instance.sleepHours;
     if (sleepHours != null) {
-      featuresMap['sleep_hours'] = sleepHours;
+      featuresMap[SleepConstants.sleepHours] = sleepHours;
     }
   }
 }

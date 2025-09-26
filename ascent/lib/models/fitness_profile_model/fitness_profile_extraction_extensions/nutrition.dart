@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import '../fitness_profile.dart';
+import '../../../constants_and_enums/constants_features.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/nutrition/sugary_treats_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/nutrition/sodas_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/nutrition/grains_question.dart';
@@ -21,18 +22,18 @@ extension NutritionMetrics on FitnessProfile {
     final alcoholPerWeek =
         alcoholQuestion.isPrivate ? 0.0 : (alcoholQuestion.alcoholCount ?? 0.0);
 
-    featuresMap['sugary_treats_per_day'] = treatsPerDay;
-    featuresMap['sodas_per_day'] = sodasPerDay;
-    featuresMap['grains_per_day'] = grainsPerDay;
-    featuresMap['alcohol_per_week'] = alcoholPerWeek;
+    featuresMap[NutritionConstants.sugaryTreatsPerDay] = treatsPerDay;
+    featuresMap[NutritionConstants.sodasPerDay] = sodasPerDay;
+    featuresMap[NutritionConstants.grainsPerDay] = grainsPerDay;
+    featuresMap[NutritionConstants.alcoholPerWeek] = alcoholPerWeek;
 
     // Diet quality score starts at 100 and deducts based on intake patterns.
-    double dietScore = 100.0;
-    dietScore -= alcoholPerWeek * 4.0;
-    dietScore -= treatsPerDay * 2.0;
-    dietScore -= sodasPerDay * 2.0;
-    dietScore -= grainsPerDay * 1.0;
+    double dietScore = NutritionConstants.baseDietScore;
+    dietScore -= alcoholPerWeek * NutritionConstants.alcoholScoreDeduction;
+    dietScore -= treatsPerDay * NutritionConstants.treatsScoreDeduction;
+    dietScore -= sodasPerDay * NutritionConstants.sodasScoreDeduction;
+    dietScore -= grainsPerDay * NutritionConstants.grainsScoreDeduction;
 
-    featuresMap['diet_quality_score'] = max(0.0, dietScore);
+    featuresMap[NutritionConstants.dietQualityScore] = max(NutritionConstants.minimumDietScore, dietScore);
   }
 }

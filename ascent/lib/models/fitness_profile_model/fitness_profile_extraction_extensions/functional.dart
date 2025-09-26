@@ -2,6 +2,7 @@ import '../fitness_profile.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/demographics/age_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q6a_chair_stand_question.dart';
 import '../../../workflow_views/onboarding_workflow/question_bank/questions/fitness_assessment/q4_run_vo2_question.dart';
+import '../../../constants_and_enums/constants_features.dart';
 
 /// Extension to assess functional movement capacity and daily activity capabilities.
 ///
@@ -30,26 +31,26 @@ extension Functional on FitnessProfile {
     double functionalScore = 0.0;
 
     // Age component: 70+ automatically gets functional focus
-    if (age >= 70) {
-      functionalScore += 1.0;
+    if (age >= FunctionalConstants.elderlyAgeThreshold) {
+      functionalScore += FunctionalConstants.elderlyFunctionalScore;
     }
 
     // Chair stand component: Can't stand without arms = needs functional work
     final canStandFromChair =
         Q6AChairStandQuestion.instance.canStandFromChairValue;
     if (canStandFromChair == false) {
-      functionalScore += 0.3;
+      functionalScore += FunctionalConstants.chairStandDeficitScore;
     }
 
     // Walking pace component: < 2 mph indicates functional limitation
     final runData = Q4TwelveMinuteRunQuestion.instance.runPerformanceData;
     if (runData != null && runData.timeMinutes > 0) {
-      final paceMph = (runData.distanceMiles / runData.timeMinutes) * 60;
-      if (paceMph < 2.0) {
-        functionalScore += 0.3;
+      final paceMph = (runData.distanceMiles / runData.timeMinutes) * FunctionalConstants.minutesPerHour;
+      if (paceMph < FunctionalConstants.slowWalkingPaceThreshold) {
+        functionalScore += FunctionalConstants.slowWalkingPaceScore;
       }
     }
 
-    featuresMap['prioritize_functional'] = functionalScore;
+    featuresMap[FunctionalConstants.prioritizeFunctional] = functionalScore;
   }
 }

@@ -183,6 +183,7 @@ class CardioConstants {
   static const String metZone3 = 'met_zone3';
   static const String metZone4 = 'met_zone4';
   static const String metZone5 = 'met_zone5';
+  static const String cardioRecoveryHours = 'cardio_recovery_hours';
 
   // Heart Rate Zone Multipliers
   static const double hrZone1Multiplier = 0.55; // Recovery (50-60%)
@@ -396,4 +397,110 @@ class WeightManagementConstants {
 class FlexibilityConstants {
   // Feature Key - Only the 1 authorized feature
   static const String daysStretchingPerWeek = 'days_stretching_per_week';
+}
+
+/// Functional-related feature constants
+/// AUTHORIZED FEATURES (per __design_fitness_profile.txt):
+/// - prioritize_functional
+class FunctionalConstants {
+  // Feature Key - Only the 1 authorized feature
+  static const String prioritizeFunctional = 'prioritize_functional';
+
+  // Calculation Constants
+  static const int elderlyAgeThreshold = 70;
+  static const double elderlyFunctionalScore = 1.0;
+  static const double chairStandDeficitScore = 0.3;
+  static const double slowWalkingPaceScore = 0.3;
+  static const double slowWalkingPaceThreshold = 2.0; // mph
+  static const int minutesPerHour = 60;
+}
+
+/// Osteoporosis-related feature constants
+/// AUTHORIZED FEATURES (per __design_fitness_profile.txt):
+/// - osteoporosis_risk
+class OsteoporosisConstants {
+  // OSTA Score Thresholds
+  static const int riskThreshold = 7;
+
+  // Age Score Points (OSTA scoring)
+  static const int age75PlusPoints = 15;
+  static const int age65To74Points = 9;
+  static const int age55To64Points = 5;
+  static const int age75Threshold = 75;
+  static const int age65Threshold = 65;
+  static const int age55Threshold = 55;
+
+  // Weight Score Points (OSTA scoring)
+  static const int lowWeightPoints = 9; // <60kg
+  static const int moderateWeightPoints = 3; // 60-69kg
+  static const double lowWeightThreshold = 60.0; // kg
+  static const double moderateWeightThreshold = 69.0; // kg
+
+  // Estrogen/HRT Points
+  static const int noHRTPoints = 2;
+
+  // Binary Values
+  static const double highRisk = 1.0;
+  static const double lowRisk = 0.0;
+}
+
+/// Sleep-related constants
+/// Features:
+/// - sleep_hours
+class SleepConstants {
+  // Feature Keys
+  static const String sleepHours = 'sleep_hours';
+}
+
+/// Nutrition-related constants
+/// Features:
+/// - sugary_treats_per_day
+/// - sodas_per_day
+/// - grains_per_day
+/// - alcohol_per_week
+/// - diet_quality_score
+class NutritionConstants {
+  // Feature Keys
+  static const String sugaryTreatsPerDay = 'sugary_treats_per_day';
+  static const String sodasPerDay = 'sodas_per_day';
+  static const String grainsPerDay = 'grains_per_day';
+  static const String alcoholPerWeek = 'alcohol_per_week';
+  static const String dietQualityScore = 'diet_quality_score';
+
+  // Diet Quality Scoring
+  static const double baseDietScore = 100.0;
+  static const double alcoholScoreDeduction = 4.0;
+  static const double treatsScoreDeduction = 2.0;
+  static const double sodasScoreDeduction = 2.0;
+  static const double grainsScoreDeduction = 1.0;
+  static const double minimumDietScore = 0.0;
+}
+
+/// Sedentary lifestyle constants
+/// Features:
+/// - sedentary_job
+class SedentaryLifestyleConstants {
+  // Feature Keys
+  static const String sedentaryJob = 'sedentary_job';
+
+  // Binary Values
+  static const double hasSedentaryJob = 1.0;
+  static const double noSedentaryJob = 0.0;
+}
+
+/// Recommendations system constants
+class RecommendationsConstants {
+  // Priority thresholds
+  static const double functionalPriorityThreshold = 0.3;
+  static const double lowCardioPercentileThreshold = 0.2;
+  static const double lowStrengthPercentileThreshold = 0.25;
+  static const double averageStrengthPercentileThreshold = 0.5;
+  static const double highCardioPercentileThreshold = 0.75;
+  static const double dietQualityThreshold = 70.0;
+  static const int exerciseDaysThreshold = 3;
+  static const int ageThreshold = 50;
+  static const int percentageMultiplier = 100;
+
+  // Binary values
+  static const double riskPresent = 1.0;
 }
