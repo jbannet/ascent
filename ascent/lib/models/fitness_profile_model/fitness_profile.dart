@@ -11,7 +11,6 @@ import 'fitness_profile_extraction_extensions/strength.dart';
 import 'fitness_profile_extraction_extensions/balance.dart';
 import 'fitness_profile_extraction_extensions/functional.dart';
 import 'fitness_profile_extraction_extensions/injuries.dart';
-import 'fitness_profile_extraction_extensions/low_impact.dart';
 import 'fitness_profile_extraction_extensions/flexibility.dart';
 import 'fitness_profile_extraction_extensions/cardio.dart';
 import 'fitness_profile_extraction_extensions/sleep.dart';
@@ -21,7 +20,6 @@ import 'fitness_profile_extraction_extensions/session_commitment.dart';
 import 'fitness_profile_extraction_extensions/sedentary_lifestyle.dart';
 import 'fitness_profile_extraction_extensions/relative_objective_importance.dart';
 import 'fitness_profile_extraction_extensions/osteoporosis.dart';
-import 'fitness_profile_extraction_extensions/recommendations.dart';
 
 /// Evaluates onboarding answers to create a fitness profile with ML features.
 ///
@@ -178,7 +176,6 @@ class FitnessProfile {
     calculateBalance();
     calculateFunctional();
     calculateInjuries();
-    calculateLowImpact();
     calculateStretching();
     calculateCardio();
     calculateSleep();

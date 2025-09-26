@@ -82,29 +82,18 @@ extension Strength on FitnessProfile {
           // Can do chair stand but not squats - basic functional strength
           lowerBodyPercentile = StrengthConstants.veryLowButFunctionalPercentile;
           featuresMap[StrengthConstants.lowerBodyStrengthPercentile] = lowerBodyPercentile;
-          featuresMap[StrengthConstants.functionalStrengthLevel] = StrengthConstants.basicFunctionalLevel;
-          featuresMap[StrengthConstants.needsBasicStrength] = StrengthConstants.flagTrue;
-          featuresMap[StrengthConstants.needsFunctionalTraining] = StrengthConstants.flagTrue;
-          featuresMap[StrengthConstants.needsSeatedExercises] = StrengthConstants.flagFalse;
-          featuresMap[StrengthConstants.canDoChairStand] = StrengthConstants.flagTrue;
+          // Chair stand and functional assessments handled by balance.dart and functional.dart
         } else if (canStandFromChair == false) {
           // Cannot do chair stand - no functional strength
           lowerBodyPercentile = StrengthConstants.flagFalse;
           featuresMap[StrengthConstants.lowerBodyStrengthPercentile] = lowerBodyPercentile;
-          featuresMap[StrengthConstants.functionalStrengthLevel] = StrengthConstants.noFunctionalLevel;
-          featuresMap[StrengthConstants.needsBasicStrength] = StrengthConstants.flagTrue;
-          featuresMap[StrengthConstants.needsFunctionalTraining] = StrengthConstants.flagTrue;
-          featuresMap[StrengthConstants.needsSeatedExercises] = StrengthConstants.flagTrue;
-          featuresMap[StrengthConstants.canDoChairStand] = StrengthConstants.flagFalse;
-
-          // Add fall risk modifier
-          featuresMap[StrengthConstants.fallRiskModifier] = StrengthConstants.fallRiskModifierValue;
+          // Chair stand and functional assessments handled by balance.dart and functional.dart
         } else {
           // Chair stand question not answered (shouldn't happen with condition)
           // Use conservative estimates
           lowerBodyPercentile = StrengthConstants.conservativeEstimatePercentile;
           featuresMap[StrengthConstants.lowerBodyStrengthPercentile] = lowerBodyPercentile;
-          featuresMap[StrengthConstants.needsFunctionalTraining] = StrengthConstants.flagTrue;
+          // Functional training needs handled by functional.dart
         }
       } else {
         // Can do squats - use normal percentile calculation
@@ -115,25 +104,7 @@ extension Strength on FitnessProfile {
         );
         featuresMap[StrengthConstants.lowerBodyStrengthPercentile] = lowerBodyPercentile;
 
-        // Check if needs functional training
-        featuresMap[StrengthConstants.needsFunctionalTraining] =
-            ACSMSquatNorms.needsFunctionalTraining(squatCount, age) ? StrengthConstants.flagTrue : StrengthConstants.flagFalse;
-
-        // They can do squats, so they don't need seated exercises
-        featuresMap[StrengthConstants.needsSeatedExercises] = StrengthConstants.flagFalse;
-        featuresMap[StrengthConstants.canDoChairStand] =
-            StrengthConstants.flagTrue; // If can squat, can definitely do chair stand
-
-        // Set functional strength level based on squat count
-        if (squatCount >= StrengthConstants.fullFunctionalSquats) {
-          featuresMap[StrengthConstants.functionalStrengthLevel] = StrengthConstants.fullFunctionalLevel;
-        } else if (squatCount >= StrengthConstants.goodFunctionalSquats) {
-          featuresMap[StrengthConstants.functionalStrengthLevel] = StrengthConstants.goodFunctionalLevel;
-        } else if (squatCount >= StrengthConstants.moderateFunctionalSquats) {
-          featuresMap[StrengthConstants.functionalStrengthLevel] = StrengthConstants.moderateFunctionalLevel;
-        } else {
-          featuresMap[StrengthConstants.functionalStrengthLevel] = StrengthConstants.basicFunctionalLevel;
-        }
+        // Functional training and balance assessments handled by functional.dart and balance.dart
       }
     }
 

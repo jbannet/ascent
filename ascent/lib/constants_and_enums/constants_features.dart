@@ -54,13 +54,7 @@ class StrengthConstants {
   static const String pushupCount = 'pushup_count';
   static const String squatCount = 'squat_count';
 
-  // Feature Keys - Functional Assessments
-  static const String functionalStrengthLevel = 'functional_strength_level';
-  static const String needsBasicStrength = 'needs_basic_strength';
-  static const String needsFunctionalTraining = 'needs_functional_training';
-  static const String needsSeatedExercises = 'needs_seated_exercises';
-  static const String canDoChairStand = 'can_do_chair_stand';
-  static const String fallRiskModifier = 'fall_risk_modifier';
+  // Functional assessments moved to functional.dart and balance.dart
 
   // Feature Keys - Training Parameters
   static const String strengthRecoveryHours = 'strength_recovery_hours';
@@ -114,12 +108,7 @@ class StrengthConstants {
   static const double normalSetsMin = 2.0;
   static const double normalSetsMax = 4.0;
 
-  // Functional Strength Values
-  static const double basicFunctionalLevel = 0.3;
-  static const double moderateFunctionalLevel = 0.5;
-  static const double goodFunctionalLevel = 0.7;
-  static const double fullFunctionalLevel = 1.0;
-  static const double noFunctionalLevel = 0.0;
+  // Functional strength values moved to functional.dart
 
   // Binary Flag Values
   static const double flagTrue = 1.0;
@@ -132,12 +121,8 @@ class StrengthConstants {
   // Weighting Factors
   static const double upperBodyWeight = 0.4;
   static const double lowerBodyWeight = 0.6;
-  static const double fallRiskModifierValue = 0.3;
 
-  // Functional Squat Thresholds
-  static const int fullFunctionalSquats = 15;
-  static const int goodFunctionalSquats = 10;
-  static const int moderateFunctionalSquats = 5;
+  // Fall risk and functional thresholds moved to balance.dart and functional.dart
 
   // Error Messages
   static const String missingAgeGenderError = 'Missing required answers for strength calculation: age=\$age, gender=\$gender';
@@ -492,10 +477,10 @@ class SedentaryLifestyleConstants {
 class RecommendationsConstants {
   // Priority thresholds
   static const double functionalPriorityThreshold = 0.3;
-  static const double lowCardioPercentileThreshold = 0.2;
-  static const double lowStrengthPercentileThreshold = 0.25;
-  static const double averageStrengthPercentileThreshold = 0.5;
-  static const double highCardioPercentileThreshold = 0.75;
+  static const double lowCardioPercentileThreshold = 20.0; // Fixed: was 0.2, now 20th percentile
+  static const double lowStrengthPercentileThreshold = 25.0; // Fixed: was 0.25, now 25th percentile
+  static const double averageStrengthPercentileThreshold = 50.0; // Fixed: was 0.5, now 50th percentile
+  static const double highCardioPercentileThreshold = 75.0; // Fixed: was 0.75, now 75th percentile
   static const double dietQualityThreshold = 70.0;
   static const int exerciseDaysThreshold = 3;
   static const int ageThreshold = 50;

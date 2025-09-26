@@ -248,8 +248,8 @@ class PersonaTestHarness {
 
     // Data rows
     for (final result in results) {
-      final cardioPercentile = ((result.calculatedValues['cardio_percentile'] as double) * 100).round();
-      final pushupPercentile = ((result.calculatedValues['pushup_percentile'] as double) * 100).round();
+      final cardioPercentile = (result.calculatedValues['cardio_percentile'] as double).round();
+      final pushupPercentile = (result.calculatedValues['pushup_percentile'] as double).round();
 
       csvLines.add([
         result.personaId,

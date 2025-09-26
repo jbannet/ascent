@@ -19,11 +19,12 @@
 - ✅ Fixed balance.dart: Removed unauthorized balance test features
 - ✅ Fixed flexibility.dart: Removed 6+ unauthorized features, kept only 1 allowed
 - ✅ Fixed low_impact.dart: Disabled entirely (not in design doc)
+- ✅ **CRITICAL FIX** Fixed strength.dart: Removed 6 unauthorized features, eliminated duplicates with balance.dart
 
 ## ALL EXTRACTOR FILES (16 total)
 
 ### ✅ COMPLETED FILES (16/16) - 100% COMPLETE! 🎉
-1. ✅ **strength.dart** - Complete with StrengthConstants
+1. ✅ **strength.dart** - Complete with StrengthConstants (12 authorized features only - removed 6 unauthorized)
 2. ✅ **cardio.dart** - Complete with CardioConstants
 3. ✅ **balance.dart** - Complete with BalanceConstants (5 authorized features only)
 4. ✅ **relative_objective_importance.dart** - Complete with ObjectiveImportanceConstants
