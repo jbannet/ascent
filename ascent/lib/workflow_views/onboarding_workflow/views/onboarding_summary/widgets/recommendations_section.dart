@@ -16,8 +16,8 @@ class RecommendationsSection extends StatelessWidget {
     fitnessProfile.calculateRecommendations();
     final recommendations = fitnessProfile.recommendationsList ?? [];
 
-    // Take first 3-5 recommendations (already in priority order)
-    final topRecs = recommendations.take(5).toList();
+    // Show all recommendations (already in priority order)
+    final topRecs = recommendations;
 
     if (topRecs.isEmpty) {
       return const SizedBox.shrink();

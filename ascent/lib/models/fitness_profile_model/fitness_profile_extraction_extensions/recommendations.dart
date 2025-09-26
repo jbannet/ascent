@@ -35,27 +35,32 @@ extension Recommendations on FitnessProfile {
     // PRIORITY 1: Critical Safety
     if (featuresMap['prioritize_functional'] != null && featuresMap['prioritize_functional']! > 0.3) {
       recommendations.add(
-        "Focus on functional movements that mimic daily activities for safety."
+        "Based on your age and mobility assessment, you'll benefit from functional training. Focus on movements that mimic daily activities like standing from chairs and carrying groceries. This helps maintain independence and supports better balance."
       );
     }
 
-    if (featuresMap['injury_accommodations'] != null && featuresMap['injury_accommodations']! > 0) {
-      recommendations.add(
-        "Modify exercises to protect injured areas. If something hurts, stop."
-      );
+    if (injuriesMap != null) {
+      for (final entry in injuriesMap!.entries) {
+        if (entry.value == BodyPartConstants.avoid) {
+          recommendations.add(
+            "You indicated an injury to your ${entry.key}. Modify all exercises to avoid this area and focus on strengthening surrounding muscles. Pain is your body's warning signal - always stop if something hurts."
+          );
+          break; // Only one injury recommendation
+        }
+      }
     }
 
     // PRIORITY 2: High Risk
     if (featuresMap['osteoporosis_risk'] == 1.0) {
       recommendations.add(
-        "Weight-bearing and resistance exercises essential for bone density."
+        "Your age and gender profile suggests focusing on bone health. Include weight-bearing exercises like walking, climbing stairs, and resistance training. These activities help support bone density and overall strength."
       );
     }
 
     // PRIORITY 3: Medium Risk
     if (featuresMap['sedentary_job'] == 1.0 && (featuresMap['current_exercise_days'] ?? 0) < 3) {
       recommendations.add(
-        "Counter prolonged sitting with movement breaks every hour."
+        "Your sedentary job means you spend long periods sitting. Take 2-minute movement breaks every hour and do desk stretches. This can help improve energy levels and counteract prolonged sitting."
       );
     }
 
@@ -63,7 +68,7 @@ extension Recommendations on FitnessProfile {
     final cardioPercentile = featuresMap['cardio_fitness_percentile'] ?? 0.0;
     if (cardioPercentile < 0.2) {
       recommendations.add(
-        "Prioritize moderate cardio 150 min/week to reduce cardiovascular risks."
+        "Your cardio fitness is below the 20th percentile for your age group. Build your cardiovascular base with 150 minutes of moderate activity weekly. This supports heart health and improves daily energy."
       );
     }
 
@@ -71,7 +76,7 @@ extension Recommendations on FitnessProfile {
     final isOnGlp1 = Glp1MedicationsQuestion.instance.isOnGlp1Medications(answers);
     if (isOnGlp1) {
       recommendations.add(
-        "GLP-1 medications can cause muscle loss. Prioritize resistance training 3x weekly."
+        "You're taking GLP-1 medications, which can affect muscle mass during weight loss. Prioritize resistance training 3x weekly with adequate protein intake. This helps preserve lean muscle mass and supports metabolic health."
       );
     }
 
@@ -79,7 +84,7 @@ extension Recommendations on FitnessProfile {
     final dietQuality = featuresMap['diet_quality_score'] ?? 100.0;
     if (dietQuality < 70) {
       recommendations.add(
-        "Improve diet quality for better recovery. Reduce alcohol, sugars, and grains."
+        "Your nutrition assessment indicates room for improvement. Focus on reducing alcohol, sugary treats, and processed grains while increasing whole foods. Better nutrition supports recovery and can enhance training results."
       );
     }
 
@@ -87,14 +92,14 @@ extension Recommendations on FitnessProfile {
     final strengthPercentile = featuresMap['strength_fitness_percentile'] ?? 0.0;
     if (strengthPercentile < 0.25) {
       recommendations.add(
-        "Build foundational strength with 2-3 sessions weekly."
+        "Your strength is below the 25th percentile for your age group. Start with bodyweight exercises and progress to resistance training 2-3x weekly. Building strength can improve daily function and help prevent injuries."
       );
     }
 
     // PRIORITY 8: Age-related muscle loss
     if (age >= 50 && strengthPercentile < 0.5) {
       recommendations.add(
-        "Combat age-related muscle loss with resistance training 2-3x weekly."
+        "At age $age, maintaining muscle mass becomes increasingly important. Focus on resistance training 2-3x weekly with progressive overload. This helps maintain strength and supports healthy aging."
       );
     }
 
@@ -102,19 +107,19 @@ extension Recommendations on FitnessProfile {
     if (cardioPercentile > 0.75) {
       final percentText = "top 25% for $age year-old ${gender}s";
       recommendations.add(
-        "Your cardio fitness is in the $percentText! Maintain with polarized training: 80% easy, 20% hard."
+        "Your cardio fitness is in the $percentText - excellent work! Maintain this elite level with polarized training: 80% easy, 20% hard. This approach helps sustain performance while preventing burnout."
       );
     } else if (cardioPercentile > 0.5) {
       final percent = (cardioPercentile * 100).round();
       recommendations.add(
-        "Your cardio fitness is better than $percent% of peers! Add intervals for next level."
+        "Your cardio fitness is better than $percent% of peers - great foundation! Add interval training 1-2x weekly to reach the next level. Focus on progressive challenges to continue improving."
       );
     }
 
     // Fallback recommendation if none apply
     if (recommendations.isEmpty) {
       recommendations.add(
-        "Stay consistent with your current routine. Small daily actions compound into major results."
+        "Based on your profile, you're in good shape! Stay consistent with your current routine and focus on variety to keep progressing. Small daily actions build lasting habits and results."
       );
     }
 
