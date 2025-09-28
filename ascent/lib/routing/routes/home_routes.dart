@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import '../../temporary_navigator_view.dart';
+import '../../workflow_views/testing/llm_rewrite_test_view.dart';
 
 /// Home routes for the application
 ///
@@ -21,6 +22,11 @@ class HomeRoutes {
       // - Direct navigation to specific workflows
       // - Development tools and utilities
       builder: (context, state) => const TemporaryNavigatorView(),
+    ),
+    GoRoute(
+      path: '/llm-test',
+      name: 'llm-test',
+      builder: (context, state) => const LlmRewriteTestView(),
     ),
   ];
 }

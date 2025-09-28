@@ -24,9 +24,7 @@ extension Recommendations on FitnessProfile {
 
     if (age == null || gender == null) {
       // Fallback recommendations for incomplete profiles
-      recommendations.add(
-        "Complete your profile for personalized recommendations.",
-      );
+      recommendations.add("Complete profile for personalized recs.");
       recommendationsList = recommendations;
       return;
     }
@@ -38,7 +36,7 @@ extension Recommendations on FitnessProfile {
     if (featuresMap[FunctionalConstants.prioritizeFunctional] != null &&
         featuresMap[FunctionalConstants.prioritizeFunctional]! > RecommendationsConstants.functionalPriorityThreshold) {
       recommendations.add(
-        "Based on your age and mobility assessment, you'll benefit from functional training. Focus on movements that mimic daily activities like standing from chairs and carrying groceries. This helps maintain independence and supports better balance.",
+        "Age/mobility: need functional training. Daily movements: chair stands, carrying. Goals: independence, balance.",
       );
     }
 
@@ -46,7 +44,7 @@ extension Recommendations on FitnessProfile {
       for (final entry in injuriesMap!.entries) {
         if (entry.value == BodyPartConstants.avoid) {
           recommendations.add(
-            "You indicated an injury to your ${entry.key}. Modify all exercises to avoid this area and focus on strengthening surrounding muscles. Pain is your body's warning signal - always stop if something hurts.",
+            "${entry.key} injury: avoid area, strengthen surrounding muscles. Stop if pain.",
           );
           break; // Only one injury recommendation
         }
@@ -56,7 +54,7 @@ extension Recommendations on FitnessProfile {
     // PRIORITY 2: High Risk
     if (featuresMap[FeatureConstants.osteoporosisRisk] == RecommendationsConstants.riskPresent) {
       recommendations.add(
-        "Your age and gender profile suggests focusing on bone health. Include weight-bearing exercises like walking, climbing stairs, and resistance training. These activities help support bone density and overall strength.",
+        "Age/gender profile: focus bone health. Weight-bearing ex: walking, stairs, resistance training for bone density.",
       );
     }
 
@@ -64,7 +62,7 @@ extension Recommendations on FitnessProfile {
     if (featuresMap[SedentaryLifestyleConstants.sedentaryJob] == RecommendationsConstants.riskPresent &&
         (featuresMap['current_exercise_days'] ?? 0) < RecommendationsConstants.exerciseDaysThreshold) {
       recommendations.add(
-        "Your sedentary job means you spend long periods sitting. Take 2-minute movement breaks every hour and do desk stretches. This can help improve energy levels and counteract prolonged sitting.",
+        "Sedentary job: 2min breaks/hour, desk stretches. Improves energy, counters sitting.",
       );
     }
 
@@ -72,7 +70,7 @@ extension Recommendations on FitnessProfile {
     final cardioPercentile = featuresMap[CardioConstants.cardioFitnessPercentile] ?? 0.0;
     if (cardioPercentile < RecommendationsConstants.lowCardioPercentileThreshold) {
       recommendations.add(
-        "Your cardio fitness is below the 20th percentile for your age group. Build your cardiovascular base with 150 minutes of moderate activity weekly. This supports heart health and improves daily energy.",
+        "Cardio <20th percentile. Need 150min/wk moderate activity for heart health, energy.",
       );
     }
 
@@ -80,7 +78,7 @@ extension Recommendations on FitnessProfile {
     final isOnGlp1 = Glp1MedicationsQuestion.instance.isOnGlp1;
     if (isOnGlp1) {
       recommendations.add(
-        "You're taking GLP-1 medications, which can affect muscle mass during weight loss. Prioritize resistance training 3x weekly with adequate protein intake. This helps preserve lean muscle mass and supports metabolic health.",
+        "GLP-1 meds: muscle loss risk. Resistance training 3x/wk + protein for muscle preservation.",
       );
     }
 
@@ -88,7 +86,7 @@ extension Recommendations on FitnessProfile {
     final dietQuality = featuresMap[NutritionConstants.dietQualityScore] ?? NutritionConstants.baseDietScore;
     if (dietQuality < RecommendationsConstants.dietQualityThreshold) {
       recommendations.add(
-        "Your nutrition assessment indicates room for improvement. Focus on reducing alcohol, sugary treats, and processed grains while increasing whole foods. Better nutrition supports recovery and can enhance training results.",
+        "Nutrition needs improvement: reduce alcohol/sugar/processed grains, increase whole foods for recovery.",
       );
     }
 
@@ -97,14 +95,14 @@ extension Recommendations on FitnessProfile {
         featuresMap[StrengthConstants.strengthFitnessPercentile] ?? 0.0;
     if (strengthPercentile < RecommendationsConstants.lowStrengthPercentileThreshold) {
       recommendations.add(
-        "Your strength is below the 25th percentile for your age group. Start with bodyweight exercises and progress to resistance training 2-3x weekly. Building strength can improve daily function and help prevent injuries.",
+        "Strength <25th percentile. Start bodyweight, progress to resistance 2-3x/wk for function, injury prevention.",
       );
     }
 
     // PRIORITY 8: Age-related muscle loss
     if (age >= RecommendationsConstants.ageThreshold && strengthPercentile < RecommendationsConstants.averageStrengthPercentileThreshold) {
       recommendations.add(
-        "At age $age, maintaining muscle mass becomes increasingly important. Focus on resistance training 2-3x weekly with progressive overload. This helps maintain strength and supports healthy aging.",
+        "Age $age: muscle loss risk. Resistance 2-3x/wk with progressive overload for strength, aging.",
       );
     }
 
@@ -112,19 +110,19 @@ extension Recommendations on FitnessProfile {
     if (cardioPercentile > RecommendationsConstants.highCardioPercentileThreshold) {
       final percentText = "top 25% for $age year-old ${gender}s";
       recommendations.add(
-        "Your cardio fitness is in the $percentText - excellent work! Maintain this elite level with polarized training: 80% easy, 20% hard. This approach helps sustain performance while preventing burnout.",
+        "Cardio in $percentText - excellent! Maintain with polarized training: 80% easy, 20% hard.",
       );
     } else if (cardioPercentile > RecommendationsConstants.averageStrengthPercentileThreshold) {
       final percent = (cardioPercentile * RecommendationsConstants.percentageMultiplier).round();
       recommendations.add(
-        "Your cardio fitness is better than $percent% of peers - great foundation! Add interval training 1-2x weekly to reach the next level. Focus on progressive challenges to continue improving.",
+        "Cardio better than $percent% of peers. Add intervals 1-2x/wk for next level.",
       );
     }
 
     // Fallback recommendation if none apply
     if (recommendations.isEmpty) {
       recommendations.add(
-        "Based on your profile, you're in good shape! Stay consistent with your current routine and focus on variety to keep progressing. Small daily actions build lasting habits and results.",
+        "Good shape! Stay consistent, add variety. Small daily actions build habits.",
       );
     }
 

@@ -86,9 +86,14 @@ class TemporaryNavigatorView extends StatelessWidget {
                       'Generate a plan from the summary before opening the plan view.',
                     ),
           ),
-          
-          
-          
+          _buildNavigationTile(
+            context,
+            title: 'LLM Rewrite Test',
+            subtitle: 'Stream rewritten recommendations in different tones',
+            icon: Icons.auto_awesome,
+            onTap: () => context.go('/llm-test'),
+          ),
+
 
           const Divider(),
           const Text(
