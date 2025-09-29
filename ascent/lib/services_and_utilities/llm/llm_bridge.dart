@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'bundled_model_loader.dart';
 import 'llm_service.dart';
 import 'prompts.dart';
 
@@ -14,7 +15,8 @@ class LlmBridge {
   }) async* {
     final persona = Prompts.byKey(style);
     final prompt = _prompt(text, persona);
-    await llmService.ensureEngine();
+    final modelDir = await ensureBundledModelAvailable();
+    await llmService.ensureEngine(overrideModelDirectory: modelDir.path);
     yield* llmService.answer(prompt, temperature: temperature, topP: topP);
   }
 

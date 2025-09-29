@@ -13,8 +13,10 @@ your_app/
 ├─ lib/
 │  ├─ main.dart
 │  ├─ services_and_utilities/llm/
+│  │  ├─ bundled_model_constants.dart # Shared IDs/paths for the packaged bundle
+│  │  ├─ bundled_model_loader.dart    # Copies bundled assets into Application Support
 │  │  ├─ model_descriptor.dart        # Resolves packaged vs. CDN model bundles (.mlc artifacts)
-│  │  ├─ model_downloader.dart        # Streams + verifies OTA bundles
+│  │  ├─ model_downloader.dart        # Copies local bundles or future OTA archives
 │  │  ├─ llm_service.dart             # Singleton around the MethodChannel bridge
 │  │  ├─ mlc_bridge.dart              # Dart helper wrapping MethodChannel/EventChannel
 │  │  ├─ prompts.dart                 # Persona definitions
@@ -31,7 +33,8 @@ your_app/
 │  └─ README.md                       # Notes on rebuild steps & prerequisites
 │
 ├─ assets/
-│  └─ mlc_models/                     # Optional packaged model bundles copied into the app
+│  └─ mlc_models/
+│     └─ Llama-3.2-1B-Instruct-q4f16_1-MLC/  # Bundle copied from mlc-llm/ios/MLCChat/dist/bundle
 │
 ├─ tools/
 │  ├─ models.json                     # CDN descriptors + SHA-256 for OTA downloads
@@ -65,8 +68,8 @@ We standardize on **MLC-LLM** because it provides:
 
 - **Native bridges**: `MLCBridge.swift` wraps `JSONFFIEngine`/`MLCEngine`, managing `initialize`, streaming `generate`, cancellation, and shutdown, while forwarding tokens over the event channel.
 - **Dart façade**: `mlc_bridge.dart` centralises the method/event channel logic and exposes a `Stream<String>` for token streaming.
-- **Model resolution**: `ModelDescriptor` now describes MLC bundles (directory-based) and `ModelDownloader` copies the directory into `ApplicationSupport`.
-- **Caching**: A successful download is cached in app support. `clearCache()` deletes the directory so QA can replay the first-run flow.
+- **Model resolution**: `DefaultGetModelService` accepts an override directory from the bundled loader so `ModelDownloader` can validate/write metadata without touching the network.
+- **Caching**: Once the bundle is copied/validated it stays in App Support; `clearCache()` deletes the directory so QA can replay the first-run flow.
 
 
 ## 📦 Package Integration (iOS SwiftPM)
@@ -87,12 +90,12 @@ We standardize on **MLC-LLM** because it provides:
 ## 🔄 Run-time Flow
 
 1. User enables **Offline rewriting** or taps **Rewrite**.
-2. `GetModelService.current()` chooses a descriptor (local bundle in debug, CDN in release).
-3. `ModelDownloader.ensureModel()` ensures the bundle directory exists inside app support, copying or downloading as needed.
-4. `LlmService.ensureEngine()` calls `bridge.initialize(modelDir)` with sampling defaults/persona config.
-5. `MLCBridge` spins up the background JSON FFI engine, loads the compiled module, and emits `engine_ready` via the event channel.
-6. `llmService.answer()` delegates to `bridge.generate`, which streams token chunks back to Dart.
-7. UI (`llm_bridge.dart`) appends tokens in real time; `clearCache()` disposes the engine and removes the cached bundle.
+2. UI/front-end code calls `ensureBundledModelAvailable()` to hydrate the assets into Application Support.
+3. The returned path is passed into `llmService.ensureEngine(overrideModelDirectory: ...)`.
+4. `DefaultGetModelService` records the manual path and emits a `ModelDescriptor` that matches the bundled bundle ID/version.
+5. `ModelDownloader.ensureModel()` validates the directory, writes `.mlc_descriptor.json`, and returns the same location.
+6. `LlmService` calls `bridge.initialize(modelDir)`; `MLCBridge` loads the compiled module and starts streaming tokens.
+7. `llmService.answer()` delegates to `bridge.generate`; UI listeners append tokens in real time. `clearCache()` disposes the engine and triggers a recopy on next use.
 
 ---
 
@@ -243,21 +246,75 @@ final class MLCBridgePlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
 
 ---
 
+## 🔄 Bundled Model Runtime Flow
+
+### 1. Ship the artifacts with the Flutter app
+
+- Copy the compiled bundle from `mlc-llm/ios/MLCChat/dist/bundle` into
+  `ascent/assets/mlc_models/Llama-3.2-1B-Instruct-q4f16_1-MLC/` (already done).
+- Register the folder in `pubspec.yaml` so Flutter exports the entire tree:
+
+  ```yaml
+  flutter:
+    assets:
+      - assets/mlc_models/Llama-3.2-1B-Instruct-q4f16_1-MLC/
+  ```
+
+### 2. Materialize the assets into Application Support
+
+- `ensureBundledModelAvailable()` (in `bundled_model_loader.dart`) reads
+  `AssetManifest.json`, streams each file to disk, and writes a
+  `.bundled_model_version` marker to detect stale assets.
+- The helper returns `<ApplicationSupport>/mlc_models/llama-3.2-1b-instruct`.
+- Calling the helper is cheap after the first launch; it short-circuits when the
+  version marker and `mlc-app-config.json` are present.
+
+### 3. Initialize the engine with the copied bundle
+
+- `LlmService.ensureEngine` now accepts `overrideModelDirectory` and forwards it
+  into `ModelDownloader.ensureModel`, bypassing network calls.
+- `DefaultGetModelService.setManualBundleDirectory` injects the same path so the
+  returned `ModelDescriptor` aligns with the cached metadata.
+- `LlmBridge.rewrite` wires it all together:
+
+  ```dart
+  final modelDir = await ensureBundledModelAvailable();
+  await llmService.ensureEngine(overrideModelDirectory: modelDir.path);
+  ```
+
+### 4. Future OTA / CDN path
+
+- When we restore downloads, clear the manual override and provide
+  `MODEL_BASE_URL`; `ModelDownloader` already writes bundle metadata so the code
+  path is the same.
+- Implement `ModelCompression.zip` + CDN hosting later without disturbing the
+  bundled-first flow.
+
+---
+
 ## 📦 Model & Asset Handling
 
-- **Local dev**: point `ModelDescriptor` at `mlc-llm/ios/MLCChat/dist/bundle` so local runs reuse the compiled artifacts.
-- **Production/CDN**: host the bundle (or archive) on your CDN. `ModelDownloader` copies the directory into app support and preserves the structure required by `mlc_llm`.
-- **Versioning**: track bundle versions in preferences so the app can prompt users when a newer model is available.
+- **Bundled-first**: the Flutter asset copy guarantees both device and simulator
+  builds have the bundle on day one. The loader writes a marker file so new
+  versions (bump `kBundledModelVersion`) automatically refresh the runtime copy.
+- **Fallback debug override**: the legacy `kDebugMode` path (`_debugBundlePath`)
+  remains for developers pointing at `/mlc-llm/.../dist/bundle` directly.
+- **Future CDN**: once hosting is available, expose `MODEL_BASE_URL` and drop the
+  manual override. The downloader already persists metadata + SHA checks, so the
+  startup sequence stays identical.
+- **Cache management**: `llmService.clearCache()` still deletes the cached folder
+  in Application Support, forcing the loader to recopy the bundled assets on the
+  next invocation.
 
 ---
 
 ## 🚀 Next Steps
 
-1. Compile and package the desired quantization (`mlc_llm package`).
-2. Wire up the Swift and Kotlin bridges around `JSONFFIEngine`.
-3. Replace the legacy `llama_cpp` integration with the new `MlcBridge` in `llm_service.dart`.
-4. Update CI to cache the compiled bundles/static libs to avoid rebuilding every run.
-5. Exercise the feature on device (iOS + Android) to validate latency, memory usage, and cancellation flows.
+1. Validate the bundled flow on iOS simulator + device (cold boot, repeated sessions, cache clearing).
+2. Port the same asset-loader flow to Android once the native bridge lands.
+3. Define the CDN hosting contract (bucket layout, checksum tracking, zips) and implement `ModelCompression.zip` when ready.
+4. Capture metrics: copy time on first run, steady-state initialization latency, and peak memory usage.
+5. Automate regression checks (UI smoke test invoking `LlmBridge.rewrite`, asset checksum verification in CI).
 
 
 

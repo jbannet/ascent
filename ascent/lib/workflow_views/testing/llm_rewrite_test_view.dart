@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:ascent/services_and_utilities/app_state/app_state.dart';
+import 'package:ascent/services_and_utilities/llm/bundled_model_loader.dart';
 import 'package:ascent/services_and_utilities/llm/llm_bridge.dart';
 import 'package:ascent/services_and_utilities/llm/llm_service.dart';
 
@@ -36,7 +37,8 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
   Future<void> _handleToneTap(String toneKey) async {
     if (_original.isEmpty) {
       setState(() {
-        _errorMessage = 'No recommendations available. Complete onboarding first.';
+        _errorMessage =
+            'No recommendations available. Complete onboarding first.';
         _status = _RewriteStatus.error;
       });
       return;
@@ -54,14 +56,18 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
 
     try {
       if (llmService.state != LlmState.ready) {
-        await llmService.ensureEngine(onProgress: (received, total) {
-          if (_activeRequestId != requestId) return;
-          if (total == null || total == 0) {
-            setState(() => _downloadProgress = null);
-          } else {
-            setState(() => _downloadProgress = received / total);
-          }
-        });
+        final modelDir = await ensureBundledModelAvailable();
+        await llmService.ensureEngine(
+          onProgress: (received, total) {
+            if (_activeRequestId != requestId) return;
+            if (total == null || total == 0) {
+              setState(() => _downloadProgress = null);
+            } else {
+              setState(() => _downloadProgress = received / total);
+            }
+          },
+          overrideModelDirectory: modelDir.path,
+        );
         if (_activeRequestId != requestId) return;
         setState(() {
           _downloadProgress = null;
@@ -126,13 +132,14 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
     final theme = Theme.of(context);
     final appState = context.watch<AppState>();
     final recs = appState.profile?.recommendationsList;
-    final sanitized = (recs == null || recs.isEmpty)
-        ? <String>[
-            'Add two brisk 20-minute walks this week.',
-            'Prioritize eight hours of sleep at least four nights.',
-            'Complete two strength sessions focusing on compound lifts.',
-          ]
-        : List<String>.from(recs);
+    final sanitized =
+        (recs == null || recs.isEmpty)
+            ? <String>[
+              'Add two brisk 20-minute walks this week.',
+              'Prioritize eight hours of sleep at least four nights.',
+              'Complete two strength sessions focusing on compound lifts.',
+            ]
+            : List<String>.from(recs);
 
     if (!listEquals(_original, sanitized)) {
       _original = List<String>.from(sanitized);
@@ -144,9 +151,7 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
     final statusWidget = _buildStatusIndicator(theme);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('LLM Recommendation Test'),
-      ),
+      appBar: AppBar(title: const Text('LLM Recommendation Test')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -251,18 +256,25 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
               child: CircularProgressIndicator(strokeWidth: 2),
             ),
             const SizedBox(width: 8),
-            Text('Thinking… streaming tokens', style: theme.textTheme.bodyMedium),
+            Text(
+              'Thinking… streaming tokens',
+              style: theme.textTheme.bodyMedium,
+            ),
           ],
         );
       case _RewriteStatus.done:
         return Text(
           'Rewrites complete.',
-          style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         );
       case _RewriteStatus.error:
         return Text(
           _errorMessage ?? 'Something went wrong.',
-          style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.error),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.error,
+          ),
         );
     }
   }
@@ -278,18 +290,20 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
     return Wrap(
       spacing: 12,
       runSpacing: 12,
-      children: tones.entries.map((entry) {
-        final isSelected = _selectedTone == entry.key;
-        return FilledButton(
-          onPressed: () => _handleToneTap(entry.key),
-          style: FilledButton.styleFrom(
-            backgroundColor: isSelected
-                ? theme.colorScheme.primary
-                : theme.colorScheme.surfaceContainer,
-          ),
-          child: Text(entry.value),
-        );
-      }).toList(),
+      children:
+          tones.entries.map((entry) {
+            final isSelected = _selectedTone == entry.key;
+            return FilledButton(
+              onPressed: () => _handleToneTap(entry.key),
+              style: FilledButton.styleFrom(
+                backgroundColor:
+                    isSelected
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.surfaceContainer,
+              ),
+              child: Text(entry.value),
+            );
+          }).toList(),
     );
   }
 }
@@ -308,9 +322,7 @@ class _RecommendationList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (original.isEmpty) {
-      return const Center(
-        child: Text('No recommendations available.'),
-      );
+      return const Center(child: Text('No recommendations available.'));
     }
 
     return ListView.builder(

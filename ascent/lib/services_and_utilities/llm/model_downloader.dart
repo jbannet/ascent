@@ -14,8 +14,33 @@ class ModelDownloader {
   Future<Directory> ensureModel(
     ModelDescriptor descriptor, {
     DownloadProgress? onProgress,
+    String? overrideDirectory,
   }) async {
-    final targetDir = await _targetDirectory(descriptor.bundleId);
+    final targetDir =
+        overrideDirectory != null
+            ? Directory(overrideDirectory)
+            : await _targetDirectory(descriptor.bundleId);
+
+    if (overrideDirectory != null) {
+      if (!await targetDir.exists()) {
+        throw FileSystemException(
+          'Override model directory is missing',
+          targetDir.path,
+        );
+      }
+
+      if (!await _isValidBundle(targetDir, descriptor)) {
+        final configFile = File('${targetDir.path}/mlc-app-config.json');
+        if (!await configFile.exists()) {
+          throw FileSystemException(
+            'Override directory is missing mlc-app-config.json',
+            targetDir.path,
+          );
+        }
+        await _writeMetadata(targetDir, descriptor);
+      }
+      return targetDir;
+    }
 
     if (await _isValidBundle(targetDir, descriptor)) {
       return targetDir;

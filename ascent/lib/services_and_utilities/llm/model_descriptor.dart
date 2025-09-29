@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
+import 'bundled_model_constants.dart';
+
 enum ModelCompression { none, zip }
 
 /// Describes the model artifact bundle used by the on-device MLC runtime.
@@ -46,9 +48,28 @@ class DefaultGetModelService implements GetModelService {
 
   final Uri? baseUrl; // e.g. http://10.0.2.2:5600 provided via MODEL_BASE_URL
   final String? debugBundlePath;
+  String? _manualBundleDirectory;
+
+  void setManualBundleDirectory(String? path) {
+    if (path == null || path.isEmpty) {
+      _manualBundleDirectory = null;
+    } else {
+      _manualBundleDirectory = path;
+    }
+  }
 
   @override
   Future<ModelDescriptor> current() async {
+    final manualDirectory = _manualBundleDirectory;
+    if (manualDirectory != null) {
+      return ModelDescriptor(
+        bundleId: kBundledModelBundleId,
+        version: kBundledModelVersion,
+        uri: Uri.directory(manualDirectory, windows: Platform.isWindows),
+        compression: ModelCompression.none,
+      );
+    }
+
     if (kDebugMode && debugBundlePath != null && debugBundlePath!.isNotEmpty) {
       return ModelDescriptor(
         bundleId: 'llama-3.2-1b-dev',

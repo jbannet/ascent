@@ -25,8 +25,14 @@ class LlmService {
   Directory? _bundleDirectory;
   Future<void>? _initializing;
 
-  Future<void> ensureEngine({void Function(int, int?)? onProgress}) async {
-    _initializing ??= _initialize(onProgress: onProgress);
+  Future<void> ensureEngine({
+    void Function(int, int?)? onProgress,
+    String? overrideModelDirectory,
+  }) async {
+    _initializing ??= _initialize(
+      onProgress: onProgress,
+      overrideModelDirectory: overrideModelDirectory,
+    );
     try {
       await _initializing;
     } finally {
@@ -34,7 +40,16 @@ class LlmService {
     }
   }
 
-  Future<void> _initialize({void Function(int, int?)? onProgress}) async {
+  Future<void> _initialize({
+    void Function(int, int?)? onProgress,
+    String? overrideModelDirectory,
+  }) async {
+    if (getModelService is DefaultGetModelService) {
+      (getModelService as DefaultGetModelService).setManualBundleDirectory(
+        overrideModelDirectory,
+      );
+    }
+
     final descriptor = await getModelService.current();
 
     if (state == LlmState.ready &&
@@ -47,6 +62,7 @@ class LlmService {
       final bundleDir = await downloader.ensureModel(
         descriptor,
         onProgress: onProgress,
+        overrideDirectory: overrideModelDirectory,
       );
 
       if (!_isSameDescriptor(descriptor, _activeDescriptor)) {
