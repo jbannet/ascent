@@ -15,11 +15,7 @@ class LlmBridge {
     final persona = Prompts.byKey(style);
     final prompt = _prompt(text, persona);
     await llmService.ensureEngine();
-    yield* llmService.answer(
-      prompt,
-      temperature: temperature,
-      topP: topP,
-    );
+    yield* llmService.answer(prompt, temperature: temperature, topP: topP);
   }
 
   static String _prompt(String text, String persona) {

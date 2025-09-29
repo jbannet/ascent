@@ -1,8 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:llama_cpp/llama_cpp.dart';
 
+import 'mlc_bridge.dart';
 import 'model_descriptor.dart';
 import 'model_downloader.dart';
 
@@ -12,61 +13,67 @@ class LlmService {
   LlmService({
     required this.getModelService,
     required this.downloader,
-  });
+    MlcBridge? bridge,
+  }) : bridge = bridge ?? MlcBridge.instance;
 
   final GetModelService getModelService;
   final ModelDownloader downloader;
+  final MlcBridge bridge;
 
   LlmState state = LlmState.disabled;
-  LlamaCpp? _llama;
   ModelDescriptor? _activeDescriptor;
+  Directory? _bundleDirectory;
+  Future<void>? _initializing;
 
-  Future<LlamaCpp> ensureEngine({void Function(int, int?)? onProgress}) async {
-    if (_llama != null) {
-      return _llama!;
+  Future<void> ensureEngine({void Function(int, int?)? onProgress}) async {
+    _initializing ??= _initialize(onProgress: onProgress);
+    try {
+      await _initializing;
+    } finally {
+      _initializing = null;
+    }
+  }
+
+  Future<void> _initialize({void Function(int, int?)? onProgress}) async {
+    final descriptor = await getModelService.current();
+
+    if (state == LlmState.ready &&
+        _isSameDescriptor(descriptor, _activeDescriptor)) {
+      return;
     }
 
     state = LlmState.initializing;
     try {
-      final descriptor = await getModelService.current();
-      _activeDescriptor = descriptor;
-      final file = await downloader.ensureModel(
+      final bundleDir = await downloader.ensureModel(
         descriptor,
         onProgress: onProgress,
       );
-      _llama = await LlamaCpp.load(
-        file.path,
-        verbose: kDebugMode || kProfileMode,
-      );
+
+      if (!_isSameDescriptor(descriptor, _activeDescriptor)) {
+        await bridge.shutdown();
+      }
+
+      await bridge.initialize(bundleDir.path);
+      _bundleDirectory = bundleDir;
+      _activeDescriptor = descriptor;
       state = LlmState.ready;
-      return _llama!;
     } catch (error) {
       state = LlmState.disabled;
       rethrow;
     }
   }
 
-  Stream<String> answer(
-    String prompt, {
-    double? temperature,
-    double? topP,
-    int? topK,
-  }) {
-    if (state != LlmState.ready || _llama == null) {
+  Stream<String> answer(String prompt, {double? temperature, double? topP}) {
+    if (state != LlmState.ready) {
       throw StateError('Engine not ready. Call ensureEngine() first.');
     }
-    return _llama!.answer(
-      prompt,
-      temperature: temperature,
-      topP: topP,
-      topK: topK,
-    );
+    return bridge.generate(prompt, temperature: temperature, topP: topP);
   }
 
   Future<void> dispose() async {
-    await _llama?.dispose();
-    _llama = null;
+    await bridge.shutdown();
     state = LlmState.disabled;
+    _bundleDirectory = null;
   }
 
   Future<void> clearCache() async {
@@ -75,16 +82,28 @@ class LlmService {
     await downloader.deleteCached(descriptor);
     _activeDescriptor = null;
   }
+
+  bool _isSameDescriptor(ModelDescriptor a, ModelDescriptor? b) {
+    if (b == null) {
+      return false;
+    }
+    return a.bundleId == b.bundleId && a.version == b.version;
+  }
 }
 
-const _rawModelBaseUrl = String.fromEnvironment('MODEL_BASE_URL', defaultValue: '');
-final Uri? _baseUri = _rawModelBaseUrl.isEmpty ? null : Uri.parse(_rawModelBaseUrl);
+const _rawModelBaseUrl = String.fromEnvironment(
+  'MODEL_BASE_URL',
+  defaultValue: '',
+);
+final Uri? _baseUri =
+    _rawModelBaseUrl.isEmpty ? null : Uri.parse(_rawModelBaseUrl);
+
+const _debugBundlePath =
+    '/Users/jonathanbannet/MyProjects/fitness_app/mlc-llm/ios/MLCChat/dist/bundle';
 
 final GetModelService getModelService = DefaultGetModelService(
   _baseUri,
-  kDebugMode
-      ? '/Users/jonathanbannet/MyProjects/fitness_app/ggruf_models/Llama-3.2-1B-Instruct-Q4_K_M.gguf'
-      : null,
+  kDebugMode ? _debugBundlePath : null,
 );
 
 final ModelDownloader modelDownloader = ModelDownloader();
