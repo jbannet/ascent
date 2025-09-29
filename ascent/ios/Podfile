@@ -36,7 +36,17 @@ target 'Runner' do
   end
 end
 
+# Single merged post_install
 post_install do |installer|
+  # 1) Force all pods to iOS 13 and allow arm64 on simulator
+  installer.pods_project.targets.each do |t|
+    t.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = '' # don't exclude arm64 sim
+    end
+  end
+
+  # 2) Apply Flutter’s extra per-target settings
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
   end
