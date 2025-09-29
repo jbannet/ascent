@@ -73,4 +73,4 @@ node_modules/
 !.codebase-index/index-config.json
 
 # mlc-llm native builds
-mlc-llm/*
+mlc-llm/
