@@ -71,3 +71,6 @@ node_modules/
 # Codebase index - include configuration but exclude generated timestamps
 .codebase-index/**/*.json
 !.codebase-index/index-config.json
+
+# mlc-llm native builds
+mlc-llm/*
