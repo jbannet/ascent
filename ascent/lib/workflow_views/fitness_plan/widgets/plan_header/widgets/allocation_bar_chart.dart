@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../../constants_and_enums/category_enum.dart';
+import '../../../../../constants_and_enums/workout_enums/category_to_style_enum.dart';
 import '../../../../../../theme/app_colors.dart';
 import '../models/allocation_bar_constants.dart';
 

@@ -1,12 +1,12 @@
-import 'package:ascent/constants_and_enums/exercise_style.dart';
+import 'package:ascent/constants_and_enums/workout_enums/exercise_category.dart';
 
 class StyleAllocation {
-  Map<ExerciseStyle, int> minutes = {
-    ExerciseStyle.strength: 0,
-    ExerciseStyle.cardio: 0,
-    ExerciseStyle.flexibility: 0,
-    ExerciseStyle.balance: 0,
-    ExerciseStyle.functional: 0,
+  Map<ExerciseCategory, int> minutes = {
+    ExerciseCategory.strength: 0,
+    ExerciseCategory.cardio: 0,
+    ExerciseCategory.flexibility: 0,
+    ExerciseCategory.balance: 0,
+    ExerciseCategory.functional: 0,
   };
 
   StyleAllocation();
@@ -21,11 +21,11 @@ class StyleAllocation {
     return styleAllocation;
   }
 
-  Map<ExerciseStyle, double> toPercentages() {
+  Map<ExerciseCategory, double> toPercentages() {
     final totalMinutes = minutes.values.fold<int>(0, (sum, mins) => sum + mins);
     if (totalMinutes == 0) return {};
 
-    final percentages = <ExerciseStyle, double>{};
+    final percentages = <ExerciseCategory, double>{};
     minutes.forEach((style, mins) {
       percentages[style] = (mins / totalMinutes) * 100;
     });
@@ -33,7 +33,7 @@ class StyleAllocation {
   }
 
   //MARK: JSON
-  Map<ExerciseStyle,int> toJson() {
+  Map<ExerciseCategory,int> toJson() {
     return minutes;
   }
 

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:ascent/constants_and_enums/constants_features.dart';
-import 'package:ascent/constants_and_enums/category_enum.dart';
+import 'package:ascent/constants_and_enums/workout_enums/category_to_style_enum.dart';
 
 import '../../services_and_utilities/local_storage/local_storage_service.dart';
 

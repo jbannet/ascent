@@ -1,6 +1,6 @@
 import '../../constants_and_enums/session_type.dart';
 import '../../constants_and_enums/constants.dart';
-import '../../constants_and_enums/workout_style_enum.dart';
+import '../../constants_and_enums/workout_enums/workout_style_enum.dart';
 
 class Workout{
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../constants_and_enums/exercise_style.dart';
+import '../../../constants_and_enums/workout_enums/exercise_category.dart';
 import '../../../theme/app_colors.dart';
 
 class StyleAllocationHeader extends StatelessWidget {
-  final Map<ExerciseStyle, double> styleAllocation;
+  final Map<ExerciseCategory, double> styleAllocation;
   final String title;
 
   const StyleAllocationHeader({
@@ -109,17 +109,17 @@ class StyleAllocationHeader extends StatelessWidget {
     );
   }
 
-  Color _getStyleColor(ExerciseStyle style) {
+  Color _getStyleColor(ExerciseCategory style) {
     switch (style) {
-      case ExerciseStyle.cardio:
+      case ExerciseCategory.cardio:
         return Colors.red.shade400;
-      case ExerciseStyle.strength:
+      case ExerciseCategory.strength:
         return AppColors.basePurple;
-      case ExerciseStyle.flexibility:
+      case ExerciseCategory.flexibility:
         return AppColors.continueGreen;
-      case ExerciseStyle.balance:
+      case ExerciseCategory.balance:
         return Colors.blue.shade400;
-      case ExerciseStyle.functional:
+      case ExerciseCategory.functional:
         return Colors.brown.shade400;
     }
   }

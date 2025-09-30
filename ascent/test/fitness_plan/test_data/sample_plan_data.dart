@@ -4,7 +4,7 @@ import 'package:ascent/models/fitness_plan/week_of_workouts.dart';
 import 'package:ascent/models/fitness_plan/four_weeks.dart';
 import 'package:ascent/models/fitness_plan/workout.dart';
 import 'package:ascent/models/fitness_profile_model/fitness_profile.dart';
-import 'package:ascent/constants_and_enums/workout_style_enum.dart';
+import 'package:ascent/constants_and_enums/workout_enums/workout_style_enum.dart';
 import 'package:ascent/constants_and_enums/session_type.dart';
 import 'package:ascent/constants_and_enums/constants_features.dart';
 
