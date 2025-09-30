@@ -1,3 +1,45 @@
+ Updated Data-Only Format for ALL Recommendations                                                                                      
+                                                                                                                                       
+ PRIORITY 1: Critical Safety                                                                                                           
+                                                                                                                                       
+ - Fall Risk: Balance: Stand <10sec. Fall risk high. Mortality risk elevated. (Priority 1)
+ - Functional: Functional priority >70. Age-related decline. Independence risk. (Priority 1)
+ - Injury: [BodyPart] injury active. Movement restricted. Compensation risk. (Priority 1)
+ - Osteoporosis: Bone density risk: high. Gender: [gender]. Age: [age]. Fracture risk elevated. (Priority 1)
+                                                                                                                                       
+ PRIORITY 2: Cardiovascular                                                                                                            
+                                                                                                                                       
+ - Poor Cardio: Cardio: <20th percentile. METs <5. Mortality risk high. (Priority 2)
+ - Good Cardio: Cardio: [X]th percentile. Above average. Health markers positive. (Priority 2)
+ - Elite Cardio: Cardio: top 25%. Age: [age]. Gender: [gender]. Performance optimized. (Priority 2)
+
+PRIORITY 3: Strength                                                                                                                  
+                                                                                                                                       
+ - Low Strength: Strength: <25th percentile. Fall risk high. Functional decline. (Priority 4)
+ - Sarcopenia Risk: Age: [X]. Strength <50th percentile. Muscle loss ongoing. (Priority 4)
+ - GLP-1 Impact: GLP-1 active. Muscle loss significant. Protein synthesis impaired. (Priority 4)
+ - Elite Strength: Push-ups: top 50%. Age: [age]. Gender: [gender]. Above peer average. (Priority 4)
+
+  PRIORITY 4: Adherence                                                                                                                 
+                                                                                                                                       
+ - New Exerciser: Current activity: 0 days. Habit formation phase.  (Priority 6)
+ - External Motivation: Motivation: external. Solo adherence low. Social support doubles success. (Priority 6)
+
+ PRIORITY 5: Recovery/Lifestyle                                                                                                        
+                                                                                                                                       
+ - Sleep Deficiency: Sleep: <6 hours/night. Injury risk high. Recovery impaired. (Priority 3)
+ - Poor Nutrition: Diet score: [X]/100. Below 60. Recovery harmed. Inflammation elevated. (Priority 3)
+
+ PRIORITY 6: Training Parameters                                                                                                       
+                                                                                                                                       
+ - Beginner: Exercise days: 0. Training history: none. Adherence risk high. (Priority 5)
+ - Time-Limited: Sessions: <3/week. Time constraint identified. Efficiency needed. (Priority 5)
+ - Advanced: Exercise days: >5. Training >1 year. Plateau risk. Variation needed. (Priority 5)
+                                                                                                                                                                                                                                                                  
+ PRIORITY 7: Elite Combined                                                                                                            
+                                                                                                                                       
+ - Top Quartile: Fitness: top 25% both cardio+strength. Age: [age]. Elite status achieved. (Priority 7)
+
 
 
 #### 1.1 Fall Risk (Critical - Priority 1a)

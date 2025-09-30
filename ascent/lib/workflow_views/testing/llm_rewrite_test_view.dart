@@ -8,6 +8,7 @@ import 'package:ascent/services_and_utilities/app_state/app_state.dart';
 import 'package:ascent/services_and_utilities/llm/bundled_model_loader.dart';
 import 'package:ascent/services_and_utilities/llm/llm_bridge.dart';
 import 'package:ascent/services_and_utilities/llm/llm_service.dart';
+import 'package:ascent/models/fitness_profile_model/fitness_profile_extraction_extensions/recommendations.dart';
 
 enum _RewriteStatus { idle, loadingModel, thinking, done, error }
 
@@ -26,7 +27,7 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
   double? _downloadProgress;
   int _activeRequestId = 0;
   List<String> _original = const [];
-  List<String> _rewritten = const [];
+  String _summary = '';
 
   @override
   void dispose() {
@@ -47,7 +48,7 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
     final requestId = ++_activeRequestId;
     setState(() {
       _selectedTone = toneKey;
-      _rewritten = List<String>.filled(_original.length, '');
+      _summary = '';
       _errorMessage = null;
       final loading = llmService.state != LlmState.ready;
       _downloadProgress = loading ? 0 : null;
@@ -75,33 +76,30 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
         });
       }
 
-      for (var index = 0; index < _original.length; index++) {
+      // Take top 3 recommendations and make separate calls
+      final top3 = _original.take(3).toList();
+      final summaries = <String>[];
+
+      for (int i = 0; i < top3.length; i++) {
+        if (_activeRequestId != requestId) return;
+
         final buffer = StringBuffer();
-        await for (final token in LlmBridge.rewrite(
-          _original[index],
+        await for (final token in LlmBridge.rewriteRecommendation(
+          top3[i],
           style: toneKey,
-          temperature: 0.7,
+          temperature: 0.1,
         )) {
-          if (_activeRequestId != requestId) {
-            return;
-          }
+          if (_activeRequestId != requestId) return;
           buffer.write(token);
-          setState(() {
-            if (_rewritten.length != _original.length) {
-              _rewritten = List<String>.filled(_original.length, '');
-            }
-            _rewritten[index] = buffer.toString();
-          });
         }
-        if (_activeRequestId != requestId) {
-          return;
-        }
-        final completed = buffer.toString().trim();
+
+        if (_activeRequestId != requestId) return;
+        final summary = buffer.toString().trim();
+        summaries.add('• $summary');
+
+        // Update UI with progress
         setState(() {
-          if (_rewritten.length != _original.length) {
-            _rewritten = List<String>.filled(_original.length, '');
-          }
-          _rewritten[index] = completed;
+          _summary = summaries.join('\n\n');
         });
       }
 
@@ -122,7 +120,7 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
       _errorMessage = null;
       _downloadProgress = null;
       _selectedTone = null;
-      _rewritten = List<String>.filled(_original.length, '');
+      _summary = '';
     });
     await llmService.clearCache();
   }
@@ -131,21 +129,15 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appState = context.watch<AppState>();
+
+    // Calculate recommendations on-demand
+    appState.profile?.calculateRecommendations();
     final recs = appState.profile?.recommendationsList;
-    final sanitized =
-        (recs == null || recs.isEmpty)
-            ? <String>[
-              'Add two brisk 20-minute walks this week.',
-              'Prioritize eight hours of sleep at least four nights.',
-              'Complete two strength sessions focusing on compound lifts.',
-            ]
-            : List<String>.from(recs);
+    final sanitized = recs != null ? List<String>.from(recs) : <String>[];
 
     if (!listEquals(_original, sanitized)) {
       _original = List<String>.from(sanitized);
-      _rewritten = List<String>.filled(_original.length, '');
-    } else if (_rewritten.length != _original.length) {
-      _rewritten = List<String>.filled(_original.length, '');
+      _summary = '';
     }
 
     final statusWidget = _buildStatusIndicator(theme);
@@ -170,7 +162,7 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
                   _status = _RewriteStatus.idle;
                   _errorMessage = null;
                   _selectedTone = null;
-                  _rewritten = List<String>.filled(_original.length, '');
+                  _summary = '';
                 });
               },
               child: const Text('Try LLM Rewrite'),
@@ -205,9 +197,9 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
               const SizedBox(height: 16),
               if (statusWidget != null) statusWidget,
               Expanded(
-                child: _RecommendationList(
+                child: _RecommendationSummary(
                   original: _original,
-                  rewritten: _rewritten,
+                  summary: _summary,
                   selectedTone: _selectedTone,
                 ),
               ),
@@ -308,15 +300,15 @@ class _LlmRewriteTestViewState extends State<LlmRewriteTestView> {
   }
 }
 
-class _RecommendationList extends StatelessWidget {
-  const _RecommendationList({
+class _RecommendationSummary extends StatelessWidget {
+  const _RecommendationSummary({
     required this.original,
-    required this.rewritten,
+    required this.summary,
     required this.selectedTone,
   });
 
   final List<String> original;
-  final List<String> rewritten;
+  final String summary;
   final String? selectedTone;
 
   @override
@@ -325,38 +317,54 @@ class _RecommendationList extends StatelessWidget {
       return const Center(child: Text('No recommendations available.'));
     }
 
-    return ListView.builder(
-      itemCount: original.length,
-      itemBuilder: (context, index) {
-        final rewrittenText = index < rewritten.length ? rewritten[index] : '';
-        return Card(
-          margin: const EdgeInsets.only(bottom: 12),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Original', style: Theme.of(context).textTheme.labelSmall),
-                Text(original[index]),
-                const SizedBox(height: 8),
-                Text(
-                  selectedTone != null
-                      ? 'Rewritten (${selectedTone!.toUpperCase()})'
-                      : 'Rewritten',
-                  style: Theme.of(context).textTheme.labelSmall,
-                ),
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 150),
-                  child: Text(
-                    rewrittenText.isEmpty ? '—' : rewrittenText,
-                    key: ValueKey(rewrittenText.hashCode ^ index),
-                  ),
-                ),
-              ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Card(
+            margin: const EdgeInsets.only(bottom: 16),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Original Recommendations', style: Theme.of(context).textTheme.titleMedium),
+                  const SizedBox(height: 8),
+                  for (final rec in original) ...[
+                    Text('• $rec', style: const TextStyle(fontSize: 14)),
+                    const SizedBox(height: 4),
+                  ],
+                ],
+              ),
             ),
           ),
-        );
-      },
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    selectedTone != null
+                        ? 'Generated Summary (${selectedTone!.toUpperCase()})'
+                        : 'Generated Summary',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 150),
+                    child: Text(
+                      summary.isEmpty ? '—' : summary,
+                      key: ValueKey(summary.hashCode),
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

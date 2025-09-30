@@ -91,7 +91,7 @@ class TemporaryNavigatorView extends StatelessWidget {
             title: 'LLM Rewrite Test',
             subtitle: 'Stream rewritten recommendations in different tones',
             icon: Icons.auto_awesome,
-            onTap: () => context.go('/llm-test'),
+            onTap: () => context.push('/llm-test'),
           ),
 
 

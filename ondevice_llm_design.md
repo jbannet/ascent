@@ -306,34 +306,63 @@ final class MLCBridgePlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
   in Application Support, forcing the loader to recopy the bundled assets on the
   next invocation.
 
+## 🤖 Android Integration Checklist
+
+**Artifacts & Build Setup**
+- [ ] Run `mlc_llm package` for the target model with Android outputs (arm64-v8a,
+      x86_64 as needed) and land the resulting `android/MLCChat/dist` artifacts.
+- [ ] Vendor the compiled `.so` libraries or AARs into
+      `android/app/src/main/jniLibs/` (or a dedicated Gradle module) and document
+      the directory layout here.
+- [ ] Pin the Android NDK/SDK versions in `android/build.gradle` and update
+      `local.properties` guidance so reproducible builds pull the correct
+      toolchains.
+
+**Flutter ↔ Android Bridge**
+- [ ] Implement `MlcBridgePlugin` in Kotlin/Java mirroring the Swift API
+      (`initialize`, `generate`, `cancel`, `shutdown`) using the
+      `mlc_bridge`/`mlc_bridge/events` channels. *(Echo fallback wired; swap in
+      real runtime once JNI libraries are available.)*
+- [ ] Wire the plugin to the MLC Android runtime (`JSONFFIEngine`) and manage
+      background execution plus cancellation callbacks safely.
+- [ ] Register the plugin from `MainActivity` (or the generated registrant) and
+      verify coexistence with other Flutter plugins.
+
+**Model Materialization**
+- [ ] Reuse `ensureBundledModelAvailable()`; confirm the copied bundle is readable
+      via `context.getApplicationSupportDirectory()` equivalents and add
+      platform-specific path helpers if needed.
+- [ ] Extend `ModelDownloader`/`LlmService` tests to cover Android sandbox paths.
+
+**Testing & QA**
+- [ ] Add an integration smoke test that calls `llmService.ensureEngine` and
+      generates a short reply on an emulator (arm64 + x86_64).
+- [ ] Manually validate first-run copy time, warm-start latency, cancellation,
+      and memory footprint on physical Android hardware.
+- [ ] Capture logcat diagnostics (GC pressure, JNI errors) and surface troubleshooting steps in this doc.
+
+## 📊 Recommendation Data Format for LLM Consumption
+
+**Recommendations are now optimized for LLM processing with pure data points:**
+
+- **Format**: `[Data Point]. [Risk/Status]. [Quantified Impact].`
+- **No guidance**: Only factual information, no action items
+- **Compact**: Minimal tokens for efficient processing
+- **Structured**: Consistent pattern across all recommendations
+
+**Examples:**
+- `Cardio: <20th percentile. Below healthy threshold. Mortality risk +25%.`
+- `GLP-1 medication active. Muscle mass loss risk 30-40%. Protein synthesis impaired.`
+- `Age: 45. Sarcopenia risk. Muscle loss 1-2%/year after 40.`
+
+This format enables LLMs to generate personalized summaries, explanations, and action plans without redundant guidance in the source data.
+
 ---
 
 ## 🚀 Next Steps
 
 1. Validate the bundled flow on iOS simulator + device (cold boot, repeated sessions, cache clearing).
-2. Port the same asset-loader flow to Android once the native bridge lands.
+2. Execute the Android integration checklist (artifacts, plugin, runtime tests) to reach feature parity.
 3. Define the CDN hosting contract (bucket layout, checksum tracking, zips) and implement `ModelCompression.zip` when ready.
 4. Capture metrics: copy time on first run, steady-state initialization latency, and peak memory usage.
 5. Automate regression checks (UI smoke test invoking `LlmBridge.rewrite`, asset checksum verification in CI).
-
-
-
-emulator:
-The link error is because the static archives in mlc-llm/ios/MLCChat/dist/lib/ were built only for iphoneos. The simulator needs iphonesimulator slices. To fix it:
-
-From the MLC repo run the simulator build:
-
-cd mlc-llm/ios
-MLC_LLM_SOURCE_DIR=.. ./prepare_libs.sh --simulator --arch arm64   # (+ --arch x86_64 if you want Intel)
-If rustup is missing the aarch64-apple-ios-sim target, install it once (rustup target add aarch64-apple-ios-sim). In my sandbox that step failed because the tool can’t download the component, so you’ll need to run it in an environment with Rust allowed to fetch toolchains.
-
-Copy the resulting simulator archives (they land under ios/MLCChat/build/.../install/lib or dist/lib) into a separate folder, e.g. dist/lib-iphonesimulator/.
-
-Create universal archives by combining device and simulator slices, e.g.:
-
-lipo -create dist/lib-iphoneos/libmlc_llm.a dist/lib-iphonesimulator/libmlc_llm.a \
-     -output dist/lib/libmlc_llm.a
-# repeat for libmodel_iphone.a, libtvm_runtime.a, libtokenizers_{cpp,c}.a, libsentencepiece.a, libtvm_ffi_static.a
-Keep the Swift package reference pointed at mlc-llm/ios/MLCChat/dist/lib, rebuild, and both simulator and device targets will link successfully.
-
-Once the simulator slices are in place we can walk through the rest of the changes (mlc bridge, service updates, etc.) and verify them on both device and emulator.
