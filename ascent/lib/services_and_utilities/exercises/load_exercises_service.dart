@@ -13,12 +13,16 @@ class LoadExercisesService {
     bool? preferCompound,
   }) async {
     if (_cache.isEmpty) {
+      print('LoadExercisesService: exercise cache empty, loading assets');
       await _load();
+      print('LoadExercisesService: cache populated with ${_cache.length} exercises');
     }
 
     var exercises = _cache.where((exercise) =>
       exercise.movementPatterns.contains(movementPattern)
     ).toList();
+    print('LoadExercisesService: ${exercises.length} exercises match pattern '
+        '${movementPattern.name} before preference filtering');
 
     // Filter by mechanic preference if specified
     if (preferCompound != null) {
@@ -27,8 +31,16 @@ class LoadExercisesService {
       // Use filtered list if not empty, otherwise fall back to all exercises
       if (filtered.isNotEmpty) {
         exercises = filtered;
+        print('LoadExercisesService: applying mechanic preference $mechanic '
+            '-> ${exercises.length} matches');
+      } else {
+        print('LoadExercisesService: mechanic preference $mechanic yielded no results; '
+            'retaining ${exercises.length} pattern matches');
       }
     }
+
+    print('LoadExercisesService: returning ${exercises.length} exercises for '
+        '${movementPattern.name} (preferCompound=$preferCompound)');
 
     return exercises;
   }
@@ -44,25 +56,21 @@ class LoadExercisesService {
   /// Load all exercises from the assets directory into cache
   static Future<void> _load() async {
     try {
-      // Load the asset manifest to find all exercise JSON files
-      final manifestContent = await rootBundle.loadString('AssetManifest.json');
-      final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+      // Load the exercises index JSON that lists all exercise directories
+      final indexContent = await rootBundle.loadString('assets/exercises/exercises_index.json');
+      final List<dynamic> exerciseNames = json.decode(indexContent);
 
-      // Find all exercise JSON files
-      final exerciseFiles = manifestMap.keys
-          .where((String key) =>
-              key.startsWith('assets/exercises/') &&
-              key.endsWith('.json'))
-          .toList();
+      print('LoadExercisesService: Found ${exerciseNames.length} exercises in index');
 
       // Load each exercise file
-      for (final filePath in exerciseFiles) {
+      for (final name in exerciseNames) {
+        final filePath = 'assets/exercises/$name/exercise.json';
         try {
           final content = await rootBundle.loadString(filePath);
           final jsonData = json.decode(content) as Map<String, dynamic>;
 
-          // Extract ID from filename (remove path and .json extension)
-          final id = filePath.split('/').last.replaceAll('.json', '');
+          // Use the name from the JSON as the ID
+          final id = jsonData['name'] as String;
 
           final exercise = Exercise.fromJson(jsonData, id);
           _cache.add(exercise);

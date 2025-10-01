@@ -2,6 +2,7 @@ import 'dart:math';
 import '../../constants_and_enums/session_type.dart';
 import '../../constants_and_enums/constants.dart';
 import '../../constants_and_enums/workout_enums/workout_style_enum.dart';
+import '../../constants_and_enums/workout_enums/pattern_with_preference.dart';
 import '../../services_and_utilities/exercises/load_exercises_service.dart';
 import 'block.dart';
 import 'warmup_block.dart';
@@ -40,8 +41,10 @@ class Workout{
     final mainBlocks = await _generateMainWorkBlocks();
     final cooldownBlock = await _generateCooldownBlock();
 
-    // Combine all blocks
-    return [warmupBlock, ...mainBlocks, cooldownBlock];
+    // Combine all blocks and update local state for serialization callers
+    final allBlocks = [warmupBlock, ...mainBlocks, cooldownBlock];
+    blocks = allBlocks;
+    return allBlocks;
   }
 
   Future<WarmupBlock> _generateWarmupBlock() async {
@@ -54,49 +57,42 @@ class Workout{
 
   Future<List<ExerciseBlock>> _generateMainWorkBlocks() async {
     final patternsWithPrefs = style.mainWorkPatterns;
+    if (patternsWithPrefs.isEmpty) return const <ExerciseBlock>[];
+
+    final availableTimeSec = (durationMinutes * 60 * WorkoutDuration.mainWorkPercent).round();
+    if (availableTimeSec <= 0) return const <ExerciseBlock>[];
+
     final blocks = <ExerciseBlock>[];
     final random = Random();
+    final sets = style.calculateSets(durationMinutes);
+    final reps = style.calculateReps(durationMinutes);
+    final rest = style.calculateRestSeconds(durationMinutes);
 
-    // Calculate available time for main work (73% of total)
-    final availableTimeSec = (durationMinutes * 60 * WorkoutDuration.mainWorkPercent).round();
-    int usedTimeSec = 0;
-
-    // Keep adding exercises until we run out of time
-    int patternIndex = 0;
-    int consecutiveEmptyPatterns = 0;
+    var usedTimeSec = 0;
+    var patternIndex = 0;
+    var consecutiveEmptyPatterns = 0;
 
     while (usedTimeSec < availableTimeSec) {
-      // Safety check: if all patterns are empty, break to prevent infinite loop
       if (consecutiveEmptyPatterns >= patternsWithPrefs.length) {
         break;
       }
 
-      // Cycle through movement patterns
       final patternWithPref = patternsWithPrefs[patternIndex % patternsWithPrefs.length];
 
-      // Get exercises filtered by mechanic preference
       final exercises = await LoadExercisesService.getExercises(
         patternWithPref.pattern,
         preferCompound: patternWithPref.preferCompound,
       );
 
       if (exercises.isEmpty) {
-        // Skip to next pattern if no exercises found
         patternIndex++;
         consecutiveEmptyPatterns++;
         continue;
       }
 
-      // Reset empty pattern counter - we found exercises
       consecutiveEmptyPatterns = 0;
 
-      // Select random exercise from filtered list
       final exercise = exercises[random.nextInt(exercises.length)];
-
-      // Create block with exercise
-      final sets = style.calculateSets(durationMinutes);
-      final reps = style.calculateReps(durationMinutes);
-      final rest = style.calculateRestSeconds(durationMinutes);
 
       final block = ExerciseBlock(
         label: patternWithPref.pattern.name,
@@ -108,21 +104,21 @@ class Workout{
       );
 
       final blockDuration = block.estimateDurationSec();
-
-      // Check if adding this block would go too far over
-      if (usedTimeSec + blockDuration > availableTimeSec * 1.10) {
-        // If we have at least one block and this pushes us too far over, stop
-        if (blocks.isNotEmpty) {
-          break;
+      if (usedTimeSec + blockDuration > availableTimeSec) {
+        if (blocks.isEmpty) {
+          blocks.add(block);
         }
-        // If this is the first block and it's too big, add it anyway and stop
-        blocks.add(block);
         break;
       }
 
       blocks.add(block);
       usedTimeSec += blockDuration;
       patternIndex++;
+    }
+
+    if (blocks.isEmpty) {
+      final patternNames = patternsWithPrefs.map((p) => p.pattern.name).join(', ');
+      throw StateError('No exercises available for patterns: $patternNames');
     }
 
     return blocks;
