@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:ascent/models/fitness_plan/workout.dart';
+import 'package:ascent/models/workout/workout.dart';
 import 'package:ascent/models/fitness_profile_model/fitness_profile.dart';
 import 'package:ascent/services_and_utilities/general_utilities/get_this_sunday.dart';
 import '../../constants_and_enums/workout_enums/category_to_style_enum.dart';
