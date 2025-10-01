@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../models/blocks/warmup_step.dart';
+import '../../../../models/workout/warmup_step.dart';
 
 class WarmupStepCard extends StatelessWidget {
   final WarmupStep step;

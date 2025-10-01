@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../models/blocks/rest_step.dart';
+import '../../../../models/workout/rest_step.dart';
 
 class RestStepCard extends StatefulWidget {
   final RestStep step;

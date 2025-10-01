@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../models/blocks/cooldown_step.dart';
+import '../../../../models/workout/cooldown_step.dart';
 
 class CooldownStepCard extends StatelessWidget {
   final CooldownStep step;

@@ -3,10 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'constants_and_enums/item_mode.dart';
-import 'models/blocks/cooldown_step.dart';
-import 'models/blocks/exercise_prescription_step.dart';
-import 'models/blocks/rest_step.dart';
-import 'models/blocks/warmup_step.dart';
+import 'models/workout/cooldown_step.dart';
+import 'models/workout/exercise_prescription_step.dart';
+import 'models/workout/rest_step.dart';
+import 'models/workout/warmup_step.dart';
 import 'models/fitness_profile_model/fitness_profile.dart';
 import 'routing/route_names.dart';
 import 'services_and_utilities/app_state/app_state.dart';
