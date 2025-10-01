@@ -74,3 +74,6 @@ node_modules/
 
 # mlc-llm native builds
 mlc-llm/
+
+# Exercise assets
+ascent/assets/exercises/
