@@ -8,6 +8,7 @@ import 'services_and_utilities/app_state/app_state.dart';
 import 'services_and_utilities/local_storage/local_storage_service.dart';
 import 'temporary_mapping_tool.dart';
 import 'workflow_views/onboarding_workflow/question_bank/registry/question_bank.dart';
+import 'workflow_views/workout/views/workout_style_picker_view.dart';
 
 /// Temporary development navigation screen to access all views during development
 class TemporaryNavigatorView extends StatelessWidget {
@@ -83,6 +84,18 @@ class TemporaryNavigatorView extends StatelessWidget {
             subtitle: 'Stream rewritten recommendations in different tones',
             icon: Icons.auto_awesome,
             onTap: () => context.push('/llm-test'),
+          ),
+
+          _buildNavigationTile(
+            context,
+            title: 'Workout Generator',
+            subtitle: 'Test workout generation and execution',
+            icon: Icons.directions_run,
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const WorkoutStylePickerView(),
+              ),
+            ),
           ),
 
           const Divider(),
