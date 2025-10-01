@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../models/workout/workout.dart';
 import '../../../models/workout/block.dart';
-import '../../../models/workout/block_step.dart';
-import '../../../models/workout/warmup_step.dart';
-import '../../../models/workout/cooldown_step.dart';
-import '../../../models/workout/exercise_prescription_step.dart';
-import '../../../models/workout/rest_step.dart';
+import '../../../models/workout/warmup_block.dart';
+import '../../../models/workout/cooldown_block.dart';
+import '../../../models/workout/exercise_block.dart';
+import '../../../models/workout/rest_block.dart';
 import '../widgets/workout_overview_card.dart';
 import '../widgets/warmup_card.dart';
 import '../widgets/cooldown_card.dart';
@@ -27,15 +26,15 @@ class WorkoutSessionView extends StatefulWidget {
 
 class _WorkoutSessionViewState extends State<WorkoutSessionView> {
   bool _hasStarted = false;
-  int _currentStepIndex = 0;
+  int _currentBlockIndex = 0;
   late PageController _pageController;
-  late List<BlockStep> _allSteps;
+  late List<Block> _allBlocks;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
-    _allSteps = _flattenSteps();
+    _allBlocks = widget.workout.blocks ?? [];
   }
 
   @override
@@ -44,47 +43,19 @@ class _WorkoutSessionViewState extends State<WorkoutSessionView> {
     super.dispose();
   }
 
-  /// Flatten all steps from all blocks into a single list
-  List<BlockStep> _flattenSteps() {
-    final steps = <BlockStep>[];
-    if (widget.workout.blocks != null) {
-      for (final block in widget.workout.blocks!) {
-        steps.addAll(block.items);
-      }
-    }
-    return steps;
-  }
-
-  /// Get the block that contains the current step
-  Block _getBlockForStep(int stepIndex) {
-    if (widget.workout.blocks == null) {
-      throw StateError('No blocks in workout');
-    }
-
-    int stepCount = 0;
-    for (final block in widget.workout.blocks!) {
-      stepCount += block.items.length;
-      if (stepIndex < stepCount) {
-        return block;
-      }
-    }
-
-    throw RangeError('Step index out of range');
-  }
-
   void _startWorkout() {
     setState(() {
       _hasStarted = true;
     });
   }
 
-  void _completeStep() {
-    if (_currentStepIndex < _allSteps.length - 1) {
+  void _completeBlock() {
+    if (_currentBlockIndex < _allBlocks.length - 1) {
       setState(() {
-        _currentStepIndex++;
+        _currentBlockIndex++;
       });
       _pageController.animateToPage(
-        _currentStepIndex,
+        _currentBlockIndex,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
@@ -93,8 +64,8 @@ class _WorkoutSessionViewState extends State<WorkoutSessionView> {
     }
   }
 
-  void _skipStep() {
-    _completeStep(); // Same as complete for now
+  void _skipBlock() {
+    _completeBlock(); // Same as complete for now
   }
 
   void _completeWorkout() {
@@ -136,53 +107,51 @@ class _WorkoutSessionViewState extends State<WorkoutSessionView> {
     return PageView.builder(
       controller: _pageController,
       physics: const NeverScrollableScrollPhysics(), // Disable manual swiping
-      itemCount: _allSteps.length,
+      itemCount: _allBlocks.length,
       itemBuilder: (context, index) {
-        final step = _allSteps[index];
-        final block = _getBlockForStep(index);
-
-        return _buildStepCard(step, block, index + 1);
+        final block = _allBlocks[index];
+        return _buildBlockCard(block, index + 1);
       },
     );
   }
 
-  Widget _buildStepCard(BlockStep step, Block block, int stepNumber) {
-    if (step is WarmupStep) {
+  Widget _buildBlockCard(Block block, int blockNumber) {
+    if (block is WarmupBlock) {
       return WarmupCard(
-        step: step,
-        stepNumber: stepNumber,
-        totalSteps: _allSteps.length,
-        onFinished: _completeStep,
-        onSkip: _skipStep,
+        block: block,
+        blockNumber: blockNumber,
+        totalBlocks: _allBlocks.length,
+        onFinished: _completeBlock,
+        onSkip: _skipBlock,
       );
-    } else if (step is CooldownStep) {
+    } else if (block is CooldownBlock) {
       return CooldownCard(
-        step: step,
-        stepNumber: stepNumber,
-        totalSteps: _allSteps.length,
-        onFinished: _completeStep,
-        onSkip: _skipStep,
+        block: block,
+        blockNumber: blockNumber,
+        totalBlocks: _allBlocks.length,
+        onFinished: _completeBlock,
+        onSkip: _skipBlock,
       );
-    } else if (step is RestStep) {
+    } else if (block is RestBlock) {
       return RestCard(
-        step: step,
-        stepNumber: stepNumber,
-        totalSteps: _allSteps.length,
-        onFinished: _completeStep,
-        onSkip: _skipStep,
+        block: block,
+        blockNumber: blockNumber,
+        totalBlocks: _allBlocks.length,
+        onFinished: _completeBlock,
+        onSkip: _skipBlock,
       );
-    } else if (step is ExercisePrescriptionStep) {
+    } else if (block is ExerciseBlock) {
       return ExerciseCard(
-        step: step,
-        stepNumber: stepNumber,
-        totalSteps: _allSteps.length,
-        onFinished: _completeStep,
-        onSkip: _skipStep,
+        block: block,
+        blockNumber: blockNumber,
+        totalBlocks: _allBlocks.length,
+        onFinished: _completeBlock,
+        onSkip: _skipBlock,
       );
     }
 
     // Fallback
-    return const Center(child: Text('Unknown step type'));
+    return const Center(child: Text('Unknown block type'));
   }
 
   Widget _buildCompletionScreen() {

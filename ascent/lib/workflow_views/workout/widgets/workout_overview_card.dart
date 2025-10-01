@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../models/workout/workout.dart';
 import '../../../models/workout/block.dart';
+import '../../../models/workout/warmup_block.dart';
+import '../../../models/workout/cooldown_block.dart';
+import '../../../models/workout/exercise_block.dart';
+import '../../../models/workout/rest_block.dart';
 
 /// Card showing workout overview before starting
 class WorkoutOverviewCard extends StatelessWidget {
@@ -71,12 +75,6 @@ class WorkoutOverviewCard extends StatelessWidget {
                     Icons.fitness_center,
                     '${blocks.length}',
                     'Blocks',
-                  ),
-                  _buildInfoItem(
-                    context,
-                    Icons.flash_on,
-                    _getTotalSteps(blocks).toString(),
-                    'Steps',
                   ),
                 ],
               ),
@@ -149,9 +147,9 @@ class WorkoutOverviewCard extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            _getBlockIcon(block.type),
+            _getBlockIcon(block),
             size: 20,
-            color: _getBlockColor(block.type),
+            color: _getBlockColor(block),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -169,37 +167,33 @@ class WorkoutOverviewCard extends StatelessWidget {
     );
   }
 
-  IconData _getBlockIcon(BlockType type) {
-    switch (type) {
-      case BlockType.warmup:
-        return Icons.self_improvement;
-      case BlockType.cooldown:
-        return Icons.ac_unit;
-      case BlockType.main:
-      case BlockType.superset:
-      case BlockType.circuit:
-        return Icons.fitness_center;
+  IconData _getBlockIcon(Block block) {
+    if (block is WarmupBlock) {
+      return Icons.self_improvement;
+    } else if (block is CooldownBlock) {
+      return Icons.ac_unit;
+    } else if (block is ExerciseBlock) {
+      return Icons.fitness_center;
+    } else if (block is RestBlock) {
+      return Icons.pause_circle;
     }
+    return Icons.help_outline;
   }
 
-  Color _getBlockColor(BlockType type) {
-    switch (type) {
-      case BlockType.warmup:
-        return Colors.orange;
-      case BlockType.cooldown:
-        return Colors.blue;
-      case BlockType.main:
-      case BlockType.superset:
-      case BlockType.circuit:
-        return Colors.red;
+  Color _getBlockColor(Block block) {
+    if (block is WarmupBlock) {
+      return Colors.orange;
+    } else if (block is CooldownBlock) {
+      return Colors.blue;
+    } else if (block is ExerciseBlock) {
+      return Colors.red;
+    } else if (block is RestBlock) {
+      return Colors.purple;
     }
+    return Colors.grey;
   }
 
   int _calculateTotalDuration(List<Block> blocks) {
     return blocks.fold(0, (sum, block) => sum + block.estimateDurationSec());
-  }
-
-  int _getTotalSteps(List<Block> blocks) {
-    return blocks.fold(0, (sum, block) => sum + block.items.length);
   }
 }

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import '../../../models/workout/warmup_step.dart';
+import '../../../models/workout/warmup_block.dart';
 import 'countdown_timer.dart';
 
-/// Card for warmup steps
+/// Card for warmup blocks
 class WarmupCard extends StatelessWidget {
-  final WarmupStep step;
-  final int stepNumber;
-  final int totalSteps;
+  final WarmupBlock block;
+  final int blockNumber;
+  final int totalBlocks;
   final VoidCallback onFinished;
   final VoidCallback onSkip;
 
   const WarmupCard({
     super.key,
-    required this.step,
-    required this.stepNumber,
-    required this.totalSteps,
+    required this.block,
+    required this.blockNumber,
+    required this.totalBlocks,
     required this.onFinished,
     required this.onSkip,
   });
@@ -46,7 +46,7 @@ class WarmupCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  'Step $stepNumber of $totalSteps',
+                  'Block $blockNumber of $totalBlocks',
                   style: TextStyle(color: Colors.grey[600]),
                 ),
               ],
@@ -57,7 +57,7 @@ class WarmupCard extends StatelessWidget {
             // Timer
             Center(
               child: CountdownTimer(
-                durationSeconds: step.durationSec,
+                durationSeconds: block.estimateDurationSec(),
                 onComplete: onFinished,
                 color: Colors.orange,
               ),
@@ -65,9 +65,9 @@ class WarmupCard extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // Pattern name
+            // Pattern list
             Text(
-              _formatPatternName(step.pattern.name),
+              'Warmup Movements',
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -87,16 +87,31 @@ class WarmupCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Instructions:',
+                    'Perform each movement for ${block.durationSecPerPattern} seconds:',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    _getInstructions(),
-                    style: const TextStyle(fontSize: 14, height: 1.5),
+                  const SizedBox(height: 12),
+                  ...block.patterns.map((pattern) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.check_circle_outline,
+                                size: 20, color: Colors.orange),
+                            const SizedBox(width: 8),
+                            Text(
+                              _formatPatternName(pattern.name),
+                              style: const TextStyle(fontSize: 14, height: 1.5),
+                            ),
+                          ],
+                        ),
+                      )),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'General guidance: Move through your full range of motion in a controlled manner. Start slow and gradually increase intensity.',
+                    style: TextStyle(fontSize: 14, height: 1.5, fontStyle: FontStyle.italic),
                   ),
                 ],
               ),
@@ -143,17 +158,5 @@ class WarmupCard extends StatelessWidget {
         .split(' ')
         .map((word) => word[0].toUpperCase() + word.substring(1))
         .join(' ');
-  }
-
-  String _getInstructions() {
-    // Generic warmup instructions based on pattern
-    switch (step.pattern.name) {
-      case 'dynamicStretch':
-        return 'Perform dynamic stretching movements. Move through your full range of motion in a controlled manner. Examples: leg swings, arm circles, torso twists.';
-      case 'mobilityDrill':
-        return 'Focus on joint mobility. Move slowly and deliberately through each position. Breathe deeply and relax into each movement.';
-      default:
-        return 'Warm up your body gradually. Start slow and increase intensity. Focus on the movements you\'ll be doing in your workout.';
-    }
   }
 }

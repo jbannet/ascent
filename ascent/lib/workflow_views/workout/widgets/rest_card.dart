@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import '../../../models/workout/rest_step.dart';
+import '../../../models/workout/rest_block.dart';
 import 'countdown_timer.dart';
 
-/// Card for rest/break steps
+/// Card for rest/break blocks
 class RestCard extends StatelessWidget {
-  final RestStep step;
-  final int stepNumber;
-  final int totalSteps;
+  final RestBlock block;
+  final int blockNumber;
+  final int totalBlocks;
   final VoidCallback onFinished;
   final VoidCallback onSkip;
 
   const RestCard({
     super.key,
-    required this.step,
-    required this.stepNumber,
-    required this.totalSteps,
+    required this.block,
+    required this.blockNumber,
+    required this.totalBlocks,
     required this.onFinished,
     required this.onSkip,
   });
@@ -47,7 +47,7 @@ class RestCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  'Step $stepNumber of $totalSteps',
+                  'Block $blockNumber of $totalBlocks',
                   style: TextStyle(color: Colors.grey[600]),
                 ),
               ],
@@ -69,7 +69,7 @@ class RestCard extends StatelessWidget {
             // Timer
             Center(
               child: CountdownTimer(
-                durationSeconds: step.durationSec,
+                durationSeconds: block.durationSec,
                 onComplete: onFinished,
                 color: Colors.purple,
               ),

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import '../../../models/workout/cooldown_step.dart';
+import '../../../models/workout/cooldown_block.dart';
 import 'countdown_timer.dart';
 
-/// Card for cooldown steps
+/// Card for cooldown blocks
 class CooldownCard extends StatelessWidget {
-  final CooldownStep step;
-  final int stepNumber;
-  final int totalSteps;
+  final CooldownBlock block;
+  final int blockNumber;
+  final int totalBlocks;
   final VoidCallback onFinished;
   final VoidCallback onSkip;
 
   const CooldownCard({
     super.key,
-    required this.step,
-    required this.stepNumber,
-    required this.totalSteps,
+    required this.block,
+    required this.blockNumber,
+    required this.totalBlocks,
     required this.onFinished,
     required this.onSkip,
   });
@@ -46,7 +46,7 @@ class CooldownCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  'Step $stepNumber of $totalSteps',
+                  'Block $blockNumber of $totalBlocks',
                   style: TextStyle(color: Colors.grey[600]),
                 ),
               ],
@@ -57,7 +57,7 @@ class CooldownCard extends StatelessWidget {
             // Timer
             Center(
               child: CountdownTimer(
-                durationSeconds: step.durationSec,
+                durationSeconds: block.estimateDurationSec(),
                 onComplete: onFinished,
                 color: Colors.blue,
               ),
@@ -65,9 +65,9 @@ class CooldownCard extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // Pattern name
+            // Pattern list
             Text(
-              _formatPatternName(step.pattern.name),
+              'Cooldown Movements',
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -87,16 +87,31 @@ class CooldownCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Instructions:',
+                    'Perform each movement for ${block.durationSecPerPattern} seconds:',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    _getInstructions(),
-                    style: const TextStyle(fontSize: 14, height: 1.5),
+                  const SizedBox(height: 12),
+                  ...block.patterns.map((pattern) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.check_circle_outline,
+                                size: 20, color: Colors.blue),
+                            const SizedBox(width: 8),
+                            Text(
+                              _formatPatternName(pattern.name),
+                              style: const TextStyle(fontSize: 14, height: 1.5),
+                            ),
+                          ],
+                        ),
+                      )),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'General guidance: Breathe deeply and relax into each stretch. Hold positions for 20-30 seconds. Let your heart rate return to normal.',
+                    style: TextStyle(fontSize: 14, height: 1.5, fontStyle: FontStyle.italic),
                   ),
                 ],
               ),
@@ -143,17 +158,5 @@ class CooldownCard extends StatelessWidget {
         .split(' ')
         .map((word) => word[0].toUpperCase() + word.substring(1))
         .join(' ');
-  }
-
-  String _getInstructions() {
-    // Generic cooldown instructions based on pattern
-    switch (step.pattern.name) {
-      case 'staticStretch':
-        return 'Hold each stretch position. Breathe deeply and relax into the stretch. Don\'t bounce. Hold for 20-30 seconds per position.';
-      case 'steadyStateCardio':
-        return 'Walk or move at an easy pace. Bring your heart rate down gradually. Focus on deep, controlled breathing.';
-      default:
-        return 'Cool down gradually. Let your heart rate and breathing return to normal. This helps reduce muscle soreness.';
-    }
   }
 }

@@ -1,6 +1,6 @@
-import 'block_step.dart';
+import 'block.dart';
 
-class ExercisePrescriptionStep extends BlockStep {
+class ExerciseBlock extends Block {
   final String exerciseId;
   final String displayName;
   final int sets;
@@ -8,14 +8,15 @@ class ExercisePrescriptionStep extends BlockStep {
   final int restSecBetweenSets;
   final int? repDurationSec; // Optional: time per rep (e.g., for holds)
 
-  ExercisePrescriptionStep({
+  ExerciseBlock({
+    required String label,
     required this.exerciseId,
     required this.displayName,
     required this.sets,
     required this.reps,
     required this.restSecBetweenSets,
     this.repDurationSec,
-  });
+  }) : super(label: label);
 
   @override
   int estimateDurationSec() {
@@ -30,6 +31,7 @@ class ExercisePrescriptionStep extends BlockStep {
   @override
   Map<String, dynamic> toJson() => {
         'type': 'exercise',
+        'label': label,
         'exerciseId': exerciseId,
         'displayName': displayName,
         'sets': sets,
@@ -38,8 +40,9 @@ class ExercisePrescriptionStep extends BlockStep {
         'repDurationSec': repDurationSec,
       };
 
-  factory ExercisePrescriptionStep.fromJson(Map<String, dynamic> json) {
-    return ExercisePrescriptionStep(
+  factory ExerciseBlock.fromJson(Map<String, dynamic> json) {
+    return ExerciseBlock(
+      label: json['label'] as String,
       exerciseId: json['exerciseId'] as String,
       displayName: json['displayName'] as String,
       sets: json['sets'] as int,

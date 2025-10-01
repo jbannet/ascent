@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import '../../../models/workout/exercise_prescription_step.dart';
+import '../../../models/workout/exercise_block.dart';
 import '../../../models/workout/exercise.dart';
 import '../../../services_and_utilities/exercises/load_exercises_service.dart';
 import 'countdown_timer.dart';
 
-/// Card for exercise steps
+/// Card for exercise blocks
 class ExerciseCard extends StatefulWidget {
-  final ExercisePrescriptionStep step;
-  final int stepNumber;
-  final int totalSteps;
+  final ExerciseBlock block;
+  final int blockNumber;
+  final int totalBlocks;
   final VoidCallback onFinished;
   final VoidCallback onSkip;
 
   const ExerciseCard({
     super.key,
-    required this.step,
-    required this.stepNumber,
-    required this.totalSteps,
+    required this.block,
+    required this.blockNumber,
+    required this.totalBlocks,
     required this.onFinished,
     required this.onSkip,
   });
@@ -40,7 +40,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
       // Load all exercises and find the one matching this exerciseId
       final allExercises = await LoadExercisesService.loadAllExercises();
       final exercise = allExercises.firstWhere(
-        (ex) => ex.id == widget.step.exerciseId || ex.name == widget.step.exerciseId,
+        (ex) => ex.id == widget.block.exerciseId || ex.name == widget.block.exerciseId,
         orElse: () => allExercises.first, // Fallback to first exercise
       );
       setState(() {
@@ -89,7 +89,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                   ],
                 ),
                 Text(
-                  'Step ${widget.stepNumber} of ${widget.totalSteps}',
+                  'Block ${widget.blockNumber} of ${widget.totalBlocks}',
                   style: TextStyle(color: Colors.grey[600]),
                 ),
               ],
@@ -99,7 +99,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
 
             // Exercise name
             Text(
-              widget.step.displayName,
+              widget.block.displayName,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -116,7 +116,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
-                '${widget.step.sets} sets × ${widget.step.reps} reps',
+                '${widget.block.sets} sets × ${widget.block.reps} reps',
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -130,7 +130,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
             // Timer
             Center(
               child: CountdownTimer(
-                durationSeconds: widget.step.estimateDurationSec(),
+                durationSeconds: widget.block.estimateDurationSec(),
                 onComplete: widget.onFinished,
                 color: Colors.red,
               ),

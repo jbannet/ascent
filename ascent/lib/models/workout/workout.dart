@@ -4,10 +4,10 @@ import '../../constants_and_enums/workout_enums/workout_style_enum.dart';
 import '../../constants_and_enums/workout_enums/movement_pattern.dart';
 import '../../services_and_utilities/exercises/load_exercises_service.dart';
 import 'block.dart';
+import 'warmup_block.dart';
+import 'cooldown_block.dart';
+import 'exercise_block.dart';
 import 'exercise.dart';
-import 'warmup_step.dart';
-import 'cooldown_step.dart';
-import 'exercise_prescription_step.dart';
 
 class Workout{
 
@@ -26,11 +26,12 @@ class Workout{
   }) : _isCompleted = isCompleted;
 
   get isCompleted => _isCompleted;
-  
+
   void markCompleted(){
     _isCompleted = true;
   }
 
+  //MARK: GENERATE
   /// Generate workout blocks based on style and duration
   Future<List<Block>> generateBlocks() async {
     // Determine target duration based on session type
@@ -59,47 +60,33 @@ class Workout{
     return allBlocks;
   }
 
-  Future<Block> _generateWarmupBlock(int durationMinutes) async {
+  Future<WarmupBlock> _generateWarmupBlock(int durationMinutes) async {
     final patterns = style.warmupPatterns;
     final warmupDuration = (durationMinutes * 60 * 0.15).round(); // 15% of total
     final perPatternDuration = (warmupDuration / patterns.length).round();
 
-    final items = patterns.map((pattern) {
-      return WarmupStep(
-        pattern: pattern,
-        durationSec: perPatternDuration,
-      );
-    }).toList();
-
-    return Block(
+    return WarmupBlock(
       label: 'Warmup',
-      type: BlockType.warmup,
-      items: items,
+      patterns: patterns,
+      durationSecPerPattern: perPatternDuration,
     );
   }
 
-  Future<Block> _generateCooldownBlock(int durationMinutes) async {
+  Future<CooldownBlock> _generateCooldownBlock(int durationMinutes) async {
     final patterns = style.cooldownPatterns;
     final cooldownDuration = (durationMinutes * 60 * 0.12).round(); // 12% of total
     final perPatternDuration = (cooldownDuration / patterns.length).round();
 
-    final items = patterns.map((pattern) {
-      return CooldownStep(
-        pattern: pattern,
-        durationSec: perPatternDuration,
-      );
-    }).toList();
-
-    return Block(
+    return CooldownBlock(
       label: 'Cooldown',
-      type: BlockType.cooldown,
-      items: items,
+      patterns: patterns,
+      durationSecPerPattern: perPatternDuration,
     );
   }
 
-  Future<List<Block>> _generateMainWorkBlocks(int durationMinutes) async {
+  Future<List<ExerciseBlock>> _generateMainWorkBlocks(int durationMinutes) async {
     final patterns = style.mainWorkPatterns;
-    final blocks = <Block>[];
+    final blocks = <ExerciseBlock>[];
 
     // Determine number of patterns to use based on compression strategy
     final patternsToUse = _selectPatternsForDuration(patterns, durationMinutes);
@@ -121,18 +108,13 @@ class Workout{
       final reps = style.calculateReps(durationMinutes);
       final rest = style.calculateRestSeconds(durationMinutes);
 
-      final block = Block(
+      final block = ExerciseBlock(
         label: pattern.name,
-        type: BlockType.main,
-        items: [
-          ExercisePrescriptionStep(
-            exerciseId: exercise.id,
-            displayName: exercise.name,
-            sets: sets,
-            reps: reps,
-            restSecBetweenSets: rest,
-          ),
-        ],
+        exerciseId: exercise.id,
+        displayName: exercise.name,
+        sets: sets,
+        reps: reps,
+        restSecBetweenSets: rest,
       );
 
       blocks.add(block);
@@ -219,27 +201,24 @@ class Workout{
   }
 
   void _adjustBlocksForDuration(
-    List<Block> mainBlocks,
+    List<ExerciseBlock> mainBlocks,
     int targetDuration,
     int currentDuration,
   ) {
     // Strategy 1: Reduce sets
-    for (final block in mainBlocks) {
-      for (final item in block.items) {
-        if (item is ExercisePrescriptionStep) {
-          if (item.sets > 1) {
-            // Create new step with reduced sets (immutable pattern)
-            final index = block.items.indexOf(item);
-            block.items[index] = ExercisePrescriptionStep(
-              exerciseId: item.exerciseId,
-              displayName: item.displayName,
-              sets: item.sets - 1,
-              reps: item.reps,
-              restSecBetweenSets: item.restSecBetweenSets,
-              repDurationSec: item.repDurationSec,
-            );
-          }
-        }
+    for (var i = 0; i < mainBlocks.length; i++) {
+      final block = mainBlocks[i];
+      if (block.sets > 1) {
+        // Create new block with reduced sets (immutable pattern)
+        mainBlocks[i] = ExerciseBlock(
+          label: block.label,
+          exerciseId: block.exerciseId,
+          displayName: block.displayName,
+          sets: block.sets - 1,
+          reps: block.reps,
+          restSecBetweenSets: block.restSecBetweenSets,
+          repDurationSec: block.repDurationSec,
+        );
       }
     }
 
@@ -251,21 +230,18 @@ class Workout{
 
     // Strategy 2: Reduce rest if still over
     if (newDuration > targetDuration * 1.10) {
-      for (final block in mainBlocks) {
-        for (final item in block.items) {
-          if (item is ExercisePrescriptionStep) {
-            if (item.restSecBetweenSets > 30) {
-              final index = block.items.indexOf(item);
-              block.items[index] = ExercisePrescriptionStep(
-                exerciseId: item.exerciseId,
-                displayName: item.displayName,
-                sets: item.sets,
-                reps: item.reps,
-                restSecBetweenSets: (item.restSecBetweenSets - 15).clamp(30, 180),
-                repDurationSec: item.repDurationSec,
-              );
-            }
-          }
+      for (var i = 0; i < mainBlocks.length; i++) {
+        final block = mainBlocks[i];
+        if (block.restSecBetweenSets > 30) {
+          mainBlocks[i] = ExerciseBlock(
+            label: block.label,
+            exerciseId: block.exerciseId,
+            displayName: block.displayName,
+            sets: block.sets,
+            reps: block.reps,
+            restSecBetweenSets: (block.restSecBetweenSets - 15).clamp(30, 180),
+            repDurationSec: block.repDurationSec,
+          );
         }
       }
     }

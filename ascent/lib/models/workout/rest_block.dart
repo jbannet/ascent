@@ -1,11 +1,12 @@
-import 'block_step.dart';
+import 'block.dart';
 
-class RestStep extends BlockStep {
+class RestBlock extends Block {
   final int durationSec;
 
-  RestStep({
+  RestBlock({
+    required String label,
     required this.durationSec,
-  });
+  }) : super(label: label);
 
   @override
   int estimateDurationSec() => durationSec;
@@ -13,11 +14,13 @@ class RestStep extends BlockStep {
   @override
   Map<String, dynamic> toJson() => {
         'type': 'rest',
+        'label': label,
         'durationSec': durationSec,
       };
 
-  factory RestStep.fromJson(Map<String, dynamic> json) {
-    return RestStep(
+  factory RestBlock.fromJson(Map<String, dynamic> json) {
+    return RestBlock(
+      label: json['label'] as String,
       durationSec: json['durationSec'] as int,
     );
   }
