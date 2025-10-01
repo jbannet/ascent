@@ -4,7 +4,7 @@ import '../../models/workout/exercise.dart';
 import '../../constants_and_enums/workout_enums/movement_pattern.dart';
 
 class LoadExercisesService {
-  static List<Exercise> _cache = [];
+  static final List<Exercise> _cache = [];
 
   /// Get all exercises that match the given MovementPattern
   /// Optionally filter by compound/isolation preference

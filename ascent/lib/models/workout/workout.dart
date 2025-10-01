@@ -63,7 +63,14 @@ class Workout{
 
     // Keep adding exercises until we run out of time
     int patternIndex = 0;
+    int consecutiveEmptyPatterns = 0;
+
     while (usedTimeSec < availableTimeSec) {
+      // Safety check: if all patterns are empty, break to prevent infinite loop
+      if (consecutiveEmptyPatterns >= patternsWithPrefs.length) {
+        break;
+      }
+
       // Cycle through movement patterns
       final patternWithPref = patternsWithPrefs[patternIndex % patternsWithPrefs.length];
 
@@ -76,8 +83,12 @@ class Workout{
       if (exercises.isEmpty) {
         // Skip to next pattern if no exercises found
         patternIndex++;
+        consecutiveEmptyPatterns++;
         continue;
       }
+
+      // Reset empty pattern counter - we found exercises
+      consecutiveEmptyPatterns = 0;
 
       // Select random exercise from filtered list
       final exercise = exercises[random.nextInt(exercises.length)];
@@ -104,6 +115,9 @@ class Workout{
         if (blocks.isNotEmpty) {
           break;
         }
+        // If this is the first block and it's too big, add it anyway and stop
+        blocks.add(block);
+        break;
       }
 
       blocks.add(block);
@@ -122,11 +136,16 @@ class Workout{
           .toList();
     }
 
+    // Handle legacy data: if durationMinutes is null, derive from type
+    final type = sessionTypeFromString(json[PlanFields.typeField] as String);
+    final durationMinutes = json['durationMinutes'] as int? ??
+        (type == SessionType.micro ? 15 : 45);
+
     return Workout(
       date: json[PlanFields.dateField] != null ? DateTime.parse(json[PlanFields.dateField] as String) : null,
-      type: sessionTypeFromString(json[PlanFields.typeField] as String),
+      type: type,
       style: WorkoutStyle.fromJson(json[PlanFields.styleField] as String),
-      durationMinutes: json['durationMinutes'] as int,
+      durationMinutes: durationMinutes,
       isCompleted: json[PlanFields.isCompletedField] as bool? ?? false,
       blocks: blocks,
     );

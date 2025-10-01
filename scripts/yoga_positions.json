@@ -1,0 +1,309 @@
+[
+{
+"name": "Mountain Pose (Tadasana)",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"glutes",
+"quadriceps",
+"calves",
+"shoulders"
+],
+"instructions": [
+"Stand with feet hip-width, weight even across the feet.",
+"Engage abdominals and lengthen tall through the crown of the head.",
+"Draw shoulders down and back, arms by your sides with palms forward.",
+"Press thighs gently back, lift the chest, and breathe steadily."
+],
+"category": "stretching",
+"movementPatterns": [
+"functional_movement",
+"staticStretch"
+],
+"workoutStyles": [
+"yoga_focused",
+"senior_specific"
+]
+},
+{
+"name": "Downward-Facing Dog (Adho Mukha Svanasana)",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"hamstrings"
+],
+"secondaryMuscles": [
+"calves",
+"shoulders",
+"abdominals",
+"lats"
+],
+"instructions": [
+"Start on hands and knees with hands shoulder-width and knees under hips.",
+"Tuck toes and lift hips up and back to form an inverted V.",
+"Lengthen the spine by pressing the floor away and reaching heels toward the mat.",
+"Keep ribs drawn in and breathe, relaxing the neck between the arms."
+],
+"category": "stretching",
+"movementPatterns": [
+"hinge",
+"staticStretch"
+],
+"workoutStyles": [
+"yoga_focused",
+"full_body"
+]
+},
+{
+"name": "Warrior I (Virabhadrasana I)",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"quadriceps"
+],
+"secondaryMuscles": [
+"glutes",
+"hamstrings",
+"abdominals",
+"shoulders"
+],
+"instructions": [
+"Step one foot forward and turn the back heel down about 45 degrees.",
+"Bend the front knee over the ankle while keeping hips facing forward.",
+"Reach arms overhead, soften ribs, and lengthen through the back heel.",
+"Hold steady breath while grounding through both feet."
+],
+"category": "strength",
+"movementPatterns": [
+"lunge",
+"functional_movement"
+],
+"workoutStyles": [
+"yoga_focused",
+"athletic_conditioning"
+]
+},
+{
+"name": "Warrior II (Virabhadrasana II)",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"quadriceps"
+],
+"secondaryMuscles": [
+"glutes",
+"hamstrings",
+"abductors",
+"shoulders"
+],
+"instructions": [
+"From a wide stance, turn front toes forward and back foot slightly in.",
+"Bend the front knee to stack over the ankle, hips open to the side.",
+"Reach arms long at shoulder height, gaze over the front hand.",
+"Press evenly through both feet and maintain a tall torso."
+],
+"category": "strength",
+"movementPatterns": [
+"lunge",
+"functional_movement"
+],
+"workoutStyles": [
+"yoga_focused",
+"full_body"
+]
+},
+{
+"name": "Triangle Pose (Trikonasana)",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"adductors"
+],
+"secondaryMuscles": [
+"hamstrings",
+"abdominals",
+"lats",
+"shoulders"
+],
+"instructions": [
+"From a wide stance, turn front toes forward and back foot slightly in.",
+"Hinge at the hip to reach the front hand toward shin or block, back arm to the sky.",
+"Stack shoulders and lengthen both sides of the waist without collapsing the ribs.",
+"Press through both feet and breathe evenly as you hold."
+],
+"category": "stretching",
+"movementPatterns": [
+"hinge",
+"staticStretch"
+],
+"workoutStyles": [
+"yoga_focused",
+"senior_specific"
+]
+},
+{
+"name": "Tree Pose (Vrksasana)",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"glutes"
+],
+"secondaryMuscles": [
+"abductors",
+"quadriceps",
+"calves",
+"abdominals"
+],
+"instructions": [
+"Stand tall and shift weight onto one leg.",
+"Place the other foot to the standing ankle, calf, or inner thigh—avoid the knee.",
+"Press foot and leg together, hands at heart or overhead.",
+"Lengthen tall and hold a steady gaze to balance."
+],
+"category": "strength",
+"movementPatterns": [
+"antiLateralFlexion",
+"functional_movement"
+],
+"workoutStyles": [
+"yoga_focused",
+"athletic_conditioning"
+]
+},
+{
+"name": "Chair Pose (Utkatasana)",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"quadriceps"
+],
+"secondaryMuscles": [
+"glutes",
+"hamstrings",
+"abdominals",
+"shoulders"
+],
+"instructions": [
+"Stand with feet hip-width and reach arms forward or overhead.",
+"Sit hips back as if to a chair, keeping knees tracking over toes.",
+"Draw ribs in and keep weight in heels while lengthening the spine.",
+"Hold and breathe, then press to stand with control."
+],
+"category": "strength",
+"movementPatterns": [
+"squat",
+"antiExtension"
+],
+"workoutStyles": [
+"yoga_focused",
+"full_body"
+]
+},
+{
+"name": "Bridge Pose (Setu Bandha Sarvangasana)",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"glutes"
+],
+"secondaryMuscles": [
+"hamstrings",
+"lower back",
+"abdominals"
+],
+"instructions": [
+"Lie on your back with knees bent and feet hip-width, arms by sides.",
+"Press into feet to lift hips, keeping knees aligned and ribs contained.",
+"Lengthen through the knees and reach the tailbone toward the knees.",
+"Breathe steadily, then lower the spine with control."
+],
+"category": "strength",
+"movementPatterns": [
+"hinge",
+"antiExtension"
+],
+"workoutStyles": [
+"yoga_focused",
+"senior_specific"
+]
+},
+{
+"name": "Cobra Pose (Bhujangasana)",
+"force": "push",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"lower back"
+],
+"secondaryMuscles": [
+"middle back",
+"glutes",
+"shoulders",
+"abdominals"
+],
+"instructions": [
+"Lie prone with legs long and hands under shoulders, elbows hugged in.",
+"Press tops of feet into the mat and engage abdominals lightly.",
+"Inhale to lift chest forward and up, keeping neck long and shoulders down.",
+"Hold a gentle backbend without locking elbows, then lower softly."
+],
+"category": "strength",
+"movementPatterns": [
+"functional_movement"
+],
+"workoutStyles": [
+"yoga_focused",
+"senior_specific"
+]
+},
+{
+"name": "Child's Pose (Balasana)",
+"force": "static",
+"level": "beginner",
+"mechanic": "isolation",
+"equipment": "body only",
+"primaryMuscles": [
+"lower back"
+],
+"secondaryMuscles": [
+"lats",
+"shoulders",
+"glutes"
+],
+"instructions": [
+"Kneel with big toes together and knees hip-width or wider.",
+"Sit hips back toward heels and walk hands forward to lengthen the spine.",
+"Rest forehead to the mat and soften shoulders away from ears.",
+"Breathe slowly into the back body and relax."
+],
+"category": "stretching",
+"movementPatterns": [
+"staticStretch",
+"mobilityDrill"
+],
+"workoutStyles": [
+"yoga_focused",
+"senior_specific"
+]
+}
+]
