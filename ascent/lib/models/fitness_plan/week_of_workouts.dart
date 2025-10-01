@@ -105,10 +105,12 @@ class WeekOfWorkouts {
 
       // Step 3: Assign session type
       SessionType type = i < fullWorkouts ? SessionType.full : SessionType.micro;
+      int duration = type == SessionType.micro ? 15 : 45;
 
       workouts.add(Workout(
         type: type,
         style: style,
+        durationMinutes: duration,
       ));
     }
 

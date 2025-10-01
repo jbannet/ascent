@@ -83,35 +83,12 @@ class CooldownCard extends StatelessWidget {
                 color: Colors.blue.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Perform each movement for ${block.durationSecPerPattern} seconds:',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  ...block.patterns.map((pattern) => Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.check_circle_outline,
-                                size: 20, color: Colors.blue),
-                            const SizedBox(width: 8),
-                            Text(
-                              _formatPatternName(pattern.name),
-                              style: const TextStyle(fontSize: 14, height: 1.5),
-                            ),
-                          ],
-                        ),
-                      )),
-                  const SizedBox(height: 12),
-                  const Text(
-                    'General guidance: Breathe deeply and relax into each stretch. Hold positions for 20-30 seconds. Let your heart rate return to normal.',
-                    style: TextStyle(fontSize: 14, height: 1.5, fontStyle: FontStyle.italic),
+                    'Breathe deeply and relax into each stretch. Hold positions for 20-30 seconds. Let your heart rate return to normal.',
+                    style: TextStyle(fontSize: 14, height: 1.5),
                   ),
                 ],
               ),
@@ -145,18 +122,5 @@ class CooldownCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _formatPatternName(String pattern) {
-    // Convert camelCase to Title Case
-    return pattern
-        .replaceAllMapped(
-          RegExp(r'([A-Z])'),
-          (match) => ' ${match.group(0)}',
-        )
-        .trim()
-        .split(' ')
-        .map((word) => word[0].toUpperCase() + word.substring(1))
-        .join(' ');
   }
 }

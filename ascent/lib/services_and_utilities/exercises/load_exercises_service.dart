@@ -4,44 +4,45 @@ import '../../models/workout/exercise.dart';
 import '../../constants_and_enums/workout_enums/movement_pattern.dart';
 
 class LoadExercisesService {
-  // Cache: pattern+style -> List<Exercise>
-  static final Map<String, List<Exercise>> _cache = {};
+  static List<Exercise> _cache = [];
 
-  /// Load exercises that match the given pattern and optionally the workout style
-  static Future<List<Exercise>> loadExercisesForPattern(
-    MovementPattern pattern, [
-    String? workoutStyle,
-  ]) async {
-    final cacheKey = workoutStyle != null
-        ? '${pattern.name}_$workoutStyle'
-        : pattern.name;
-
-    // Return cached if available
-    if (_cache.containsKey(cacheKey)) {
-      return _cache[cacheKey]!;
+  /// Get all exercises that match the given MovementPattern
+  /// Optionally filter by compound/isolation preference
+  static Future<List<Exercise>> getExercises(
+    MovementPattern movementPattern, {
+    bool? preferCompound,
+  }) async {
+    if (_cache.isEmpty) {
+      await _load();
     }
 
-    // Load all exercises from assets
-    final allExercises = await loadAllExercises();
+    var exercises = _cache.where((exercise) =>
+      exercise.movementPatterns.contains(movementPattern)
+    ).toList();
 
-    // Filter by pattern and optionally by style
-    final filtered = allExercises.where((exercise) {
-      final hasPattern = exercise.movementPatterns.contains(pattern);
-      if (!hasPattern) return false;
-
-      if (workoutStyle != null) {
-        return exercise.workoutStyles.contains(workoutStyle);
+    // Filter by mechanic preference if specified
+    if (preferCompound != null) {
+      final mechanic = preferCompound ? 'compound' : 'isolation';
+      final filtered = exercises.where((e) => e.mechanic == mechanic).toList();
+      // Use filtered list if not empty, otherwise fall back to all exercises
+      if (filtered.isNotEmpty) {
+        exercises = filtered;
       }
-      return true;
-    }).toList();
+    }
 
-    // Cache and return
-    _cache[cacheKey] = filtered;
-    return filtered;
+    return exercises;
   }
 
-  /// Load all exercises from the assets directory
-  static Future<List<Exercise>> loadAllExercises() async {
+  /// Get all exercises (loads cache if needed)
+  static Future<List<Exercise>> getAllExercises() async {
+    if (_cache.isEmpty) {
+      await _load();
+    }
+    return _cache;
+  }
+
+  /// Load all exercises from the assets directory into cache
+  static Future<void> _load() async {
     try {
       // Load the asset manifest to find all exercise JSON files
       final manifestContent = await rootBundle.loadString('AssetManifest.json');
@@ -55,7 +56,6 @@ class LoadExercisesService {
           .toList();
 
       // Load each exercise file
-      final List<Exercise> exercises = [];
       for (final filePath in exerciseFiles) {
         try {
           final content = await rootBundle.loadString(filePath);
@@ -65,17 +65,14 @@ class LoadExercisesService {
           final id = filePath.split('/').last.replaceAll('.json', '');
 
           final exercise = Exercise.fromJson(jsonData, id);
-          exercises.add(exercise);
+          _cache.add(exercise);
         } catch (e) {
           // Log error but continue loading other exercises
           print('Error loading exercise from $filePath: $e');
         }
       }
-
-      return exercises;
     } catch (e) {
       print('Error loading exercises: $e');
-      return [];
     }
   }
 

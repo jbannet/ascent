@@ -1,19 +1,19 @@
+import 'dart:math';
 import '../../constants_and_enums/session_type.dart';
 import '../../constants_and_enums/constants.dart';
 import '../../constants_and_enums/workout_enums/workout_style_enum.dart';
-import '../../constants_and_enums/workout_enums/movement_pattern.dart';
 import '../../services_and_utilities/exercises/load_exercises_service.dart';
 import 'block.dart';
 import 'warmup_block.dart';
 import 'cooldown_block.dart';
 import 'exercise_block.dart';
-import 'exercise.dart';
 
 class Workout{
 
   DateTime? date; //Sunday date of the week
   SessionType type; // Micro or full workout
   WorkoutStyle style; // Training style using enum for type safety
+  int durationMinutes; // Total workout duration in minutes
   bool _isCompleted = false;
   List<Block>? blocks; // Generated workout blocks
 
@@ -21,6 +21,7 @@ class Workout{
     this.date,
     required this.type,
     required this.style,
+    required this.durationMinutes,
     bool isCompleted = false,
     this.blocks,
   }) : _isCompleted = isCompleted;
@@ -34,74 +35,52 @@ class Workout{
   //MARK: GENERATE
   /// Generate workout blocks based on style and duration
   Future<List<Block>> generateBlocks() async {
-    // Determine target duration based on session type
-    final durationMinutes = type == SessionType.micro ? 12 : 60;
-
     // Generate warmup, main work, and cooldown blocks
-    final warmupBlock = await _generateWarmupBlock(durationMinutes);
-    final mainBlocks = await _generateMainWorkBlocks(durationMinutes);
-    final cooldownBlock = await _generateCooldownBlock(durationMinutes);
+    final warmupBlock = await _generateWarmupBlock();
+    final mainBlocks = await _generateMainWorkBlocks();
+    final cooldownBlock = await _generateCooldownBlock();
 
     // Combine all blocks
-    final allBlocks = [warmupBlock, ...mainBlocks, cooldownBlock];
-
-    // Validate and adjust duration if needed
-    final totalDuration = allBlocks.fold<int>(
-      0,
-      (sum, block) => sum + block.estimateDurationSec(),
-    );
-    final targetDuration = durationMinutes * 60;
-
-    // If over by 10%, adjust
-    if (totalDuration > targetDuration * 1.10) {
-      _adjustBlocksForDuration(mainBlocks, targetDuration, totalDuration);
-    }
-
-    return allBlocks;
+    return [warmupBlock, ...mainBlocks, cooldownBlock];
   }
 
-  Future<WarmupBlock> _generateWarmupBlock(int durationMinutes) async {
-    final patterns = style.warmupPatterns;
-    final warmupDuration = (durationMinutes * 60 * 0.15).round(); // 15% of total
-    final perPatternDuration = (warmupDuration / patterns.length).round();
-
-    return WarmupBlock(
-      label: 'Warmup',
-      patterns: patterns,
-      durationSecPerPattern: perPatternDuration,
-    );
+  Future<WarmupBlock> _generateWarmupBlock() async {
+    return WarmupBlock(durationSec: (durationMinutes * 60 * WorkoutDuration.warmupPercent).round());
   }
 
-  Future<CooldownBlock> _generateCooldownBlock(int durationMinutes) async {
-    final patterns = style.cooldownPatterns;
-    final cooldownDuration = (durationMinutes * 60 * 0.12).round(); // 12% of total
-    final perPatternDuration = (cooldownDuration / patterns.length).round();
-
-    return CooldownBlock(
-      label: 'Cooldown',
-      patterns: patterns,
-      durationSecPerPattern: perPatternDuration,
-    );
+  Future<CooldownBlock> _generateCooldownBlock() async {
+    return CooldownBlock(durationSec: (durationMinutes * 60 * WorkoutDuration.cooldownPercent).round());
   }
 
-  Future<List<ExerciseBlock>> _generateMainWorkBlocks(int durationMinutes) async {
-    final patterns = style.mainWorkPatterns;
+  Future<List<ExerciseBlock>> _generateMainWorkBlocks() async {
+    final patternsWithPrefs = style.mainWorkPatterns;
     final blocks = <ExerciseBlock>[];
+    final random = Random();
 
-    // Determine number of patterns to use based on compression strategy
-    final patternsToUse = _selectPatternsForDuration(patterns, durationMinutes);
+    // Calculate available time for main work (73% of total)
+    final availableTimeSec = (durationMinutes * 60 * WorkoutDuration.mainWorkPercent).round();
+    int usedTimeSec = 0;
 
-    for (final pattern in patternsToUse) {
-      // Load exercises for this pattern
-      final exercises = await _loadExercisesWithFallback(pattern);
+    // Keep adding exercises until we run out of time
+    int patternIndex = 0;
+    while (usedTimeSec < availableTimeSec) {
+      // Cycle through movement patterns
+      final patternWithPref = patternsWithPrefs[patternIndex % patternsWithPrefs.length];
+
+      // Get exercises filtered by mechanic preference
+      final exercises = await LoadExercisesService.getExercises(
+        patternWithPref.pattern,
+        preferCompound: patternWithPref.preferCompound,
+      );
 
       if (exercises.isEmpty) {
-        // Skip pattern if no exercises found
+        // Skip to next pattern if no exercises found
+        patternIndex++;
         continue;
       }
 
-      // Select best exercise
-      final exercise = _selectBestExercise(exercises);
+      // Select random exercise from filtered list
+      final exercise = exercises[random.nextInt(exercises.length)];
 
       // Create block with exercise
       final sets = style.calculateSets(durationMinutes);
@@ -109,7 +88,7 @@ class Workout{
       final rest = style.calculateRestSeconds(durationMinutes);
 
       final block = ExerciseBlock(
-        label: pattern.name,
+        label: patternWithPref.pattern.name,
         exerciseId: exercise.id,
         displayName: exercise.name,
         sets: sets,
@@ -117,134 +96,22 @@ class Workout{
         restSecBetweenSets: rest,
       );
 
+      final blockDuration = block.estimateDurationSec();
+
+      // Check if adding this block would go too far over
+      if (usedTimeSec + blockDuration > availableTimeSec * 1.10) {
+        // If we have at least one block and this pushes us too far over, stop
+        if (blocks.isNotEmpty) {
+          break;
+        }
+      }
+
       blocks.add(block);
+      usedTimeSec += blockDuration;
+      patternIndex++;
     }
 
     return blocks;
-  }
-
-  List<MovementPattern> _selectPatternsForDuration(
-    List<MovementPattern> patterns,
-    int durationMinutes,
-  ) {
-    if (durationMinutes <= 15) {
-      // Micro workout: take first 2-3 patterns
-      return patterns.take(2).toList();
-    } else if (durationMinutes <= 30) {
-      // Short workout: take first 3-4 patterns
-      return patterns.take(patterns.length > 4 ? 4 : patterns.length).toList();
-    } else {
-      // Full workout: use all patterns
-      return patterns;
-    }
-  }
-
-  Future<List<Exercise>> _loadExercisesWithFallback(
-    MovementPattern pattern,
-  ) async {
-    // Try primary query with style filter
-    var exercises = await LoadExercisesService.loadExercisesForPattern(
-      pattern,
-      style.value,
-    );
-
-    if (exercises.isNotEmpty) return exercises;
-
-    // Fallback 1: Remove style filter
-    exercises = await LoadExercisesService.loadExercisesForPattern(pattern);
-
-    if (exercises.isNotEmpty) return exercises;
-
-    // Fallback 2: Try similar pattern
-    final similarPattern = _getSimilarPattern(pattern);
-    if (similarPattern != null) {
-      exercises = await LoadExercisesService.loadExercisesForPattern(
-        similarPattern,
-      );
-    }
-
-    return exercises;
-  }
-
-  MovementPattern? _getSimilarPattern(MovementPattern pattern) {
-    final similarPatterns = {
-      MovementPattern.squat: MovementPattern.lunge,
-      MovementPattern.hinge: MovementPattern.squat,
-      MovementPattern.horizontalPush: MovementPattern.verticalPush,
-      MovementPattern.horizontalPull: MovementPattern.verticalPull,
-      MovementPattern.verticalPush: MovementPattern.horizontalPush,
-      MovementPattern.verticalPull: MovementPattern.horizontalPull,
-    };
-
-    return similarPatterns[pattern];
-  }
-
-  Exercise _selectBestExercise(List<Exercise> exercises) {
-    // Score each exercise
-    final scored = exercises.map((exercise) {
-      var score = 0;
-
-      // Prefer compound movements
-      if (exercise.mechanic == 'compound') score += 10;
-
-      // Has instructions
-      if (exercise.instructions.isNotEmpty) score += 3;
-
-      return MapEntry(exercise, score);
-    }).toList();
-
-    // Sort by score descending
-    scored.sort((a, b) => b.value.compareTo(a.value));
-
-    // Return highest scored (or random from top tied)
-    return scored.first.key;
-  }
-
-  void _adjustBlocksForDuration(
-    List<ExerciseBlock> mainBlocks,
-    int targetDuration,
-    int currentDuration,
-  ) {
-    // Strategy 1: Reduce sets
-    for (var i = 0; i < mainBlocks.length; i++) {
-      final block = mainBlocks[i];
-      if (block.sets > 1) {
-        // Create new block with reduced sets (immutable pattern)
-        mainBlocks[i] = ExerciseBlock(
-          label: block.label,
-          exerciseId: block.exerciseId,
-          displayName: block.displayName,
-          sets: block.sets - 1,
-          reps: block.reps,
-          restSecBetweenSets: block.restSecBetweenSets,
-          repDurationSec: block.repDurationSec,
-        );
-      }
-    }
-
-    // Check duration again
-    final newDuration = mainBlocks.fold<int>(
-      0,
-      (sum, block) => sum + block.estimateDurationSec(),
-    );
-
-    // Strategy 2: Reduce rest if still over
-    if (newDuration > targetDuration * 1.10) {
-      for (var i = 0; i < mainBlocks.length; i++) {
-        final block = mainBlocks[i];
-        if (block.restSecBetweenSets > 30) {
-          mainBlocks[i] = ExerciseBlock(
-            label: block.label,
-            exerciseId: block.exerciseId,
-            displayName: block.displayName,
-            sets: block.sets,
-            reps: block.reps,
-            restSecBetweenSets: (block.restSecBetweenSets - 15).clamp(30, 180),
-            repDurationSec: block.repDurationSec,
-          );
-        }
-      }
-    }
   }
 
   factory Workout.fromJson(Map<String, dynamic> json) {
@@ -259,6 +126,7 @@ class Workout{
       date: json[PlanFields.dateField] != null ? DateTime.parse(json[PlanFields.dateField] as String) : null,
       type: sessionTypeFromString(json[PlanFields.typeField] as String),
       style: WorkoutStyle.fromJson(json[PlanFields.styleField] as String),
+      durationMinutes: json['durationMinutes'] as int,
       isCompleted: json[PlanFields.isCompletedField] as bool? ?? false,
       blocks: blocks,
     );
@@ -268,6 +136,7 @@ class Workout{
     PlanFields.dateField: date?.toIso8601String(),
     PlanFields.typeField: sessionTypeToString(type),
     PlanFields.styleField: style.toJson(),
+    'durationMinutes': durationMinutes,
     PlanFields.isCompletedField: _isCompleted,
     'blocks': blocks?.map((block) => block.toJson()).toList(),
   };

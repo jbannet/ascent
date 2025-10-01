@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'movement_pattern.dart';
+import 'pattern_with_preference.dart';
 
 enum WorkoutStyle {
   fullBody('full_body', '⏱️', Colors.purple),
@@ -86,102 +87,102 @@ enum WorkoutStyle {
     }
   }
 
-  /// Get main work patterns for this workout style
-  List<MovementPattern> get mainWorkPatterns {
+  /// Get main work patterns for this workout style with compound/isolation preferences
+  List<PatternWithPreference> get mainWorkPatterns {
     switch (this) {
       case WorkoutStyle.fullBody:
         return [
-          MovementPattern.squat,
-          MovementPattern.hinge,
-          MovementPattern.horizontalPush,
-          MovementPattern.horizontalPull,
-          MovementPattern.verticalPush,
+          PatternWithPreference(MovementPattern.squat, true), // Compound
+          PatternWithPreference(MovementPattern.hinge, true), // Compound
+          PatternWithPreference(MovementPattern.horizontalPush, null), // Mix
+          PatternWithPreference(MovementPattern.horizontalPull, true), // Compound
+          PatternWithPreference(MovementPattern.verticalPush, null), // Mix
         ];
       case WorkoutStyle.upperLowerSplit:
         // TODO: Should alternate between upper/lower based on history
         return [
-          MovementPattern.squat,
-          MovementPattern.lunge,
-          MovementPattern.hinge,
-          MovementPattern.antiExtension,
+          PatternWithPreference(MovementPattern.squat, true), // Compound
+          PatternWithPreference(MovementPattern.lunge, null), // Mix
+          PatternWithPreference(MovementPattern.hinge, true), // Compound
+          PatternWithPreference(MovementPattern.antiExtension, false), // Isolation core
         ];
       case WorkoutStyle.pushPullLegs:
         // TODO: Should rotate through push/pull/legs cycle
         return [
-          MovementPattern.horizontalPush,
-          MovementPattern.verticalPush,
-          MovementPattern.antiExtension,
+          PatternWithPreference(MovementPattern.horizontalPush, null), // Mix
+          PatternWithPreference(MovementPattern.verticalPush, null), // Mix
+          PatternWithPreference(MovementPattern.antiExtension, false), // Isolation core
         ];
       case WorkoutStyle.circuitMetabolic:
         return [
-          MovementPattern.squat,
-          MovementPattern.horizontalPush,
-          MovementPattern.horizontalPull,
-          MovementPattern.steadyStateCardio,
+          PatternWithPreference(MovementPattern.squat, true), // Compound for circuits
+          PatternWithPreference(MovementPattern.horizontalPush, true), // Compound
+          PatternWithPreference(MovementPattern.horizontalPull, true), // Compound
+          PatternWithPreference(MovementPattern.steadyStateCardio, null), // N/A
         ];
       case WorkoutStyle.enduranceDominant:
         return [
-          MovementPattern.steadyStateCardio,
-          MovementPattern.squat,
-          MovementPattern.hinge,
-          MovementPattern.horizontalPull,
+          PatternWithPreference(MovementPattern.steadyStateCardio, null), // N/A
+          PatternWithPreference(MovementPattern.squat, true), // Compound
+          PatternWithPreference(MovementPattern.hinge, false), // Isolation hinge for endurance
+          PatternWithPreference(MovementPattern.horizontalPull, true), // Compound
         ];
       case WorkoutStyle.strongmanFunctional:
         return [
-          MovementPattern.carry,
-          MovementPattern.hinge,
-          MovementPattern.throw_,
-          MovementPattern.crawl,
+          PatternWithPreference(MovementPattern.carry, null), // Functional
+          PatternWithPreference(MovementPattern.hinge, true), // Heavy compound
+          PatternWithPreference(MovementPattern.throw_, null), // Functional
+          PatternWithPreference(MovementPattern.crawl, null), // Functional
         ];
       case WorkoutStyle.crossfitMixed:
         return [
-          MovementPattern.squat,
-          MovementPattern.hinge,
-          MovementPattern.horizontalPush,
-          MovementPattern.jump,
-          MovementPattern.throw_,
-          MovementPattern.steadyStateCardio,
+          PatternWithPreference(MovementPattern.squat, true), // Compound
+          PatternWithPreference(MovementPattern.hinge, true), // Compound
+          PatternWithPreference(MovementPattern.horizontalPush, true), // Compound
+          PatternWithPreference(MovementPattern.jump, null), // Plyometric
+          PatternWithPreference(MovementPattern.throw_, null), // Power
+          PatternWithPreference(MovementPattern.steadyStateCardio, null), // N/A
         ];
       case WorkoutStyle.functionalMovement:
         return [
-          MovementPattern.squat,
-          MovementPattern.lunge,
-          MovementPattern.carry,
-          MovementPattern.crawl,
-          MovementPattern.antiRotation,
+          PatternWithPreference(MovementPattern.squat, true), // Compound
+          PatternWithPreference(MovementPattern.lunge, null), // Mix
+          PatternWithPreference(MovementPattern.carry, null), // Functional
+          PatternWithPreference(MovementPattern.crawl, null), // Functional
+          PatternWithPreference(MovementPattern.antiRotation, false), // Core isolation
         ];
       case WorkoutStyle.yogaFocused:
         return [
-          MovementPattern.staticStretch,
-          MovementPattern.dynamicStretch,
+          PatternWithPreference(MovementPattern.staticStretch, null), // Flexibility
+          PatternWithPreference(MovementPattern.dynamicStretch, null), // Flexibility
         ];
       case WorkoutStyle.seniorSpecific:
         return [
-          MovementPattern.squat,
-          MovementPattern.lunge,
-          MovementPattern.staticStretch,
-          MovementPattern.carry,
+          PatternWithPreference(MovementPattern.squat, null), // Mix for safety
+          PatternWithPreference(MovementPattern.lunge, false), // Isolation for control
+          PatternWithPreference(MovementPattern.staticStretch, null), // Flexibility
+          PatternWithPreference(MovementPattern.carry, null), // Functional
         ];
       case WorkoutStyle.pilatesStyle:
         return [
-          MovementPattern.antiExtension,
-          MovementPattern.antiRotation,
-          MovementPattern.antiLateralFlexion,
-          MovementPattern.rotation,
+          PatternWithPreference(MovementPattern.antiExtension, false), // Core isolation
+          PatternWithPreference(MovementPattern.antiRotation, false), // Core isolation
+          PatternWithPreference(MovementPattern.antiLateralFlexion, false), // Core isolation
+          PatternWithPreference(MovementPattern.rotation, false), // Core isolation
         ];
       case WorkoutStyle.athleticConditioning:
         return [
-          MovementPattern.jump,
-          MovementPattern.throw_,
-          MovementPattern.squat,
-          MovementPattern.hinge,
+          PatternWithPreference(MovementPattern.jump, null), // Plyometric
+          PatternWithPreference(MovementPattern.throw_, null), // Power
+          PatternWithPreference(MovementPattern.squat, true), // Compound
+          PatternWithPreference(MovementPattern.hinge, true), // Compound
         ];
       case WorkoutStyle.concurrentHybrid:
         return [
-          MovementPattern.squat,
-          MovementPattern.hinge,
-          MovementPattern.horizontalPush,
-          MovementPattern.steadyStateCardio,
+          PatternWithPreference(MovementPattern.squat, true), // Compound
+          PatternWithPreference(MovementPattern.hinge, true), // Compound
+          PatternWithPreference(MovementPattern.horizontalPush, null), // Mix
+          PatternWithPreference(MovementPattern.steadyStateCardio, null), // N/A
         ];
     }
   }

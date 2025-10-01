@@ -16,6 +16,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable, List, Mapping, Sequence
 
+ALLOWED_DIR_CHARS = set(
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_'(),-"
+)
+
 ROOT = Path(__file__).resolve().parents[1]
 EXERCISE_ROOT = ROOT / "ascent" / "assets" / "exercises"
 
@@ -120,9 +124,10 @@ class ValidationError:
 def slugify(value: str) -> str:
     """Return a filesystem-safe directory name."""
     value = value.strip()
-    value = re.sub(r"[^\w\s-]", "", value)
     value = re.sub(r"\s+", "_", value)
-    return value or "exercise"
+    sanitized = "".join(ch for ch in value if ch in ALLOWED_DIR_CHARS)
+    sanitized = sanitized.strip("_")
+    return sanitized or "exercise"
 
 
 def expect_string(value: Any, field: str, messages: List[str]) -> str | None:
@@ -196,8 +201,14 @@ def validate_exercise(exercise: Mapping[str, Any]) -> List[str]:
 
 def write_exercise(exercise: Mapping[str, Any]) -> Path:
     name = exercise["name"]
-    directory = EXERCISE_ROOT / slugify(name)
+    directory_name = slugify(name)
+    directory = EXERCISE_ROOT / directory_name
     directory.mkdir(parents=True, exist_ok=True)
+    legacy_path = EXERCISE_ROOT / f"{directory_name}.json"
+    if legacy_path.exists():
+        # Align older exports that wrote files directly in the root directory.
+        legacy_path.rename(directory / "exercise.json")
+
     filepath = directory / "exercise.json"
     with filepath.open("w", encoding="utf-8") as handle:
         json.dump(exercise, handle, indent=2, ensure_ascii=False)

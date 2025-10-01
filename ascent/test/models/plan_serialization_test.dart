@@ -12,8 +12,8 @@ void main() {
     test('WeekOfWorkouts serialization preserves Sunday dates', () {
       final sunday = DateTime(2024, 1, 7); // Sunday, January 7, 2024
       final workouts = [
-        Workout(type: SessionType.full, style: WorkoutStyle.upperLowerSplit, isCompleted: true),
-        Workout(type: SessionType.micro, style: WorkoutStyle.enduranceDominant, isCompleted: false),
+        Workout(type: SessionType.full, style: WorkoutStyle.upperLowerSplit, durationMinutes: 45, isCompleted: true),
+        Workout(type: SessionType.micro, style: WorkoutStyle.enduranceDominant, durationMinutes: 15, isCompleted: false),
       ];
 
       final week = WeekOfWorkouts(
@@ -53,7 +53,7 @@ void main() {
       // Create weeks with proper dates
       final currentWeek = WeekOfWorkouts(
         startDate: thisSunday,
-        workouts: [Workout(type: SessionType.full, style: WorkoutStyle.upperLowerSplit, isCompleted: true)],
+        workouts: [Workout(type: SessionType.full, style: WorkoutStyle.upperLowerSplit, durationMinutes: 45, isCompleted: true)],
       );
 
       final nextWeeks = [

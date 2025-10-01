@@ -1,0 +1,711 @@
+[
+{
+"name": "Pilates Hundred (Bent Knee)",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [],
+"instructions": [
+"Lie on your back with knees bent, feet flat, arms by your sides.",
+"Float head and shoulders up, curling the ribs toward the pelvis; extend arms long.",
+"Lift both lower legs to tabletop, shins parallel to the floor.",
+"Begin small arm pumps by your sides as you inhale for 5 counts and exhale for 5 counts.",
+"Keep the lower back heavy and abdominals braced to avoid arching.",
+"Continue for 10 breath cycles, then lower with control."
+],
+"category": "strength",
+"movementPatterns": [
+"antiExtension",
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"endurance_dominant"
+]
+},
+{
+"name": "Shoulder Bridge (Pilates)",
+"force": "push",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"glutes"
+],
+"secondaryMuscles": [
+"hamstrings",
+"abdominals",
+"lower back"
+],
+"instructions": [
+"Lie on your back, knees bent and feet hip-width apart with heels under knees.",
+"Exhale to press through your heels and curl the tailbone to lift your hips into a bridge.",
+"Hold a neutral ribcage, draw the abdominals in, and keep knees tracking over second toes.",
+"Inhale at the top, then exhale to lower one vertebra at a time with control.",
+"Repeat for reps, keeping the neck and shoulders relaxed."
+],
+"category": "strength",
+"movementPatterns": [
+"hinge",
+"antiExtension"
+],
+"workoutStyles": [
+"pilates_style",
+"full_body"
+]
+},
+{
+"name": "Single-Leg Stretch",
+"force": "static",
+"level": "beginner",
+"mechanic": "isolation",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"quadriceps"
+],
+"instructions": [
+"Lie on your back in tabletop with head and shoulders curled up.",
+"Draw right knee in as you extend left leg long at a 45-degree angle.",
+"Switch legs smoothly while keeping pelvis steady and abdominals engaged.",
+"Breathe evenly and keep shoulder blades lifted throughout.",
+"Lower down with control after reps."
+],
+"category": "strength",
+"movementPatterns": [
+"antiExtension",
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"senior_specific"
+]
+},
+{
+"name": "Double-Leg Stretch",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"quadriceps"
+],
+"instructions": [
+"Start curled up with both knees in tabletop and hands on shins.",
+"Inhale to reach arms overhead and legs out at a comfortable angle.",
+"Exhale to circle arms around and draw knees back to tabletop.",
+"Keep lower back heavy and neck relaxed as you flow.",
+"Repeat for controlled, even breaths."
+],
+"category": "strength",
+"movementPatterns": [
+"antiExtension",
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"endurance_dominant"
+]
+},
+{
+"name": "Roll-Up",
+"force": "pull",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"lower back"
+],
+"instructions": [
+"Lie supine with legs long and arms reaching overhead.",
+"Exhale to nod the chin and peel the spine off the mat reaching forward over the legs.",
+"Inhale to lengthen through the crown, keeping shoulders down.",
+"Exhale to roll back down one vertebra at a time with control."
+],
+"category": "strength",
+"movementPatterns": [
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"full_body"
+]
+},
+{
+"name": "Spine Stretch Forward",
+"force": "pull",
+"level": "beginner",
+"mechanic": "isolation",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"lower back"
+],
+"instructions": [
+"Sit tall with legs extended and slightly wider than hips, toes up.",
+"Reach arms forward at shoulder height, palms down.",
+"Exhale to nod the chin and articulate the spine forward, hollowing the abdominals.",
+"Inhale to stack the spine back up tall without shrugging the shoulders."
+],
+"category": "stretching",
+"movementPatterns": [
+"staticStretch",
+"mobilityDrill"
+],
+"workoutStyles": [
+"pilates_style",
+"yoga_focused"
+]
+},
+{
+"name": "The Saw",
+"force": "pull",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"lats",
+"lower back"
+],
+"instructions": [
+"Sit tall with legs extended wide and arms out to the sides at shoulder height.",
+"Rotate the torso to the right keeping hips rooted.",
+"Exhale to hinge forward and reach the left hand toward the right foot as the back arm reaches back.",
+"Inhale to return upright and rotate through center, then switch sides."
+],
+"category": "strength",
+"movementPatterns": [
+"rotation",
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"full_body"
+]
+},
+{
+"name": "Swan Prep",
+"force": "push",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"lower back"
+],
+"secondaryMuscles": [
+"glutes",
+"hamstrings",
+"middle back"
+],
+"instructions": [
+"Lie prone with hands under shoulders and legs long, forehead on the mat.",
+"Engage abdominals to support the spine and press lightly into the hands.",
+"Inhale to lift the chest forward and up, lengthening through the front body.",
+"Exhale to lower down with control, keeping the neck long."
+],
+"category": "strength",
+"movementPatterns": [
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"senior_specific"
+]
+},
+{
+"name": "Swimming (Prone)",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"lower back"
+],
+"secondaryMuscles": [
+"glutes",
+"shoulders",
+"hamstrings"
+],
+"instructions": [
+"Lie prone with arms overhead and legs long, draw abdominals up.",
+"Lift opposite arm and leg slightly off the mat while keeping hips steady.",
+"Flutter the limbs in a small, quick rhythm while maintaining length through the spine.",
+"Breathe evenly and keep the gaze down; lower with control."
+],
+"category": "strength",
+"movementPatterns": [
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"athletic_conditioning"
+]
+},
+{
+"name": "Side-Lying Leg Lift",
+"force": "pull",
+"level": "beginner",
+"mechanic": "isolation",
+"equipment": "body only",
+"primaryMuscles": [
+"abductors"
+],
+"secondaryMuscles": [
+"glutes"
+],
+"instructions": [
+"Lie on your side in one long line, head supported, bottom knee softly bent if needed.",
+"Stack hips and ribs; point top toes forward slightly.",
+"Lift the top leg to hip height without hiking the top hip.",
+"Lower with control, keeping waist long; repeat for reps."
+],
+"category": "strength",
+"movementPatterns": [
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"senior_specific"
+]
+},
+{
+"name": "Clam (Side-Lying)",
+"force": "pull",
+"level": "beginner",
+"mechanic": "isolation",
+"equipment": "body only",
+"primaryMuscles": [
+"abductors"
+],
+"secondaryMuscles": [
+"glutes"
+],
+"instructions": [
+"Lie on your side with hips and knees bent about 90 degrees, feet together.",
+"Keep hips stacked and spine neutral with abdominals gently engaged.",
+"Open the top knee like a clamshell without rolling the pelvis back.",
+"Close with control and repeat for reps."
+],
+"category": "strength",
+"movementPatterns": [
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"senior_specific"
+]
+},
+{
+"name": "Pilates Push-Up",
+"force": "push",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"chest"
+],
+"secondaryMuscles": [
+"triceps",
+"shoulders",
+"abdominals"
+],
+"instructions": [
+"Stand tall, reach arms up, then roll down to place hands on the floor.",
+"Walk out to a plank with shoulders over wrists and body in one line.",
+"Bend elbows close to the ribs to lower, then press back up.",
+"Walk hands back to feet and roll up to standing with control."
+],
+"category": "strength",
+"movementPatterns": [
+"horizontalPush",
+"antiExtension"
+],
+"workoutStyles": [
+"pilates_style",
+"full_body"
+]
+},
+{
+"name": "Front Plank (Pilates)",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"shoulders",
+"glutes"
+],
+"instructions": [
+"Set up on forearms with elbows under shoulders and legs extended.",
+"Brace abdominals and squeeze glutes to keep a straight line from head to heels.",
+"Hold steady without sagging or piking the hips.",
+"Breathe smoothly and maintain shoulder width through the collarbones."
+],
+"category": "strength",
+"movementPatterns": [
+"antiExtension"
+],
+"workoutStyles": [
+"pilates_style",
+"athletic_conditioning"
+]
+},
+{
+"name": "Side Plank (Knees)",
+"force": "static",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"shoulders",
+"glutes"
+],
+"instructions": [
+"Lie on your side with knees bent and elbow under shoulder.",
+"Lift hips off the mat creating a straight line from head to knees.",
+"Keep the top shoulder stacked and chest open.",
+"Hold for time, then lower with control and switch sides."
+],
+"category": "strength",
+"movementPatterns": [
+"antiLateralFlexion"
+],
+"workoutStyles": [
+"pilates_style",
+"senior_specific"
+]
+},
+{
+"name": "Teaser Prep (Bent Knee)",
+"force": "pull",
+"level": "intermediate",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"quadriceps"
+],
+"instructions": [
+"Sit tall with knees bent, feet lightly on the floor, arms reaching forward.",
+"Exhale to roll the pelvis under and lift feet to a balanced V position.",
+"Lengthen the spine and reach the chest up as you hold the balance.",
+"Inhale to open the chest; exhale to lower the feet and roll back with control."
+],
+"category": "strength",
+"movementPatterns": [
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"athletic_conditioning"
+]
+},
+{
+"name": "Rolling Like a Ball",
+"force": "pull",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"lower back"
+],
+"instructions": [
+"Sit near the front of the mat holding shins, balancing behind the sit bones.",
+"Round the spine and lift feet, keeping a tight ball shape.",
+"Inhale to roll back to the shoulder blades without touching the head.",
+"Exhale to roll back up and balance without letting the feet touch down."
+],
+"category": "strength",
+"movementPatterns": [
+"functional_movement",
+"mobilityDrill"
+],
+"workoutStyles": [
+"pilates_style",
+"full_body"
+]
+},
+{
+"name": "Supine Leg Circles",
+"force": "pull",
+"level": "beginner",
+"mechanic": "isolation",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"adductors"
+],
+"instructions": [
+"Lie on your back with one leg extended to the ceiling and the other long on the mat.",
+"Anchor the pelvis and brace the abdominals.",
+"Circle the raised leg across the body, down, and around keeping the hips quiet.",
+"Reverse the direction after reps and switch legs."
+],
+"category": "strength",
+"movementPatterns": [
+"antiRotation",
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"senior_specific"
+]
+},
+{
+"name": "Heel Squeeze Prone",
+"force": "pull",
+"level": "beginner",
+"mechanic": "isolation",
+"equipment": "body only",
+"primaryMuscles": [
+"glutes"
+],
+"secondaryMuscles": [
+"hamstrings",
+"lower back"
+],
+"instructions": [
+"Lie prone with forehead on hands and knees bent, heels together.",
+"Draw abdominals up to support the spine.",
+"Press heels together to squeeze the glutes without lifting the thighs.",
+"Release slowly and repeat for reps."
+],
+"category": "strength",
+"movementPatterns": [
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"senior_specific"
+]
+},
+{
+"name": "Dart",
+"force": "pull",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"middle back"
+],
+"secondaryMuscles": [
+"lower back",
+"shoulders",
+"glutes"
+],
+"instructions": [
+"Lie prone with arms by your sides, palms facing the floor.",
+"Draw abdominals up and lengthen the legs long.",
+"Inhale to lift the chest and arms slightly, reaching fingers toward the feet.",
+"Exhale to lower down with control."
+],
+"category": "strength",
+"movementPatterns": [
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"athletic_conditioning"
+]
+},
+{
+"name": "Mermaid Side Bend",
+"force": "pull",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"lats"
+],
+"secondaryMuscles": [
+"abdominals"
+],
+"instructions": [
+"Sit in a comfortable mermaid position with one shin forward and the other to the side.",
+"Place the supporting hand on the floor and reach the opposite arm overhead.",
+"Exhale to arc the torso into a side bend, keeping both sit bones anchored.",
+"Inhale to return to upright and repeat, then switch sides."
+],
+"category": "stretching",
+"movementPatterns": [
+"staticStretch",
+"mobilityDrill"
+],
+"workoutStyles": [
+"pilates_style",
+"yoga_focused"
+]
+},
+{
+"name": "Cat-Camel Mobility",
+"force": "pull",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"middle back"
+],
+"secondaryMuscles": [
+"lower back",
+"abdominals"
+],
+"instructions": [
+"Start on hands under shoulders and knees under hips.",
+"Exhale to round the spine toward the ceiling, tucking the pelvis.",
+"Inhale to extend the spine, lifting the chest and tail slightly.",
+"Move slowly through the range with control for reps."
+],
+"category": "stretching",
+"movementPatterns": [
+"dynamicStretch",
+"mobilityDrill"
+],
+"workoutStyles": [
+"pilates_style",
+"senior_specific"
+]
+},
+{
+"name": "Pelvic Curl (Articulation)",
+"force": "push",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"glutes"
+],
+"secondaryMuscles": [
+"hamstrings",
+"abdominals"
+],
+"instructions": [
+"Lie on your back with knees bent and feet hip-width apart.",
+"Exhale to imprint the lower back and peel the pelvis off the mat.",
+"Continue to articulate the spine into a bridge, knees reaching forward.",
+"Inhale at the top; exhale to roll down through the spine to neutral."
+],
+"category": "strength",
+"movementPatterns": [
+"hinge",
+"functional_movement"
+],
+"workoutStyles": [
+"pilates_style",
+"full_body"
+]
+},
+{
+"name": "Toe Taps (Tabletop)",
+"force": "static",
+"level": "beginner",
+"mechanic": "isolation",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"quadriceps"
+],
+"instructions": [
+"Lie on your back and bring both legs to tabletop with a neutral neck and shoulders relaxed.",
+"Brace abdominals to keep the pelvis steady.",
+"Lower one foot to tap the mat, then return to tabletop without arching the back.",
+"Alternate legs for reps while breathing evenly."
+],
+"category": "strength",
+"movementPatterns": [
+"antiExtension"
+],
+"workoutStyles": [
+"pilates_style",
+"senior_specific"
+]
+},
+{
+"name": "Bridge March",
+"force": "push",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"glutes"
+],
+"secondaryMuscles": [
+"hamstrings",
+"abdominals"
+],
+"instructions": [
+"Lift into a stable bridge with hips level and ribs knitted.",
+"Without dropping the pelvis, lift one knee toward the chest.",
+"Place the foot down and switch sides, keeping hips square.",
+"Lower from the bridge with control after reps."
+],
+"category": "strength",
+"movementPatterns": [
+"hinge",
+"antiRotation"
+],
+"workoutStyles": [
+"pilates_style",
+"athletic_conditioning"
+]
+},
+{
+"name": "Wall Roll Down",
+"force": "pull",
+"level": "beginner",
+"mechanic": "compound",
+"equipment": "body only",
+"primaryMuscles": [
+"abdominals"
+],
+"secondaryMuscles": [
+"lower back"
+],
+"instructions": [
+"Stand with your back against a wall, feet slightly forward and hip-width.",
+"Nod the chin and roll the spine off the wall one vertebra at a time, keeping pelvis over heels.",
+"Let arms hang heavy while maintaining gentle abdominal support.",
+"Roll back up to the wall, stacking the spine tall."
+],
+"category": "stretching",
+"movementPatterns": [
+"dynamicStretch",
+"mobilityDrill"
+],
+"workoutStyles": [
+"pilates_style",
+"yoga_focused"
+]
+}
+]

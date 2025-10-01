@@ -324,6 +324,18 @@ class WorkoutIcons {
   };
 }
 
+/// Workout duration constants
+class WorkoutDuration {
+  /// Percentage of total workout for warmup (15%)
+  static const double warmupPercent = 0.15;
+
+  /// Percentage of total workout for cooldown (12%)
+  static const double cooldownPercent = 0.12;
+
+  /// Percentage of total workout for main work (73%)
+  static const double mainWorkPercent = 0.73;
+}
+
 /// Fitness Plan JSON field names
 class PlanFields {
   // Plan fields

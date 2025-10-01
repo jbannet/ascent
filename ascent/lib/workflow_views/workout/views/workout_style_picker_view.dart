@@ -160,9 +160,11 @@ class _WorkoutStylePickerViewState extends State<WorkoutStylePickerView> {
 
     try {
       // Create workout
+      int duration = _selectedType == SessionType.micro ? 15 : 45;
       final workout = Workout(
         type: _selectedType,
         style: style,
+        durationMinutes: duration,
       );
 
       // Generate blocks

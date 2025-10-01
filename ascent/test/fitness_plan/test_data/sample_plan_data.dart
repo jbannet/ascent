@@ -19,30 +19,35 @@ class SamplePlanData {
         date: startOfWeek.add(const Duration(days: 1)), // Monday
         type: SessionType.full,
         style: WorkoutStyle.upperLowerSplit,
+        durationMinutes: 45,
         isCompleted: true,
       ),
       Workout(
         date: startOfWeek.add(const Duration(days: 2)), // Tuesday
         type: SessionType.micro,
         style: WorkoutStyle.enduranceDominant,
+        durationMinutes: 15,
         isCompleted: true,
       ),
       Workout(
         date: startOfWeek.add(const Duration(days: 3)), // Wednesday
         type: SessionType.full,
         style: WorkoutStyle.pushPullLegs,
+        durationMinutes: 45,
         isCompleted: true,
       ),
       Workout(
         date: startOfWeek.add(const Duration(days: 5)), // Friday
         type: SessionType.micro,
         style: WorkoutStyle.yogaFocused,
+        durationMinutes: 15,
         isCompleted: false,
       ),
       Workout(
         date: startOfWeek.add(const Duration(days: 6)), // Saturday
         type: SessionType.full,
         style: WorkoutStyle.circuitMetabolic,
+        durationMinutes: 45,
         isCompleted: false,
       ),
     ];
@@ -54,24 +59,28 @@ class SamplePlanData {
         date: week2Start.add(const Duration(days: 1)), // Monday
         type: SessionType.full,
         style: WorkoutStyle.fullBody,
+        durationMinutes: 45,
         isCompleted: false,
       ),
       Workout(
         date: week2Start.add(const Duration(days: 2)), // Tuesday
         type: SessionType.micro,
         style: WorkoutStyle.seniorSpecific,
+        durationMinutes: 15,
         isCompleted: false,
       ),
       Workout(
         date: week2Start.add(const Duration(days: 4)), // Thursday
         type: SessionType.full,
         style: WorkoutStyle.functionalMovement,
+        durationMinutes: 45,
         isCompleted: false,
       ),
       Workout(
         date: week2Start.add(const Duration(days: 6)), // Saturday
         type: SessionType.micro,
         style: WorkoutStyle.pilatesStyle,
+        durationMinutes: 15,
         isCompleted: false,
       ),
     ];
@@ -83,18 +92,21 @@ class SamplePlanData {
         date: week3Start.add(const Duration(days: 1)), // Monday
         type: SessionType.full,
         style: WorkoutStyle.athleticConditioning,
+        durationMinutes: 45,
         isCompleted: false,
       ),
       Workout(
         date: week3Start.add(const Duration(days: 3)), // Wednesday
         type: SessionType.full,
         style: WorkoutStyle.strongmanFunctional,
+        durationMinutes: 45,
         isCompleted: false,
       ),
       Workout(
         date: week3Start.add(const Duration(days: 5)), // Friday
         type: SessionType.micro,
         style: WorkoutStyle.crossfitMixed,
+        durationMinutes: 15,
         isCompleted: false,
       ),
     ];
@@ -106,18 +118,21 @@ class SamplePlanData {
         date: week4Start.add(const Duration(days: 2)), // Tuesday
         type: SessionType.micro,
         style: WorkoutStyle.yogaFocused,
+        durationMinutes: 15,
         isCompleted: false,
       ),
       Workout(
         date: week4Start.add(const Duration(days: 4)), // Thursday
         type: SessionType.micro,
         style: WorkoutStyle.seniorSpecific,
+        durationMinutes: 15,
         isCompleted: false,
       ),
       Workout(
         date: week4Start.add(const Duration(days: 6)), // Saturday
         type: SessionType.full,
         style: WorkoutStyle.concurrentHybrid,
+        durationMinutes: 45,
         isCompleted: false,
       ),
     ];

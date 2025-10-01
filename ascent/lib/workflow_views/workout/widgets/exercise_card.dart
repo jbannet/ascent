@@ -38,7 +38,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
   Future<void> _loadExercise() async {
     try {
       // Load all exercises and find the one matching this exerciseId
-      final allExercises = await LoadExercisesService.loadAllExercises();
+      final allExercises = await LoadExercisesService.getAllExercises();
       final exercise = allExercises.firstWhere(
         (ex) => ex.id == widget.block.exerciseId || ex.name == widget.block.exerciseId,
         orElse: () => allExercises.first, // Fallback to first exercise

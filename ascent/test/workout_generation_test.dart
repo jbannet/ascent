@@ -11,6 +11,7 @@ void main() {
       final workout = Workout(
         type: SessionType.micro,
         style: WorkoutStyle.fullBody,
+        durationMinutes: 15,
       );
 
       final blocks = await workout.generateBlocks();
@@ -39,6 +40,7 @@ void main() {
       final workout = Workout(
         type: SessionType.full,
         style: WorkoutStyle.fullBody,
+        durationMinutes: 45,
       );
 
       final blocks = await workout.generateBlocks();
@@ -61,6 +63,7 @@ void main() {
       final workout = Workout(
         type: SessionType.full,
         style: WorkoutStyle.circuitMetabolic,
+        durationMinutes: 45,
       );
 
       final blocks = await workout.generateBlocks();
@@ -79,6 +82,7 @@ void main() {
       final workout = Workout(
         type: SessionType.micro,
         style: WorkoutStyle.yogaFocused,
+        durationMinutes: 15,
       );
 
       final blocks = await workout.generateBlocks();
@@ -98,6 +102,7 @@ void main() {
         final workout = Workout(
           type: SessionType.micro,
           style: style,
+          durationMinutes: 15,
         );
 
         final blocks = await workout.generateBlocks();
@@ -114,6 +119,7 @@ void main() {
       final workout = Workout(
         type: SessionType.micro,
         style: WorkoutStyle.fullBody,
+        durationMinutes: 15,
       );
 
       final blocks = await workout.generateBlocks();
